@@ -1,0 +1,75 @@
+{
+  "name": "galden",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Everything goals related.",
+  "author": {
+    "name": "Philip Rurka",
+    "email": "hey@philiprurka.com",
+    "url": "https://goalden.com"
+  },
+  "homepage": "https://goalden.com",
+  "keywords": [
+    "netlify",
+    "gatsby",
+    "react",
+    "typescript",
+    "contentful",
+    "codegen",
+    "styled-components",
+    "graphql",
+    "ntl"
+  ],
+  "scripts": {
+    "develop": "gatsby clean & gatsby develop",
+    "start": "gatsby clean && gatsby develop",
+    "build": "yarn type-check && gatsby clean && gatsby build",
+    "serve": "gatsby clean && gatsby serve",
+    "clean": "gatsby clean",
+    "type-check": "yarn tsc --noEmit",
+    "type-check:watch": "yarn type-check -- --watch",
+    "codegen": "contentful-typescript-codegen --output @types/generated/contentful.d.ts"
+  },
+  "dependencies": {
+    "babel-plugin-styled-components": "^2.0.7",
+    "contentful-management": "^10.18.2",
+    "contentful-typescript-codegen": "^3.2.3",
+    "dotenv": "^16.0.1",
+    "gatsby": "^4.21.1",
+    "gatsby-plugin-image": "^2.21.0",
+    "gatsby-plugin-react-helmet": "^5.21.0",
+    "gatsby-plugin-sharp": "^4.21.0",
+    "gatsby-plugin-sitemap": "^5.21.0",
+    "gatsby-plugin-styled-components": "^5.21.0",
+    "gatsby-source-contentful": "^7.19.1",
+    "gatsby-source-filesystem": "^4.21.1",
+    "gatsby-transformer-sharp": "^4.21.0",
+    "graphql": "^16.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "styled-components": "^5.3.5",
+    "styled-reset": "^4.4.2",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.8",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-helmet": "^6.1.5",
+    "@types/styled-components": "^5.1.26",
+    "@types/typography": "^0.16.4",
+    "gatsby-plugin-typescript": "^4.21.0",
+    "prettier": "^2.7.1",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.1"
+  },
+  "ntl": {
+    "descriptions": {
+      "build": "Type Checks && Clears cached goods && builds static pages",
+      "start": "Clears cached goods && start server",
+      "type-check": "Type Checks",
+      "codegen": "Create and store latest Contentful types"
+    }
+  }
+}

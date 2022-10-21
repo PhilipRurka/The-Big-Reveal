@@ -1,0 +1,19 @@
+node_modules/
+.cache/
+public
+.cd-reminder
+
+.env
+
+package-lock.json
+/public/.cache
+/public/.cache_enroute_weather
+/.cache_enroute_weather
+/.cache
+/public
+/yarn-error.log
+
+/build
+
+# misc
+.DS_Store
