@@ -1,43 +1,34 @@
-# Lets get your project up and running!
-## Steps to initialize projects
-### Contentful
-As for Contentful configurations, its simple. Just do the following
-1. Your page's Content Type must have `page` as a prefix followed by any page name. For example, `pageHome`, `pageBlogs`, ...
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-2. Within their record types, you will need to have a slug field, which will have a `slug` id.
-The homepage value should be a simple `/`, then every other slug beyond that is simple, let me list some examples, `/`, `blogs`, ...
+## Getting Started
 
+First, run the development server:
 
-### .env file configurations
-Add these properties to your .env file and replace the PLACEHOLDER values
-```
-GATSBY_ACCESS_TOKEN = PLACEHOLDER
-GATSBY_MANAGEMENT_ACCESS_TOKEN = PLACEHOLDER
-GATSBY_SPACE_ID = PLACEHOLDER
-GATSBY_ENVIRONMENT = PLACEHOLDER
-```
----
-
-## Patterns used
----
- 
-## Tips
-To use the Contentful Rich Render, use this
-```
-import { renderRichText } from "gatsby-source-contentful/rich-text";
-
-<>{renderRichText(content as any)}</>
+```bash
+npm run dev
+# or
+yarn dev
 ```
 
-## Dump
-If you want to update every packages to its latest version, run
-```
-yarn upgrade-interactive --latest
-```
-If however, you want to update a single pakage, run
-```
-yarn upgrade <package-name> --latest
-```
-Note that you must first require a `yarn.lock`. That said, if you don't already have one, go ahead and run `yarn` and once complete you can run the command above.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You may have to update your node version to handle all of these cool new package updates. If you are cool like me and managing your node versions via, well, Node Version Manager (nvm) then just run `nvm install node`. That will install the latest version. You then want to take that node version and update your `.nvmrc` file that lives on your project.
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
