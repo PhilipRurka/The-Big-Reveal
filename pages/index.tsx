@@ -1,15 +1,18 @@
+import { useQuery } from '@apollo/client';
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Link from 'next/link'
-import { getEntries } from './api/contentful'
-
-type Options_type = {
-  getType: 'content_type'
-  getValue: string
-  additionalOptions?: unknown
-}
+import Link from  'next/link'
+import { GET_PAGE_HOME } from '../queries/pageHome'
 
 const Home: NextPage = () => {
+  const { loading, error, data } = useQuery(GET_PAGE_HOME);
+
+  console.log({
+    loading,
+    error,
+    data
+  })
+
   return (
     <>
       <Head>
@@ -43,19 +46,8 @@ const Home: NextPage = () => {
   )
 }
 
-export async function getStaticProps() {
-  const page = await getEntries({
-    getType: 'content_type',
-    getValue: 'pageHome'
-  })
-
-  console.log(JSON.stringify(page))
-
-  return {
-    props:{
-      page: JSON.stringify(page)
-    }
-  }
-}
+// export const getStaticProps = async () => {
+  
+// }
 
 export default Home
