@@ -4,15 +4,13 @@ import Head from 'next/head'
 import Link from  'next/link'
 import { GET_PAGE_HOME } from '../queries/pageHome'
 
+type Options_type = {
+  getType: 'content_type'
+  getValue: string
+  additionalOptions?: unknown
+}
+
 const Home: NextPage = () => {
-  const { loading, error, data } = useQuery(GET_PAGE_HOME);
-
-  console.log({
-    loading,
-    error,
-    data
-  })
-
   return (
     <>
       <Head>
@@ -46,8 +44,33 @@ const Home: NextPage = () => {
   )
 }
 
-// export const getStaticProps = async () => {
-  
+// export const getStaticProps = async ({ apolloClient }: any) => {
+//   const { data, loading, error } = await apolloClient.query({
+//     query: GET_PAGE_HOME,
+//   });
+
+//   console.log({
+//     loading,
+//     error,
+//     data
+//   })
+
+//   return {
+//     loading,
+//     error,
+//     data
+//   }
 // }
+
+export const getStaticProps = async (test) => {
+
+  console.log(test)
+
+  return {
+    props: {
+      test: true
+    }
+  }
+}
 
 export default Home

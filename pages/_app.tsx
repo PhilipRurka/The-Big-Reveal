@@ -9,9 +9,9 @@ function MyApp({
   apollo
 }: AppProps | any) {
   return (
-    <ApolloProvider client={apollo} >
+    // <ApolloProvider client={apollo} >
       <Component {...pageProps} />
-    </ApolloProvider>
+    // </ApolloProvider>
   )
 }
 

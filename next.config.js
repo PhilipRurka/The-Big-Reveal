@@ -1,4 +1,6 @@
 module.exports = {
+  reactStrictMode: true,
+  swcMinify: true,
   publicRuntimeConfig: {
     CONTENTFUL_ACCESS_TOKEN: process.env.CONTENTFUL_ACCESS_TOKEN,
     CONTENTFUL_ENVIRONMENT: process.env.CONTENTFUL_ENVIRONMENT,

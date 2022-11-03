@@ -16,12 +16,21 @@ const httpLink = createHttpLink({
   uri: CONTENTFUL_URL,
   headers: {
     authorization: `Bearer ${TOKEN}`,
-    'Content-Language': 'en-us',
+    // 'Content-Language': 'en-us',
   },
 });
 
-export default withApollo(({ initialState }) => new ApolloClient({
+const client = (initialState: any) => {
+  return new ApolloClient({
     link: httpLink,
     cache: new InMemoryCache().restore(initialState || {})
   })
-);
+}
+
+export default withApollo(({ initialState }) => {
+  console.log('----------------------')
+  console.log(initialState)
+  // console.log(client(initialState).store.getCache())
+  console.log('----------------------')
+  return client(initialState)
+});
