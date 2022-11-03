@@ -1,0 +1,8 @@
+```gpl
+  query ExampleQuery {
+    countries {
+      code
+    }
+  }
+
+```
