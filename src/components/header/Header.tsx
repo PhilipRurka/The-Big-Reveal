@@ -1,10 +1,25 @@
-import { HeaderWrapper } from "./Header.styled"
+import { FC } from "react"
+import { HeaderType } from "./Header.container"
+import {
+  GoaldenLogo,
+  GoaldenLogoWrapper,
+  HeaderContainer,
+  HeaderWrapper,
+  PageList
+} from "./Header.styled"
 
-const Header = () => {
+const Header: FC<HeaderType> = ({ componentName }) => {
 
   return (
     <HeaderWrapper>
-      This is a HEADER!!!!!!!!
+      <HeaderContainer>
+        <GoaldenLogoWrapper>
+          <GoaldenLogo />
+        </GoaldenLogoWrapper>
+        <PageList>
+
+        </PageList>
+      </HeaderContainer>
     </HeaderWrapper>
   )
 }

@@ -1,9 +1,16 @@
+import { FC } from "react"
 import Header from "./Header"
 
-const HeaderContainer = () => {
+export type HeaderType = {
+  componentName: string
+}
+
+const HeaderContainer: FC<HeaderType> = ({
+  componentName
+}) => {
 
   return (
-    <Header />
+    <Header componentName={componentName} />
   )
 }
 
