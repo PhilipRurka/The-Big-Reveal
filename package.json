@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "yarn graphql-codegen"
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",
@@ -19,9 +20,24 @@
     "next": "13.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "styled-components": "^5.3.6",
     "typescript": "4.8.4"
   },
   "devDependencies": {
-    "@apollo/rover": "^0.9.1"
+    "@apollo/rover": "^0.9.1",
+    "@graphql-codegen/cli": "^2.13.11",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.6",
+    "@graphql-codegen/typescript-resolvers": "^2.7.6",
+    "@types/styled-components": "^5.1.26"
+  },
+  "ntl": {
+    "runner": "yarn",
+    "descriptions": {
+      "dev": "Build the project locally and serve it to localhost",
+      "start": "Serve the build directory as localhost",
+      "lint": "Run esLint",
+      "build": "Build for production",
+      "codegen": "Construct and store database types"
+    }
   }
 }
