@@ -1,11 +1,16 @@
 import { createGlobalStyle } from 'styled-components'
 import reset from 'styled-reset'
+import { Fonts } from './'
 
 export const Reset = createGlobalStyle`
   ${reset}
 
   * {
     box-sizing: border-box;
+  }
+
+  body {
+    ${Fonts.primary}
   }
 
   a,
@@ -15,6 +20,11 @@ export const Reset = createGlobalStyle`
 
   a {
     text-decoration: none;
+
+    &:active,
+    &:focus {
+      color: black;
+    }
   }
 
   button {

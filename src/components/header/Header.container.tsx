@@ -1,16 +1,11 @@
-import { FC } from "react"
+import { useRouter } from "next/router"
+import { FC, MutableRefObject, useEffect, useRef } from "react"
 import Header from "./Header"
 
-export type HeaderType = {
-  componentName: string
-}
-
-const HeaderContainer: FC<HeaderType> = ({
-  componentName
-}) => {
+const HeaderContainer: FC = () => {
 
   return (
-    <Header componentName={componentName} />
+    <Header />
   )
 }
 

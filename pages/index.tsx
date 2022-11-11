@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { gql } from "@apollo/client";
 import client from "../apollo-client";
 import { FC } from 'react';

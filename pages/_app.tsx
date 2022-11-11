@@ -4,6 +4,7 @@ import { FC } from "react";
 import client from "../apollo-client";
 import Head from "../src/components/head";
 import Header from "../src/components/header";
+import { FontStyles } from "../src/styled";
 import { Reset } from "../src/styled/base";
 import type { CountriesType } from "./index"
 
@@ -15,8 +16,9 @@ const MyApp: FC<AppProps<ComponentProps>> = ({
 }) => (
   <ApolloProvider client={client}>
     <Reset />
+    <FontStyles />
     <Head />
-    <Header componentName={Component.name} />
+    <Header />
     <Component {...pageProps} />
   </ApolloProvider>
 )

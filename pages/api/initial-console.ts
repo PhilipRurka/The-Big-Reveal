@@ -10,6 +10,15 @@ export const initialConsole = (page: PageType): void => {
       break
 
     case 'Login':
+      console.log('')
+      console.log('o                        o--o               ')
+      console.log('|             o          |   |              ')
+      console.log('|    o-o o--o   o-o      O--o   oo o--o o-o ')
+      console.log("|    | | |  | | |  |     |     | | |  | |-' ")
+      console.log('O---oo-o o--O | o  o     o     o-o-o--O o-o ')
+      console.log('            |                         |     ')
+      console.log('         o--o                      o--o     ')
+
       break
   
     default:
