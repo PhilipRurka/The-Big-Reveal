@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Container } from '../../../../styled'
 
 type MobileMainNavWrapperType = {
@@ -10,7 +10,7 @@ export const MobileMainNavWrapper = styled.div<MobileMainNavWrapperType>`
   display: ${props => props.openedBurger ? 'block' : 'none'};
   background-color: white;
   padding-top: 30px;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 `
 
 export const PageList = styled.ul``

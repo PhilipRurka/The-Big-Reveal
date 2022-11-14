@@ -10,7 +10,6 @@ import {
 } from './components'
 import useIsXs from "../../hooks/useIsXs"
 import MobileMainBurger from "./components/mobileMainBurger"
-import { handleUpdateBurgerType } from "./Header.container"
 
 export type HeaderType = {
   openedBurger: boolean;
@@ -31,8 +30,8 @@ const Header: FC<HeaderType> = ({
           <DesktopMainNav />
         ) : (
           <MobileMainBurger
-          openedBurger={openedBurger}
-          handleUpdateBurger={handleUpdateBurger} />
+            openedBurger={openedBurger}
+            handleUpdateBurger={handleUpdateBurger} />
         )}
       </HeaderMainNavbar>
       {isXs && (

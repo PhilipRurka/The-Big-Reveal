@@ -18,11 +18,15 @@ const MobileMainBurgerContainer: FC<HeaderType> = ({
     handleUpdateBurger(!openedBurger);
   };
 
-  const handleKeydown = (event: KeyboardEvent) => {
+  const handleListenerKeydown = (event: KeyboardEvent) => {
     if(event.key === 'Escape') {
       handleUpdateBurger(false);
     }
   };
+
+  const handleListenerClick = () => {
+    handleUpdateBurger(false);
+  }
 
   const initGsap = useCallback((): void => {
     mobileNavTlRef.current.to('#mobileMenu', {
@@ -41,11 +45,16 @@ const MobileMainBurgerContainer: FC<HeaderType> = ({
   }, [isXs]);
 
   useEffect(() => {
+    let mainElement: HTMLElement | null
+    
     if(openedBurger) {
       if(typeof window === 'undefined') return;
 
       mobileNavTlRef.current.play();
-      document.addEventListener('keydown', handleKeydown);
+      document.addEventListener('keydown', handleListenerKeydown);
+
+      mainElement = document.querySelector('main');
+      mainElement?.addEventListener('click', handleListenerClick);
 
     } else {
       mobileNavTlRef.current.reverse();
@@ -54,7 +63,8 @@ const MobileMainBurgerContainer: FC<HeaderType> = ({
     return () => {
       if(typeof window === 'undefined' || !openedBurger) return;
 
-      document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keydown', handleListenerKeydown);
+      mainElement?.removeEventListener('click', handleListenerClick);
     }
   }, [openedBurger]);
 

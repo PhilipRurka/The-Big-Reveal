@@ -8,6 +8,8 @@ export const HeaderWrapper = styled.header`
   right: 0;
   padding-top: 20px;
   padding-bottom: 20px;
+  background-color: white;
+  box-shadow: 0px 0px 5px black;
 `
 
 export const HeaderMainNavbar = styled.div`
