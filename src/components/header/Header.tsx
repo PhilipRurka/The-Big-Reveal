@@ -1,6 +1,6 @@
 import { FC } from "react"
 import {
-  HeaderContainer,
+  HeaderMainNavbar,
   HeaderWrapper,
 } from "./Header.styled"
 import {
@@ -9,20 +9,36 @@ import {
   GoaldenLogo
 } from './components'
 import useIsXs from "../../hooks/useIsXs"
+import MobileMainBurger from "./components/mobileMainBurger"
+import { handleUpdateBurgerType } from "./Header.container"
 
-const Header: FC = () => {
+export type HeaderType = {
+  openedBurger: boolean;
+  handleUpdateBurger: (openBurger: boolean) => void;
+}
+
+const Header: FC<HeaderType> = ({
+  openedBurger,
+  handleUpdateBurger
+}) => {
   const isXs = useIsXs()
   
   return (
     <HeaderWrapper>
-      <HeaderContainer>
+      <HeaderMainNavbar>
         <GoaldenLogo />
         {!isXs ? (
           <DesktopMainNav />
         ) : (
-          <MobileMainNav />
+          <MobileMainBurger
+          openedBurger={openedBurger}
+          handleUpdateBurger={handleUpdateBurger} />
         )}
-      </HeaderContainer>
+      </HeaderMainNavbar>
+      {isXs && (
+        <MobileMainNav
+          openedBurger={openedBurger} />
+      )}
     </HeaderWrapper>
   )
 }

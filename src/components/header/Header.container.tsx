@@ -1,11 +1,20 @@
-import { useRouter } from "next/router"
-import { FC, MutableRefObject, useEffect, useRef } from "react"
+
+import { FC, useState } from "react"
 import Header from "./Header"
 
-const HeaderContainer: FC = () => {
+export type handleUpdateBurgerType = (openBurger: boolean) => void;
 
+const HeaderContainer: FC = () => {
+  const [openedBurger, setOpenedBurger] = useState<boolean>(false);
+
+  const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
+    setOpenedBurger(openBurger)
+  }
+  
   return (
-    <Header />
+    <Header
+      openedBurger={openedBurger}
+      handleUpdateBurger={handleUpdateBurger} />
   )
 }
 

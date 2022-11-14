@@ -2,7 +2,9 @@ import { initialConsole } from "./api/initial-console";
 
 const Login = () => {
   return (
-    <h1>LOGIN PAGE</h1>
+    <main>
+      <h1>LOGIN PAGE</h1>
+    </main>
   );
 }
 

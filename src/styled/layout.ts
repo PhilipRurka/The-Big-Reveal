@@ -1,3 +1,5 @@
+import { createGlobalStyle } from "styled-components";
+
 export const BreakObj = {
   xs: {
     breakpoint: {
@@ -60,5 +62,8 @@ export const Container = (size: keyof typeof BreakObj): string => {
   `
 };
 
-
-
+export const LayoutStyles = createGlobalStyle`
+  main {
+    padding-top: 72px;
+  }
+`

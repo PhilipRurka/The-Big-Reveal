@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 import reset from 'styled-reset'
 import { Fonts } from './'
 
-export const Reset = createGlobalStyle`
+export const ResetStyles = createGlobalStyle`
   ${reset}
 
   * {
