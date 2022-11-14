@@ -1,53 +1,27 @@
-import { FC, useEffect, useRef } from "react"
+import { FC } from "react"
 import {
-  GoaldenLogo,
-  GoaldenLogoAnchor,
-  GoaldenLogoWrapper,
   HeaderContainer,
   HeaderWrapper,
-  PageItem,
-  PageItemAnchor,
-  PageList
 } from "./Header.styled"
-import goaldenLogo from '../../../public/assets/Philip_Rurka_Logo.png'
-import { mainNavigation } from "../../lib/navigation"
-import { useRouter } from "next/router"
+import {
+  DesktopMainNav,
+  MobileMainNav,
+  GoaldenLogo
+} from './components'
+import useIsXs from "../../hooks/useIsXs"
 
 const Header: FC = () => {
-  const goaldenLogoRef = useRef<HTMLAnchorElement>()
-  const router = useRouter()
-
-  useEffect(() =>  {
-    goaldenLogoRef.current?.focus()
-  }, [router])
+  const isXs = useIsXs()
   
   return (
     <HeaderWrapper>
       <HeaderContainer>
-        <GoaldenLogoWrapper>
-          <GoaldenLogoAnchor
-            ref={goaldenLogoRef as any}
-            href='/'
-            aria-label='Home page' >
-            <GoaldenLogo
-              src={goaldenLogo}
-              alt='Goalden\s logo' />
-            </GoaldenLogoAnchor>
-        </GoaldenLogoWrapper>
-        <PageList>
-          {mainNavigation.map(({
-            name,
-            path
-          }) => (
-            <PageItem key={'navigation'}>
-              <PageItemAnchor
-                href={path}
-                isActive={router.asPath === path} >
-                {name}
-              </PageItemAnchor>
-            </PageItem>
-          ))}
-        </PageList>
+        <GoaldenLogo />
+        {!isXs ? (
+          <DesktopMainNav />
+        ) : (
+          <MobileMainNav />
+        )}
       </HeaderContainer>
     </HeaderWrapper>
   )
