@@ -1,10 +1,14 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import useIsXs from '../../../../hooks/useIsXs';
 import MobileMainBurger from './MbileMainBurger'
 import gsap from 'gsap';
-import { HeaderType } from '../../Header';
 
-const MobileMainBurgerContainer: FC<HeaderType> = ({
+export type MobileMainBurgerType = {
+  openedBurger: boolean;
+  handleUpdateBurger: (openBurger: boolean) => void;
+}
+
+const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   openedBurger,
   handleUpdateBurger
 }) => {

@@ -1,10 +1,30 @@
-export const mainNavigation = [
+type NavigationsType = Array<{
+  name: string;
+  path: string;
+}>
+
+export const navWithoutAuth: NavigationsType = [
   // {
   //   name: 'Home',
   //   path: '/'
   // },
   {
     name: 'Login',
-    path: '/login'
+    path: '/api/auth/login'
   }
-] as const
+]
+
+export const navWithAuth: NavigationsType = [
+  // {
+  //   name: 'Home',
+  //   path: '/'
+  // },
+  {
+    name: 'Logout',
+    path: '/api/auth/logout'
+  },
+  {
+    name: 'Dashboard',
+    path: '/dashboard'
+  }
+]

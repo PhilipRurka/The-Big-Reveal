@@ -3,13 +3,18 @@ import MobileMainNav from './MobileMainNav'
 
 type MobileMainNavContainerType = {
   openedBurger: boolean;
+  hasUser: boolean;
 }
 
-const MobileMainNavContainer: FC<MobileMainNavContainerType> = ({ openedBurger }) => {
+const MobileMainNavContainer: FC<MobileMainNavContainerType> = ({
+  openedBurger,
+  hasUser
+}) => {
 
   return (
     <MobileMainNav
-      openedBurger={openedBurger} />
+      openedBurger={openedBurger}
+      hasUser={hasUser} />
   );
 };
 

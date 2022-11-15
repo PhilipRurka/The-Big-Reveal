@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { AnchorMain } from '../../../anchors';
 import { useRouter } from "next/router"
 import {
@@ -6,21 +6,36 @@ import {
   PageItem,
   PageList
 } from './MobileMainNav.styled';
-import { mainNavigation } from '../../../../lib/navigation';
+import { navWithAuth, navWithoutAuth } from '../../../../lib/navigation';
 
 type MobileMainNavType = {
   openedBurger: boolean;
+  hasUser: boolean;
 }
 
 const MobileMainNav: FC<MobileMainNavType> = ({
-  openedBurger
+  openedBurger,
+  hasUser
 }) => {
   const router = useRouter()
+
+  const navigationItems = useMemo(() => {
+    if(hasUser) {
+      return navWithAuth
+
+    } else {
+      return navWithoutAuth
+    }
+  }, [hasUser])
+
+  console.log({
+    navigationItems
+  })
 
   return (
     <MobileMainNavWrapper openedBurger={openedBurger}>
       <PageList>
-        {mainNavigation.map(({
+        {(navigationItems || []).map(({
           name,
           path
         }) => (
