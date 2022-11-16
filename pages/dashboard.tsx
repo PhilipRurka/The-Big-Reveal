@@ -10,9 +10,9 @@ const Dashboard = () => {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(ctx) {
+  async getServerSideProps(context) {
     initialConsole('Login')
-    const session = getSession(ctx.req, ctx.res);
+    const session = getSession(context.req, context.res);
     console.log(session)
     return {
       props: {

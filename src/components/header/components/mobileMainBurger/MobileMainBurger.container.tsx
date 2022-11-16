@@ -32,17 +32,17 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
     handleUpdateBurger(false);
   }
 
-  const initGsap = useCallback((): void => {
-    mobileNavTlRef.current.to('#mobileMenu', {
-      autoAlpha: 1,
-      duration: 0.3,
-      ease: "power1.out"
-    });
-  }, []);
+  // const initGsap = useCallback((): void => {
+  //   mobileNavTlRef.current.to('#mobileMenu', {
+  //     autoAlpha: 1,
+  //     duration: 0.3,
+  //     ease: "power1.out"
+  //   });
+  // }, []);
   
-  useEffect(() => {
-    initGsap();
-  }, []);
+  // useEffect(() => {
+  //   initGsap();
+  // }, []);
 
   useEffect(() => {
     if(!isXs) handleUpdateBurger(false);
