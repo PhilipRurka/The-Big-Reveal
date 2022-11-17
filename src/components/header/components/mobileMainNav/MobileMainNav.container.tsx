@@ -1,20 +1,21 @@
 import { FC } from 'react';
+import { NavigationsType } from '../../../../utils/navigation';
 import MobileMainNav from './MobileMainNav'
 
 type MobileMainNavContainerType = {
   openedBurger: boolean;
-  hasUser: boolean;
+  navigationItems: NavigationsType;
 }
 
 const MobileMainNavContainer: FC<MobileMainNavContainerType> = ({
   openedBurger,
-  hasUser
+  navigationItems
 }) => {
 
   return (
     <MobileMainNav
       openedBurger={openedBurger}
-      hasUser={hasUser} />
+      navigationItems={navigationItems} />
   );
 };
 

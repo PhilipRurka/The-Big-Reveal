@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { navWithoutAuth } from "../../../../lib/navigation"
+import { NavigationsType, navWithoutAuth } from "../../../../utils/navigation"
 import { useRouter } from "next/router"
 import {
   DesktopMainNavWrapper,
@@ -9,16 +9,18 @@ import {
 import { AnchorMain } from '../../../anchors';
 
 type DesktopMainNavType = {
-  hasUser: boolean;
+  navigationItems: NavigationsType;
 }
 
-const DesktopMainNav: FC<DesktopMainNavType> = () => {
+const DesktopMainNav: FC<DesktopMainNavType> = ({
+  navigationItems
+}) => {
   const router = useRouter()
 
   return (
     <DesktopMainNavWrapper>
       <PageList>
-          {navWithoutAuth.map(({
+          {navigationItems.map(({
             name,
             path
           }) => (
