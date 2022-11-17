@@ -1,4 +1,4 @@
-type NavigationsType = Array<{
+export type NavigationsType = Array<{
   name: string;
   path: string;
 }>

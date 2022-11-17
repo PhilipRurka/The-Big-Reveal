@@ -11,15 +11,16 @@ import {
 import useIsXs from "../../hooks/useIsXs"
 import MobileMainBurger from "./components/mobileMainBurger"
 import { MobileMainBurgerType } from "./components/mobileMainBurger/MobileMainBurger.container"
+import { NavigationsType } from "../../utils/navigation"
 
 export type HeaderType = MobileMainBurgerType & {
-  hasUser: boolean;
+  navigationItems: NavigationsType;
 }
 
 const Header: FC<HeaderType> = ({
   openedBurger,
   handleUpdateBurger,
-  hasUser
+  navigationItems
 }) => {
   const isXs = useIsXs()
   
@@ -28,7 +29,7 @@ const Header: FC<HeaderType> = ({
       <HeaderMainNavbar>
         <GoaldenLogo />
         {!isXs ? (
-          <DesktopMainNav hasUser={hasUser} />
+          <DesktopMainNav navigationItems={navigationItems} />
         ) : (
           <MobileMainBurger
             openedBurger={openedBurger}
@@ -38,7 +39,7 @@ const Header: FC<HeaderType> = ({
       {isXs && (
         <MobileMainNav
           openedBurger={openedBurger}
-          hasUser={hasUser} />
+          navigationItems={navigationItems} />
       )}
     </HeaderWrapper>
   )
