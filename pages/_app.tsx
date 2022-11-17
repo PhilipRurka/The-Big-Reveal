@@ -1,8 +1,7 @@
-import { ApolloProvider } from "@apollo/client";
+
 import { UserProvider } from "@auth0/nextjs-auth0";
 import type { AppProps } from "next/app";
 import { FC } from "react";
-import client from "../apollo-client";
 // import Head from "../src/components/head";
 import Header from "../src/components/header";
 import { ContextProvider } from "../src/context";
@@ -18,14 +17,12 @@ const MyApp: FC<AppProps<ComponentProps>> = ({
 }) => (
   <ContextProvider>
     <UserProvider>
-      <ApolloProvider client={client}>
-        <ResetStyles />
-        <FontStyles />
-        <LayoutStyles />
-        {/* <Head /> */}
-        <Header />
-        <Component {...pageProps} />
-      </ApolloProvider>
+      <ResetStyles />
+      <FontStyles />
+      <LayoutStyles />
+      {/* <Head /> */}
+      <Header />
+      <Component {...pageProps} />
     </UserProvider>
   </ContextProvider>
 )
