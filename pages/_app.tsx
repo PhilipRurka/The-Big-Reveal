@@ -7,9 +7,8 @@ import Header from "../src/components/header";
 import { ContextProvider } from "../src/context";
 import { FontStyles, LayoutStyles } from "../src/styled";
 import { ResetStyles } from "../src/styled/base";
-import type { CountriesType } from "./index"
 
-type ComponentProps = CountriesType
+type ComponentProps = any
 
 const MyApp: FC<AppProps<ComponentProps>> = ({
   Component,
