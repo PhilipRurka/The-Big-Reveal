@@ -1,14 +1,13 @@
-
-import { useUser } from "@auth0/nextjs-auth0";
 import { FC, useMemo, useState } from "react"
 import Header from "./Header"
 import { navWithAuth, navWithoutAuth } from '../../utils/navigation';
 
 export type handleUpdateBurgerType = (openBurger: boolean) => void;
 
+const user = false
+
 const HeaderContainer: FC = () => {
   const [openedBurger, setOpenedBurger] = useState<boolean>(false);
-  const { user, error, isLoading } = useUser();
 
   const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
     setOpenedBurger(openBurger)
@@ -22,9 +21,6 @@ const HeaderContainer: FC = () => {
       return navWithoutAuth
     }
   }, [!!user])
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
   
   return (
     <Header

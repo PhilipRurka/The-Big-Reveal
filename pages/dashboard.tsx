@@ -1,75 +1,61 @@
-import { getSupabase } from "../src/utils/supabase";
-import { getSession, useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { initialConsole } from "./api/initial-console";
 import { FC } from "react";
 
 type DashboardType = {
-  todos: any
+  todos: any;
+  user: any;
 }
 
 const Dashboard = ({
+  user,
   todos
 }: DashboardType) => {
-  const {
-    isLoading,
-    error,
-    user
-  } = useUser()
 
   console.log(todos)
-
-  if(isLoading) { <div>... Is loading</div> }
-  else if(error) { console.error(error); return <></> }
-  else if(user) {
-    return (
-      <main>
-        <h1>Dashboard</h1>
-        {user.name && (
-          <h2>Welcome {user.name}</h2>
-        )}
-        <ul>
-          {todos.map(({
-            content
-          }: any) => (
-            <li key={content}>
-              <p>{content}</p>
-            </li>
-          ))}
-        </ul>
-      </main>
-    );
-  }
-
+  
+return (
+    <main>
+      <h1>Dashboard</h1>
+      {user.name && (
+        <h2>Welcome {user.name}</h2>
+      )}
+      <ul>
+        {todos.map(({
+          content
+        }: any) => (
+          <li key={content}>
+            <p>{content}</p>
+          </li>
+        ))}
+      </ul>
+    </main>
+  );
 }
 
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({
-    req,
-    res
-  }) {
-  // async getServerSideProps(context) {
+export const getServerSideProps = async (context: any
+  ) => {
     initialConsole('Login')
 
-    const { user }: any = await getSession(req, res);
+  const supabase = createServerSupabaseClient(context)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
-    // const session = getSession(context.req, context.res);
-    const supabase = getSupabase(user.accessToken);
-
-    const {
-      data: todos
-    } = await supabase.from("todo").select("*");
-
-    console.log(todos)
-
-
-    // console.log(session)
+  if (!session)
     return {
-      props: {
-        // user,
-        todos
-      }
-    };
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+
+  return {
+    props: {
+      initialSession: session,
+      user: session.user,
+    },
   }
-});
+};
 
 export default Dashboard
