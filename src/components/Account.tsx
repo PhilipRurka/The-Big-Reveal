@@ -5,7 +5,7 @@ import { useUser, useSupabaseClient, Session } from '@supabase/auth-helpers-reac
 // type Profiles = Database['public']['Tables']['profiles']['Row']
 
 export default function Account({ session }: { session: Session }) {
-  const supabase = useSupabaseClient<any>()
+  const supabase = useSupabaseClient()
   const user = useUser()
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState<any['username']>(null)
@@ -121,7 +121,7 @@ export default function Account({ session }: { session: Session }) {
 }
 
 export const getServerSideProps = async () => {
-  const supabase = useSupabaseClient<any>()
+  const supabase = useSupabaseClient()
   const user = useUser()
 
   if(user) {

@@ -1,32 +1,23 @@
-import { FC, useMemo, useState } from "react"
+import { FC, useState } from "react"
 import Header from "./Header"
 import { navWithAuth, navWithoutAuth } from '../../utils/navigation';
+import { useSession } from "@supabase/auth-helpers-react";
 
 export type handleUpdateBurgerType = (openBurger: boolean) => void;
 
-const user = false
-
 const HeaderContainer: FC = () => {
   const [openedBurger, setOpenedBurger] = useState<boolean>(false);
+  const session = useSession()
 
   const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
     setOpenedBurger(openBurger)
   }
-
-  const navigationItems = useMemo(() => {
-    if(!!user) {
-      return navWithAuth
-
-    } else {
-      return navWithoutAuth
-    }
-  }, [!!user])
   
   return (
     <Header
       openedBurger={openedBurger}
       handleUpdateBurger={handleUpdateBurger}
-      navigationItems={navigationItems} />
+      navigationItems={session ? navWithAuth : navWithoutAuth} />
   )
 }
 

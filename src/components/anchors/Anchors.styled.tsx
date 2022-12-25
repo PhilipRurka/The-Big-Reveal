@@ -3,22 +3,26 @@ import { default as LinkNext } from 'next/link'
 import { Colors } from "../../styled";
 
 type AnchorMainWrapperType = {
-  isActive: boolean
+  isActive?: boolean
 }
 
-export const AnchorMainWrapper = styled(({
-  isActive,
-  ...props
-}) => (
-  <LinkNext {...props} />
-))<AnchorMainWrapperType>`
-  color: ${props => props.isActive ? Colors.eucalyptus : 'initial'};
+export const AnchorMainWrapper = styled.div<AnchorMainWrapperType>`
+  a,
+  span {
+    color: ${props => props.isActive ? Colors.eucalyptus : 'initial'};
 
-  &:hover {
-    color: ${Colors.persimmon};
-  }
+    &:hover {
+      color: ${Colors.persimmon};
+    }
 
-  &:active {
-    color: ${Colors.dodger};
+    &:active {
+      color: ${Colors.dodger};
+    }
   }
 `;
+
+export const AnchorMainLink = styled(LinkNext)``;
+
+export const AnchorMainTrigger = styled.span`
+  cursor: pointer;
+`

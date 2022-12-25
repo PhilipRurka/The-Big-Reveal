@@ -28,7 +28,9 @@ const MyApp: FC<AppProps<ComponentProps>> = ({
         <LayoutStyles />
         {/* <Head /> */}
         <Header />
-        <Component {...pageProps} />
+          <main>
+            <Component {...pageProps} />
+          </main>
       </SessionContextProvider>
     </ContextProvider>
   )

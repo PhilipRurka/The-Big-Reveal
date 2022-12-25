@@ -1,6 +1,7 @@
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { useSession } from '@supabase/auth-helpers-react';
+import Account from '../src/components/Account';
 import { initialConsole } from "./api/initial-console";
-import { FC } from "react";
 
 type DashboardType = {
   todos: any;
@@ -11,44 +12,51 @@ const Dashboard = ({
   user,
   todos
 }: DashboardType) => {
+  const session = useSession()
 
   console.log(todos)
   
-return (
-    <main>
-      <h1>Dashboard</h1>
-      {user.name && (
-        <h2>Welcome {user.name}</h2>
+  return (
+    <>
+      {!session ? null : (
+        <main>
+          <h1>Dashboard</h1>
+          {user.name && (
+            <h2>Welcome {user.name}</h2>
+          )}
+          <Account session={session} />
+          <ul>
+            {todos.map(({
+              content
+            }: any) => (
+              <li key={content}>
+                <p>{content}</p>
+              </li>
+            ))}
+          </ul>
+        </main>
       )}
-      <ul>
-        {todos.map(({
-          content
-        }: any) => (
-          <li key={content}>
-            <p>{content}</p>
-          </li>
-        ))}
-      </ul>
-    </main>
+    </>
   );
 }
 
 export const getServerSideProps = async (context: any
   ) => {
-    initialConsole('Login')
+  initialConsole('Dashboard')
 
   const supabase = createServerSupabaseClient(context)
   const {
     data: { session },
   } = await supabase.auth.getSession()
 
-  if (!session)
+  if(!session) {
     return {
       redirect: {
         destination: '/',
         permanent: false,
       },
     }
+  }
 
   return {
     props: {

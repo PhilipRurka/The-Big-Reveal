@@ -1,4 +1,4 @@
-type PageType = 'Home' | 'Login'
+type PageType = 'Home' | 'Login' | 'Dashboard'
 
 export const initialConsole = (page: PageType): void => {
   switch (page) {
@@ -18,6 +18,19 @@ export const initialConsole = (page: PageType): void => {
       console.log('O---oo-o o--O | o  o     o     o-o-o--O o-o ')
       console.log('            |                         |     ')
       console.log('         o--o                      o--o     ')
+
+      break
+
+    case 'Dashboard':
+      console.log('')
+      console.log('$$$$$$$\\                      $$\\       $$\\                                           $$\\')
+      console.log('$$  __$$\\                     $$ |      $$ |                                          $$ |')
+      console.log('$$ |  $$ | $$$$$$\\   $$$$$$$\\ $$$$$$$\\  $$$$$$$\\   $$$$$$\\   $$$$$$\\   $$$$$$\\   $$$$$$$ |')
+      console.log('$$ |  $$ | \\____$$\\ $$  _____|$$  __$$\\ $$  __$$\\ $$  __$$\\  \\____$$\\ $$  __$$\\ $$  __$$ |')
+      console.log('$$ |  $$ | $$$$$$$ |\\$$$$$$\\  $$ |  $$ |$$ |  $$ |$$ /  $$ | $$$$$$$ |$$ |  \\__|$$ /  $$ |')
+      console.log('$$ |  $$ |$$  __$$ | \\____$$\\ $$ |  $$ |$$ |  $$ |$$ |  $$ |$$  __$$ |$$ |      $$ |  $$ |')
+      console.log('$$$$$$$  |\\$$$$$$$ |$$$$$$$  |$$ |  $$ |$$$$$$$  |\\$$$$$$  |\\$$$$$$$ |$$ |      \\$$$$$$$ |')
+      console.log('\\_______/  \\_______|\\_______/ \\__|  \\__|\\_______/  \\______/  \\_______|\\__|       \\_______|')
 
       break
   

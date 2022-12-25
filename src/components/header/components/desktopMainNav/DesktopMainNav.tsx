@@ -7,31 +7,44 @@ import {
   PageList
 } from './DesktopMainNav.styled';
 import { AnchorMain } from '../../../anchors';
+import { Session } from '@supabase/supabase-js';
 
 type DesktopMainNavType = {
   navigationItems: NavigationsType;
+  handleLogout: () => Promise<void>
+  session: Session | null
 }
 
 const DesktopMainNav: FC<DesktopMainNavType> = ({
-  navigationItems
+  navigationItems,
+  handleLogout,
+  session
 }) => {
   const router = useRouter()
 
   return (
     <DesktopMainNavWrapper>
       <PageList>
-          {navigationItems.map(({
-            name,
-            path
-          }) => (
-            <PageItem key={`DesktopMainNav_${name}`}>
-              <AnchorMain
-                path={path}
-                name={name}
-                isActive={router.asPath === path} />
-            </PageItem>
-          ))}
-        </PageList>
+        {session && (
+          <PageItem key={`DesktopMainNav_logout`}>
+            <AnchorMain
+              name='logout'
+              trigger={handleLogout} />
+          </PageItem>
+        )}
+        {navigationItems.map(item => (
+          <>
+            {item.path === '/login' && !session && (
+              <PageItem key={`DesktopMainNav_${item.name}`}>
+                <AnchorMain
+                  name={item.name}
+                  path={item.path}
+                  isActive={router.asPath === item.path} />
+              </PageItem>
+            )}
+          </>
+        ))}
+      </PageList>
     </DesktopMainNavWrapper>
   );
 };

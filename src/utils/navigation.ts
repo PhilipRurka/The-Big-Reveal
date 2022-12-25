@@ -1,6 +1,6 @@
 export type NavigationsType = Array<{
   name: string;
-  path: string;
+  path: string
 }>
 
 export const navWithoutAuth: NavigationsType = [
@@ -10,7 +10,7 @@ export const navWithoutAuth: NavigationsType = [
   // },
   {
     name: 'Login',
-    path: '/api/auth/login'
+    path: '/login'
   }
 ]
 
@@ -19,10 +19,6 @@ export const navWithAuth: NavigationsType = [
   //   name: 'Home',
   //   path: '/'
   // },
-  {
-    name: 'Logout',
-    path: '/api/auth/logout'
-  },
   {
     name: 'Dashboard',
     path: '/dashboard'
