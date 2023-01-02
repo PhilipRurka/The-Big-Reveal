@@ -1,9 +1,9 @@
 import { createClient } from "@supabase/supabase-js"
 import { FC, FormEvent, useRef, useState } from "react"
 import { InputOnChangeType } from "../input/Input"
-import Login from "./Login"
+import Registration from "./Registration"
 
-export const LoginContainer: FC = () => {
+export const RegistrationContainer: FC = () => {
   const emailRef = useRef<HTMLInputElement>(null)
   const [password, setPassword] = useState('')
   const supabase = createClient(
@@ -11,13 +11,13 @@ export const LoginContainer: FC = () => {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
   )
 
-  const handleLogin = async (event: FormEvent) => {
+  const handleRegistration = async (event: FormEvent) => {
     event.preventDefault()
 
     const {
       data,
       error
-    } = await supabase.auth.signInWithPassword({
+    } = await supabase.auth.signUp({
       email: emailRef.current?.value ?? '',
       password: password,
     })
@@ -33,12 +33,12 @@ export const LoginContainer: FC = () => {
   }
 
   return (
-    <Login
+    <Registration
       ref={emailRef}
       password={password}
       handlePasswordUpdate={handlePasswordUpdate}
-      handleSubmit={handleLogin} />
+      handleSubmit={handleRegistration} />
   )
 }
 
-export default LoginContainer
+export default RegistrationContainer

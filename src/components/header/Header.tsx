@@ -12,7 +12,8 @@ import useIsXs from "../../hooks/useIsXs"
 import MobileMainBurger from "./components/mobileMainBurger"
 import { MobileMainBurgerType } from "./components/mobileMainBurger/MobileMainBurger.container"
 import { NavigationsType } from "../../utils/navigation"
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react"
+// import { useAuthStateChange } from "../../hooks/useAuthStateChange"
+import { createClient } from "@supabase/supabase-js"
 
 export type HeaderType = MobileMainBurgerType & {
   navigationItems: NavigationsType;
@@ -24,8 +25,12 @@ const Header: FC<HeaderType> = ({
   navigationItems
 }) => {
   const isXs = useIsXs()
-  const supabase = useSupabaseClient()
-  const session = useSession()
+  // const { session } = useAuthStateChange()
+
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+  )
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -39,7 +44,7 @@ const Header: FC<HeaderType> = ({
           <DesktopMainNav
             navigationItems={navigationItems}
             handleLogout={handleLogout}
-            session={session} />
+            session={true} />
         ) : (
           <MobileMainBurger
             openedBurger={openedBurger}
@@ -51,7 +56,7 @@ const Header: FC<HeaderType> = ({
           openedBurger={openedBurger}
           navigationItems={navigationItems}
           handleLogout={handleLogout}
-          session={session} />
+          session={true} />
       )}
     </HeaderWrapper>
   )

@@ -5,25 +5,25 @@ import { InputOnChangeType } from "../input/Input";
 import {
   PageTitle,
   Form,
-  LoginWrapper,
+  RegistrationWrapper,
   SubmitButton,
-  ToRegistrationLink
-} from "./Login.styled";
+  ToLoginLink
+} from "./Registration.styled";
 
-type LoginType = {
+type RegistrationType = {
   password: string
   handlePasswordUpdate: (event: InputOnChangeType) => void
   handleSubmit: (event: FormEvent) => void
 }
 
-export const Login = forwardRef<HTMLInputElement, LoginType>(({
+export const Registration = forwardRef<HTMLInputElement, RegistrationType>(({
   password,
   handlePasswordUpdate,
   handleSubmit
 }, ref) => {
   return (
-    <LoginWrapper>
-      <PageTitle>Login Page</PageTitle>
+    <RegistrationWrapper>
+      <PageTitle>Registration Page</PageTitle>
       <Form>
         <Fields>
           <Label htmlFor="emailAddress">
@@ -48,11 +48,11 @@ export const Login = forwardRef<HTMLInputElement, LoginType>(({
           Submit
         </SubmitButton>
       </Form>
-      <ToRegistrationLink href='/registration'>
-        Don't have an account?
-      </ToRegistrationLink>
-    </LoginWrapper>
+      <ToLoginLink href='/login'>
+        Have an account?
+      </ToLoginLink>
+    </RegistrationWrapper>
   )
 })
 
-export default Login
+export default Registration

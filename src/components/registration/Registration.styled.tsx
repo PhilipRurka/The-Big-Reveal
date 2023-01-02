@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { default as LinkNext } from 'next/link'
 
-export const LoginWrapper = styled.div`
+export const RegistrationWrapper = styled.div`
 
 `;
 
@@ -17,6 +17,6 @@ export const SubmitButton = styled.button`
   
 `;
 
-export const ToRegistrationLink = styled(LinkNext)`
+export const ToLoginLink = styled(LinkNext)`
    
 `;

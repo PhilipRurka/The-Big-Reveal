@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const DesktopMainNavWrapper = styled.ul`
+export const DesktopMainNavWrapper = styled.div`
 
 `;
 
