@@ -5,7 +5,6 @@ import { FC, useState } from "react";
 import { Provider } from 'react-redux';
 // import Head from "../src/components/head";
 import Header from "../src/components/header";
-import { ContextProvider } from "../src/context";
 import { store } from '../src/redux/redux_store';
 import { FontStyles, LayoutStyles } from "../src/styled";
 import { ResetStyles } from "../src/styled/base";
@@ -22,20 +21,18 @@ const MyApp: FC<AppProps<ComponentProps>> = ({
 
   return (
     <Provider store={store}>
-      <ContextProvider>
-        <SessionContextProvider
-          supabaseClient={supabaseClient}
-          initialSession={pageProps.initialSession} >
-          <ResetStyles />
-          <FontStyles />
-          <LayoutStyles />
-          {/* <Head /> */}
-          <Header />
-            <main>
-              <Component {...pageProps} />
-            </main>
-        </SessionContextProvider>
-      </ContextProvider>
+      <SessionContextProvider
+        supabaseClient={supabaseClient}
+        initialSession={pageProps.initialSession} >
+        <ResetStyles />
+        <FontStyles />
+        <LayoutStyles />
+        {/* <Head /> */}
+        <Header />
+          <main>
+            <Component {...pageProps} />
+          </main>
+      </SessionContextProvider>
     </Provider>
   )
 }
