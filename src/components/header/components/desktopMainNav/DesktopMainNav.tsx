@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 import { NavigationsType } from "../../../../utils/navigation"
 import { useRouter } from "next/router"
 import {
@@ -33,16 +33,16 @@ const DesktopMainNav: FC<DesktopMainNavType> = ({
           </PageItem>
         )}
         {navigationItems.map(item => (
-          <>
+          <Fragment key={`DesktopMainNav_${item.name}`}>
             {item.path === '/login' && !!!userSession && (
-              <PageItem key={`DesktopMainNav_${item.name}`}>
+              <PageItem>
                 <AnchorMain
                   name={item.name}
                   path={item.path}
                   isActive={router.asPath === item.path} />
               </PageItem>
             )}
-          </>
+          </Fragment>
         ))}
       </PageList>
     </DesktopMainNavWrapper>
