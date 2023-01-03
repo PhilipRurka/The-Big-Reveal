@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { NavigationsType, navWithoutAuth } from "../../../../utils/navigation"
+import { NavigationsType } from "../../../../utils/navigation"
 import { useRouter } from "next/router"
 import {
   DesktopMainNavWrapper,
@@ -7,25 +7,25 @@ import {
   PageList
 } from './DesktopMainNav.styled';
 import { AnchorMain } from '../../../anchors';
-import { Session } from '@supabase/supabase-js';
+import { useAppSelector } from '../../../../redux/redux_hooks';
+import { selectUserData } from '../../../../redux/slices/userSlice';
 
 type DesktopMainNavType = {
   navigationItems: NavigationsType;
   handleLogout: () => Promise<void>
-  session: Session | null
 }
 
 const DesktopMainNav: FC<DesktopMainNavType> = ({
   navigationItems,
-  handleLogout,
-  session
+  handleLogout
 }) => {
   const router = useRouter()
+  const { session: userSession } = useAppSelector(selectUserData)
 
   return (
     <DesktopMainNavWrapper>
       <PageList>
-        {session && (
+        {!!userSession && (
           <PageItem key={`DesktopMainNav_logout`}>
             <AnchorMain
               name='logout'
@@ -34,7 +34,7 @@ const DesktopMainNav: FC<DesktopMainNavType> = ({
         )}
         {navigationItems.map(item => (
           <>
-            {item.path === '/login' && !session && (
+            {item.path === '/login' && !!!userSession && (
               <PageItem key={`DesktopMainNav_${item.name}`}>
                 <AnchorMain
                   name={item.name}
