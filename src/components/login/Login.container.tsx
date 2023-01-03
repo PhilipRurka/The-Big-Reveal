@@ -25,11 +25,6 @@ export const LoginContainer: FC = () => {
       password: password,
     })
 
-    console.log({
-      data,
-      error
-    })
-
     if(data?.session) {
       dispatch(update_userData(data.session))
     }

@@ -13,8 +13,6 @@ const Dashboard = ({
   todos
 }: DashboardType) => {
   const session = useSession()
-
-  console.log(todos)
   
   return (
     <>
