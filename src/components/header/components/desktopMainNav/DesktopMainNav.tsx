@@ -33,16 +33,12 @@ const DesktopMainNav: FC<DesktopMainNavType> = ({
           </PageItem>
         )}
         {navigationItems.map(item => (
-          <Fragment key={`DesktopMainNav_${item.name}`}>
-            {item.path === '/login' && !!!userSession && (
-              <PageItem>
-                <AnchorMain
-                  name={item.name}
-                  path={item.path}
-                  isActive={router.asPath === item.path} />
-              </PageItem>
-            )}
-          </Fragment>
+          <PageItem key={`DesktopMainNav_${item.name}`}>
+            <AnchorMain
+              name={item.name}
+              path={item.path}
+              isActive={router.asPath === item.path} />
+          </PageItem>
         ))}
       </PageList>
     </DesktopMainNavWrapper>

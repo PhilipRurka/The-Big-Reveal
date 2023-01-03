@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect, useMemo, useState } from "react"
 import Header from "./Header"
 import { navWithAuth, navWithoutAuth } from '../../utils/navigation';
 import { useAppDispatch } from "../../redux/redux_hooks";
@@ -35,12 +35,16 @@ const HeaderContainer: FC = () => {
   useEffect(() => {
     updateInitialUserData()
   }, [])
+
+  const navigationItems = useMemo(() => (
+    userSession ? navWithAuth : navWithoutAuth
+  ), [userSession])
   
   return (
     <Header
       openedBurger={openedBurger}
       handleUpdateBurger={handleUpdateBurger}
-      navigationItems={userSession ? navWithAuth : navWithoutAuth}
+      navigationItems={navigationItems}
       handleLogout={handleLogout}
       isXs={isXs} />
   )
