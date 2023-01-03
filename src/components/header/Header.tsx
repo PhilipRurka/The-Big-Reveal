@@ -12,6 +12,9 @@ import useIsXs from "../../hooks/useIsXs"
 import MobileMainBurger from "./components/mobileMainBurger"
 import { MobileMainBurgerType } from "./components/mobileMainBurger/MobileMainBurger.container"
 import { NavigationsType } from "../../utils/navigation"
+import { createClient } from "@supabase/supabase-js"
+import { useAppDispatch } from "../../redux/redux_hooks"
+import { remove_userData } from "../../redux/slices/userSlice"
 
 export type HeaderType = MobileMainBurgerType & {
   navigationItems: NavigationsType;
@@ -23,13 +26,26 @@ const Header: FC<HeaderType> = ({
   navigationItems
 }) => {
   const isXs = useIsXs()
+  const dispatch = useAppDispatch()
+
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+  )
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    dispatch(remove_userData())
+  }
   
   return (
     <HeaderWrapper>
       <HeaderMainNavbar>
         <GoaldenLogo />
         {!isXs ? (
-          <DesktopMainNav navigationItems={navigationItems} />
+          <DesktopMainNav
+            navigationItems={navigationItems}
+            handleLogout={handleLogout} />
         ) : (
           <MobileMainBurger
             openedBurger={openedBurger}
@@ -39,7 +55,9 @@ const Header: FC<HeaderType> = ({
       {isXs && (
         <MobileMainNav
           openedBurger={openedBurger}
-          navigationItems={navigationItems} />
+          navigationItems={navigationItems}
+          handleLogout={handleLogout}
+          session={true} />
       )}
     </HeaderWrapper>
   )

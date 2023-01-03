@@ -1,37 +1,69 @@
-import { getSession, useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { useSession } from '@supabase/auth-helpers-react';
+import Account from '../src/components/Account';
 import { initialConsole } from "./api/initial-console";
 
-const Dashboard = () => {
-  const {
-    isLoading,
-    error,
-    user
-  } = useUser()
-
-  if(isLoading) { <div>... Is loading</div> }
-  else if(error) { console.error(error); return <></> }
-  else if(user) {
-    return (
-      <main>
-        <h1>Dashboard</h1>
-      </main>
-    );
-  }
-
+type DashboardType = {
+  todos: any;
+  user: any;
 }
 
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(context) {
-    initialConsole('Login')
+const Dashboard = ({
+  user,
+  todos
+}: DashboardType) => {
+  const session = useSession()
 
-    const session = getSession(context.req, context.res);
-    console.log(session)
+  console.log(todos)
+  
+  return (
+    <>
+      {!session ? null : (
+        <main>
+          <h1>Dashboard</h1>
+          {user.name && (
+            <h2>Welcome {user.name}</h2>
+          )}
+          <Account session={session} />
+          <ul>
+            {todos.map(({
+              content
+            }: any) => (
+              <li key={content}>
+                <p>{content}</p>
+              </li>
+            ))}
+          </ul>
+        </main>
+      )}
+    </>
+  );
+}
+
+export const getServerSideProps = async (context: any
+  ) => {
+  initialConsole('Dashboard')
+
+  const supabase = createServerSupabaseClient(context)
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if(!session) {
     return {
-      props: {
-
-      }
-    };
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
   }
-});
+
+  return {
+    props: {
+      initialSession: session,
+      user: session.user,
+    },
+  }
+};
 
 export default Dashboard

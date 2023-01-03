@@ -1,22 +1,37 @@
 import { FC } from "react"
-import { AnchorMainWrapper } from "./Anchors.styled"
+import {
+  AnchorMainWrapper,
+  AnchorMainLink,
+  AnchorMainTrigger
+} from "./Anchors.styled"
 
 type AnchorMainType = {
-  path: string;
   name: string;
-  isActive: boolean;
+  path?: string;
+  trigger?: (props: any) => Promise<void>
+  isActive?: boolean;
 }
 
 export const AnchorMain: FC<AnchorMainType> = ({
-  path,
   name,
+  path,
+  trigger,
   isActive
 }) => {
+
   return (
-    <AnchorMainWrapper
-      href={path}
-      isActive={isActive} >
-      {name}
+    <AnchorMainWrapper isActive={isActive}>
+      {path ? (
+        <AnchorMainLink
+          href={path} >
+          {name}
+        </AnchorMainLink>
+      ) : (
+        <AnchorMainTrigger
+          onClick={trigger} >
+            Logout
+        </AnchorMainTrigger>
+      )}
     </AnchorMainWrapper>
   )
 }

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { NavigationsType, navWithoutAuth } from "../../../../utils/navigation"
+import { NavigationsType } from "../../../../utils/navigation"
 import { useRouter } from "next/router"
 import {
   DesktopMainNavWrapper,
@@ -7,31 +7,44 @@ import {
   PageList
 } from './DesktopMainNav.styled';
 import { AnchorMain } from '../../../anchors';
+import { useAppSelector } from '../../../../redux/redux_hooks';
+import { selectUserData } from '../../../../redux/slices/userSlice';
 
 type DesktopMainNavType = {
   navigationItems: NavigationsType;
+  handleLogout: () => Promise<void>
 }
 
 const DesktopMainNav: FC<DesktopMainNavType> = ({
-  navigationItems
+  navigationItems,
+  handleLogout
 }) => {
   const router = useRouter()
+  const { session: userSession } = useAppSelector(selectUserData)
 
   return (
     <DesktopMainNavWrapper>
       <PageList>
-          {navigationItems.map(({
-            name,
-            path
-          }) => (
-            <PageItem key={`DesktopMainNav_${name}`}>
-              <AnchorMain
-                path={path}
-                name={name}
-                isActive={router.asPath === path} />
-            </PageItem>
-          ))}
-        </PageList>
+        {!!userSession && (
+          <PageItem key={`DesktopMainNav_logout`}>
+            <AnchorMain
+              name='logout'
+              trigger={handleLogout} />
+          </PageItem>
+        )}
+        {navigationItems.map(item => (
+          <>
+            {item.path === '/login' && !!!userSession && (
+              <PageItem key={`DesktopMainNav_${item.name}`}>
+                <AnchorMain
+                  name={item.name}
+                  path={item.path}
+                  isActive={router.asPath === item.path} />
+              </PageItem>
+            )}
+          </>
+        ))}
+      </PageList>
     </DesktopMainNavWrapper>
   );
 };
