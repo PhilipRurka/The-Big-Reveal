@@ -1,7 +1,7 @@
-import { createClient } from "@supabase/supabase-js"
 import { FC, FormEvent, useRef, useState } from "react"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
+import { supabase } from "../../utils/supabase"
 import { InputOnChangeType } from "../input/Input"
 import Registration from "./Registration"
 
@@ -9,11 +9,6 @@ export const RegistrationContainer: FC = () => {
   const emailRef = useRef<HTMLInputElement>(null)
   const [password, setPassword] = useState('')
   const dispatch = useAppDispatch()
-
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
-  )
 
   const handleRegistration = async (event: FormEvent) => {
     event.preventDefault()
