@@ -8,54 +8,43 @@ import {
   MobileMainNav,
   GoaldenLogo
 } from './components'
-import useIsXs from "../../hooks/useIsXs"
 import MobileMainBurger from "./components/mobileMainBurger"
 import { MobileMainBurgerType } from "./components/mobileMainBurger/MobileMainBurger.container"
 import { NavigationsType } from "../../utils/navigation"
-import { useAppDispatch } from "../../redux/redux_hooks"
-import { remove_userData } from "../../redux/slices/userSlice"
-import { supabase } from "../../utils/supabase"
 
 export type HeaderType = MobileMainBurgerType & {
-  navigationItems: NavigationsType;
+  navigationItems: NavigationsType
+  handleLogout: () => Promise<void>
+  isXs: boolean | undefined
 }
 
 const Header: FC<HeaderType> = ({
   openedBurger,
   handleUpdateBurger,
-  navigationItems
-}) => {
-  const isXs = useIsXs()
-  const dispatch = useAppDispatch()
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
-    dispatch(remove_userData())
-  }
-  
-  return (
-    <HeaderWrapper>
-      <HeaderMainNavbar>
-        <GoaldenLogo />
-        {!isXs ? (
-          <DesktopMainNav
-            navigationItems={navigationItems}
-            handleLogout={handleLogout} />
-        ) : (
-          <MobileMainBurger
-            openedBurger={openedBurger}
-            handleUpdateBurger={handleUpdateBurger} />
-        )}
-      </HeaderMainNavbar>
-      {isXs && (
-        <MobileMainNav
-          openedBurger={openedBurger}
+  navigationItems,
+  handleLogout,
+  isXs
+}) => (
+  <HeaderWrapper>
+    <HeaderMainNavbar>
+      <GoaldenLogo />
+      {!isXs ? (
+        <DesktopMainNav
           navigationItems={navigationItems}
-          handleLogout={handleLogout}
-          session={true} />
+          handleLogout={handleLogout} />
+      ) : (
+        <MobileMainBurger
+          openedBurger={openedBurger}
+          handleUpdateBurger={handleUpdateBurger} />
       )}
-    </HeaderWrapper>
-  )
-}
+    </HeaderMainNavbar>
+    {isXs && (
+      <MobileMainNav
+        openedBurger={openedBurger}
+        navigationItems={navigationItems}
+        handleLogout={handleLogout} />
+    )}
+  </HeaderWrapper>
+)
 
 export default Header

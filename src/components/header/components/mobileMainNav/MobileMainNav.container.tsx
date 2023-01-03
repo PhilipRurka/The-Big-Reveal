@@ -5,17 +5,20 @@ import MobileMainNav from './MobileMainNav'
 type MobileMainNavContainerType = {
   openedBurger: boolean;
   navigationItems: NavigationsType;
+  handleLogout: () => Promise<void>
 }
 
 const MobileMainNavContainer: FC<MobileMainNavContainerType> = ({
   openedBurger,
-  navigationItems
+  navigationItems,
+  handleLogout
 }) => {
 
   return (
     <MobileMainNav
       openedBurger={openedBurger}
-      navigationItems={navigationItems} />
+      navigationItems={navigationItems}
+      handleLogout={handleLogout} />
   );
 };
 

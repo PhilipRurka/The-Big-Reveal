@@ -11,11 +11,13 @@ import { NavigationsType } from '../../../../utils/navigation';
 type MobileMainNavType = {
   openedBurger: boolean;
   navigationItems: NavigationsType
+  handleLogout: () => Promise<void>
 }
 
 const MobileMainNav: FC<MobileMainNavType> = ({
   openedBurger,
-  navigationItems
+  navigationItems,
+  handleLogout
 }) => {
   const router = useRouter()
 
