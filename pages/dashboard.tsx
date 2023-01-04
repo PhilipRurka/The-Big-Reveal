@@ -1,6 +1,6 @@
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useSession } from '@supabase/auth-helpers-react';
-import Account from '../src/components/Account';
+import { supabase } from '../src/utils/supabase';
+// import Account from '../src/components/Account';
 import { initialConsole } from "./api/initial-console";
 
 type DashboardType = {
@@ -22,7 +22,7 @@ const Dashboard = ({
           {user.name && (
             <h2>Welcome {user.name}</h2>
           )}
-          <Account session={session} />
+          {/* <Account session={session} /> */}
           <ul>
             {todos.map(({
               content
@@ -38,21 +38,19 @@ const Dashboard = ({
   );
 }
 
-export const getServerSideProps = async (context: any
-  ) => {
+export const getServerSideProps = async () => {
   initialConsole('Dashboard')
+  
+  const { data, error } = await supabase.auth.getSession()
+  
+  console.log({ data, error })
 
-  const supabase = createServerSupabaseClient(context)
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
-
-  if(!session) {
+  if(!data.session) {
     return {
       redirect: {
         destination: '/',
         permanent: false,
-      },
+      }
     }
   }
 
