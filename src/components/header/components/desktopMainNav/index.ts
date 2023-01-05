@@ -1,1 +1,1 @@
-export { default } from './DesktopMainNav'
+export { default } from './DesktopMainNav.container'

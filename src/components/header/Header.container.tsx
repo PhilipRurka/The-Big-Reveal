@@ -12,7 +12,10 @@ export type handleUpdateBurgerType = (openBurger: boolean) => void;
 const HeaderContainer: FC = () => {
   const [openedBurger, setOpenedBurger] = useState<boolean>(false);
   const dispatch = useAppDispatch()
-  const { session: userSession } = useAppSelector(selectUserData)
+  const {
+    session: userSession,
+    isLoading
+  } = useAppSelector(selectUserData)
   const isXs = useIsXs()
 
   const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
@@ -24,9 +27,17 @@ const HeaderContainer: FC = () => {
     dispatch(remove_userData())
   }
 
-  const navigationItems = useMemo(() => (
-    userSession ? navWithAuth : navWithoutAuth
-  ), [userSession])
+  const navigationItems = useMemo(() => {
+    if(isLoading) {
+      return []
+
+    } else if(userSession) {
+      return navWithAuth
+
+    } else {
+      return navWithoutAuth
+    }
+  }, [userSession])
   
   return (
     <Header

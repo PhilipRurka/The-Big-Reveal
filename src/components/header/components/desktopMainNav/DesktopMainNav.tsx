@@ -1,26 +1,27 @@
 import { FC } from 'react';
 import { NavigationsType } from "../../../../utils/navigation"
-import { useRouter } from "next/router"
+import { NextRouter } from "next/router"
 import {
   DesktopMainNavWrapper,
   PageItem,
   PageList
 } from './DesktopMainNav.styled';
 import { AnchorMain } from '../../../anchors';
-import { useAppSelector } from '../../../../redux/redux_hooks';
-import { selectUserData } from '../../../../redux/slices/userSlice';
+import { Session } from '@supabase/supabase-js';
 
 type DesktopMainNavType = {
   navigationItems: NavigationsType;
   handleLogout: () => Promise<void>
+  router: NextRouter
+  userSession: Session | null
 }
 
 const DesktopMainNav: FC<DesktopMainNavType> = ({
   navigationItems,
-  handleLogout
+  handleLogout,
+  router,
+  userSession
 }) => {
-  const router = useRouter()
-  const { session: userSession } = useAppSelector(selectUserData)
 
   return (
     <DesktopMainNavWrapper>

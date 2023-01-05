@@ -15,6 +15,9 @@ const InitGetSession = () => {
   
     if(data?.session) {
       dispatch(update_userData(data.session))
+
+    } else {
+      dispatch(update_userData(null))
     }
   }
 

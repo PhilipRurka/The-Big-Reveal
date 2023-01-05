@@ -3,15 +3,15 @@ import { FC } from 'react';
 import { useAppSelector } from '../../../../redux/redux_hooks';
 import { selectUserData } from '../../../../redux/slices/userSlice';
 import { NavigationsType } from '../../../../utils/navigation';
-import MobileMainNav from './MobileMainNav'
+import MobileMainNav from './DesktopMainNav'
 
-type MobileMainNavContainerType = {
+type DesktopMainNavContainerType = {
   openedBurger: boolean;
   navigationItems: NavigationsType;
   handleLogout: () => Promise<void>
 }
 
-const MobileMainNavContainer: FC<MobileMainNavContainerType> = ({
+const DesktopMainNavContainer: FC<DesktopMainNavContainerType> = ({
   openedBurger,
   navigationItems,
   handleLogout
@@ -30,4 +30,4 @@ const MobileMainNavContainer: FC<MobileMainNavContainerType> = ({
   );
 };
 
-export default MobileMainNavContainer;
+export default DesktopMainNavContainer;
