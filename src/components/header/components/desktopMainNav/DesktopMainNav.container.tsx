@@ -6,7 +6,6 @@ import { NavigationsType } from '../../../../utils/navigation';
 import MobileMainNav from './DesktopMainNav'
 
 type DesktopMainNavContainerType = {
-  openedBurger: boolean;
   navigationItems: NavigationsType;
   handleLogout: () => Promise<void>
 }

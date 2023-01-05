@@ -6,6 +6,10 @@ import { default as LinkNext } from 'next/link'
 import { InputWrapper } from '../components/input/Input.styled';
 import { InputType } from '../components/input/Input';
 
+type PasswordInputType = InputType & {
+  isPasswordFocussed: boolean
+}
+
 export const AuthWrapper = styled.div`
   ${Container('xs')}
   margin-top: 10vh;
@@ -42,6 +46,7 @@ export const SubmitButton = styled.button`
 `;
 
 export const ToAuthLink = styled(LinkNext)`
+  display: inline-block;
   color: ${Colors.dodger};
 
   &:hover {
@@ -49,11 +54,7 @@ export const ToAuthLink = styled(LinkNext)`
   }
 `;
 
-export const PasswordInput = styled(InputWrapper)<InputType>`
-  width: 440px;
+export const PasswordInput = styled(InputWrapper)<PasswordInputType>`
+  width: ${props => props.isPasswordFocussed ? '330px' : '440px'};
   transition: width 0.2s ease;
-
-  &:focus {
-    width: 330px;
-  }
 `;
