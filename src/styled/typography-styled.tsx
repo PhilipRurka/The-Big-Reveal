@@ -1,12 +1,18 @@
 import { createGlobalStyle } from "styled-components";
 
 export const Fonts = {
-  primary:    'font-family: "Varela Round", sans-serif;',
-  secondary:  'font-family: "Noto Sans", sans-serif;'
+  primary:   'font-family: "Noto Sans", sans-serif;',
+  secondary: 'font-family: "Varela Round", sans-serif;'
 };
 
 export const FontStyles = createGlobalStyle`
-  /* noto-sans-regular - latin */
+  @font-face {
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./fonts/VarelaRound-Regular.ttf');
+  }
+
   @font-face {
     font-family: 'Noto Sans';
     font-style: normal;
@@ -20,7 +26,7 @@ export const FontStyles = createGlobalStyle`
          url('./fonts/noto-sans-v21-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
          url('./fonts/noto-sans-v21-latin-regular.svg#NotoSans') format('svg'); /* Legacy iOS */
   }
-  /* noto-sans-italic - latin */
+
   @font-face {
     font-family: 'Noto Sans';
     font-style: italic;
@@ -34,7 +40,7 @@ export const FontStyles = createGlobalStyle`
          url('./fonts/noto-sans-v21-latin-italic.ttf') format('truetype'), /* Safari, Android, iOS */
          url('./fonts/noto-sans-v21-latin-italic.svg#NotoSans') format('svg'); /* Legacy iOS */
   }
-  /* noto-sans-700 - latin */
+
   @font-face {
     font-family: 'Noto Sans';
     font-style: normal;
@@ -48,7 +54,7 @@ export const FontStyles = createGlobalStyle`
          url('./fonts/noto-sans-v21-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */
          url('./fonts/noto-sans-v21-latin-700.svg#NotoSans') format('svg'); /* Legacy iOS */
   }
-  /* noto-sans-700italic - latin */
+
   @font-face {
     font-family: 'Noto Sans';
     font-style: italic;

@@ -37,7 +37,7 @@ const HeaderContainer: FC = () => {
     } else {
       return navWithoutAuth
     }
-  }, [userSession])
+  }, [userSession, isLoading])
   
   return (
     <Header

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BreakObj } from "../styled/layout";
+import { BreakObj } from "../styled/layout-styled";
 
 const useIsXs = () => {
   const matchMedia_ref = useRef<MediaQueryList>();

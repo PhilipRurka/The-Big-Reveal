@@ -1,14 +1,15 @@
 import { FormEvent, forwardRef } from "react";
-import { Fields, Label } from "../../styled/forms";
+import {
+  AuthWrapper,
+  AuthTitle,
+  Fields,
+  Form,
+  Label,
+  SubmitButton,
+  ToAuthLink
+} from "../../styled";
 import Input from "../input";
 import { InputOnChangeType } from "../input/Input";
-import {
-  PageTitle,
-  Form,
-  RegistrationWrapper,
-  SubmitButton,
-  ToLoginLink
-} from "./Registration.styled";
 
 type RegistrationType = {
   password: string
@@ -22,8 +23,8 @@ export const Registration = forwardRef<HTMLInputElement, RegistrationType>(({
   handleSubmit
 }, ref) => {
   return (
-    <RegistrationWrapper>
-      <PageTitle>Registration Page</PageTitle>
+    <AuthWrapper>
+      <AuthTitle>Registration</AuthTitle>
       <Form>
         <Fields>
           <Label htmlFor="emailAddress">
@@ -48,10 +49,10 @@ export const Registration = forwardRef<HTMLInputElement, RegistrationType>(({
           Submit
         </SubmitButton>
       </Form>
-      <ToLoginLink href='/login'>
+      <ToAuthLink href='/login'>
         Have an account?
-      </ToLoginLink>
-    </RegistrationWrapper>
+      </ToAuthLink>
+    </AuthWrapper>
   )
 })
 

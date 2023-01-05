@@ -12,7 +12,6 @@ type DesktopMainNavContainerType = {
 }
 
 const DesktopMainNavContainer: FC<DesktopMainNavContainerType> = ({
-  openedBurger,
   navigationItems,
   handleLogout
 }) => {
@@ -22,7 +21,6 @@ const DesktopMainNavContainer: FC<DesktopMainNavContainerType> = ({
 
   return (
     <MobileMainNav
-      openedBurger={openedBurger}
       navigationItems={navigationItems}
       handleLogout={handleLogout}
       router={router}

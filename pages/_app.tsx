@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import Header from "../src/components/header";
 import { store } from '../src/redux/redux_store';
 import { FontStyles, LayoutStyles } from "../src/styled";
-import { ResetStyles } from "../src/styled/base";
+import { ResetStyles } from "../src/styled/base-styled";
 import InitGetSession from '../src/utils/InitGetSession';
 
 type ComponentProps = any

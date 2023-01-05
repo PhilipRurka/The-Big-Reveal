@@ -5,10 +5,6 @@ export const RegistrationWrapper = styled.div`
 
 `;
 
-export const PageTitle = styled.h1`
-  
-`;
-
 export const Form = styled.form`
   
 `;
