@@ -1,4 +1,4 @@
-type PageType = 'Home' | 'Login' | 'Dashboard'
+type PageType = 'Home' | 'Login' | 'Registration' | 'Reset Password' | 'Dashboard'
 
 export const initialConsole = (page: PageType): void => {
   switch (page) {
@@ -20,6 +20,26 @@ export const initialConsole = (page: PageType): void => {
       console.log('         o--o                      o--o     ')
 
       break
+
+    case 'Registration':                                                                            
+      console.log(",------.                  ,--.           ,--.                      ,--.   ,--.                  ")
+      console.log("|  .--. '  ,---.   ,---.  `--'  ,---.  ,-'  '-. ,--.--.  ,--,--. ,-'  '-. `--'  ,---.  ,--,--,  ")
+      console.log("|  '--'.' | .-. : | .-. | ,--. (  .-'  '-.  .-' |  .--' ' ,-.  | '-.  .-' ,--. | .-. | |      \\ ")
+      console.log("|  |\\  \\  \\   --. ' '-' ' |  | .-'  `)   |  |   |  |    \\ '-'  |   |  |   |  | ' '-' ' |  ||  | ")
+      console.log("`--' '--'  `----' .`-  /  `--' `----'    `--'   `--'     `--`--'   `--'   `--'  `---'  `--''--' ")
+      console.log("                  `---'")
+
+    break
+
+    case 'Reset Password':
+      console.log('    ____                        __            ____                                                         __')
+      console.log('   / __ \\  ___    _____  ___   / /_          / __ \\  ____ _   _____   _____ _      __  ____    _____  ____/ /')
+      console.log('  / /_/ / / _ \\  / ___/ / _ \\ / __/         / /_/ / / __ `/  / ___/  / ___/| | /| / / / __ \\  / ___/ / __  /')
+      console.log(' / _, _/ /  __/ (__  ) /  __// /_          / ____/ / /_/ /  (__  )  (__  ) | |/ |/ / / /_/ / / /    / /_/ /')
+      console.log('/_/ |_|  \\___/ /____/  \\___/ \\__/         /_/      \\__,_/  /____/  /____/  |__/|__/  \\____/ /_/     \\__,_/')
+
+      break
+
 
     case 'Dashboard':
       console.log('')

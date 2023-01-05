@@ -1,6 +1,14 @@
 import { FC } from 'react';
 import { initialConsole } from './api/initial-console';
 
+export const getStaticProps = () => {
+  initialConsole('Home')
+
+  return {
+    props: {},
+ };
+}
+
 const Home: FC = () => {
 
   return (
@@ -12,14 +20,5 @@ const Home: FC = () => {
     </>
   )
 }
-
-export const getStaticProps = () => {
-  initialConsole('Home')
-
-  return {
-    props: {},
- };
-}
-
 
 export default Home;
