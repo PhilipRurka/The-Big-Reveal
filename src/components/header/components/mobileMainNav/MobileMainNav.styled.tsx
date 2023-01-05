@@ -13,6 +13,14 @@ export const MobileMainNavWrapper = styled.div<MobileMainNavWrapperType>`
   padding-bottom: 20px;
 `
 
-export const PageList = styled.ul``
+export const PageList = styled.ul`
 
-export const PageItem = styled.li``
+`
+
+export const PageItem = styled.li`
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin: 0;
+  }
+`

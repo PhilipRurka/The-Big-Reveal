@@ -9,6 +9,7 @@ type AnchorMainWrapperType = {
 export const AnchorMainWrapper = styled.div<AnchorMainWrapperType>`
   a,
   span {
+    display: inline-block;
     color: ${props => props.isActive ? Colors.eucalyptus : 'initial'};
 
     &:hover {

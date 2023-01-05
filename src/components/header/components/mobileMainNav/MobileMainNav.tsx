@@ -26,13 +26,6 @@ const MobileMainNav: FC<MobileMainNavType> = ({
 }) => (
   <MobileMainNavWrapper openedBurger={openedBurger}>
     <PageList>
-      {!!userSession && (
-        <PageItem key={`DesktopMainNav_logout`}>
-          <AnchorMain
-            name='logout'
-            trigger={handleLogout} />
-        </PageItem>
-      )}
       {(navigationItems || []).map(({
         name,
         path
@@ -44,6 +37,13 @@ const MobileMainNav: FC<MobileMainNavType> = ({
             isActive={router.asPath === path} />
         </PageItem>
       ))}
+      {!!userSession && (
+        <PageItem key={`DesktopMainNav_logout`}>
+          <AnchorMain
+            name='logout'
+            trigger={handleLogout} />
+        </PageItem>
+      )}
     </PageList>
   </MobileMainNavWrapper>
 );

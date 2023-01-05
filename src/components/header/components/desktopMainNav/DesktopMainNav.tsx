@@ -26,13 +26,6 @@ const DesktopMainNav: FC<DesktopMainNavType> = ({
   return (
     <DesktopMainNavWrapper>
       <PageList>
-        {!!userSession && (
-          <PageItem key={`DesktopMainNav_logout`}>
-            <AnchorMain
-              name='logout'
-              trigger={handleLogout} />
-          </PageItem>
-        )}
         {navigationItems.map(item => (
           <PageItem key={`DesktopMainNav_${item.name}`}>
             <AnchorMain
@@ -41,6 +34,13 @@ const DesktopMainNav: FC<DesktopMainNavType> = ({
               isActive={router.asPath === item.path} />
           </PageItem>
         ))}
+        {!!userSession && (
+          <PageItem key={`DesktopMainNav_logout`}>
+            <AnchorMain
+              name='logout'
+              trigger={handleLogout} />
+          </PageItem>
+        )}
       </PageList>
     </DesktopMainNavWrapper>
   );
