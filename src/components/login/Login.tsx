@@ -6,7 +6,8 @@ import {
   Form,
   Label,
   SubmitButton,
-  ToAuthLink
+  ToAuthLink,
+  PasswordInput
 } from "../../styled";
 import Input from "../input";
 import { InputOnChangeType } from "../input/Input";
@@ -38,7 +39,7 @@ export const Login = forwardRef<HTMLInputElement, LoginType>(({
         <Label htmlFor="password">
           Password
         </Label>
-        <Input
+        <PasswordInput
           id='password'
           type='password'
           value={password}

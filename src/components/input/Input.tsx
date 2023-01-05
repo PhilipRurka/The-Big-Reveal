@@ -6,7 +6,7 @@ import {
 export type InputRefType = HTMLInputElement
 export type InputOnChangeType = FormEvent<HTMLInputElement>
 
-type InputType = {
+export type InputType = {
   id: string
   type: string
   value?: string

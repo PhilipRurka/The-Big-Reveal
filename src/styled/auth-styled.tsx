@@ -3,6 +3,8 @@ import { Colors } from './colors-styled';
 import { Container } from './layout-styled'
 import { Fonts } from './typography-styled';
 import { default as LinkNext } from 'next/link'
+import { InputWrapper } from '../components/input/Input.styled';
+import { InputType } from '../components/input/Input';
 
 export const AuthWrapper = styled.div`
   ${Container('xs')}
@@ -44,5 +46,14 @@ export const ToAuthLink = styled(LinkNext)`
 
   &:hover {
     color: ${Colors.persimmon};
+  }
+`;
+
+export const PasswordInput = styled(InputWrapper)<InputType>`
+  width: 440px;
+  transition: width 0.2s ease;
+
+  &:focus {
+    width: 330px;
   }
 `;
