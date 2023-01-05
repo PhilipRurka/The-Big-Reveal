@@ -1,8 +1,8 @@
-import { FC, useEffect, useMemo, useState } from "react"
+import { FC, useMemo, useState } from "react"
 import Header from "./Header"
 import { navWithAuth, navWithoutAuth } from '../../utils/navigation';
 import { useAppDispatch } from "../../redux/redux_hooks";
-import { remove_userData, selectUserData, update_userData } from "../../redux/slices/userSlice";
+import { remove_userData, selectUserData } from "../../redux/slices/userSlice";
 import { useAppSelector } from '../../redux/redux_hooks';
 import { supabase } from "../../utils/supabase";
 import useIsXs from "../../hooks/useIsXs";
@@ -19,22 +19,10 @@ const HeaderContainer: FC = () => {
     setOpenedBurger(openBurger)
   }
 
-  const updateInitialUserData = async () => {
-    const { data, error } = await supabase.auth.getSession()
-
-    if(data?.session) {
-      dispatch(update_userData(data.session))
-    }
-  }
-
   const handleLogout = async () => {
     await supabase.auth.signOut()
     dispatch(remove_userData())
   }
-
-  useEffect(() => {
-    updateInitialUserData()
-  }, [])
 
   const navigationItems = useMemo(() => (
     userSession ? navWithAuth : navWithoutAuth
