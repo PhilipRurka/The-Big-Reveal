@@ -1,9 +1,9 @@
 import { RefObject, useEffect, useState } from "react"
 
-type useIsPasswordFocusedType = RefObject<HTMLInputElement>
+type useIsInputFocusedType = RefObject<HTMLInputElement>
 
-const useIsPasswordFocused = ((ref: useIsPasswordFocusedType): boolean => {
-  const [isFocused, setIsFocused] = useState(false)
+const useIsInputFocused = ((ref: useIsInputFocusedType): boolean => {
+  const [isFocused, setIsFocused] = useState<boolean>(false)
 
   useEffect(() => {
     if(ref) {
@@ -19,15 +19,15 @@ const useIsPasswordFocused = ((ref: useIsPasswordFocusedType): boolean => {
     }
   }, [ref])
 
-  const handleFocus = () => {
+  const handleFocus = (): void => {
     setIsFocused(true)
   }
 
-  const handleBlur = () => {
+  const handleBlur = (): void => {
     setIsFocused(false)
   }
 
   return isFocused
 })
 
-export default useIsPasswordFocused
+export default useIsInputFocused

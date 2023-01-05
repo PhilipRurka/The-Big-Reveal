@@ -10,7 +10,8 @@ import {
   PasswordInput
 } from "../../styled";
 import Input from "../input";
-import { InputOnChangeType } from "../input/Input";
+import type { InputOnChangeType } from "../input/Input";
+import PasswordValidation from "../passwordValidation";
 
 type LoginType = {
   password: string
@@ -54,6 +55,7 @@ export const Login = forwardRef<any, LoginType>(({
             ref={passwordRef}
             handleChange={handlePasswordUpdate}
             isPasswordFocussed={isPasswordFocussed} />
+          <PasswordValidation />
         </Fields>
         <SubmitButton onClick={handleSubmit}>
           Submit

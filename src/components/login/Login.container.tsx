@@ -5,21 +5,21 @@ import { supabase } from "../../utils/supabase"
 import { InputOnChangeType } from "../input/Input"
 import Login from "./Login"
 import Router from "next/router"
-import useIsPasswordFocused from "../../hooks/useIsPasswordFocused"
+import useIsInputFocused from "../../hooks/useIsInputFocused"
 
 export const LoginContainer: FC = () => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
   const [password, setPassword] = useState('')
   const dispatch = useAppDispatch()
-  const isPasswordFocused = useIsPasswordFocused(passwordRef)
+  const isPasswordFocused = useIsInputFocused(passwordRef)
 
   const refs = {
     emailRef,
     passwordRef
   }
 
-  const handleLogin = async (event: FormEvent) => {
+  const handleLogin = async (event: FormEvent): Promise<void> => {
     event.preventDefault()
 
     const {
