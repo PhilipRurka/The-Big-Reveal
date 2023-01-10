@@ -45,7 +45,11 @@ export const SubmitButton = styled.button`
   }
 `;
 
-export const ToAuthLink = styled(LinkNext)`
+export const ToAuthLinkWrapper = styled.div`
+  
+`;
+
+export const ToAuthLinkItem = styled(LinkNext)`
   display: inline-block;
   color: ${Colors.dodger};
 
