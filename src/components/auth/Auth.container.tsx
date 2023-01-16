@@ -1,5 +1,5 @@
 import Router, { useRouter } from "next/router"
-import { FormEvent, RefObject, useEffect, useMemo, useRef, useState } from "react"
+import { FormEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import useIsInputFocused from "../../hooks/useIsInputFocused"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
@@ -44,22 +44,33 @@ const AuthContainer = () => {
   const dispatch = useAppDispatch()
   const isPasswordFocused = useIsInputFocused(passwordRef, [typeProps.hasPassword])
 
+  const passwordValidation = useMemo(() => {
+    if(password.length > 5) {
+      return true
+    }
+
+    return false
+  }, [password])
+
   const handleLogin: HandleAuthType = async (event) => {
     event.preventDefault()
+    if(!passwordRef?.current || !emailRef.current) return
 
     const {
       data,
       error
     } = await supabase.auth.signInWithPassword({
-      email: emailRef.current?.value ?? '',
-      password: password,
+      email: emailRef.current.value ?? '',
+      password: passwordRef.current.value,
     })
 
     if(error) {
       console.error({
-        Location: 'Login.container.tsx',
+        Location: 'auth.container.tsx',
         error
       })
+      
+      return
     }
 
     if(data?.session) {
@@ -68,21 +79,31 @@ const AuthContainer = () => {
     }
   }
 
-  const handleRegistration = async (event: FormEvent) => {
+  const handleRegistration = useCallback(async (event: FormEvent) => {
     event.preventDefault()
+    if(!passwordRef?.current || !emailRef.current) return
 
     const {
       data,
       error
     } = await supabase.auth.signUp({
-      email: emailRef.current?.value ?? '',
-      password: password,
+      email: emailRef.current.value ?? '',
+      password: passwordRef.current.value,
     })
+
+    if(error) {
+      console.error({
+        Location: 'auth.container.tsx',
+        error
+      })
+
+      return
+    }
 
     if(data?.session) {
       dispatch(update_userData(data.session))
     }
-  }
+  }, [passwordValidation])
 
   const handleReset = async () => {
 
