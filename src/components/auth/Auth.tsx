@@ -1,4 +1,4 @@
-import { forwardRef, RefObject } from "react";
+import { forwardRef, Ref, RefObject } from "react";
 import {
   AuthWrapper,
   AuthTitle,
@@ -15,13 +15,13 @@ import PasswordValidation from "../passwordValidation";
 import { AuthPropsType, TypePropsType } from "./Auth.container";
 
 type RefsType = {
-  passwordRef?: RefObject<HTMLInputElement>;
-  emailRef?:    RefObject<HTMLInputElement>;
+  emailRef?:    HTMLInputElement
+  passwordRef?: HTMLInputElement
 }
 
 type AuthType = AuthPropsType & TypePropsType
 
-export const Auth = forwardRef<any, AuthType>(({
+const Auth = forwardRef<RefsType, AuthType>(({
   hasEmail,
   hasPassword,
   title,
@@ -30,25 +30,13 @@ export const Auth = forwardRef<any, AuthType>(({
   password,
   handlePasswordUpdate,
   isPasswordFocused
-}, refs) => {
-
-  // console.log(
-  //   {
-  //     message: 'Auth.tsx',
-  //     ...refs,
-  //     hasEmail,
-  //     hasPassword,
-  //     title,
-  //     submitFunction,
-  //     toAuthLinks,
-  //     password,
-  //     handlePasswordUpdate,
-  //     isPasswordFocused
-  //   }
-  // )
+}, {
+  emailRef,
+  passwordRef
+}: any) => {
 
   return (
-    <AuthWrapper>
+    <AuthWrapper> 
       <AuthTitle>{ title }</AuthTitle>
       <Form>
         {hasEmail && (
@@ -59,7 +47,7 @@ export const Auth = forwardRef<any, AuthType>(({
             <Input
               id='emailAddress'
               type='text'
-              ref={refs?.emailRef} />
+              ref={emailRef} />
           </Fields>
         )}
         {hasPassword && (
@@ -71,7 +59,7 @@ export const Auth = forwardRef<any, AuthType>(({
               id='password'
               type='password'
               value={password}
-              ref={refs?.passwordRef}
+              ref={passwordRef}
               onChange={handlePasswordUpdate}
               isPasswordFocussed={isPasswordFocused} />
             <PasswordValidation />

@@ -7,7 +7,7 @@ import { InputWrapper } from '../components/input/Input.styled';
 import { InputType } from '../components/input/Input';
 
 type PasswordInputType = InputType & {
-  isPasswordFocussed: boolean
+  isPasswordFocussed: boolean | undefined
 }
 
 export const AuthWrapper = styled.div`

@@ -14,9 +14,9 @@ type ToAuthLinkType = {
 }
 
 type PasswordPropsType = {
-  password: string;
-  handlePasswordUpdate: (event: InputOnChangeType) => void;
-  isPasswordFocused: boolean;
+  password?: string;
+  handlePasswordUpdate?: (event: InputOnChangeType) => void;
+  isPasswordFocused?: boolean;
 }
 
 export type AuthPropsType = PasswordPropsType | undefined
@@ -89,10 +89,6 @@ const AuthContainer = () => {
   }
 
   const handlePasswordUpdate = (event: InputOnChangeType): void => {
-    console.log({
-      event,
-      message: 'handlePasswordUpdate'
-    })
     setPassword(event.currentTarget.value)
   }
 
@@ -151,16 +147,6 @@ const AuthContainer = () => {
 
     return 
   }, [typeProps.hasPassword, isPasswordFocused, password])
-
-  // console.log({
-  //   authProps,
-  //   message: 'authProps'
-  // })
-
-  // console.log({
-  //   isPasswordFocused,
-  //   message: 'isPasswordFocused'
-  // })
 
   const refs = {
     emailRef,

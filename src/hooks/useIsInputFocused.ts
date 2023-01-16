@@ -9,11 +9,6 @@ const useIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
   useEffect(() => {
-    // console.log({
-    //   message: 'useIsInputFocused mounted',
-    //   ref
-    // })
-
     if(ref) {
       ref.current?.addEventListener('focus', handleFocus)
       ref.current?.addEventListener('blur', handleBlur)
@@ -21,9 +16,6 @@ const useIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
 
     return () => {
       if(ref) {
-        // console.log({
-        //   message: 'useIsInputFocused unmounted'
-        // })
         ref.current?.removeEventListener('focus', handleFocus)
         ref.current?.removeEventListener('blur', handleBlur)
       }
@@ -31,9 +23,6 @@ const useIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
   }, [ref, dependencies])
 
   const handleFocus = (): void => {
-    // console.log({
-    //   message: 'useIsInputFocused Focus'
-    // })
     setIsFocused(true)
   }
 
@@ -45,10 +34,3 @@ const useIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
 }
 
 export default useIsInputFocused
-
-
-
-// There may never be a ref due to the fact that password ay never be defined.
-// Add a condition for is being used
-
-// Also I think there may be a race, The fact that password and its object may or may not be defined instead of always being defined.
