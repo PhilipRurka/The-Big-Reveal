@@ -1,6 +1,7 @@
 import Router, { useRouter } from "next/router"
-import { FormEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import useIsInputFocused from "../../hooks/useIsInputFocused"
+import usePasswordValidation, { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
 import { supabase } from "../../utils/supabase"
@@ -17,6 +18,7 @@ type PasswordPropsType = {
   password?: string;
   handlePasswordUpdate?: (event: InputOnChangeType) => void;
   isPasswordFocused?: boolean;
+  validationStatuses?: ItemsSuccessStatesType
 }
 
 export type AuthPropsType = PasswordPropsType | undefined
@@ -42,15 +44,9 @@ const AuthContainer = () => {
     toAuthLinks: undefined
   })
   const dispatch = useAppDispatch()
-  const isPasswordFocused = useIsInputFocused(passwordRef, [typeProps.hasPassword])
-
-  const passwordValidation = useMemo(() => {
-    if(password.length > 5) {
-      return true
-    }
-
-    return false
-  }, [password])
+  const validationStatuses = usePasswordValidation(password)
+  const isPasswordFocused = true
+  // const isPasswordFocused = useIsInputFocused(passwordRef, [typeProps.hasPassword])
 
   const handleLogin: HandleAuthType = async (event) => {
     event.preventDefault()
@@ -81,7 +77,11 @@ const AuthContainer = () => {
 
   const handleRegistration = useCallback(async (event: FormEvent) => {
     event.preventDefault()
-    if(!passwordRef?.current || !emailRef.current) return
+    if(
+      !passwordRef?.current ||
+      !emailRef.current ||
+      !validationStatuses.isSuccess
+    ) return
 
     const {
       data,
@@ -103,7 +103,7 @@ const AuthContainer = () => {
     if(data?.session) {
       dispatch(update_userData(data.session))
     }
-  }, [passwordValidation])
+  }, [validationStatuses])
 
   const handleReset = async () => {
 
@@ -162,12 +162,18 @@ const AuthContainer = () => {
       return {
         password,
         handlePasswordUpdate,
-        isPasswordFocused
+        isPasswordFocused,
+        validationStatuses
       }
     }
 
     return 
-  }, [typeProps.hasPassword, isPasswordFocused, password])
+  }, [
+    typeProps.hasPassword,
+    isPasswordFocused,
+    password,
+    validationStatuses
+  ])
 
   const refs = {
     emailRef,

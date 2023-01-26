@@ -1,25 +1,24 @@
-import { forwardRef, Ref, RefObject } from "react";
+import { forwardRef } from "react";
 import {
   AuthWrapper,
   AuthTitle,
-  Fields,
   Form,
-  Label,
   SubmitButton,
   ToAuthLinkWrapper,
   ToAuthLinkItem,
   PasswordInput
-} from "../../styled";
+} from "./Auth.styled";
 import Input from "../input";
 import PasswordValidation from "../passwordValidation";
 import { AuthPropsType, TypePropsType } from "./Auth.container";
+import { Fields, Label } from "../../styled";
 
 type RefsType = {
   emailRef?:    HTMLInputElement
   passwordRef?: HTMLInputElement
 }
 
-type AuthType = AuthPropsType & TypePropsType
+type AuthType = AuthPropsType & TypePropsType 
 
 const Auth = forwardRef<RefsType, AuthType>(({
   hasEmail,
@@ -29,11 +28,14 @@ const Auth = forwardRef<RefsType, AuthType>(({
   toAuthLinks,
   password,
   handlePasswordUpdate,
-  isPasswordFocused
+  isPasswordFocused,
+  validationStatuses
 }, {
   emailRef,
   passwordRef
 }: any) => {
+
+  console.table({ validationStatuses })
 
   return (
     <AuthWrapper> 
@@ -62,10 +64,14 @@ const Auth = forwardRef<RefsType, AuthType>(({
               ref={passwordRef}
               onChange={handlePasswordUpdate}
               isPasswordFocussed={isPasswordFocused} />
-            <PasswordValidation />
+              {validationStatuses && (
+                <PasswordValidation validationStatuses={validationStatuses} />
+              )}
           </Fields>
         )}
-        <SubmitButton onClick={submitFunction}>
+        <SubmitButton
+          onClick={submitFunction}
+          disabled={!validationStatuses?.isSuccess} >
           Submit
         </SubmitButton>
       </Form>
