@@ -1,8 +1,14 @@
+import { FC } from "react"
+import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import PasswordValidation from "./PasswordValidation"
 
-const PasswordValidationContainer = () => {
+export type PasswordValidationType = {
+  validationStatuses: ItemsSuccessStatesType
+}
 
-  return <PasswordValidation />
+const PasswordValidationContainer: FC<PasswordValidationType> = ({ validationStatuses }) => {
+
+  return <PasswordValidation validationStatuses={validationStatuses} />
 }
 
 export default PasswordValidationContainer

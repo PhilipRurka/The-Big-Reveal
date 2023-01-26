@@ -10,7 +10,7 @@ export const navWithoutAuth: NavigationsType = [
   // },
   {
     name: 'Login',
-    path: '/login'
+    path: '/auth'
   }
 ]
 

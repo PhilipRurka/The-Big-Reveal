@@ -1,8 +1,11 @@
 import { RefObject, useEffect, useState } from "react"
 
-type useIsInputFocusedType = RefObject<HTMLInputElement>
+type UseIsInputFocusedType = (
+  ref: RefObject<HTMLInputElement>,
+  dependencies: Array<unknown>
+) => boolean
 
-const useIsInputFocused = ((ref: useIsInputFocusedType): boolean => {
+const useIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
   useEffect(() => {
@@ -17,7 +20,7 @@ const useIsInputFocused = ((ref: useIsInputFocusedType): boolean => {
         ref.current?.removeEventListener('blur', handleBlur)
       }
     }
-  }, [ref])
+  }, [ref, dependencies])
 
   const handleFocus = (): void => {
     setIsFocused(true)
@@ -28,6 +31,6 @@ const useIsInputFocused = ((ref: useIsInputFocusedType): boolean => {
   }
 
   return isFocused
-})
+}
 
 export default useIsInputFocused

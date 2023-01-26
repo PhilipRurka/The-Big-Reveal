@@ -1,27 +1,25 @@
 import styled from 'styled-components';
-import { Colors } from './colors-styled';
-import { Container } from './layout-styled'
-import { Fonts } from './typography-styled';
+import { Colors } from '../../styled/colors-styled';
+import { Container } from '../../styled/layout-styled'
 import { default as LinkNext } from 'next/link'
-import { InputWrapper } from '../components/input/Input.styled';
-import { InputType } from '../components/input/Input';
+import { InputWrapper } from '../input/Input.styled';
+import { InputType } from '../input/Input';
 
 type PasswordInputType = InputType & {
-  isPasswordFocussed: boolean
+  isPasswordFocussed: boolean | undefined
 }
 
 export const AuthWrapper = styled.div`
-  ${Container('xs')}
+  max-width: 616px;
+  margin: auto;
+  padding: 50px;
   margin-top: 10vh;
   background-color: mintcream;
-  padding-top: 50px;
-  padding-bottom: 50px;
   box-shadow: 0 0 5px 0 black;
   border-radius: 10px;
 `;
 
 export const AuthTitle = styled.h1`
-  ${Fonts.secondary};
   font-size: 64px;
   text-align: center;
   margin-bottom: 30px;
@@ -41,11 +39,20 @@ export const SubmitButton = styled.button`
   border-radius: 5px;
   
   &:hover {
-    background-color: ${Colors.persimmon};
+    background-color: ${Colors.eucalyptus};
+  }
+
+  &[disabled] {
+    background-color: #ff5b5c;
+    cursor: not-allowed;
   }
 `;
 
-export const ToAuthLink = styled(LinkNext)`
+export const ToAuthLinkWrapper = styled.div`
+  
+`;
+
+export const ToAuthLinkItem = styled(LinkNext)`
   display: inline-block;
   color: ${Colors.dodger};
 
@@ -55,6 +62,6 @@ export const ToAuthLink = styled(LinkNext)`
 `;
 
 export const PasswordInput = styled(InputWrapper)<PasswordInputType>`
-  width: ${props => props.isPasswordFocussed ? '330px' : '440px'};
+  width: ${props => props.isPasswordFocussed ? '310px' : '440px'};
   transition: width 0.2s ease;
 `;

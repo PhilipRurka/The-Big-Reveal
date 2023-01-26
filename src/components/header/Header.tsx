@@ -24,8 +24,9 @@ const Header: FC<HeaderType> = ({
   navigationItems,
   handleLogout,
   isXs
-}) => (
-  <HeaderWrapper>
+}) => {
+  return (
+    <HeaderWrapper>
     <HeaderMainNavbar>
       <GoaldenLogo />
       {!isXs ? (
@@ -40,11 +41,11 @@ const Header: FC<HeaderType> = ({
     </HeaderMainNavbar>
     {isXs && (
       <MobileMainNav
-        openedBurger={openedBurger}
         navigationItems={navigationItems}
         handleLogout={handleLogout} />
     )}
   </HeaderWrapper>
-)
+  )
+}
 
 export default Header

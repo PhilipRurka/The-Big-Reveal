@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef } from 'react';
+import { FC, MutableRefObject, useCallback, useEffect, useRef } from 'react';
 import useIsXs from '../../../../hooks/useIsXs';
 import MobileMainBurger from './MbileMainBurger'
 import gsap from 'gsap';
@@ -12,13 +12,11 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   openedBurger,
   handleUpdateBurger
 }) => {
-  const mobileNavTlRef: React.MutableRefObject<gsap.core.Timeline> = useRef(gsap.timeline({
-    paused: true
-  }));
-  
-  const isXs = useIsXs();
+
+  const mobileNavTlRef: MutableRefObject<GSAPAnimation | undefined> = useRef();
 
   const handleBurgerClick = () => {
+    console.log('handleBurgerClick')
     handleUpdateBurger(!openedBurger);
   };
 
@@ -29,39 +27,46 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   };
 
   const handleListenerClick = () => {
+    console.log('handleListenerClick')
     handleUpdateBurger(false);
   }
 
-  // const initGsap = useCallback((): void => {
-  //   mobileNavTlRef.current.to('#mobileMenu', {
-  //     autoAlpha: 1,
-  //     duration: 0.3,
-  //     ease: "power1.out"
-  //   });
-  // }, []);
+  const initGsap = useCallback((): void => {
+    mobileNavTlRef.current = gsap.fromTo('#mobileMenu', {
+      height: 0
+    } ,{
+      height: 66,
+      duration: 0.3,
+      ease: "power1.out"
+    });
+  }, []);
   
-  // useEffect(() => {
-  //   initGsap();
-  // }, []);
-
   useEffect(() => {
-    if(!isXs) handleUpdateBurger(false);
-  }, [isXs]);
+    console.log('useEffect[]')
+    initGsap();
+
+    return () => {
+      console.log('useEffect[]<kill>')
+      mobileNavTlRef?.current?.kill()
+    }
+  }, []);
 
   useEffect(() => {
     let mainElement: HTMLElement | null
+
+    console.log('useEffect[openedBurger]')
     
     if(openedBurger) {
       if(typeof window === 'undefined') return;
 
-      mobileNavTlRef.current.play();
+      mobileNavTlRef?.current?.play();
       document.addEventListener('keydown', handleListenerKeydown);
 
       mainElement = document.querySelector('main');
       mainElement?.addEventListener('click', handleListenerClick);
 
     } else {
-      mobileNavTlRef.current.reverse();
+      mobileNavTlRef?.current?.reverse();
     };
 
     return () => {

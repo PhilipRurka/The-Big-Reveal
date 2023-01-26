@@ -1,17 +1,16 @@
 import styled from 'styled-components'
 import { Container } from '../../../../styled'
 
-type MobileMainNavWrapperType = {
-  openedBurger: boolean
-}
-
-export const MobileMainNavWrapper = styled.div<MobileMainNavWrapperType>`
-  ${Container('xl')}
-  display: ${props => props.openedBurger ? 'block' : 'none'};
+export const MobileMainNavWrapper = styled.div`
   background-color: white;
+  overflow: hidden;
+`
+
+export const MobileMainNavContainer = styled.div`
+  ${Container('xl')}
   padding-top: 30px;
   padding-bottom: 20px;
-`
+`;
 
 export const PageList = styled.ul`
 
