@@ -4,14 +4,11 @@ import { PasswordPropsType } from "../auth/Auth.container"
 import PasswordValidation from "../passwordValidation"
 import { PasswordInput } from "./PasswordField.styled"
 
-type PasswordFieldType = PasswordPropsType & {
-  isPasswordFocused: boolean
-}
+type PasswordFieldType = PasswordPropsType
 
 const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
   password,
   handlePasswordUpdate,
-  isPasswordFocused,
   validationStatuses
 }, ref) => {
 
@@ -21,16 +18,13 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
         Password
       </Label>
       <PasswordInput
-        id='password'
+        id='password-input'
         type='password'
         value={password}
         ref={ref}
-        onChange={handlePasswordUpdate}
-        isPasswordFocussed={isPasswordFocused} />
+        onChange={handlePasswordUpdate} />
         {validationStatuses && (
-          <PasswordValidation
-            validationStatuses={validationStatuses}
-            isPasswordFocused={isPasswordFocused || false}/>
+          <PasswordValidation validationStatuses={validationStatuses} />
         )}
     </Fields>
   )

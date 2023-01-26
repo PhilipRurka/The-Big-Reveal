@@ -12,7 +12,7 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   handleUpdateBurger
 }) => {
 
-  const mobileNavTlRef: MutableRefObject<GSAPAnimation | undefined> = useRef();
+  const mobileNavTlRef = useRef<GSAPAnimation | undefined>();
 
   const handleBurgerClick = () => {
     handleUpdateBurger(!openedBurger);
