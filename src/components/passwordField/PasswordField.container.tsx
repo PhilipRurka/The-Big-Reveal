@@ -30,17 +30,14 @@ const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordPropsType>((
   }, [])
 
   useEffect(() => {
-    console.log('useEffect[]')
     initGsap()
 
     return () => {
-      console.log('useEffect[KILL]')
       tlRef?.current?.kill()
     }
   }, [])
 
   useEffect(() => {
-    console.log('useEffect[isPasswordFocused]')
     if(isPasswordFocused) {
       tlRef?.current?.play()
       
