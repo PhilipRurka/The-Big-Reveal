@@ -5,13 +5,12 @@ import {
   Form,
   SubmitButton,
   ToAuthLinkWrapper,
-  ToAuthLinkItem,
-  PasswordInput
+  ToAuthLinkItem
 } from "./Auth.styled";
 import Input from "../input";
-import PasswordValidation from "../passwordValidation";
 import { AuthPropsType, TypePropsType } from "./Auth.container";
 import { Fields, Label } from "../../styled";
+import PasswordField from "../passwordField";
 
 type RefsType = {
   emailRef?:    HTMLInputElement
@@ -28,14 +27,11 @@ const Auth = forwardRef<RefsType, AuthType>(({
   toAuthLinks,
   password,
   handlePasswordUpdate,
-  isPasswordFocused,
   validationStatuses
 }, {
   emailRef,
   passwordRef
 }: any) => {
-
-  console.table({ validationStatuses })
 
   return (
     <AuthWrapper> 
@@ -53,21 +49,11 @@ const Auth = forwardRef<RefsType, AuthType>(({
           </Fields>
         )}
         {hasPassword && (
-          <Fields>
-            <Label htmlFor="password">
-              Password
-            </Label>
-            <PasswordInput
-              id='password'
-              type='password'
-              value={password}
-              ref={passwordRef}
-              onChange={handlePasswordUpdate}
-              isPasswordFocussed={isPasswordFocused} />
-              {validationStatuses && (
-                <PasswordValidation validationStatuses={validationStatuses} />
-              )}
-          </Fields>
+          <PasswordField
+            password={password}
+            ref={passwordRef}
+            handlePasswordUpdate={handlePasswordUpdate}
+            validationStatuses={validationStatuses} />
         )}
         <SubmitButton
           onClick={submitFunction}

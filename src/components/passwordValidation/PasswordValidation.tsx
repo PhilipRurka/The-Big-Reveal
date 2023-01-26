@@ -1,6 +1,5 @@
 import { FC } from "react";
-import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation";
-import { PasswordValidationType } from "./PasswordValidation.container";
+import { ValidationStatusesType } from "./PasswordValidation.container";
 import {
   ConditionItem,
   ConditionList,
@@ -8,7 +7,7 @@ import {
   PasswordValidationWrapper
 } from "./PasswordValidation.styled";
 
-const PasswordValidation: FC<PasswordValidationType> = ({
+const PasswordValidation: FC<ValidationStatusesType> = ({
   validationStatuses: {
     hasLength,
     hasUppercase,
@@ -17,7 +16,7 @@ const PasswordValidation: FC<PasswordValidationType> = ({
     hasSpecial
   }
 }) => (
-  <PasswordValidationWrapper>
+  <PasswordValidationWrapper id='password-validation'>
     <ConditionsTitle>Must containe:</ConditionsTitle>
     <ConditionList>
       <ConditionItem isSuccess={hasLength} >

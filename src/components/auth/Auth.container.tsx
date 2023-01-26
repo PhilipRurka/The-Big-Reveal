@@ -14,10 +14,9 @@ type ToAuthLinkType = {
   title: string
 }
 
-type PasswordPropsType = {
+export type PasswordPropsType = {
   password?: string;
   handlePasswordUpdate?: (event: InputOnChangeType) => void;
-  isPasswordFocused?: boolean;
   validationStatuses?: ItemsSuccessStatesType
 }
 
@@ -45,8 +44,6 @@ const AuthContainer = () => {
   })
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
-  const isPasswordFocused = true
-  // const isPasswordFocused = useIsInputFocused(passwordRef, [typeProps.hasPassword])
 
   const handleLogin: HandleAuthType = async (event) => {
     event.preventDefault()
@@ -162,7 +159,6 @@ const AuthContainer = () => {
       return {
         password,
         handlePasswordUpdate,
-        isPasswordFocused,
         validationStatuses
       }
     }
@@ -170,7 +166,6 @@ const AuthContainer = () => {
     return 
   }, [
     typeProps.hasPassword,
-    isPasswordFocused,
     password,
     validationStatuses
   ])

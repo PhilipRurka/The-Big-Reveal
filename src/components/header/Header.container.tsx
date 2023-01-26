@@ -38,8 +38,6 @@ const HeaderContainer: FC = () => {
       return navWithoutAuth
     }
   }, [userSession, isLoading])
-
-  console.log(isXs)
   
   return (
     <Header

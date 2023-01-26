@@ -1,13 +1,6 @@
 import styled from 'styled-components';
 import { Colors } from '../../styled/colors-styled';
-import { Container } from '../../styled/layout-styled'
 import { default as LinkNext } from 'next/link'
-import { InputWrapper } from '../input/Input.styled';
-import { InputType } from '../input/Input';
-
-type PasswordInputType = InputType & {
-  isPasswordFocussed: boolean | undefined
-}
 
 export const AuthWrapper = styled.div`
   max-width: 616px;
@@ -59,9 +52,4 @@ export const ToAuthLinkItem = styled(LinkNext)`
   &:hover {
     color: ${Colors.persimmon};
   }
-`;
-
-export const PasswordInput = styled(InputWrapper)<PasswordInputType>`
-  width: ${props => props.isPasswordFocussed ? '310px' : '440px'};
-  transition: width 0.2s ease;
 `;

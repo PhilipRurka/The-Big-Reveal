@@ -1,5 +1,4 @@
 import { FC, MutableRefObject, useCallback, useEffect, useRef } from 'react';
-import useIsXs from '../../../../hooks/useIsXs';
 import MobileMainBurger from './MbileMainBurger'
 import gsap from 'gsap';
 
@@ -16,7 +15,6 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   const mobileNavTlRef: MutableRefObject<GSAPAnimation | undefined> = useRef();
 
   const handleBurgerClick = () => {
-    console.log('handleBurgerClick')
     handleUpdateBurger(!openedBurger);
   };
 
@@ -27,7 +25,6 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   };
 
   const handleListenerClick = () => {
-    console.log('handleListenerClick')
     handleUpdateBurger(false);
   }
 
@@ -42,11 +39,9 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   }, []);
   
   useEffect(() => {
-    console.log('useEffect[]')
     initGsap();
 
     return () => {
-      console.log('useEffect[]<kill>')
       mobileNavTlRef?.current?.kill()
     }
   }, []);
@@ -54,7 +49,6 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   useEffect(() => {
     let mainElement: HTMLElement | null
 
-    console.log('useEffect[openedBurger]')
     
     if(openedBurger) {
       if(typeof window === 'undefined') return;
