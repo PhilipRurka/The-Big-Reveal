@@ -15,11 +15,25 @@ export const AuthWrapper = styled.div`
 export const AuthTitle = styled.h1`
   font-size: 64px;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+`;
+
+export const ErrorMessageWrapper = styled.div`
+overflow: hidden;
+  
+`;
+
+export const ErrorMessage = styled.p`
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 10px;
+  padding: 20px;
+  color: ${Colors.guardsman};
+  background-color: ${Colors.pippin};
 `;
 
 export const Form = styled.form`
-
+  margin-top: 15px;
 `;
 
 export const SubmitButton = styled.button`
@@ -36,7 +50,7 @@ export const SubmitButton = styled.button`
   }
 
   &[disabled] {
-    background-color: #ff5b5c;
+    background-color: ${Colors.persimmon};
     cursor: not-allowed;
   }
 `;

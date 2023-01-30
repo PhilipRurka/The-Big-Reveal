@@ -1,5 +1,4 @@
-import gsap from "gsap"
-import { FC, MutableRefObject, useCallback, useEffect, useRef } from "react"
+import { FC } from "react"
 import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import PasswordValidation from "./PasswordValidation"
 

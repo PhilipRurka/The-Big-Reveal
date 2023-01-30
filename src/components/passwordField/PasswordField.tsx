@@ -1,6 +1,6 @@
 import { forwardRef } from "react"
 import { Fields, Label } from "../../styled"
-import { PasswordPropsType } from "../auth/Auth.container"
+import type { PasswordPropsType } from "../auth/Auth.types"
 import PasswordValidation from "../passwordValidation"
 import { PasswordInput } from "./PasswordField.styled"
 

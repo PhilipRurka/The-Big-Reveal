@@ -5,19 +5,17 @@ import {
   Form,
   SubmitButton,
   ToAuthLinkWrapper,
-  ToAuthLinkItem
+  ToAuthLinkItem,
+  ErrorMessageWrapper,
+  ErrorMessage
 } from "./Auth.styled";
 import Input from "../input";
-import { AuthPropsType, TypePropsType } from "./Auth.container";
+import type {
+  AuthType,
+  RefsType,
+} from "./Auth.types";
 import { Fields, Label } from "../../styled";
 import PasswordField from "../passwordField";
-
-type RefsType = {
-  emailRef?:    HTMLInputElement
-  passwordRef?: HTMLInputElement
-}
-
-type AuthType = AuthPropsType & TypePropsType 
 
 const Auth = forwardRef<RefsType, AuthType>(({
   hasEmail,
@@ -27,7 +25,10 @@ const Auth = forwardRef<RefsType, AuthType>(({
   toAuthLinks,
   password,
   handlePasswordUpdate,
-  validationStatuses
+  validationStatuses,
+  errorMessage,
+  handleAnyInputChange,
+  // temporaryFunction
 }, {
   emailRef,
   passwordRef
@@ -36,6 +37,11 @@ const Auth = forwardRef<RefsType, AuthType>(({
   return (
     <AuthWrapper> 
       <AuthTitle>{ title }</AuthTitle>
+      <ErrorMessageWrapper id='error-message-wrapper'>
+        <ErrorMessage id='error-message'>
+          { errorMessage }
+        </ErrorMessage>
+      </ErrorMessageWrapper>
       <Form>
         {hasEmail && (
           <Fields>
@@ -45,6 +51,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
             <Input
               id='emailAddress'
               type='text'
+              handleChange={handleAnyInputChange}
               ref={emailRef} />
           </Fields>
         )}
@@ -75,6 +82,8 @@ const Auth = forwardRef<RefsType, AuthType>(({
           ))}
         </ToAuthLinkWrapper>
       )}
+
+      {/* <button style={{padding: '10px', backgroundColor: 'gray', margin: '30px auto 0'}} onClick={temporaryFunction}>Hit</button> */}
     </AuthWrapper>
   )
 })
