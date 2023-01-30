@@ -4,8 +4,4 @@ import { InputType } from '../input/Input';
 
 type PasswordInputType = InputType
 
-export const PasswordFieldWrapper = styled.div`
-
-`;
-
 export const PasswordInput = styled(InputWrapper)<PasswordInputType>``;

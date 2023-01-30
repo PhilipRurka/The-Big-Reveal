@@ -13,7 +13,6 @@ export const PasswordValidationWrapper = styled.div`
   border-radius: 10px;
   background-color: white;
   box-shadow: 0 0 5px 0 black;
-  opacity: 0;
 `;
 
 export const ConditionsTitle = styled.ul`

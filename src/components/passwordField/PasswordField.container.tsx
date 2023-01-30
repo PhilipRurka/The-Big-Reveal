@@ -22,8 +22,12 @@ const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordPropsType>((
       width: '310px',
       duration: 0.3,
     }, 0)
-    .to('#password-validation', {
+    .fromTo('#password-validation', {
+      alpha: 0,
+      pointerEvents: "none"
+    }, {
       alpha: 1,
+      pointerEvents: "auto",
       duration: 0.3,
       ease: "power1.out"
     }, '>')

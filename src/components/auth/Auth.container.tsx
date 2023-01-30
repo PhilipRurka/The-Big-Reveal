@@ -170,7 +170,7 @@ const AuthContainer = () => {
     validationStatuses
   ])
 
-  const refs = {
+  const refs = { emailRef, passwordRef }
     emailRef,
     passwordRef
   }
