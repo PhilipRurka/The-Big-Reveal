@@ -171,9 +171,6 @@ const AuthContainer = () => {
   ])
 
   const refs = { emailRef, passwordRef }
-    emailRef,
-    passwordRef
-  }
 
   return (
     <Auth
