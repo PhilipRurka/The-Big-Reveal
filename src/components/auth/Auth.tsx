@@ -29,7 +29,6 @@ const Auth = forwardRef<RefsType, AuthType>(({
   validationStatuses,
   errorMessage,
   handleAnyInputChange,
-  // temporaryFunction
 }, {
   emailRef,
   passwordRef
@@ -89,5 +88,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
     </AuthWrapper>
   )
 })
+
+Auth.displayName = 'Auth'
 
 export default Auth

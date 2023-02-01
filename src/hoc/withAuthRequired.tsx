@@ -2,6 +2,7 @@ import Router from "next/router"
 import { useEffect } from "react"
 import { supabase } from "../utils/supabase"
 
+// eslint-disable-next-line react/display-name
 const withAuthRequired = (Component: any) => (props: any) => {
   useEffect(() => {
     (async () => {

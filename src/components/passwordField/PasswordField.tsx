@@ -30,4 +30,6 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
   )
 })
 
+PasswordField.displayName = 'PasswordField'
+
 export default PasswordField

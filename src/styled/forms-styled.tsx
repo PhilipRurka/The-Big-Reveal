@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 type FieldsType = {
-  hide: boolean
+  hide?: boolean
 }
 
 export const Fields = styled.div<FieldsType>`

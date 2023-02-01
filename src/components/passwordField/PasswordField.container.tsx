@@ -5,7 +5,7 @@ import type { PasswordPropsType } from "../auth/Auth.types"
 import PasswordField from "./PasswordField"
 
 export type PasswordFieldType = PasswordPropsType & {
-  hasPassword: boolean
+  hasPassword: undefined | boolean
 }
 
 const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldType>(({
@@ -64,5 +64,7 @@ const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldType>((
       hasPassword={hasPassword} />
   )
 })
+
+PasswordFieldContainer.displayName = 'PasswordFieldContainer'
 
 export default PasswordFieldContainer

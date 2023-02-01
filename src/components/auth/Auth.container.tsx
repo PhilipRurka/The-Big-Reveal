@@ -245,7 +245,6 @@ const AuthContainer = () => {
         }
       }
     }
-
   }, [router])
 
   useEffect(() => {
