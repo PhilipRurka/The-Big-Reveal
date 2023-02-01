@@ -3,7 +3,7 @@ import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import PasswordValidation from "./PasswordValidation"
 
 export type ValidationStatusesType = {
-  validationStatuses: ItemsSuccessStatesType
+  validationStatuses: undefined | ItemsSuccessStatesType
 } 
 
 const PasswordValidationContainer: FC<ValidationStatusesType> = ({ validationStatuses }) => {

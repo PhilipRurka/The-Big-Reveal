@@ -9,12 +9,12 @@ import {
 
 const PasswordValidation: FC<ValidationStatusesType> = ({
   validationStatuses: {
-    hasLength,
-    hasUppercase,
-    hasLowercase,
-    hasNumber,
-    hasSpecial
-  }
+    hasLength = false,
+    hasUppercase = false,
+    hasLowercase = false,
+    hasNumber = false,
+    hasSpecial = false
+  } = {}
 }) => (
   <PasswordValidationWrapper id='password-validation'>
     <ConditionsTitle>Must containe:</ConditionsTitle>

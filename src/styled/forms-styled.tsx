@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 
-export const Fields = styled.div`
+type FieldsType = {
+  hide: boolean
+}
+
+export const Fields = styled.div<FieldsType>`
+  display: ${props => props.hide ? 'none' : 'flex'};
   position: relative;
-  display: flex;
   flex-direction: column;
   margin-top: 20px;
+  /* pointer-events: ${props => props.hide ? 'none' : 'auto'}; */
 
   &:first-child {
     margin: 0;

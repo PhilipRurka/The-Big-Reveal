@@ -180,19 +180,29 @@ const AuthContainer = () => {
   }), [])
 
   const contentSwitchAnimation: ContentSwitchAnimationType = (id, shrinkHeight) => {
+
+    const shrinkHeightProperties = shrinkHeight ? {
+      remove: {
+        height: shrinkHeight === 'remove' ? '0' : 'auto',
+        margin: shrinkHeight === 'remove' ? '0' : '20 0 0 0',
+      },
+      add: {
+        height: shrinkHeight === 'add' ? '43' : '0',
+        margin: shrinkHeight === 'add' ? '20 0 0 0' : '0',
+      }
+    } : {}
+
     const contentSwitch = gsap.timeline().to(id, {
       alpha: 0,
-      height: shrinkHeight === 'remove' ? '0' : 'auto',
-      margin: shrinkHeight === 'remove' ? '0' : '20 0 0 0',
       duration: 0.3,
-      ease: 'power1.out'
+      ease: 'power1.out',
+      ...shrinkHeightProperties.remove
     })
     .to(id, {
       alpha: 1,
-      height: shrinkHeight === 'add' ? '1' : 'auto',
-      margin: shrinkHeight === 'add' ? '1' : '20 0 0 0',
       duration: 0.3,
-      ease: 'power1.out'
+      ease: 'power1.out',
+      ...shrinkHeightProperties.add
     })
     
     contentSwitch.play()

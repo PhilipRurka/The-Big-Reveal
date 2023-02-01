@@ -58,13 +58,12 @@ const Auth = forwardRef<RefsType, AuthType>(({
               ref={emailRef} />
           </Fields>
         )}
-        {hasPassword && (
-          <PasswordField
-            password={password}
-            ref={passwordRef}
-            handlePasswordUpdate={handlePasswordUpdate}
-            validationStatuses={validationStatuses} />
-        )}
+        <PasswordField
+          password={password}
+          ref={passwordRef}
+          handlePasswordUpdate={handlePasswordUpdate}
+          validationStatuses={validationStatuses}
+          hasPassword={hasPassword} />
         <SubmitButton
           onClick={submitFunction}
           disabled={!validationStatuses?.isSuccess} >

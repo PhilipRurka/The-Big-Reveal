@@ -4,12 +4,15 @@ import useIsInputFocused from "../../hooks/useIsInputFocused"
 import type { PasswordPropsType } from "../auth/Auth.types"
 import PasswordField from "./PasswordField"
 
-type PasswordFieldContainerType = PasswordPropsType
+export type PasswordFieldType = PasswordPropsType & {
+  hasPassword: boolean
+}
 
-const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldContainerType>(({
+const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldType>(({
   password,
   handlePasswordUpdate,
   validationStatuses,
+  hasPassword
 }, forwardRef) => {
 
   const isPasswordFocused = useIsInputFocused(forwardRef as RefObject<HTMLInputElement>)
@@ -57,7 +60,8 @@ const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldContain
       ref={forwardRef}
       password={password}
       handlePasswordUpdate={handlePasswordUpdate}
-      validationStatuses={validationStatuses} />
+      validationStatuses={validationStatuses}
+      hasPassword={hasPassword} />
   )
 })
 

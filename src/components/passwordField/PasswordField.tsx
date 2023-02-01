@@ -2,18 +2,20 @@ import { forwardRef } from "react"
 import { Fields, Label } from "../../styled"
 import { AuthTransitionIds, PasswordPropsType } from "../auth/Auth.types"
 import PasswordValidation from "../passwordValidation"
+import { PasswordFieldType } from "./PasswordField.container"
 import { PasswordInput } from "./PasswordField.styled"
-
-type PasswordFieldType = PasswordPropsType
 
 const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
   password,
   handlePasswordUpdate,
-  validationStatuses
+  validationStatuses,
+  hasPassword
 }, ref) => {
 
   return (
-    <Fields id={AuthTransitionIds.PASSWORD}>
+    <Fields
+      hide={!hasPassword}
+      id={AuthTransitionIds.PASSWORD} >
       <Label htmlFor="password">
         Password
       </Label>
@@ -23,9 +25,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
         value={password}
         ref={ref}
         onChange={handlePasswordUpdate} />
-        {validationStatuses && (
-          <PasswordValidation validationStatuses={validationStatuses} />
-        )}
+        <PasswordValidation validationStatuses={validationStatuses} />
     </Fields>
   )
 })
