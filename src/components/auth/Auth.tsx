@@ -10,7 +10,8 @@ import {
   ErrorMessage
 } from "./Auth.styled";
 import Input from "../input";
-import type {
+import {
+  AuthTransitionIds,
   AuthType,
   RefsType,
 } from "./Auth.types";
@@ -36,7 +37,9 @@ const Auth = forwardRef<RefsType, AuthType>(({
 
   return (
     <AuthWrapper> 
-      <AuthTitle>{ title }</AuthTitle>
+      <AuthTitle id={AuthTransitionIds.TITLE}>
+        { title }
+      </AuthTitle>
       <ErrorMessageWrapper id='error-message-wrapper'>
         <ErrorMessage id='error-message'>
           { errorMessage }
@@ -44,7 +47,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
       </ErrorMessageWrapper>
       <Form>
         {hasEmail && (
-          <Fields>
+          <Fields id={AuthTransitionIds.EMAIL}>
             <Label htmlFor="emailAddress">
               Email
             </Label>
@@ -69,7 +72,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
         </SubmitButton>
       </Form>
       {toAuthLinks && (
-        <ToAuthLinkWrapper>
+        <ToAuthLinkWrapper id={AuthTransitionIds.TO_AUTH_LINKS}>
           {toAuthLinks.map(({
             href: toLinkHref,
             title: toLinkTitle

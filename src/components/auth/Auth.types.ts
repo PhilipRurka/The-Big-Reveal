@@ -2,6 +2,19 @@ import { FormEvent } from "react"
 import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import { InputOnChangeType } from "../input/Input"
 
+export enum RouterQuery {
+  REGISTRATION    = 'registration',
+  FORGOT_PASSWORD = 'forgot-password',
+  LOGIN           = 'login'
+}
+
+export enum AuthTransitionIds {
+  TITLE         = 'auth-title',
+  EMAIL         = 'auth-email',
+  PASSWORD      = 'auth-password',
+  TO_AUTH_LINKS = 'auth-to-auth-links'
+}
+
 export type HandleAuthType = (event: FormEvent) => Promise<void>
 
 export type ToAuthLinkType = {
@@ -42,3 +55,8 @@ export type AuthType = AuthPropsType & TypePropsType & {
   handleAnyInputChange: () => void
   // temporaryFunction: any
 }
+
+export type ContentSwitchAnimationType = (
+  id: string,
+  shrinkHeight: null | 'add' | 'remove'
+) => void

@@ -1,6 +1,6 @@
 import { forwardRef } from "react"
 import { Fields, Label } from "../../styled"
-import type { PasswordPropsType } from "../auth/Auth.types"
+import { AuthTransitionIds, PasswordPropsType } from "../auth/Auth.types"
 import PasswordValidation from "../passwordValidation"
 import { PasswordInput } from "./PasswordField.styled"
 
@@ -13,7 +13,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
 }, ref) => {
 
   return (
-    <Fields>
+    <Fields id={AuthTransitionIds.PASSWORD}>
       <Label htmlFor="password">
         Password
       </Label>

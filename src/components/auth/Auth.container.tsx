@@ -7,11 +7,14 @@ import { update_userData } from "../../redux/slices/userSlice"
 import { supabase } from "../../utils/supabase"
 import { InputOnChangeType } from "../input/Input"
 import Auth from "./Auth"
-import type {
+import {
   AuthPropsType,
+  AuthTransitionIds,
+  ContentSwitchAnimationType,
   ErrorMessageType,
   ErrorType,
   HandleAuthType,
+  RouterQuery,
   TypePropsType
 } from "./Auth.types"
 
@@ -133,48 +136,106 @@ const AuthContainer = () => {
     setTimeout(() => setErrorMessage(null), 600)
   }
 
+  const transitionObject = useMemo(() => ({
+    title: AuthTransitionIds.TITLE,
+    hasEmail: AuthTransitionIds.EMAIL,
+    hasPassword: AuthTransitionIds.PASSWORD,
+    toAuthLinks: AuthTransitionIds.TO_AUTH_LINKS
+  }), [])
+
+  const typesPropsOptions = useMemo(() => ({
+    [RouterQuery.REGISTRATION]: {
+      hasEmail: true,
+      hasPassword: true,
+      title: 'Registration',
+      submitFunction: handleRegistration,
+      toAuthLinks: [{
+        href: '/auth',
+        title: 'Have an account?'
+      }]
+    },
+    [RouterQuery.FORGOT_PASSWORD]: {
+      hasEmail: true,
+      hasPassword: false,
+      title: 'Forgot Password',
+      submitFunction: handleReset,
+      toAuthLinks: [{
+        href: '/auth',
+        title: 'Remember your password?'
+      }]
+    },
+    [RouterQuery.LOGIN]: {
+      hasEmail: true,
+      hasPassword: true,
+      title: 'Login',
+      submitFunction: handleLogin,
+      toAuthLinks: [{
+        href: `/auth?type=${RouterQuery.REGISTRATION}`,
+        title: 'Don\'t have an account?'
+      },{
+        href: `/auth?type=${RouterQuery.FORGOT_PASSWORD}`,
+        title: 'Forgot your password?'
+      }]
+    }
+  }), [])
+
+  const contentSwitchAnimation: ContentSwitchAnimationType = (id, shrinkHeight) => {
+    const contentSwitch = gsap.timeline().to(id, {
+      alpha: 0,
+      height: shrinkHeight === 'remove' ? '0' : 'auto',
+      margin: shrinkHeight === 'remove' ? '0' : '20 0 0 0',
+      duration: 0.3,
+      ease: 'power1.out'
+    })
+    .to(id, {
+      alpha: 1,
+      height: shrinkHeight === 'add' ? '1' : 'auto',
+      margin: shrinkHeight === 'add' ? '1' : '20 0 0 0',
+      duration: 0.3,
+      ease: 'power1.out'
+    })
+    
+    contentSwitch.play()
+  }
+
   useEffect(() => {
-    const authType = router.query.type
+    const authType = router.asPath.split('/auth?type=')[1]
 
-    if(authType === 'registration') {
-      setTypeProps({
-        hasEmail: true,
-        hasPassword: true,
-        title: 'Registration',
-        submitFunction: handleRegistration,
-        toAuthLinks: [{
-          href: '/auth',
-          title: 'Have an account?'
-        }]
-      })
+    let newTypeProps: TypePropsType
 
-    } else if(authType === 'reset') {
-      setTypeProps({
-        hasEmail: true,
-        hasPassword: false,
-        title: 'Forgot Password',
-        submitFunction: handleReset,
-        toAuthLinks: [{
-          href: '/auth',
-          title: 'Remember your password?'
-        }]
-      })
+    if(authType === RouterQuery.REGISTRATION) {
+      newTypeProps = typesPropsOptions[RouterQuery.REGISTRATION]
+
+    } else if(authType === RouterQuery.FORGOT_PASSWORD) {
+      newTypeProps = typesPropsOptions[RouterQuery.FORGOT_PASSWORD]
 
     } else {
-      setTypeProps({
-        hasEmail: true,
-        hasPassword: true,
-        title: 'Login',
-        submitFunction: handleLogin,
-        toAuthLinks: [{
-          href: '/auth?type=registration',
-          title: 'Don\'t have an account?'
-        },{
-          href: '/auth?type=reset',
-          title: 'Forgot your password?'
-        }]
-      })
+      newTypeProps = typesPropsOptions[RouterQuery.LOGIN]
     }
+
+    const timeoutTime = typeProps.title ? 300 : 0
+
+    setTimeout(() => {
+      setTypeProps(newTypeProps)
+    }, timeoutTime)
+
+    if(typeProps.title && newTypeProps) {
+      for (let i = 0; i < Object.keys(transitionObject).length; i++) {
+        const keys = Object.keys(transitionObject) as Array<keyof typeof transitionObject>;
+        const key = keys[i];
+
+        if(JSON.stringify(typeProps[key]) !== JSON.stringify(newTypeProps[key])) {
+          let shrinkHeight: null | 'add' | 'remove' = null
+
+          if(key === 'hasEmail' || key === 'hasPassword') {
+            shrinkHeight = typeProps[key] ? 'remove' : 'add'
+          }
+
+          contentSwitchAnimation(`#${transitionObject[key]}`, shrinkHeight)
+        }
+      }
+    }
+
   }, [router])
 
   useEffect(() => {

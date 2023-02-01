@@ -56,7 +56,8 @@ export const SubmitButton = styled.button`
 `;
 
 export const ToAuthLinkWrapper = styled.div`
-  
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 export const ToAuthLinkItem = styled(LinkNext)`
