@@ -5,10 +5,12 @@ type FieldsType = {
 }
 
 export const Fields = styled.div<FieldsType>`
-  display: ${props => props.hide ? 'none' : 'flex'};
+  display: flex;
   position: relative;
   flex-direction: column;
-  margin-top: 20px;
+  margin-top: ${props => props.hide ? '0' : '20px'};
+  height: ${props => props.hide ? '0' : 'auto'};
+  opacity: ${props => props.hide ? '0' : '1'};
   /* pointer-events: ${props => props.hide ? 'none' : 'auto'}; */
 
   &:first-child {

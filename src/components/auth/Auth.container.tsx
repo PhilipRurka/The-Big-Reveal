@@ -18,6 +18,8 @@ import {
   TypePropsType
 } from "./Auth.types"
 
+const TRANSITION_TIME = 300
+
 const AuthContainer = () => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -106,14 +108,14 @@ const AuthContainer = () => {
       height: 0
     }, {
       height: 54,
-      duration: 0.3,
+      duration: TRANSITION_TIME / 1000,
       ease: 'power1.out'
     }, 0)
     .fromTo('#error-message', {
       alpha: 0
     }, {
       alpha: 1,
-      duration: 0.3,
+      duration: TRANSITION_TIME / 1000,
       ease: 'power1.out'
     }, '>')
   }, [])
@@ -133,7 +135,7 @@ const AuthContainer = () => {
 
   const handleAnyInputChange = () => {
     tlRef.current.reverse()
-    setTimeout(() => setErrorMessage(null), 600)
+    setTimeout(() => setErrorMessage(null), TRANSITION_TIME * 2)
   }
 
   const transitionObject = useMemo(() => ({
@@ -183,29 +185,34 @@ const AuthContainer = () => {
 
     const shrinkHeightProperties = shrinkHeight ? {
       remove: {
-        height: shrinkHeight === 'remove' ? '0' : 'auto',
+        height: shrinkHeight === 'remove' ? '0' : '43',
         margin: shrinkHeight === 'remove' ? '0' : '20 0 0 0',
+        alpha:  shrinkHeight === 'remove' ? '0' : '1'
       },
       add: {
         height: shrinkHeight === 'add' ? '43' : '0',
         margin: shrinkHeight === 'add' ? '20 0 0 0' : '0',
+        alpha:  shrinkHeight === 'add' ? '1' : '0'
       }
     } : {}
 
     const contentSwitch = gsap.timeline().to(id, {
       alpha: 0,
-      duration: 0.3,
-      ease: 'power1.out',
+      duration: TRANSITION_TIME / 1000,
+      ease: 'none',
       ...shrinkHeightProperties.remove
     })
     .to(id, {
       alpha: 1,
-      duration: 0.3,
-      ease: 'power1.out',
+      duration: TRANSITION_TIME / 1000,
+      ease: 'none',
       ...shrinkHeightProperties.add
     })
     
     contentSwitch.play()
+    setTimeout(() => {
+      contentSwitch.kill()
+    }, TRANSITION_TIME * 2)
   }
 
   useEffect(() => {
@@ -223,7 +230,7 @@ const AuthContainer = () => {
       newTypeProps = typesPropsOptions[RouterQuery.LOGIN]
     }
 
-    const timeoutTime = typeProps.title ? 300 : 0
+    const timeoutTime = typeProps.title ? TRANSITION_TIME : 0
 
     setTimeout(() => {
       setTypeProps(newTypeProps)
