@@ -22,7 +22,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
       <PasswordInput
         id='password-input'
         type='password'
-        value={password}
+        defaultValue={password || ''}
         ref={ref}
         onChange={handlePasswordUpdate} />
         <PasswordValidation validationStatuses={validationStatuses} />

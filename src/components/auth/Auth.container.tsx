@@ -11,11 +11,12 @@ import {
   AuthPropsType,
   AuthTransitionIds,
   ContentSwitchAnimationType,
-  ErrorMessageType,
+  StatusMessageType,
   ErrorType,
   HandleAuthType,
   RouterQuery,
-  TypePropsType
+  TypePropsType,
+  StatusMessageTypesEnum
 } from "./Auth.types"
 
 const TRANSITION_TIME = 300
@@ -23,12 +24,12 @@ const TRANSITION_TIME = 300
 const AuthContainer = () => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
-  const tlRef = useRef<gsap.core.Timeline>(gsap.timeline({
+  const tlStatusMessageRef = useRef<gsap.core.Timeline>(gsap.timeline({
     paused: true
   }))
   const router = useRouter()
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState<ErrorMessageType>(null)
+  const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
   const [typeProps, setTypeProps] = useState<TypePropsType>({
     hasEmail: undefined,
     hasPassword: undefined,
@@ -58,10 +59,16 @@ const AuthContainer = () => {
       })
 
       if((error as ErrorType).status === 400) {
-        setErrorMessage('Invalid Cradential')
+        setStatusMessage({
+          type: StatusMessageTypesEnum.ERROR,
+          message: 'Invalid Cradential'
+        })
 
       } else {
-        setErrorMessage('Something went wrong on our end (server issue). Refresh the page and try again')
+        setStatusMessage({
+          type: StatusMessageTypesEnum.ERROR,
+          message: 'Something went wrong on our end (server issue). Refresh the page and try again'
+        })
       }
       
       return
@@ -104,14 +111,14 @@ const AuthContainer = () => {
   }, [validationStatuses])
 
   const initGsap = useCallback(() => {
-    tlRef.current.fromTo('#error-message-wrapper', {
+    tlStatusMessageRef.current.fromTo('#status-message-wrapper', {
       height: 0
     }, {
       height: 54,
       duration: TRANSITION_TIME / 1000,
       ease: 'power1.out'
     }, 0)
-    .fromTo('#error-message', {
+    .fromTo('#status-message', {
       alpha: 0
     }, {
       alpha: 1,
@@ -125,17 +132,13 @@ const AuthContainer = () => {
   }
 
   const handlePasswordUpdate = (event: InputOnChangeType): void => {
-    handleAnyInputChange()
+    removeStatusMessage()
     setPassword(event.currentTarget.value)
   }
 
-  // const temporaryFunction = () => {
-  //   setErrorMessage('Something went wrong on our end (server issue). Refresh the page and try again')
-  // }
-
-  const handleAnyInputChange = () => {
-    tlRef.current.reverse()
-    setTimeout(() => setErrorMessage(null), TRANSITION_TIME * 2)
+  const removeStatusMessage = () => {
+    tlStatusMessageRef.current.reverse()
+    setTimeout(() => setStatusMessage(null), TRANSITION_TIME * 2)
   }
 
   const transitionObject = useMemo(() => ({
@@ -216,6 +219,8 @@ const AuthContainer = () => {
   }
 
   useEffect(() => {
+    removeStatusMessage()
+
     const authType = router.asPath.split('/auth?type=')[1]
 
     let newTypeProps: TypePropsType
@@ -258,18 +263,17 @@ const AuthContainer = () => {
     initGsap()
 
     return () => {
-      tlRef?.current?.kill()
+      tlStatusMessageRef?.current?.kill()
     }
   }, [])
 
   useEffect(() => {
-    if(errorMessage) {
-      tlRef.current.play()
-
+    if(statusMessage) {
+      tlStatusMessageRef.current.play()
     }
-  }, [errorMessage])
+  }, [statusMessage])
 
-  let authProps: AuthPropsType = useMemo(() => {
+  const authProps: AuthPropsType = useMemo(() => {
     if(typeProps.hasPassword) {
       return {
         password,
@@ -292,10 +296,8 @@ const AuthContainer = () => {
       ref={refs as any}
       {...authProps}
       {...typeProps}
-      errorMessage={errorMessage}
-      handleAnyInputChange={handleAnyInputChange}
-      // temporaryFunction={temporaryFunction}
-       />
+      statusMessage={statusMessage}
+      removeStatusMessage={removeStatusMessage} />
   )
 }
 

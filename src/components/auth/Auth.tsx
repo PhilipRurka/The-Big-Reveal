@@ -27,8 +27,8 @@ const Auth = forwardRef<RefsType, AuthType>(({
   password,
   handlePasswordUpdate,
   validationStatuses,
-  errorMessage,
-  handleAnyInputChange,
+  statusMessage,
+  removeStatusMessage,
 }, {
   emailRef,
   passwordRef
@@ -39,11 +39,14 @@ const Auth = forwardRef<RefsType, AuthType>(({
       <AuthTitle id={AuthTransitionIds.TITLE}>
         { title }
       </AuthTitle>
-      <ErrorMessageWrapper id='error-message-wrapper'>
-        <ErrorMessage id='error-message'>
-          { errorMessage }
+      <ErrorMessageWrapper id='status-message-wrapper'>
+        <ErrorMessage
+          id='status-message'
+          statusType={statusMessage?.type} >
+          { statusMessage?.message }
         </ErrorMessage>
       </ErrorMessageWrapper>
+      
       <Form>
         {hasEmail && (
           <Fields id={AuthTransitionIds.EMAIL}>
@@ -53,7 +56,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
             <Input
               id='emailAddress'
               type='text'
-              handleChange={handleAnyInputChange}
+              handleChange={removeStatusMessage}
               ref={emailRef} />
           </Fields>
         )}
@@ -83,8 +86,6 @@ const Auth = forwardRef<RefsType, AuthType>(({
           ))}
         </ToAuthLinkWrapper>
       )}
-
-      {/* <button style={{padding: '10px', backgroundColor: 'gray', margin: '30px auto 0'}} onClick={temporaryFunction}>Hit</button> */}
     </AuthWrapper>
   )
 })

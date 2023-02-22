@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import { Colors } from '../../styled/colors-styled';
+import styled, { css } from 'styled-components';
+import { Colors, StatusMessageColors } from '../../styled/colors-styled';
 import { default as LinkNext } from 'next/link'
+import { ErrorMessageType } from './Auth.types';
 
 export const AuthWrapper = styled.div`
   max-width: 616px;
@@ -19,18 +20,20 @@ export const AuthTitle = styled.h1`
 `;
 
 export const ErrorMessageWrapper = styled.div`
-overflow: hidden;
-  
+  overflow: hidden;
 `;
 
-export const ErrorMessage = styled.p`
-  display: inline-block;
-  font-size: 12px;
-  border-radius: 10px;
-  padding: 20px;
-  color: ${Colors.guardsman};
-  background-color: ${Colors.pippin};
-`;
+export const ErrorMessage = styled.p<ErrorMessageType>(({ statusType }) => {
+  const statusTypsColors = statusType ? StatusMessageColors[statusType] : ''
+
+  return css`
+    ${statusTypsColors}
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 10px;
+    padding: 20px;
+  `
+})
 
 export const Form = styled.form`
   margin-top: 15px;

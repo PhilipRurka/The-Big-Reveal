@@ -15,6 +15,11 @@ export enum AuthTransitionIds {
   TO_AUTH_LINKS = 'auth-to-auth-links'
 }
 
+export enum StatusMessageTypesEnum {
+  SUCCESS = 'success',
+  ERROR   = 'error'
+}
+
 export type HandleAuthType = (event: FormEvent) => Promise<void>
 
 export type ToAuthLinkType = {
@@ -36,14 +41,17 @@ export type PasswordPropsType = {
 export type AuthPropsType = PasswordPropsType | undefined
 
 export type TypePropsType = {
-  hasEmail:       undefined | boolean,
-  hasPassword:    undefined | boolean,
-  title:          undefined | string,
-  submitFunction: undefined | HandleAuthType,
+  hasEmail:       undefined | boolean
+  hasPassword:    undefined | boolean
+  title:          undefined | string
+  submitFunction: undefined | HandleAuthType
   toAuthLinks:    undefined | Array<ToAuthLinkType>
 }
 
-export type ErrorMessageType = string | null
+export type StatusMessageType = null | {
+  type: StatusMessageTypesEnum
+  message: string
+}
 
 export type RefsType = {
   emailRef?:    HTMLInputElement
@@ -51,12 +59,15 @@ export type RefsType = {
 }
 
 export type AuthType = AuthPropsType & TypePropsType & {
-  errorMessage: ErrorMessageType
-  handleAnyInputChange: () => void
-  // temporaryFunction: any
+  statusMessage: StatusMessageType
+  removeStatusMessage: () => void
 }
 
 export type ContentSwitchAnimationType = (
   id: string,
   shrinkHeight: null | 'add' | 'remove'
 ) => void
+
+export type ErrorMessageType = {
+  statusType: undefined | StatusMessageTypesEnum
+}
