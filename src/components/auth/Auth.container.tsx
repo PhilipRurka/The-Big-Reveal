@@ -107,6 +107,10 @@ const AuthContainer = () => {
 
     if(data?.session) {
       dispatch(update_userData(data.session))
+      setStatusMessage({
+        type: StatusMessageTypesEnum.ERROR,
+        message: `A registration has been sent to ${emailRef.current.value}`
+      })
     }
   }, [validationStatuses])
 
