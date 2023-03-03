@@ -30,9 +30,11 @@ const AuthContainer = () => {
     paused: true
   }))
   const registrationTimeLeftRef = useRef<any>()
-  const router = useRouter()
+
   const [password, setPassword] = useState('')
   const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
+  const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
+  const [errorStatus, setErrorStatus] = useState<ErrorType['status']>()
   const [typeProps, setTypeProps] = useState<TypePropsType>({
     id: undefined,
     hasEmail: undefined,
@@ -40,8 +42,8 @@ const AuthContainer = () => {
     title: undefined,
     toAuthLinks: undefined
   })
-  const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
-  const [errorStatus, setErrorStatus] = useState<ErrorType['status']>()
+
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
 
@@ -145,6 +147,7 @@ const AuthContainer = () => {
     }
 
     if(data?.user) {
+      setErrorStatus(200)
       setStatusMessage({
         type: StatusMessageTypesEnum.SUCCESS,
         message: `A registration has been sent to ${emailRef.current.value}`
@@ -306,11 +309,10 @@ const AuthContainer = () => {
     validationStatuses
   ])
 
-  const disableSubmit = useMemo(() => {
-    !validationStatuses?.isSuccess
-
-    return 
-  }, [])
+  const disableSubmit = useMemo(() => (
+    !validationStatuses?.isSuccess ||
+    (registrationTimeLeft !== 60 && errorStatus === 429)
+  ), [validationStatuses, registrationTimeLeft])
   /* #endregion */
 
   /* #region USE_EFFECT */
@@ -335,7 +337,6 @@ const AuthContainer = () => {
 
   useEffect(() => {
     if(errorStatus !== 429) {
-      console.log(registrationTimeLeft)
       if(registrationTimeLeft === -1) {
         resetRegistrationTimeLeft()
       }
@@ -413,6 +414,7 @@ const AuthContainer = () => {
       {...authProps}
       {...typeProps}
       handleSubmit={handleSubmit}
+      disableSubmit={disableSubmit}
       statusMessage={statusMessage}
       removeStatusMessage={removeStatusMessage} />
   )
