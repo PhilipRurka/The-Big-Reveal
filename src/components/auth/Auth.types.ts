@@ -20,7 +20,8 @@ export enum StatusMessageTypesEnum {
   ERROR   = 'error'
 }
 
-export type HandleAuthType = (event: FormEvent) => Promise<void>
+export type HandleWrapperAuthType = (event: FormEvent) => void
+export type HandleNarrowAuthType = () => Promise<void>
 
 export type ToAuthLinkType = {
   href: string
@@ -41,10 +42,10 @@ export type PasswordPropsType = {
 export type AuthPropsType = PasswordPropsType | undefined
 
 export type TypePropsType = {
+  id:             undefined | string
   hasEmail:       undefined | boolean
   hasPassword:    undefined | boolean
   title:          undefined | string
-  submitFunction: undefined | HandleAuthType
   toAuthLinks:    undefined | Array<ToAuthLinkType>
 }
 
@@ -59,7 +60,9 @@ export type RefsType = {
 }
 
 export type AuthType = AuthPropsType & TypePropsType & {
+  handleSubmit: HandleWrapperAuthType
   statusMessage: StatusMessageType
+  disableSubmit: boolean
   removeStatusMessage: () => void
 }
 

@@ -22,11 +22,12 @@ const Auth = forwardRef<RefsType, AuthType>(({
   hasEmail,
   hasPassword,
   title,
-  submitFunction,
+  handleSubmit,
   toAuthLinks,
   password,
   handlePasswordUpdate,
   validationStatuses,
+  disableSubmit,
   statusMessage,
   removeStatusMessage,
 }, {
@@ -67,8 +68,8 @@ const Auth = forwardRef<RefsType, AuthType>(({
           validationStatuses={validationStatuses}
           hasPassword={hasPassword} />
         <SubmitButton
-          onClick={submitFunction}
-          disabled={!validationStatuses?.isSuccess} >
+          onClick={handleSubmit}
+          disabled={disableSubmit} >
           Submit
         </SubmitButton>
       </Form>

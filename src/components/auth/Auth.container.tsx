@@ -1,6 +1,6 @@
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
@@ -13,13 +13,15 @@ import {
   ContentSwitchAnimationType,
   StatusMessageType,
   ErrorType,
-  HandleAuthType,
+  HandleNarrowAuthType,
+  HandleWrapperAuthType,
   RouterQuery,
   TypePropsType,
   StatusMessageTypesEnum
 } from "./Auth.types"
 
 const TRANSITION_TIME = 300
+const REGISTRATION_ERROR_TIME = 60
 
 const AuthContainer = () => {
   const emailRef = useRef<HTMLInputElement>(null)
@@ -27,30 +29,37 @@ const AuthContainer = () => {
   const tlStatusMessageRef = useRef<gsap.core.Timeline>(gsap.timeline({
     paused: true
   }))
-  const router = useRouter()
+  const registrationTimeLeftRef = useRef<any>()
+
   const [password, setPassword] = useState('')
   const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
+  const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
+  const [errorStatus, setErrorStatus] = useState<ErrorType['status']>()
   const [typeProps, setTypeProps] = useState<TypePropsType>({
+    id: undefined,
     hasEmail: undefined,
     hasPassword: undefined,
     title: undefined,
-    submitFunction: undefined,
     toAuthLinks: undefined
   })
+
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
 
-  const handleLogin: HandleAuthType = async (event) => {
-    event.preventDefault()
+  /* #region LOGIN */
+  const handleLogin: HandleNarrowAuthType = useCallback(async () => {
     if(!passwordRef?.current || !emailRef.current) return
 
     const {
       data,
-      error
+      error: resError
     } = await supabase.auth.signInWithPassword({
       email: emailRef.current.value ?? '',
       password: passwordRef.current.value,
     })
+
+    const error = resError as ErrorType
 
     if(error) {
       console.error({
@@ -58,13 +67,15 @@ const AuthContainer = () => {
         error
       })
 
-      if((error as ErrorType).status === 400) {
+      setErrorStatus(error.status)
+
+      if(error.status === 400) {
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
           message: 'Invalid Cradential'
         })
 
-      } else {
+      } else if(error.status) {
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
           message: 'Something went wrong on our end (server issue). Refresh the page and try again'
@@ -78,72 +89,105 @@ const AuthContainer = () => {
       dispatch(update_userData(data.session))
       Router.push('dashboard')
     }
-  }
+  }, [])
+  /* #endregion */
 
-  const handleRegistration = useCallback(async (event: FormEvent) => {
-    event.preventDefault()
-    if(
-      !passwordRef?.current ||
-      !emailRef.current ||
-      !validationStatuses.isSuccess
-    ) return
+  /* #region REGISTRATION */
+
+  const updateRegistrationTimeLeft = useCallback(() =>  {
+    setRegistrationTimeLeft((previous) => (previous - 1))
+  }, [])
+
+  const handleRegistration: HandleNarrowAuthType = useCallback(async () => {
+    if(!passwordRef?.current || !emailRef.current) return
 
     const {
       data,
-      error
+      error: resError
     } = await supabase.auth.signUp({
       email: emailRef.current.value ?? '',
       password: passwordRef.current.value,
     })
 
+    const error = resError as ErrorType
+
+    if(!registrationTimeLeftRef.current) {
+      registrationTimeLeftRef.current = setInterval(updateRegistrationTimeLeft, 1000)
+    }
+
     if(error) {
-      // console.error({
-      //   Location: 'auth.container.tsx',
-      //   error
-      // })
+      console.error({
+        Location: 'auth.container.tsx',
+        error
+      })
+
+      if(error.status === 422) {
+        setErrorStatus(error.status)
+        setStatusMessage({
+          type: StatusMessageTypesEnum.ERROR,
+          message: `Invalid Email Format`
+        })
+
+      } else if(error.status === 429) {
+        setErrorStatus(error.status)
+        setStatusMessage({
+          type: StatusMessageTypesEnum.ERROR,
+          message: ``
+        })
+
+      } else if(error.status) {
+        setErrorStatus(error.status)
+        setStatusMessage({
+          type: StatusMessageTypesEnum.ERROR,
+          message: `An error has occured, refresh and try again!`
+        })
+      }
 
       return
     }
 
-    if(data?.session) {
-      dispatch(update_userData(data.session))
+    if(data?.user) {
+      setErrorStatus(200)
       setStatusMessage({
-        type: StatusMessageTypesEnum.ERROR,
+        type: StatusMessageTypesEnum.SUCCESS,
         message: `A registration has been sent to ${emailRef.current.value}`
       })
     }
-  }, [validationStatuses])
+  }, [updateRegistrationTimeLeft])
 
-  const initGsap = useCallback(() => {
-    tlStatusMessageRef.current.fromTo('#status-message-wrapper', {
-      height: 0
-    }, {
-      height: 54,
-      duration: TRANSITION_TIME / 1000,
-      ease: 'power1.out'
-    }, 0)
-    .fromTo('#status-message', {
-      alpha: 0
-    }, {
-      alpha: 1,
-      duration: TRANSITION_TIME / 1000,
-      ease: 'power1.out'
-    }, '>')
+  const resetRegistrationTimeLeft = useCallback(() => {
+    clearInterval(registrationTimeLeftRef?.current)
+    registrationTimeLeftRef.current = undefined
+    setRegistrationTimeLeft(REGISTRATION_ERROR_TIME)
   }, [])
 
-  const handleReset = async () => {
+  /* #endregion */
 
-  }
+  /* #region RESET */
 
-  const handlePasswordUpdate = (event: InputOnChangeType): void => {
-    removeStatusMessage()
-    setPassword(event.currentTarget.value)
-  }
+  const handleForgotPassword: HandleNarrowAuthType = useCallback(async () => {
 
-  const removeStatusMessage = () => {
-    tlStatusMessageRef.current.reverse()
-    setTimeout(() => setStatusMessage(null), TRANSITION_TIME * 2)
-  }
+  }, [])
+
+  /* #endregion */
+
+  /* #region ANIMATION */
+  const initGsap = useCallback(() => {
+    tlStatusMessageRef.current.fromTo('#status-message-wrapper', {
+      height: 0,
+      duration: TRANSITION_TIME / 1000,
+      ease: 'power1.out'
+    }, {
+      height: 54
+    }, 0)
+    .fromTo('#status-message', {
+      alpha: 0,
+      duration: TRANSITION_TIME / 1000,
+      ease: 'power1.out'
+    }, {
+      alpha: 1
+    }, '>')
+  }, [])
 
   const transitionObject = useMemo(() => ({
     title: AuthTransitionIds.TITLE,
@@ -152,44 +196,7 @@ const AuthContainer = () => {
     toAuthLinks: AuthTransitionIds.TO_AUTH_LINKS
   }), [])
 
-  const typesPropsOptions = useMemo(() => ({
-    [RouterQuery.REGISTRATION]: {
-      hasEmail: true,
-      hasPassword: true,
-      title: 'Registration',
-      submitFunction: handleRegistration,
-      toAuthLinks: [{
-        href: '/auth',
-        title: 'Have an account?'
-      }]
-    },
-    [RouterQuery.FORGOT_PASSWORD]: {
-      hasEmail: true,
-      hasPassword: false,
-      title: 'Forgot Password',
-      submitFunction: handleReset,
-      toAuthLinks: [{
-        href: '/auth',
-        title: 'Remember your password?'
-      }]
-    },
-    [RouterQuery.LOGIN]: {
-      hasEmail: true,
-      hasPassword: true,
-      title: 'Login',
-      submitFunction: handleLogin,
-      toAuthLinks: [{
-        href: `/auth?type=${RouterQuery.REGISTRATION}`,
-        title: 'Don\'t have an account?'
-      },{
-        href: `/auth?type=${RouterQuery.FORGOT_PASSWORD}`,
-        title: 'Forgot your password?'
-      }]
-    }
-  }), [])
-
   const contentSwitchAnimation: ContentSwitchAnimationType = (id, shrinkHeight) => {
-
     const shrinkHeightProperties = shrinkHeight ? {
       remove: {
         height: shrinkHeight === 'remove' ? '0' : '43',
@@ -221,6 +228,126 @@ const AuthContainer = () => {
       contentSwitch.kill()
     }, TRANSITION_TIME * 2)
   }
+  /* #endregion */
+
+  /* #region UTILITIES */
+  const handleSubmit: HandleWrapperAuthType = useCallback((event) => {
+    event.preventDefault()
+    if(typeProps.id === RouterQuery.LOGIN) {
+      handleLogin()
+
+    } else if(typeProps.id === RouterQuery.REGISTRATION) {
+      handleRegistration()
+
+    } else if(typeProps.id === RouterQuery.FORGOT_PASSWORD) {
+      handleForgotPassword()
+    }
+  }, [typeProps, handleLogin, handleRegistration, handleForgotPassword])
+
+  const removeStatusMessage = useCallback(() => {
+    tlStatusMessageRef.current.reverse()
+    setTimeout(() => {
+      setStatusMessage(null)
+      resetRegistrationTimeLeft()
+    }, TRANSITION_TIME * 2)
+  }, [resetRegistrationTimeLeft])
+
+  const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
+    removeStatusMessage()
+    setPassword(event.currentTarget.value)
+  }, [removeStatusMessage])
+
+  const typesPropsOptions = useMemo(() => ({
+    [RouterQuery.REGISTRATION]: {
+      id: RouterQuery.REGISTRATION,
+      hasEmail: true,
+      hasPassword: true,
+      title: 'Registration',
+      toAuthLinks: [{
+        href: '/auth',
+        title: 'Have an account?'
+      }]
+    },
+    [RouterQuery.FORGOT_PASSWORD]: {
+      id: RouterQuery.FORGOT_PASSWORD,
+      hasEmail: true,
+      hasPassword: false,
+      title: 'Forgot Password',
+      toAuthLinks: [{
+        href: '/auth',
+        title: 'Remember your password?'
+      }]
+    },
+    [RouterQuery.LOGIN]: {
+      id: RouterQuery.LOGIN,
+      hasEmail: true,
+      hasPassword: true,
+      title: 'Login',
+      toAuthLinks: [{
+        href: `/auth?type=${RouterQuery.REGISTRATION}`,
+        title: 'Don\'t have an account?'
+      },{
+        href: `/auth?type=${RouterQuery.FORGOT_PASSWORD}`,
+        title: 'Forgot your password?'
+      }]
+    }
+  }), [])
+
+  const authProps: AuthPropsType = useMemo(() => {
+    if(typeProps.hasPassword) {
+      return {
+        password,
+        handlePasswordUpdate,
+        validationStatuses
+      }
+    }
+
+    return 
+  }, [
+    typeProps.hasPassword,
+    password,
+    validationStatuses
+  ])
+
+  const disableSubmit = useMemo(() => (
+    !validationStatuses?.isSuccess ||
+    (registrationTimeLeft !== 60 && errorStatus === 429)
+  ), [validationStatuses, registrationTimeLeft])
+  /* #endregion */
+
+  /* #region USE_EFFECT */
+
+  /** Update Dynamic Messages */
+  useEffect(() => {
+    if(errorStatus === 429 && registrationTimeLeftRef?.current) {
+      if(registrationTimeLeft === -1) {
+        removeStatusMessage()
+        return
+      }
+
+      setStatusMessage((previous: any) => {
+        return {
+          ...previous,
+          message: `You must wait ${registrationTimeLeft} seconds before you can submit another registration request`
+        }
+      })
+
+    }
+  }, [registrationTimeLeft, removeStatusMessage, errorStatus])
+
+  useEffect(() => {
+    if(errorStatus !== 429) {
+      if(registrationTimeLeft === -1) {
+        resetRegistrationTimeLeft()
+      }
+    }
+  }, [registrationTimeLeft, resetRegistrationTimeLeft, errorStatus])
+
+  useEffect(() => { /** Init */
+    return () => {
+      clearInterval(registrationTimeLeftRef.current)
+    }
+  }, [])
 
   useEffect(() => {
     removeStatusMessage()
@@ -277,21 +404,7 @@ const AuthContainer = () => {
     }
   }, [statusMessage])
 
-  const authProps: AuthPropsType = useMemo(() => {
-    if(typeProps.hasPassword) {
-      return {
-        password,
-        handlePasswordUpdate,
-        validationStatuses
-      }
-    }
-
-    return 
-  }, [
-    typeProps.hasPassword,
-    password,
-    validationStatuses
-  ])
+  /* #endregion */
 
   const refs = { emailRef, passwordRef }
 
@@ -300,6 +413,8 @@ const AuthContainer = () => {
       ref={refs as any}
       {...authProps}
       {...typeProps}
+      handleSubmit={handleSubmit}
+      disableSubmit={disableSubmit}
       statusMessage={statusMessage}
       removeStatusMessage={removeStatusMessage} />
   )

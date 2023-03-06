@@ -6,9 +6,9 @@ import {
 import {
   DesktopMainNav,
   MobileMainNav,
-  GoaldenLogo
+  GoaldenLogo,
+  MobileMainBurger
 } from './components'
-import MobileMainBurger from "./components/mobileMainBurger"
 import { MobileMainBurgerType } from "./components/mobileMainBurger/MobileMainBurger.container"
 import { NavigationsType } from "../../utils/navigation"
 

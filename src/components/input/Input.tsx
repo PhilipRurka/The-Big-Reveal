@@ -10,6 +10,7 @@ export type InputType = {
   id: string
   type: string
   value?: string
+  tabIndex?: number
   handleChange?: (event: InputOnChangeType) => void
 }
 
@@ -17,6 +18,7 @@ const Input = forwardRef<InputRefType, InputType>(({
   id,
   type,
   value,
+  tabIndex = 0,
   handleChange
 }, ref) => {
 
@@ -26,7 +28,8 @@ const Input = forwardRef<InputRefType, InputType>(({
       id={id}
       type={type}
       value={value}
-      onChange={handleChange} />
+      onChange={handleChange}
+      tabIndex={tabIndex} />
   );
 });
 
