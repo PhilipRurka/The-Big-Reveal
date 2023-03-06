@@ -15,16 +15,17 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
   return (
     <Fields
       hide={!hasPassword}
-      id={AuthTransitionIds.PASSWORD} >
+      id={AuthTransitionIds.PASSWORD}
+      aria-hidden={!hasPassword} >
       <Label htmlFor="password">
         Password
       </Label>
       <PasswordInput
         id='password-input'
         type='password'
-        defaultValue={password || ''}
         ref={ref}
-        onChange={handlePasswordUpdate} />
+        onChange={handlePasswordUpdate}
+        tabIndex={!hasPassword ? -1 : 0} />
         <PasswordValidation validationStatuses={validationStatuses} />
     </Fields>
   )

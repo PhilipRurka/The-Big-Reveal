@@ -11,6 +11,7 @@ export const Fields = styled.div<FieldsType>`
   margin-top: ${props => props.hide ? '0' : '20px'};
   height: ${props => props.hide ? '0' : 'auto'};
   opacity: ${props => props.hide ? '0' : '1'};
+  pointer-events: ${props => props.hide ? 'none' : 'initial'};
   /* pointer-events: ${props => props.hide ? 'none' : 'auto'}; */
 
   &:first-child {
