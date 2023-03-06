@@ -1,4 +1,8 @@
-export const getRedirectURL = () => {
+const includeTrailingSlash = (url: string) => {
+  return url.charAt(url.length - 1) === '/' ? url : `${url}/`;
+}
+
+export const getRedirectURL = (path: string) => {
   let url =
     process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
     process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
@@ -6,7 +10,9 @@ export const getRedirectURL = () => {
   // Make sure to include `https://` when not localhost.
   url = url.includes('http') ? url : `https://${url}`;
   // Make sure to including trailing `/`.
-  url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
-  url += 'auth/'
+  url = includeTrailingSlash(url)
+  url += `auth/${path}`
+  url = includeTrailingSlash(url)
+
   return url;
 };
