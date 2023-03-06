@@ -74,3 +74,7 @@ export type ContentSwitchAnimationType = (
 export type ErrorMessageType = {
   statusType: undefined | StatusMessageTypesEnum
 }
+
+export type ExpandedErrorType = ErrorType & {
+  message?: string
+}
