@@ -21,7 +21,6 @@ const Input = forwardRef<InputRefType, InputType>(({
   tabIndex = 0,
   handleChange
 }, ref) => {
-
   return (
     <InputWrapper
       ref={ref}
