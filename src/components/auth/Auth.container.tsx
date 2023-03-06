@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
+import { getRedirectURL } from "../../utils/redirect"
 import { supabase } from "../../utils/supabase"
 import { InputOnChangeType } from "../input/Input"
 import Auth from "./Auth"
@@ -17,7 +18,8 @@ import {
   HandleWrapperAuthType,
   RouterQuery,
   TypePropsType,
-  StatusMessageTypesEnum
+  StatusMessageTypesEnum,
+  ExpandedErrorType
 } from "./Auth.types"
 
 const TRANSITION_TIME = 300
@@ -163,10 +165,49 @@ const AuthContainer = () => {
 
   /* #endregion */
 
-  /* #region RESET */
+  /* #region FORGOT PASSWORD */
 
   const handleForgotPassword: HandleNarrowAuthType = useCallback(async () => {
+    if(!emailRef.current) return
 
+    const {
+      data,
+      error: resError
+    } = await supabase.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
+      redirectTo: getRedirectURL(),
+    })
+
+    const error = resError as ExpandedErrorType
+
+    if(error) {
+      if(error.status === 422) {
+        if(error.message === 'Password recovery requires an email') {
+          setStatusMessage({
+            type: StatusMessageTypesEnum.ERROR,
+            message: 'An email is required!'
+          })
+
+        } else if(error.message === 'Unable to validate email address: invalid format') {
+          setStatusMessage({
+            type: StatusMessageTypesEnum.ERROR,
+            message: 'Invalid Email'
+          })
+        }
+
+      } else {
+        setStatusMessage({
+          type: StatusMessageTypesEnum.ERROR,
+          message: 'Something went wrong! Oh no!'
+        })
+      }
+    }
+
+    if(data) {
+      setStatusMessage({
+        type: StatusMessageTypesEnum.SUCCESS,
+        message: `A registration has been sent to ${emailRef.current.value}`
+      })
+    }
   }, [])
 
   /* #endregion */
@@ -309,10 +350,18 @@ const AuthContainer = () => {
     validationStatuses
   ])
 
-  const disableSubmit = useMemo(() => (
-    !validationStatuses?.isSuccess ||
-    (registrationTimeLeft !== 60 && errorStatus === 429)
-  ), [validationStatuses, registrationTimeLeft])
+  const disableSubmit = useMemo(() => {
+  let passwordCheck = false
+  if(typeProps.hasPassword) {
+    if(!validationStatuses?.isSuccess) {
+      passwordCheck = true
+    }
+  }
+
+  const errorStatusCheck= registrationTimeLeft !== 60 && errorStatus === 429
+  const isDisabled = passwordCheck || errorStatusCheck
+  return isDisabled
+}, [validationStatuses, registrationTimeLeft, typeProps])
   /* #endregion */
 
   /* #region USE_EFFECT */
