@@ -11,54 +11,54 @@ export interface Database {
     Tables: {
       profiles: {
         Row: {
+          avatar_url: string | null
+          full_name: string | null
           id: string
           updated_at: string | null
           username: string | null
-          full_name: string | null
-          avatar_url: string | null
           website: string | null
         }
         Insert: {
+          avatar_url?: string | null
+          full_name?: string | null
           id: string
           updated_at?: string | null
           username?: string | null
-          full_name?: string | null
-          avatar_url?: string | null
           website?: string | null
         }
         Update: {
+          avatar_url?: string | null
+          full_name?: string | null
           id?: string
           updated_at?: string | null
           username?: string | null
-          full_name?: string | null
-          avatar_url?: string | null
           website?: string | null
         }
       }
       todo: {
         Row: {
           content: string | null
-          user_id: string | null
-          is_complete: boolean | null
           created_at: string | null
-          updated_at: string | null
           id: number
+          is_complete: boolean | null
+          updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           content?: string | null
-          user_id?: string | null
-          is_complete?: boolean | null
           created_at?: string | null
-          updated_at?: string | null
           id?: number
+          is_complete?: boolean | null
+          updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           content?: string | null
-          user_id?: string | null
-          is_complete?: boolean | null
           created_at?: string | null
-          updated_at?: string | null
           id?: number
+          is_complete?: boolean | null
+          updated_at?: string | null
+          user_id?: string | null
         }
       }
     }
@@ -72,6 +72,9 @@ export interface Database {
       }
     }
     Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
       [_ in never]: never
     }
   }
