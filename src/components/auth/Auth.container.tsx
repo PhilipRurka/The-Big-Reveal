@@ -174,7 +174,7 @@ const AuthContainer = () => {
       data,
       error: resError
     } = await supabase.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
-      redirectTo: getRedirectURL(),
+      redirectTo: getRedirectURL('reset-password'),
     })
 
     const error = resError as ExpandedErrorType
