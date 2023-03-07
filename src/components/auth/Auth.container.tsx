@@ -41,6 +41,7 @@ const AuthContainer = () => {
     id: undefined,
     hasEmail: undefined,
     hasPassword: undefined,
+    hasPasswordValidation: false,
     title: undefined,
     toAuthLinks: undefined
   })
@@ -303,6 +304,7 @@ const AuthContainer = () => {
       id: RouterQuery.REGISTRATION,
       hasEmail: true,
       hasPassword: true,
+      hasPasswordValidation: true,
       title: 'Registration',
       toAuthLinks: [{
         href: '/auth',
@@ -313,6 +315,7 @@ const AuthContainer = () => {
       id: RouterQuery.FORGOT_PASSWORD,
       hasEmail: true,
       hasPassword: false,
+      hasPasswordValidation: false,
       title: 'Forgot Password',
       toAuthLinks: [{
         href: '/auth',
@@ -323,6 +326,7 @@ const AuthContainer = () => {
       id: RouterQuery.LOGIN,
       hasEmail: true,
       hasPassword: true,
+      hasPasswordValidation: false,
       title: 'Login',
       toAuthLinks: [{
         href: `/auth?type=${RouterQuery.REGISTRATION}`,
@@ -335,24 +339,25 @@ const AuthContainer = () => {
   }), [])
 
   const authProps: AuthPropsType = useMemo(() => {
+    let finalObject: AuthPropsType = {}
     if(typeProps.hasPassword) {
-      return {
+      finalObject = {
         password,
-        handlePasswordUpdate,
-        validationStatuses
+        validationStatuses,
+        handlePasswordUpdate
       }
     }
 
-    return 
+    return finalObject
   }, [
-    typeProps.hasPassword,
+    typeProps,
     password,
     validationStatuses
   ])
 
   const disableSubmit = useMemo(() => {
   let passwordCheck = false
-  if(typeProps.hasPassword) {
+  if(typeProps.hasPassword && typeProps.hasPasswordValidation) {
     if(!validationStatuses?.isSuccess) {
       passwordCheck = true
     }

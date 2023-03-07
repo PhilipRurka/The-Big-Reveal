@@ -30,6 +30,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
   disableSubmit,
   statusMessage,
   removeStatusMessage,
+  hasPasswordValidation
 }, {
   emailRef,
   passwordRef
@@ -62,8 +63,9 @@ const Auth = forwardRef<RefsType, AuthType>(({
           </Fields>
         )}
         <PasswordField
-          password={password}
           ref={passwordRef}
+          password={password}
+          hasPasswordValidation={hasPasswordValidation}
           handlePasswordUpdate={handlePasswordUpdate}
           validationStatuses={validationStatuses}
           hasPassword={hasPassword} />
