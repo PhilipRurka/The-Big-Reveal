@@ -92,7 +92,7 @@ const AuthContainer = () => {
       dispatch(update_userData(data.session))
       Router.push('dashboard')
     }
-  }, [])
+  }, [dispatch])
   /* #endregion */
 
   /* #region REGISTRATION */
@@ -349,11 +349,7 @@ const AuthContainer = () => {
     }
 
     return finalObject
-  }, [
-    typeProps,
-    password,
-    validationStatuses
-  ])
+  }, [typeProps, password, validationStatuses, handlePasswordUpdate])
 
   const disableSubmit = useMemo(() => {
   let passwordCheck = false
@@ -366,7 +362,7 @@ const AuthContainer = () => {
   const errorStatusCheck= registrationTimeLeft !== 60 && errorStatus === 429
   const isDisabled = passwordCheck || errorStatusCheck
   return isDisabled
-}, [validationStatuses, registrationTimeLeft, typeProps])
+}, [validationStatuses, registrationTimeLeft, typeProps, errorStatus])
   /* #endregion */
 
   /* #region USE_EFFECT */
@@ -442,15 +438,17 @@ const AuthContainer = () => {
         }
       }
     }
-  }, [router])
+  }, [router, removeStatusMessage, transitionObject, typeProps, typesPropsOptions])
 
   useEffect(() => {
     initGsap()
 
+    let tlStatusMessageScoped = tlStatusMessageRef?.current
+
     return () => {
-      tlStatusMessageRef?.current?.kill()
+      tlStatusMessageScoped?.kill()
     }
-  }, [])
+  }, [initGsap])
 
   useEffect(() => {
     if(statusMessage) {

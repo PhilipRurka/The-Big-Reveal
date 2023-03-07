@@ -20,7 +20,7 @@ const useIsXs = () => {
     return () => {
       matchMedia_ref.current?.removeEventListener('change', updateState);
     };
-  }, []);
+  }, [updateState]);
 
   return isXs;
 };

@@ -46,10 +46,12 @@ const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldContain
   useEffect(() => {
     initGsap()
 
+    const tlScoped = tlRef?.current
+
     return () => {
-      tlRef?.current?.kill()
+      tlScoped?.kill()
     }
-  }, [])
+  }, [initGsap])
 
   useEffect(() => {
     if(isPasswordFocused && hasPasswordValidation) {
