@@ -1,6 +1,8 @@
 # Goalden
 This is a Goal tracking project designed to help people define and track their goals and their frequency.
 
+Production Domain: [goalden.club](goalden.club)
+
 ## Environment Variables
 If you haven't already, install [Vercel CLI](https://vercel.com/docs/cli).
 ```
