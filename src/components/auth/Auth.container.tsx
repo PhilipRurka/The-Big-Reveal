@@ -41,6 +41,7 @@ const AuthContainer = () => {
     id: undefined,
     hasEmail: undefined,
     hasPassword: undefined,
+    hasPasswordValidation: false,
     title: undefined,
     toAuthLinks: undefined
   })
@@ -91,7 +92,7 @@ const AuthContainer = () => {
       dispatch(update_userData(data.session))
       Router.push('dashboard')
     }
-  }, [])
+  }, [dispatch])
   /* #endregion */
 
   /* #region REGISTRATION */
@@ -303,6 +304,7 @@ const AuthContainer = () => {
       id: RouterQuery.REGISTRATION,
       hasEmail: true,
       hasPassword: true,
+      hasPasswordValidation: true,
       title: 'Registration',
       toAuthLinks: [{
         href: '/auth',
@@ -313,6 +315,7 @@ const AuthContainer = () => {
       id: RouterQuery.FORGOT_PASSWORD,
       hasEmail: true,
       hasPassword: false,
+      hasPasswordValidation: false,
       title: 'Forgot Password',
       toAuthLinks: [{
         href: '/auth',
@@ -323,6 +326,7 @@ const AuthContainer = () => {
       id: RouterQuery.LOGIN,
       hasEmail: true,
       hasPassword: true,
+      hasPasswordValidation: false,
       title: 'Login',
       toAuthLinks: [{
         href: `/auth?type=${RouterQuery.REGISTRATION}`,
@@ -335,24 +339,21 @@ const AuthContainer = () => {
   }), [])
 
   const authProps: AuthPropsType = useMemo(() => {
+    let finalObject: AuthPropsType = {}
     if(typeProps.hasPassword) {
-      return {
+      finalObject = {
         password,
-        handlePasswordUpdate,
-        validationStatuses
+        validationStatuses,
+        handlePasswordUpdate
       }
     }
 
-    return 
-  }, [
-    typeProps.hasPassword,
-    password,
-    validationStatuses
-  ])
+    return finalObject
+  }, [typeProps, password, validationStatuses, handlePasswordUpdate])
 
   const disableSubmit = useMemo(() => {
   let passwordCheck = false
-  if(typeProps.hasPassword) {
+  if(typeProps.hasPassword && typeProps.hasPasswordValidation) {
     if(!validationStatuses?.isSuccess) {
       passwordCheck = true
     }
@@ -361,7 +362,7 @@ const AuthContainer = () => {
   const errorStatusCheck= registrationTimeLeft !== 60 && errorStatus === 429
   const isDisabled = passwordCheck || errorStatusCheck
   return isDisabled
-}, [validationStatuses, registrationTimeLeft, typeProps])
+}, [validationStatuses, registrationTimeLeft, typeProps, errorStatus])
   /* #endregion */
 
   /* #region USE_EFFECT */
@@ -437,15 +438,17 @@ const AuthContainer = () => {
         }
       }
     }
-  }, [router])
+  }, [router, removeStatusMessage, transitionObject, typeProps, typesPropsOptions])
 
   useEffect(() => {
     initGsap()
 
+    let tlStatusMessageScoped = tlStatusMessageRef?.current
+
     return () => {
-      tlStatusMessageRef?.current?.kill()
+      tlStatusMessageScoped?.kill()
     }
-  }, [])
+  }, [initGsap])
 
   useEffect(() => {
     if(statusMessage) {
