@@ -35,6 +35,7 @@ export type ErrorType = {
 
 export type PasswordPropsType = {
   password?: string;
+
   handlePasswordUpdate?: (event: InputOnChangeType) => void;
   validationStatuses?: ItemsSuccessStatesType
 }
@@ -42,11 +43,12 @@ export type PasswordPropsType = {
 export type AuthPropsType = PasswordPropsType | undefined
 
 export type TypePropsType = {
-  id:             undefined | string
-  hasEmail:       undefined | boolean
-  hasPassword:    undefined | boolean
-  title:          undefined | string
-  toAuthLinks:    undefined | Array<ToAuthLinkType>
+  id:                       undefined | string
+  hasEmail:                 undefined | boolean
+  hasPassword:              undefined | boolean
+  hasPasswordValidation:    undefined | boolean
+  title:                    undefined | string
+  toAuthLinks:              undefined | Array<ToAuthLinkType>
 }
 
 export type StatusMessageType = null | {

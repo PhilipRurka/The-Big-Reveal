@@ -8,11 +8,16 @@ export type PasswordFieldType = PasswordPropsType & {
   hasPassword: undefined | boolean
 }
 
-const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldType>(({
+type PasswordFieldContainerType = PasswordFieldType & {
+  hasPasswordValidation: undefined | boolean
+}
+
+const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldContainerType>(({
   password,
   handlePasswordUpdate,
   validationStatuses,
-  hasPassword
+  hasPassword,
+  hasPasswordValidation
 }, forwardRef) => {
 
   const isPasswordFocused = useIsInputFocused(forwardRef as RefObject<HTMLInputElement>)
@@ -41,19 +46,21 @@ const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldType>((
   useEffect(() => {
     initGsap()
 
+    const tlScoped = tlRef?.current
+
     return () => {
-      tlRef?.current?.kill()
+      tlScoped?.kill()
     }
-  }, [])
+  }, [initGsap])
 
   useEffect(() => {
-    if(isPasswordFocused) {
+    if(isPasswordFocused && hasPasswordValidation) {
       tlRef.current.play()
       
     } else {
       tlRef.current.reverse()
     }
-  }, [isPasswordFocused])
+  }, [isPasswordFocused, hasPasswordValidation])
 
   return (
     <PasswordField

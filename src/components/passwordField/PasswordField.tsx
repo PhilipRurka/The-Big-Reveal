@@ -6,7 +6,6 @@ import { PasswordFieldType } from "./PasswordField.container"
 import { PasswordInput } from "./PasswordField.styled"
 
 const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
-  password,
   handlePasswordUpdate,
   validationStatuses,
   hasPassword

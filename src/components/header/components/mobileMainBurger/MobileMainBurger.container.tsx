@@ -18,15 +18,15 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
     handleUpdateBurger(!openedBurger);
   };
 
-  const handleListenerKeydown = (event: KeyboardEvent) => {
+  const handleListenerKeydown = useCallback((event: KeyboardEvent) => {
     if(event.key === 'Escape') {
       handleUpdateBurger(false);
     }
-  };
+  }, [handleUpdateBurger]);
 
-  const handleListenerClick = () => {
+  const handleListenerClick = useCallback(() => {
     handleUpdateBurger(false);
-  }
+  }, [handleUpdateBurger])
 
   const initGsap = useCallback((): void => {
     mobileNavTlRef.current = gsap.fromTo('#mobileMenu', {
@@ -44,7 +44,7 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
     return () => {
       mobileNavTlRef?.current?.kill()
     }
-  }, []);
+  }, [initGsap]);
 
   useEffect(() => {
     let mainElement: HTMLElement | null
@@ -69,7 +69,7 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
       document.removeEventListener('keydown', handleListenerKeydown);
       mainElement?.removeEventListener('click', handleListenerClick);
     }
-  }, [openedBurger]);
+  }, [openedBurger, handleListenerClick, handleListenerKeydown]);
 
   return (
     <MobileMainBurger
