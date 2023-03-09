@@ -15,7 +15,7 @@ import {
 } from "./Auth.types";
 import { Fields, Label } from "../../styled";
 import PasswordField from "../passwordField";
-import AuthErrorMessage from "../authResMessage";
+import AuthResMessage from "../authResMessage";
 
 const Auth = forwardRef<RefsType, AuthType>(({
   hasEmail,
@@ -41,7 +41,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
         { title }
       </AuthTitle>
       <Form>
-        <AuthErrorMessage statusMessage={statusMessage} />
+        <AuthResMessage statusMessage={statusMessage} />
         {hasEmail && (
           <Fields id={AuthTransitionIds.EMAIL}>
             <Label htmlFor="emailAddress">

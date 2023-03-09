@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Colors, StatusMessageColors } from '../../styled/colors-styled';
 import { default as LinkNext } from 'next/link'
-import { ErrorMessageType } from './Auth.types';
+import { ResMessageType } from './Auth.types';
 
 export const AuthWrapper = styled.div`
   max-width: 616px;
