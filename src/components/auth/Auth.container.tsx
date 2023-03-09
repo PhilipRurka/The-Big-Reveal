@@ -12,31 +12,28 @@ import {
   AuthPropsType,
   AuthTransitionIds,
   ContentSwitchAnimationType,
-  StatusMessageType,
-  ErrorType,
+  ResType,
   HandleNarrowAuthType,
   HandleWrapperAuthType,
   RouterQuery,
   TypePropsType,
   StatusMessageTypesEnum,
-  ExpandedErrorType
+  ExpandedResType,
+  StatusMessageType
 } from "./Auth.types"
 
-const TRANSITION_TIME = 300
+export const AUTH_TRANSITION_TIME = 300
 const REGISTRATION_ERROR_TIME = 60
 
 const AuthContainer = () => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
-  const tlStatusMessageRef = useRef<gsap.core.Timeline>(gsap.timeline({
-    paused: true
-  }))
   const registrationTimeLeftRef = useRef<any>()
 
   const [password, setPassword] = useState('')
   const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
   const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
-  const [errorStatus, setErrorStatus] = useState<ErrorType['status']>()
+  const [resStatus, setResStatus] = useState<ResType['status']>()
   const [typeProps, setTypeProps] = useState<TypePropsType>({
     id: undefined,
     hasEmail: undefined,
@@ -62,7 +59,7 @@ const AuthContainer = () => {
       password: passwordRef.current.value,
     })
 
-    const error = resError as ErrorType
+    const error = resError as ResType
 
     if(error) {
       console.error({
@@ -70,17 +67,19 @@ const AuthContainer = () => {
         error
       })
 
-      setErrorStatus(error.status)
+      setResStatus(error.status)
 
       if(error.status === 400) {
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: 'Invalid Cradential'
         })
 
       } else if(error.status) {
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: 'Something went wrong on our end (server issue). Refresh the page and try again'
         })
       }
@@ -112,7 +111,7 @@ const AuthContainer = () => {
       password: passwordRef.current.value,
     })
 
-    const error = resError as ErrorType
+    const error = resError as ResType
 
     if(!registrationTimeLeftRef.current) {
       registrationTimeLeftRef.current = setInterval(updateRegistrationTimeLeft, 1000)
@@ -125,23 +124,26 @@ const AuthContainer = () => {
       })
 
       if(error.status === 422) {
-        setErrorStatus(error.status)
+        setResStatus(error.status)
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: `Invalid Email Format`
         })
 
       } else if(error.status === 429) {
-        setErrorStatus(error.status)
+        setResStatus(error.status)
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: ``
         })
 
       } else if(error.status) {
-        setErrorStatus(error.status)
+        setResStatus(error.status)
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: `An error has occured, refresh and try again!`
         })
       }
@@ -150,9 +152,10 @@ const AuthContainer = () => {
     }
 
     if(data?.user) {
-      setErrorStatus(200)
+      setResStatus(200)
       setStatusMessage({
         type: StatusMessageTypesEnum.SUCCESS,
+        showMessage: true,
         message: `A registration has been sent to ${emailRef.current.value}`
       })
     }
@@ -178,19 +181,21 @@ const AuthContainer = () => {
       redirectTo: getRedirectURL('reset-password'),
     })
 
-    const error = resError as ExpandedErrorType
+    const error = resError as ExpandedResType
 
     if(error) {
       if(error.status === 422) {
         if(error.message === 'Password recovery requires an email') {
           setStatusMessage({
             type: StatusMessageTypesEnum.ERROR,
+            showMessage: true,
             message: 'An email is required!'
           })
 
         } else if(error.message === 'Unable to validate email address: invalid format') {
           setStatusMessage({
             type: StatusMessageTypesEnum.ERROR,
+            showMessage: true,
             message: 'Invalid Email'
           })
         }
@@ -198,6 +203,7 @@ const AuthContainer = () => {
       } else {
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: 'Something went wrong! Oh no!'
         })
       }
@@ -206,6 +212,7 @@ const AuthContainer = () => {
     if(data) {
       setStatusMessage({
         type: StatusMessageTypesEnum.SUCCESS,
+        showMessage: true,
         message: `A registration has been sent to ${emailRef.current.value}`
       })
     }
@@ -214,22 +221,6 @@ const AuthContainer = () => {
   /* #endregion */
 
   /* #region ANIMATION */
-  const initGsap = useCallback(() => {
-    tlStatusMessageRef.current.fromTo('#status-message-wrapper', {
-      height: 0,
-      duration: TRANSITION_TIME / 1000,
-      ease: 'power1.out'
-    }, {
-      height: 54
-    }, 0)
-    .fromTo('#status-message', {
-      alpha: 0,
-      duration: TRANSITION_TIME / 1000,
-      ease: 'power1.out'
-    }, {
-      alpha: 1
-    }, '>')
-  }, [])
 
   const transitionObject = useMemo(() => ({
     title: AuthTransitionIds.TITLE,
@@ -254,13 +245,13 @@ const AuthContainer = () => {
 
     const contentSwitch = gsap.timeline().to(id, {
       alpha: 0,
-      duration: TRANSITION_TIME / 1000,
+      duration: AUTH_TRANSITION_TIME / 1000,
       ease: 'none',
       ...shrinkHeightProperties.remove
     })
     .to(id, {
       alpha: 1,
-      duration: TRANSITION_TIME / 1000,
+      duration: AUTH_TRANSITION_TIME / 1000,
       ease: 'none',
       ...shrinkHeightProperties.add
     })
@@ -268,7 +259,7 @@ const AuthContainer = () => {
     contentSwitch.play()
     setTimeout(() => {
       contentSwitch.kill()
-    }, TRANSITION_TIME * 2)
+    }, AUTH_TRANSITION_TIME * 2)
   }
   /* #endregion */
 
@@ -287,11 +278,15 @@ const AuthContainer = () => {
   }, [typeProps, handleLogin, handleRegistration, handleForgotPassword])
 
   const removeStatusMessage = useCallback(() => {
-    tlStatusMessageRef.current.reverse()
+    setStatusMessage((previous: any) => ({
+      ...previous,
+      showMessage: false
+    }))
+
     setTimeout(() => {
       setStatusMessage(null)
       resetRegistrationTimeLeft()
-    }, TRANSITION_TIME * 2)
+    }, AUTH_TRANSITION_TIME * 2)
   }, [resetRegistrationTimeLeft])
 
   const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
@@ -359,17 +354,17 @@ const AuthContainer = () => {
     }
   }
 
-  const errorStatusCheck= registrationTimeLeft !== 60 && errorStatus === 429
+  const errorStatusCheck= registrationTimeLeft !== 60 && resStatus === 429
   const isDisabled = passwordCheck || errorStatusCheck
   return isDisabled
-}, [validationStatuses, registrationTimeLeft, typeProps, errorStatus])
+}, [validationStatuses, registrationTimeLeft, typeProps, resStatus])
   /* #endregion */
 
   /* #region USE_EFFECT */
 
   /** Update Dynamic Messages */
   useEffect(() => {
-    if(errorStatus === 429 && registrationTimeLeftRef?.current) {
+    if(resStatus === 429 && registrationTimeLeftRef?.current) {
       if(registrationTimeLeft === -1) {
         removeStatusMessage()
         return
@@ -383,15 +378,15 @@ const AuthContainer = () => {
       })
 
     }
-  }, [registrationTimeLeft, removeStatusMessage, errorStatus])
+  }, [registrationTimeLeft, removeStatusMessage, resStatus])
 
   useEffect(() => {
-    if(errorStatus !== 429) {
+    if(resStatus !== 429) {
       if(registrationTimeLeft === -1) {
         resetRegistrationTimeLeft()
       }
     }
-  }, [registrationTimeLeft, resetRegistrationTimeLeft, errorStatus])
+  }, [registrationTimeLeft, resetRegistrationTimeLeft, resStatus])
 
   useEffect(() => { /** Init */
     return () => {
@@ -416,7 +411,7 @@ const AuthContainer = () => {
       newTypeProps = typesPropsOptions[RouterQuery.LOGIN]
     }
 
-    const timeoutTime = typeProps.title ? TRANSITION_TIME : 0
+    const timeoutTime = typeProps.title ? AUTH_TRANSITION_TIME : 0
 
     setTimeout(() => {
       setTypeProps(newTypeProps)
@@ -439,22 +434,6 @@ const AuthContainer = () => {
       }
     }
   }, [router, removeStatusMessage, transitionObject, typeProps, typesPropsOptions])
-
-  useEffect(() => {
-    initGsap()
-
-    let tlStatusMessageScoped = tlStatusMessageRef?.current
-
-    return () => {
-      tlStatusMessageScoped?.kill()
-    }
-  }, [initGsap])
-
-  useEffect(() => {
-    if(statusMessage) {
-      tlStatusMessageRef.current.play()
-    }
-  }, [statusMessage])
 
   /* #endregion */
 
