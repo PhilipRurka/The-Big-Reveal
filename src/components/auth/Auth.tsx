@@ -16,6 +16,7 @@ import {
 import { Fields, Label } from "../../styled";
 import PasswordField from "../passwordField";
 import AuthResMessage from "../authResMessage";
+import ConfirmedPasswordField from "../confirmedPasswordField";
 
 const Auth = forwardRef<RefsType, AuthType>(({
   hasEmail,
@@ -25,11 +26,13 @@ const Auth = forwardRef<RefsType, AuthType>(({
   toAuthLinks,
   password,
   handlePasswordUpdate,
+  handleConfirmedPasswordUpdate,
   validationStatuses,
   disableSubmit,
   statusMessage,
   removeStatusMessage,
-  hasPasswordValidation
+  hasPasswordValidation,
+  hasConfirmedPassword
 }, {
   emailRef,
   passwordRef
@@ -61,6 +64,9 @@ const Auth = forwardRef<RefsType, AuthType>(({
           handlePasswordUpdate={handlePasswordUpdate}
           validationStatuses={validationStatuses}
           hasPassword={hasPassword} />
+        {hasConfirmedPassword && handleConfirmedPasswordUpdate && (
+          <ConfirmedPasswordField handleUpdate={handleConfirmedPasswordUpdate} />
+        )}
         <SubmitButton
           onClick={handleSubmit}
           disabled={disableSubmit} >

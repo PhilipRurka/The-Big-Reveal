@@ -32,12 +32,13 @@ const AuthContainer = () => {
 
   const [password, setPassword] = useState('')
   const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
-  const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
   const [resStatus, setResStatus] = useState<ResType['status']>()
+  const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
   const [typeProps, setTypeProps] = useState<TypePropsType>({
     id: undefined,
     hasEmail: undefined,
     hasPassword: undefined,
+    hasConfirmedPassword: false,
     hasPasswordValidation: false,
     title: undefined,
     toAuthLinks: undefined
@@ -95,6 +96,12 @@ const AuthContainer = () => {
   /* #endregion */
 
   /* #region REGISTRATION */
+
+  const resetRegistrationTimeLeft = useCallback(() => {
+    clearInterval(registrationTimeLeftRef?.current)
+    registrationTimeLeftRef.current = undefined
+    setRegistrationTimeLeft(REGISTRATION_ERROR_TIME)
+  }, [])
 
   const updateRegistrationTimeLeft = useCallback(() =>  {
     setRegistrationTimeLeft((previous) => (previous - 1))
@@ -160,12 +167,6 @@ const AuthContainer = () => {
       })
     }
   }, [updateRegistrationTimeLeft])
-
-  const resetRegistrationTimeLeft = useCallback(() => {
-    clearInterval(registrationTimeLeftRef?.current)
-    registrationTimeLeftRef.current = undefined
-    setRegistrationTimeLeft(REGISTRATION_ERROR_TIME)
-  }, [])
 
   /* #endregion */
 
@@ -299,6 +300,7 @@ const AuthContainer = () => {
       id: RouterQuery.REGISTRATION,
       hasEmail: true,
       hasPassword: true,
+      hasConfirmedPassword: false,
       hasPasswordValidation: true,
       title: 'Registration',
       toAuthLinks: [{
@@ -310,6 +312,7 @@ const AuthContainer = () => {
       id: RouterQuery.FORGOT_PASSWORD,
       hasEmail: true,
       hasPassword: false,
+      hasConfirmedPassword: false,
       hasPasswordValidation: false,
       title: 'Forgot Password',
       toAuthLinks: [{
@@ -321,6 +324,7 @@ const AuthContainer = () => {
       id: RouterQuery.LOGIN,
       hasEmail: true,
       hasPassword: true,
+      hasConfirmedPassword: false,
       hasPasswordValidation: false,
       title: 'Login',
       toAuthLinks: [{
@@ -441,9 +445,9 @@ const AuthContainer = () => {
 
   return (
     <Auth
-      ref={refs as any}
       {...authProps}
       {...typeProps}
+      ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
       statusMessage={statusMessage}

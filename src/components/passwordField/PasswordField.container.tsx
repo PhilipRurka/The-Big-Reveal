@@ -19,7 +19,6 @@ const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldContain
   hasPassword,
   hasPasswordValidation
 }, forwardRef) => {
-
   const isPasswordFocused = useIsInputFocused(forwardRef as RefObject<HTMLInputElement>)
 
   const tlRef = useRef<gsap.core.Timeline>(gsap.timeline())
