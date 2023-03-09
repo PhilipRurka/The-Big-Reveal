@@ -15,7 +15,7 @@ import {
 } from "./Auth.types";
 import { Fields, Label } from "../../styled";
 import PasswordField from "../passwordField";
-import AuthErrorMessage from "../authErrorMessage";
+import AuthErrorMessage from "../authResMessage";
 
 const Auth = forwardRef<RefsType, AuthType>(({
   hasEmail,
