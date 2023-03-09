@@ -12,13 +12,13 @@ import {
   AuthPropsType,
   AuthTransitionIds,
   ContentSwitchAnimationType,
-  ErrorType,
+  ResType,
   HandleNarrowAuthType,
   HandleWrapperAuthType,
   RouterQuery,
   TypePropsType,
   StatusMessageTypesEnum,
-  ExpandedErrorType,
+  ExpandedResType,
   StatusMessageType
 } from "./Auth.types"
 
@@ -33,7 +33,7 @@ const AuthContainer = () => {
   const [password, setPassword] = useState('')
   const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
   const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
-  const [errorStatus, setErrorStatus] = useState<ErrorType['status']>()
+  const [resStatus, setResStatus] = useState<ResType['status']>()
   const [typeProps, setTypeProps] = useState<TypePropsType>({
     id: undefined,
     hasEmail: undefined,
@@ -59,7 +59,7 @@ const AuthContainer = () => {
       password: passwordRef.current.value,
     })
 
-    const error = resError as ErrorType
+    const error = resError as ResType
 
     if(error) {
       console.error({
@@ -67,7 +67,7 @@ const AuthContainer = () => {
         error
       })
 
-      setErrorStatus(error.status)
+      setResStatus(error.status)
 
       if(error.status === 400) {
         setStatusMessage({
@@ -111,7 +111,7 @@ const AuthContainer = () => {
       password: passwordRef.current.value,
     })
 
-    const error = resError as ErrorType
+    const error = resError as ResType
 
     if(!registrationTimeLeftRef.current) {
       registrationTimeLeftRef.current = setInterval(updateRegistrationTimeLeft, 1000)
@@ -124,7 +124,7 @@ const AuthContainer = () => {
       })
 
       if(error.status === 422) {
-        setErrorStatus(error.status)
+        setResStatus(error.status)
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
           showMessage: true,
@@ -132,7 +132,7 @@ const AuthContainer = () => {
         })
 
       } else if(error.status === 429) {
-        setErrorStatus(error.status)
+        setResStatus(error.status)
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
           showMessage: true,
@@ -140,7 +140,7 @@ const AuthContainer = () => {
         })
 
       } else if(error.status) {
-        setErrorStatus(error.status)
+        setResStatus(error.status)
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
           showMessage: true,
@@ -152,7 +152,7 @@ const AuthContainer = () => {
     }
 
     if(data?.user) {
-      setErrorStatus(200)
+      setResStatus(200)
       setStatusMessage({
         type: StatusMessageTypesEnum.SUCCESS,
         showMessage: true,
@@ -181,7 +181,7 @@ const AuthContainer = () => {
       redirectTo: getRedirectURL('reset-password'),
     })
 
-    const error = resError as ExpandedErrorType
+    const error = resError as ExpandedResType
 
     if(error) {
       if(error.status === 422) {
@@ -354,17 +354,17 @@ const AuthContainer = () => {
     }
   }
 
-  const errorStatusCheck= registrationTimeLeft !== 60 && errorStatus === 429
+  const errorStatusCheck= registrationTimeLeft !== 60 && resStatus === 429
   const isDisabled = passwordCheck || errorStatusCheck
   return isDisabled
-}, [validationStatuses, registrationTimeLeft, typeProps, errorStatus])
+}, [validationStatuses, registrationTimeLeft, typeProps, resStatus])
   /* #endregion */
 
   /* #region USE_EFFECT */
 
   /** Update Dynamic Messages */
   useEffect(() => {
-    if(errorStatus === 429 && registrationTimeLeftRef?.current) {
+    if(resStatus === 429 && registrationTimeLeftRef?.current) {
       if(registrationTimeLeft === -1) {
         removeStatusMessage()
         return
@@ -378,15 +378,15 @@ const AuthContainer = () => {
       })
 
     }
-  }, [registrationTimeLeft, removeStatusMessage, errorStatus])
+  }, [registrationTimeLeft, removeStatusMessage, resStatus])
 
   useEffect(() => {
-    if(errorStatus !== 429) {
+    if(resStatus !== 429) {
       if(registrationTimeLeft === -1) {
         resetRegistrationTimeLeft()
       }
     }
-  }, [registrationTimeLeft, resetRegistrationTimeLeft, errorStatus])
+  }, [registrationTimeLeft, resetRegistrationTimeLeft, resStatus])
 
   useEffect(() => { /** Init */
     return () => {

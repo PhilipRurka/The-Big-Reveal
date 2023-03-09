@@ -1,12 +1,12 @@
 import styled, { css } from "styled-components";
 import { StatusMessageColors } from "../../styled";
-import { ErrorMessageType } from "../auth/Auth.types";
+import { ResMessageType } from "../auth/Auth.types";
 
-export const ErrorMessageWrapper = styled.div`
+export const ResMessageWrapper = styled.div`
   overflow: hidden;
 `;
 
-export const ErrorMessage = styled.p<ErrorMessageType>(({ statusType }) => {
+export const ResMessage = styled.p<ResMessageType>(({ statusType }) => {
   const statusTypsColors = statusType ? StatusMessageColors[statusType] : ''
 
   return css`

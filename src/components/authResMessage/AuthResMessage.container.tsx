@@ -1,14 +1,14 @@
 import { FC, useCallback, useEffect, useRef } from 'react'
 import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
 import { StatusMessageType } from '../auth/Auth.types'
-import AuthErrorMessage from './AuthErrorMessage'
+import AuthResMessage from './AuthResMessage'
 import gsap from "gsap"
 
-export type AuthErrorMessageType = {
+export type AuthResMessageType = {
   statusMessage: StatusMessageType
 }
 
-const AuthErrorMessageContainer: FC<AuthErrorMessageType> = ({ statusMessage }) => {
+const AuthResMessageContainer: FC<AuthResMessageType> = ({ statusMessage }) => {
   const tlStatusMessageRef = useRef<gsap.core.Timeline>(gsap.timeline({
     paused: true
   }))
@@ -50,8 +50,8 @@ const AuthErrorMessageContainer: FC<AuthErrorMessageType> = ({ statusMessage }) 
   }, [statusMessage?.showMessage])
   
   return (
-    <AuthErrorMessage statusMessage={statusMessage} />
+    <AuthResMessage statusMessage={statusMessage} />
   )
 }
 
-export default AuthErrorMessageContainer
+export default AuthResMessageContainer
