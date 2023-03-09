@@ -38,7 +38,7 @@ const ResetPasswordContainer = () => {
         authListener.subscription.unsubscribe()
       }
     };
-  }, [supabase.auth])
+  }, [dispatch])
 
   const handleSubmit = useCallback( async(event: FormEvent): Promise<void> => {
     event.preventDefault()
