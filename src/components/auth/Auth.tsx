@@ -5,9 +5,7 @@ import {
   Form,
   SubmitButton,
   ToAuthLinkWrapper,
-  ToAuthLinkItem,
-  ErrorMessageWrapper,
-  ErrorMessage
+  ToAuthLinkItem
 } from "./Auth.styled";
 import Input from "../input";
 import {
@@ -17,6 +15,7 @@ import {
 } from "./Auth.types";
 import { Fields, Label } from "../../styled";
 import PasswordField from "../passwordField";
+import AuthErrorMessage from "../authErrorMessage";
 
 const Auth = forwardRef<RefsType, AuthType>(({
   hasEmail,
@@ -37,19 +36,12 @@ const Auth = forwardRef<RefsType, AuthType>(({
 }: any) => {
 
   return (
-    <AuthWrapper> 
+    <AuthWrapper>
       <AuthTitle id={AuthTransitionIds.TITLE}>
         { title }
       </AuthTitle>
-      <ErrorMessageWrapper id='status-message-wrapper'>
-        <ErrorMessage
-          id='status-message'
-          statusType={statusMessage?.type} >
-          { statusMessage?.message }
-        </ErrorMessage>
-      </ErrorMessageWrapper>
-      
       <Form>
+        <AuthErrorMessage statusMessage={statusMessage} />
         {hasEmail && (
           <Fields id={AuthTransitionIds.EMAIL}>
             <Label htmlFor="emailAddress">

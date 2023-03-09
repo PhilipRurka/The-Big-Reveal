@@ -53,6 +53,7 @@ export type TypePropsType = {
 
 export type StatusMessageType = null | {
   type: StatusMessageTypesEnum
+  showMessage: boolean
   message: string
 }
 

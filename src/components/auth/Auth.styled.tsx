@@ -19,22 +19,6 @@ export const AuthTitle = styled.h1`
   margin-bottom: 15px;
 `;
 
-export const ErrorMessageWrapper = styled.div`
-  overflow: hidden;
-`;
-
-export const ErrorMessage = styled.p<ErrorMessageType>(({ statusType }) => {
-  const statusTypsColors = statusType ? StatusMessageColors[statusType] : ''
-
-  return css`
-    ${statusTypsColors}
-    display: inline-block;
-    font-size: 12px;
-    border-radius: 10px;
-    padding: 20px;
-  `
-})
-
 export const Form = styled.form`
   margin-top: 15px;
 `;
