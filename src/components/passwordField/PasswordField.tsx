@@ -16,7 +16,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
       hide={!hasPassword}
       id={AuthTransitionIds.PASSWORD}
       aria-hidden={!hasPassword} >
-      <Label htmlFor="password">
+      <Label htmlFor="password-input">
         Password
       </Label>
       <PasswordInput

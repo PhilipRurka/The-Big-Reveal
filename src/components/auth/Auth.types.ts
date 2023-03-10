@@ -5,7 +5,7 @@ import { InputOnChangeType } from "../input/Input"
 export enum RouterQuery {
   REGISTRATION    = 'registration',
   FORGOT_PASSWORD = 'forgot-password',
-  LOGIN           = 'login'
+  LOGIN           = 'auth'
 }
 
 export enum AuthTransitionIds {
@@ -35,8 +35,9 @@ export type ResType = {
 
 export type PasswordPropsType = {
   password?: string;
-
+  confirmedPassword?: string;
   handlePasswordUpdate?: (event: InputOnChangeType) => void;
+  handleConfirmedPasswordUpdate?: (event: InputOnChangeType) => void;
   validationStatuses?: ItemsSuccessStatesType
 }
 
@@ -46,6 +47,7 @@ export type TypePropsType = {
   id:                       undefined | string
   hasEmail:                 undefined | boolean
   hasPassword:              undefined | boolean
+  hasConfirmedPassword:     undefined | boolean
   hasPasswordValidation:    undefined | boolean
   title:                    undefined | string
   toAuthLinks:              undefined | Array<ToAuthLinkType>
