@@ -1,14 +1,23 @@
 import React, { FC } from 'react'
-import { AuthResMessageType } from './AuthResMessage.container'
+import { ResMessageType, StatusMessageType } from '../auth/Auth.types'
 import { ResMessage, ResMessageWrapper } from './AuthResMessage.styled'
 
-const AuthResMessage: FC<AuthResMessageType> = ({ statusMessage }) => {
+export type AuthResMessageType = {
+  message: string
+  type: any
+  // type: StatusMessageType
+}
+
+const AuthResMessage: FC<AuthResMessageType> = ({
+  message,
+  type
+}) => {
   return (
     <ResMessageWrapper id='status-message-wrapper'>
       <ResMessage
         id='status-message'
-        statusType={statusMessage?.type} >
-        { statusMessage?.message }
+        statusType={type} >
+        {message}
       </ResMessage>
     </ResMessageWrapper>
   )

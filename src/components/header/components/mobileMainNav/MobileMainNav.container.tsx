@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useAppSelector } from '../../../../redux/redux_hooks';
-import { selectUserData } from '../../../../redux/slices/userSlice';
+import { selectUser } from '../../../../redux/slices/userSlice';
 import { NavigationsType } from '../../../../utils/navigation';
 import MobileMainNav from './MobileMainNav'
 
@@ -16,7 +16,7 @@ const MobileMainNavContainer: FC<MobileMainNavContainerType> = ({
 }) => {
 
   const router = useRouter()
-  const { session: userSession } = useAppSelector(selectUserData)
+  const { session: userSession } = useAppSelector(selectUser)
 
   return (
     <MobileMainNav

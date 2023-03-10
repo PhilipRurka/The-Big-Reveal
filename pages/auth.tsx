@@ -1,12 +1,12 @@
 import AuthContainer from "../src/components/auth/Auth.container";
-import { RouterQuery } from "../src/components/auth/Auth.types";
+import { RouterQueryEnum } from "../src/components/auth/Auth.types";
 import { initialConsole } from "./api/initial-console"
 
-export type AuthTypeOptionsType = typeof AUTH_TYPE_OPTIONS[RouterQuery.LOGIN]
+export type AuthTypeOptionsType = typeof AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
 
 export const AUTH_TYPE_OPTIONS = {
-  [RouterQuery.REGISTRATION]: {
-    id: RouterQuery.REGISTRATION,
+  [RouterQueryEnum.REGISTRATION]: {
+    id: RouterQueryEnum.REGISTRATION,
     hasEmail: true,
     hasPassword: true,
     hasConfirmedPassword: false,
@@ -17,8 +17,8 @@ export const AUTH_TYPE_OPTIONS = {
       title: 'Have an account?'
     }]
   },
-  [RouterQuery.FORGOT_PASSWORD]: {
-    id: RouterQuery.FORGOT_PASSWORD,
+  [RouterQueryEnum.FORGOT_PASSWORD]: {
+    id: RouterQueryEnum.FORGOT_PASSWORD,
     hasEmail: true,
     hasPassword: false,
     hasConfirmedPassword: false,
@@ -29,18 +29,18 @@ export const AUTH_TYPE_OPTIONS = {
       title: 'Remember your password?'
     }]
   },
-  [RouterQuery.LOGIN]: {
-    id: RouterQuery.LOGIN,
+  [RouterQueryEnum.LOGIN]: {
+    id: RouterQueryEnum.LOGIN,
     hasEmail: true,
     hasPassword: true,
     hasConfirmedPassword: false,
     hasPasswordValidation: false,
     title: 'Login',
     toAuthLinks: [{
-      href: `/auth?type=${RouterQuery.REGISTRATION}`,
+      href: `/auth?type=${RouterQueryEnum.REGISTRATION}`,
       title: 'Don\'t have an account?'
     },{
-      href: `/auth?type=${RouterQuery.FORGOT_PASSWORD}`,
+      href: `/auth?type=${RouterQueryEnum.FORGOT_PASSWORD}`,
       title: 'Forgot your password?'
     }]
   }
@@ -54,7 +54,7 @@ export async function getServerSideProps(context: any) {
     initialValues = newAuthTypeOptions[context.query.type]
 
   } else {
-    initialValues = newAuthTypeOptions[RouterQuery.LOGIN]
+    initialValues = newAuthTypeOptions[RouterQueryEnum.LOGIN]
   }
 
   return {

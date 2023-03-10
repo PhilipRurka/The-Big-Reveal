@@ -1,6 +1,6 @@
 import withAuthRequired from '../src/hoc/withAuthRequired';
 import { useAppSelector } from '../src/redux/redux_hooks';
-import { selectUserData } from '../src/redux/slices/userSlice';
+import { selectUser } from '../src/redux/slices/userSlice';
 
 type DashboardType = {
   todos: any;
@@ -12,7 +12,7 @@ function Dashboard({
   todos
 }: DashboardType) {
 
-  const { session: userSession } = useAppSelector(selectUserData)
+  const { session: userSession } = useAppSelector(selectUser)
   
   return (
     <main>
