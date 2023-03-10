@@ -1,11 +1,10 @@
-import React, { FC } from 'react'
-import { ResMessageType, StatusMessageType } from '../auth/Auth.types'
+import { FC } from 'react'
+import { StatusMessageTypesEnum } from '../auth/Auth.types'
 import { ResMessage, ResMessageWrapper } from './AuthResMessage.styled'
 
 export type AuthResMessageType = {
   message: string
-  type: any
-  // type: StatusMessageType
+  type: StatusMessageTypesEnum
 }
 
 const AuthResMessage: FC<AuthResMessageType> = ({

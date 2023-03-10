@@ -37,7 +37,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
 }) => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
-  const registrationTimeLeftRef = useRef<any>()
+  const registrationTimeLeftRef = useRef<ReturnType<typeof setInterval>>()
 
   const [password, setPassword] = useState('')
   // const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)

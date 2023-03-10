@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { ForwardedRef, forwardRef } from "react";
 import {
   AuthWrapper,
   AuthTitle,

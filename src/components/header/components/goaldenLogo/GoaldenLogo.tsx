@@ -8,7 +8,7 @@ import {
 } from "./GoaldenLogo.styled"
 
 const GoaldenLogo: FC = () => {
-  const goaldenLogoRef = useRef<HTMLAnchorElement>()
+  const goaldenLogoRef = useRef<HTMLAnchorElement>(null)
   const router = useRouter()
 
   useEffect(() =>  {
@@ -18,7 +18,7 @@ const GoaldenLogo: FC = () => {
   return (
     <GoaldenLogoWrapper>
       <GoaldenLogoAnchor
-        ref={goaldenLogoRef as any}
+        ref={goaldenLogoRef}
         href='/'
         aria-label='Home page' >
         <GoaldenImg
