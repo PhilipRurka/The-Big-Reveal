@@ -9,7 +9,7 @@ export const getStaticProps = () => {
  };
 }
 
-const Home: FC = () => {
+function Home() {
 
   return (
     <>
