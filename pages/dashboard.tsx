@@ -7,10 +7,10 @@ type DashboardType = {
   user: any;
 }
 
-const Dashboard = ({
+function Dashboard({
   user,
   todos
-}: DashboardType) => {
+}: DashboardType) {
 
   const { session: userSession } = useAppSelector(selectUserData)
   

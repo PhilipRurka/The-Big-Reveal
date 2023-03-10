@@ -1,6 +1,7 @@
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { AuthTypeOptionsType, AUTH_TYPE_OPTIONS } from "../../../pages/auth"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
@@ -25,7 +26,15 @@ import {
 export const AUTH_TRANSITION_TIME = 300
 const REGISTRATION_ERROR_TIME = 60
 
-const AuthContainer = () => {
+const AuthContainer: FC<AuthTypeOptionsType> = ({
+  id,
+  hasEmail,
+  hasPassword,
+  hasConfirmedPassword,
+  hasPasswordValidation,
+  title,
+  toAuthLinks
+}) => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
   const registrationTimeLeftRef = useRef<any>()
@@ -35,13 +44,13 @@ const AuthContainer = () => {
   const [resStatus, setResStatus] = useState<ResType['status']>()
   const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
   const [typeProps, setTypeProps] = useState<TypePropsType>({
-    id: undefined,
-    hasEmail: undefined,
-    hasPassword: undefined,
-    hasConfirmedPassword: false,
-    hasPasswordValidation: false,
-    title: undefined,
-    toAuthLinks: undefined
+    id,
+    hasEmail,
+    hasPassword,
+    hasConfirmedPassword,
+    hasPasswordValidation,
+    title,
+    toAuthLinks
   })
 
   const router = useRouter()
@@ -295,48 +304,6 @@ const AuthContainer = () => {
     setPassword(event.currentTarget.value)
   }, [removeStatusMessage])
 
-  const typesPropsOptions = useMemo(() => ({
-    [RouterQuery.REGISTRATION]: {
-      id: RouterQuery.REGISTRATION,
-      hasEmail: true,
-      hasPassword: true,
-      hasConfirmedPassword: false,
-      hasPasswordValidation: true,
-      title: 'Registration',
-      toAuthLinks: [{
-        href: '/auth',
-        title: 'Have an account?'
-      }]
-    },
-    [RouterQuery.FORGOT_PASSWORD]: {
-      id: RouterQuery.FORGOT_PASSWORD,
-      hasEmail: true,
-      hasPassword: false,
-      hasConfirmedPassword: false,
-      hasPasswordValidation: false,
-      title: 'Forgot Password',
-      toAuthLinks: [{
-        href: '/auth',
-        title: 'Remember your password?'
-      }]
-    },
-    [RouterQuery.LOGIN]: {
-      id: RouterQuery.LOGIN,
-      hasEmail: true,
-      hasPassword: true,
-      hasConfirmedPassword: false,
-      hasPasswordValidation: false,
-      title: 'Login',
-      toAuthLinks: [{
-        href: `/auth?type=${RouterQuery.REGISTRATION}`,
-        title: 'Don\'t have an account?'
-      },{
-        href: `/auth?type=${RouterQuery.FORGOT_PASSWORD}`,
-        title: 'Forgot your password?'
-      }]
-    }
-  }), [])
-
   const authProps: AuthPropsType = useMemo(() => {
     let finalObject: AuthPropsType = {}
     if(typeProps.hasPassword) {
@@ -406,13 +373,13 @@ const AuthContainer = () => {
     let newTypeProps: TypePropsType
 
     if(authType === RouterQuery.REGISTRATION) {
-      newTypeProps = typesPropsOptions[RouterQuery.REGISTRATION]
+      newTypeProps = AUTH_TYPE_OPTIONS[RouterQuery.REGISTRATION]
 
     } else if(authType === RouterQuery.FORGOT_PASSWORD) {
-      newTypeProps = typesPropsOptions[RouterQuery.FORGOT_PASSWORD]
+      newTypeProps = AUTH_TYPE_OPTIONS[RouterQuery.FORGOT_PASSWORD]
 
     } else {
-      newTypeProps = typesPropsOptions[RouterQuery.LOGIN]
+      newTypeProps = AUTH_TYPE_OPTIONS[RouterQuery.LOGIN]
     }
 
     const timeoutTime = typeProps.title ? AUTH_TRANSITION_TIME : 0
@@ -437,7 +404,7 @@ const AuthContainer = () => {
         }
       }
     }
-  }, [router, removeStatusMessage, transitionObject, typeProps, typesPropsOptions])
+  }, [router, removeStatusMessage, transitionObject, typeProps])
 
   /* #endregion */
 

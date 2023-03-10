@@ -5,7 +5,7 @@ import { InputOnChangeType } from "../input/Input"
 export enum RouterQuery {
   REGISTRATION    = 'registration',
   FORGOT_PASSWORD = 'forgot-password',
-  LOGIN           = 'auth'
+  LOGIN           = 'login'
 }
 
 export enum AuthTransitionIds {
