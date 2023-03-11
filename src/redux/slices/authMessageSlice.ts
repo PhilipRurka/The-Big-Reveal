@@ -54,8 +54,8 @@ const authMessageSlice = createSlice({
         return statusMessage.prepare(authMessageObj)
       }
     },
-    update_dynamic_message: (state: StatusMessageStateType, payload) => {
-      return updateFormattedMessage(state, payload)
+    update_dynamic_message: (state: StatusMessageStateType, action) => {
+      return updateFormattedMessage(state, action)
     },
 
     hide_message: state => {

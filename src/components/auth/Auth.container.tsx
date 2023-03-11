@@ -44,7 +44,6 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
   const registrationTimeLeftRef = useRef<ReturnType<typeof setInterval>>()
 
   const [password, setPassword] = useState('')
-  // const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
   const [resStatus, setResStatus] = useState<ResType['status']>()
   const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
   const [typeProps, setTypeProps] = useState<TypePropsType>({
@@ -339,7 +338,6 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
-      // statusMessage={statusMessage}
       removeStatusMessage={removeStatusMessage} />
   )
 }

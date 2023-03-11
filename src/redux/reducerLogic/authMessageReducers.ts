@@ -90,13 +90,13 @@ export const statusMessage = {
   }
 }
 
-export const updateFormattedMessage: UpdateFormattedMessageType = (state, payload) => {
-  if(!Object.keys(state).length) return {}
+export const updateFormattedMessage: UpdateFormattedMessageType = (state, { payload }) => {
+  if(!state.defaultMessage) return {}
 
-  const finalMessage = state.defaultMessage.split('${}').join(payload.toString())
+  const formattedMessage = state.defaultMessage.split('${}').join(payload.toString())
 
   return {
     ...state,
-    finalMessage
+    formattedMessage
   }
 }
