@@ -21,7 +21,11 @@ import {
   StatusMessageTypesEnum,
   ExpandedResType
 } from "./Auth.types"
-import { hide_message, status_message } from "../../redux/slices/authMessageSlice"
+import {
+  hide_message,
+  status_message,
+  update_dynamic_message
+} from "../../redux/slices/authMessageSlice"
 
 export const AUTH_TRANSITION_TIME = 300
 const REGISTRATION_ERROR_TIME = 60
@@ -80,36 +84,6 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       status: errorStatus,
     }))
 
-    // if(error) {
-    //   console.error({
-    //     Location: 'auth.container.tsx',
-    //     error
-    //   })
-
-    //   setResStatus(error.status)
-
-    //   if(error.status === 400) {
-    //     setStatusMessage({
-    //       source: RouterQueryEnum.LOGIN,
-    //       type: StatusMessageTypesEnum.ERROR,
-    //       status: error.status,
-    //       showMessage: true,
-    //       message: 'Invalid Cradential'
-    //     })
-
-    //   } else if(error.status) {
-    //     setStatusMessage({
-    //       source: RouterQueryEnum.LOGIN,
-    //       type: StatusMessageTypesEnum.ERROR,
-    //       status: error.status,
-    //       showMessage: true,
-    //       message: 'Something went wrong on our end (server issue). Refresh the page and try again'
-    //     })
-    //   }
-      
-    //   return
-    // }
-
     if(data?.session) {
       dispatch(update_userData(data.session))
       Router.push('dashboard')
@@ -155,56 +129,6 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       status: errorStatus,
       dynamicValue: data?.user ? emailRef.current.value : undefined
     }))
-
-    // if(error) {
-    //   console.error({
-    //     Location: 'auth.container.tsx',
-    //     error
-    //   })
-
-      // if(error.status === 422) {
-        // setStatusMessage({
-        //   source: RouterQueryEnum.REGISTRATION,
-        //   type: StatusMessageTypesEnum.ERROR,
-        //   status: error.status,
-        //   showMessage: true,
-        //   message: `Invalid Email Format`
-        // })
-
-      // } else if(error.status === 429) {
-      //   setResStatus(error.status)
-      //   setStatusMessage({
-      //     source: RouterQueryEnum.REGISTRATION,
-      //     type: StatusMessageTypesEnum.ERROR,
-      //     status: error.status,
-      //     showMessage: true,
-      //     message: ``
-      //   })
-
-      // } else if(error.status) {
-      //   setResStatus(error.status)
-      //   setStatusMessage({
-      //     source: RouterQueryEnum.REGISTRATION,
-      //     type: StatusMessageTypesEnum.ERROR,
-      //     status: error.status,
-      //     showMessage: true,
-      //     message: `An error has occured, refresh and try again!`
-      //   })
-      // }
-
-    //   return
-    // }
-
-    // if(data?.user) {
-    //   setResStatus(200)
-    //   setStatusMessage({
-    //     source: RouterQueryEnum.REGISTRATION,
-    //     type: StatusMessageTypesEnum.SUCCESS,
-    //     status: 200,
-    //     showMessage: true,
-    //     message: `A registration has been sent to ${emailRef.current.value}`
-    //   })
-    // }
   }, [updateRegistrationTimeLeft])
 
   /* #endregion */
@@ -233,48 +157,6 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       message: error?.message,
       dynamicValue: data ? emailRef.current.value : undefined
     }))
-
-    // if(error) {
-    //   if(error.status === 422) {
-    //     if(error.message === 'Password recovery requires an email') {
-    //       setStatusMessage({
-    //         source: RouterQueryEnum.FORGOT_PASSWORD,
-    //         type: StatusMessageTypesEnum.ERROR,
-    //         status: error.status,
-    //         message: error.message,
-    //         showMessage: true
-    //       })
-
-    //     } else if(error.message === 'Unable to validate email address: invalid format') {
-    //       setStatusMessage({
-    //         source: RouterQueryEnum.FORGOT_PASSWORD,
-    //         type: StatusMessageTypesEnum.ERROR,
-    //         status: error.status,
-    //         showMessage: true,
-    //         message: 'Invalid Email'
-    //       })
-    //     }
-
-    //   } else {
-    //     setStatusMessage({
-    //       source: RouterQueryEnum.FORGOT_PASSWORD,
-    //       type: StatusMessageTypesEnum.ERROR,
-    //       status: error.status || NaN,
-    //       showMessage: true,
-    //       message: 'Something went wrong! Oh no!'
-    //     })
-    //   }
-    // }
-
-    // if(data) {
-    //   setStatusMessage({
-    //     source: RouterQueryEnum.FORGOT_PASSWORD,
-    //     type: StatusMessageTypesEnum.SUCCESS,
-    //     status: 200,
-    //     showMessage: true,
-    //     message: `A registration has been sent to ${emailRef.current.value}`
-    //   })
-    // }
   }, [])
 
   /* #endregion */
@@ -387,13 +269,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
         return
       }
 
-      // setStatusMessage((previous: any) => {
-      //   return {
-      //     ...previous,
-      //     message: `You must wait ${registrationTimeLeft} seconds before you can submit another registration request`
-      //   }
-      // })
-
+      dispatch(update_dynamic_message(registrationTimeLeft))
     }
   }, [registrationTimeLeft, removeStatusMessage, resStatus])
 
