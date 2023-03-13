@@ -23,7 +23,6 @@ const useRigidCountdown: UseRigidCountdowntype = () => {
   }, [])
 
   const updateCountdownTimeLeft = useCallback(() =>  {
-    console.log('Hit')
     setCountdownTimeLeft((previous) => (previous - 1))
   }, [])
 
