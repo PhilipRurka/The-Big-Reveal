@@ -3,9 +3,9 @@ import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
 import AuthResMessage from './AuthResMessage'
 import gsap from "gsap"
 import { useAppSelector } from '../../redux/redux_hooks'
-import { DefinedStatusMessageStateType, selectAuthMessage } from '../../redux/slices/authMessageSlice'
+import { selectAuthMessage } from '../../redux/slices/authMessageSlice'
+import { DefinedStatusMessageStateType } from '../../redux/types/authMessageRedux.type'
 
-// const AuthResMessageContainer: FC<AuthResMessageType> = ({ statusMessage }) => {
 const AuthResMessageContainer = () => {
   const tlStatusMessageRef = useRef<gsap.core.Timeline>(gsap.timeline({
     paused: true

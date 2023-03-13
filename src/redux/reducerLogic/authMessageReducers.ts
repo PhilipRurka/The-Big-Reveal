@@ -6,7 +6,8 @@ import {
   MessageObjType,
   StatusMessageRequestType,
   UpdateFormattedMessageType,
-} from "../slices/authMessageSlice"
+  DefinedStatusMessageStateType,
+} from "../types/authMessageRedux.type"
 
 export const statusMessage = {
   reducer(state: StatusMessageStateType, action: PayloadAction<StatusMessageStateType>) {
@@ -91,12 +92,14 @@ export const statusMessage = {
 }
 
 export const updateFormattedMessage: UpdateFormattedMessageType = (state, { payload }) => {
-  if(!state.defaultMessage) return {}
+  const definedState = { ...state as DefinedStatusMessageStateType }
 
-  const formattedMessage = state.defaultMessage.split('${}').join(payload.toString())
+  if(!definedState.defaultMessage) return
+
+  const formattedMessage = definedState.defaultMessage.split('${}').join(payload.toString())
 
   return {
-    ...state,
+    ...definedState,
     formattedMessage
   }
 }

@@ -26,9 +26,9 @@ import {
   status_message,
   update_dynamic_message
 } from "../../redux/slices/authMessageSlice"
+import useRigidCountdown, { REGISTRATION_ERROR_TIME } from "../../hooks/useRigidCountdown"
 
 export const AUTH_TRANSITION_TIME = 300
-const REGISTRATION_ERROR_TIME = 60
 
 const AuthContainer: FC<AuthTypeOptionsType> = ({
   id,
@@ -41,11 +41,9 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
 }) => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
-  const registrationTimeLeftRef = useRef<ReturnType<typeof setInterval>>()
 
   const [password, setPassword] = useState('')
   const [resStatus, setResStatus] = useState<ResType['status']>()
-  const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
   const [typeProps, setTypeProps] = useState<TypePropsType>({
     id,
     hasEmail,
@@ -59,6 +57,12 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
   const router = useRouter()
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
+  const {
+    initCountdown,
+    countdownTimeLeft,
+    resetCooldownTimeLeft,
+    resetTimeLeft
+  } = useRigidCountdown()
 
   /* #region LOGIN */
   const handleLogin: HandleNarrowAuthType = useCallback(async () => {
@@ -91,17 +95,6 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
   /* #endregion */
 
   /* #region REGISTRATION */
-
-  const resetRegistrationTimeLeft = useCallback(() => {
-    clearInterval(registrationTimeLeftRef?.current)
-    registrationTimeLeftRef.current = undefined
-    setRegistrationTimeLeft(REGISTRATION_ERROR_TIME)
-  }, [])
-
-  const updateRegistrationTimeLeft = useCallback(() =>  {
-    setRegistrationTimeLeft((previous) => (previous - 1))
-  }, [])
-
   const handleRegistration: HandleNarrowAuthType = useCallback(async () => {
     if(!passwordRef?.current || !emailRef.current) return
 
@@ -115,9 +108,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
 
     const error = resError as ResType
 
-    if(!registrationTimeLeftRef.current) {
-      registrationTimeLeftRef.current = setInterval(updateRegistrationTimeLeft, 1000)
-    }
+    initCountdown()
 
     let errorStatus = error ? error.status : 200
     setResStatus(errorStatus)
@@ -128,7 +119,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       status: errorStatus,
       dynamicValue: data?.user ? emailRef.current.value : undefined
     }))
-  }, [updateRegistrationTimeLeft])
+  }, [initCountdown, dispatch])
 
   /* #endregion */
 
@@ -156,7 +147,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       message: error?.message,
       dynamicValue: data ? emailRef.current.value : undefined
     }))
-  }, [])
+  }, [dispatch])
 
   /* #endregion */
 
@@ -222,9 +213,8 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
 
     setTimeout(() => {
       dispatch(status_message(null))
-      resetRegistrationTimeLeft()
     }, AUTH_TRANSITION_TIME * 2)
-  }, [resetRegistrationTimeLeft])
+  }, [resetCooldownTimeLeft, dispatch])
 
   const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
     removeStatusMessage()
@@ -245,46 +235,42 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
   }, [typeProps, password, validationStatuses, handlePasswordUpdate])
 
   const disableSubmit = useMemo(() => {
-  let passwordCheck = false
-  if(typeProps.hasPassword && typeProps.hasPasswordValidation) {
-    if(!validationStatuses?.isSuccess) {
-      passwordCheck = true
+    let passwordCheck = false
+    if(typeProps.hasPassword && typeProps.hasPasswordValidation) {
+      if(!validationStatuses?.isSuccess) {
+        passwordCheck = true
+      }
     }
-  }
 
-  const errorStatusCheck= registrationTimeLeft !== 60 && resStatus === 429
-  const isDisabled = passwordCheck || errorStatusCheck
-  return isDisabled
-}, [validationStatuses, registrationTimeLeft, typeProps, resStatus])
+    const errorStatusCheck= countdownTimeLeft !== 60 && resStatus === 429
+    const isDisabled = passwordCheck || errorStatusCheck
+    return isDisabled
+  }, [validationStatuses, countdownTimeLeft, typeProps, resStatus])
+
   /* #endregion */
 
   /* #region USE_EFFECT */
 
-  /** Update Dynamic Messages */
   useEffect(() => {
-    if(resStatus === 429 && registrationTimeLeftRef?.current) {
-      if(registrationTimeLeft === -1) {
+    let timeout: ReturnType<typeof setInterval>
+    
+    if(resStatus === 429) {
+      if(countdownTimeLeft === -1) {
         removeStatusMessage()
+
+        timeout = setTimeout(() => {
+          resetTimeLeft(REGISTRATION_ERROR_TIME)
+        }, AUTH_TRANSITION_TIME * 2)
         return
       }
 
-      dispatch(update_dynamic_message(registrationTimeLeft))
+      dispatch(update_dynamic_message(countdownTimeLeft))
     }
-  }, [registrationTimeLeft, removeStatusMessage, resStatus])
 
-  useEffect(() => {
-    if(resStatus !== 429) {
-      if(registrationTimeLeft === -1) {
-        resetRegistrationTimeLeft()
-      }
-    }
-  }, [registrationTimeLeft, resetRegistrationTimeLeft, resStatus])
-
-  useEffect(() => { /** Init */
     return () => {
-      clearInterval(registrationTimeLeftRef.current)
+      clearInterval(timeout)
     }
-  }, [])
+  }, [countdownTimeLeft, resStatus, dispatch, removeStatusMessage, resetTimeLeft])
 
   useEffect(() => {
     removeStatusMessage()
@@ -325,7 +311,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
         }
       }
     }
-  }, [router, removeStatusMessage, transitionObject, typeProps])
+  }, [router, transitionObject, typeProps, removeStatusMessage])
 
   /* #endregion */
 
@@ -338,7 +324,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
-      removeStatusMessage={removeStatusMessage} />
+      removeStatusMessage={() => removeStatusMessage()} />
   )
 }
 

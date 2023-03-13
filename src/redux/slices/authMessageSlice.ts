@@ -1,44 +1,10 @@
 import {
-  CaseReducer,
   createSlice,
   PayloadAction
 } from '@reduxjs/toolkit';
 import type { RootState } from '../redux_store';
-import { RouterQueryEnum, StatusMessageTypesEnum } from '../../components/auth/Auth.types'
 import { statusMessage, updateFormattedMessage } from '../reducerLogic/authMessageReducers'
-
-export type DefinedStatusMessageRequestType = {
-  source: RouterQueryEnum
-  status: number | undefined
-  message?: string
-  type: StatusMessageTypesEnum
-  dynamicValue?: string | number
-}
-
-export type DefinedStatusMessageStateType = {
-  showMessage: boolean
-  source: RouterQueryEnum
-  status: number | undefined
-  type: StatusMessageTypesEnum
-  defaultMessage: string
-  formattedMessage: string
-}
-
-export type StatusMessageRequestType = null | DefinedStatusMessageRequestType
-export type StatusMessageStateType = {} | DefinedStatusMessageStateType
-
-export type MessageObjType = {
-  defaultMessage?: string
-  formattedMessage?: string
-}
-
-type DynamicValueActionType = {
-  dynamicValue: string | number
-}
-
-type CaseReducerBuilderType<T> = CaseReducer<StatusMessageStateType, PayloadAction<T>>
-
-export type UpdateFormattedMessageType = CaseReducerBuilderType<DynamicValueActionType['dynamicValue']>
+import { StatusMessageRequestType, StatusMessageStateType } from '../types/authMessageRedux.type';
 
 const initialState: StatusMessageStateType = {}
 

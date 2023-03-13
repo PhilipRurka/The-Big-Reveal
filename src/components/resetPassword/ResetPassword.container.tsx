@@ -74,7 +74,7 @@ const ResetPasswordContainer = () => {
       //   error
       // })
     // }
-  }, [])
+  }, [dispatch])
 
   const removeStatusMessage = useCallback(() => {
     dispatch(hide_message())
@@ -82,7 +82,7 @@ const ResetPasswordContainer = () => {
     setTimeout(() => {
       dispatch(status_message(null))
     }, AUTH_TRANSITION_TIME * 2)
-  }, [])
+  }, [dispatch])
 
   const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
     removeStatusMessage()
