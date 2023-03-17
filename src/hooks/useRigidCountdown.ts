@@ -6,43 +6,52 @@ import { DefinedStatusMessageStateType } from "../redux/types/authMessageRedux.t
 export const REGISTRATION_ERROR_TIME = 60
 
 type UseRigidCountdowntype = () => {
-  initCountdown: () => void
-  countdownTimeLeft: number
+  initCountdown: (timeLeft: number) => void
+  countdownTimeLeft: number | null
   resetCooldownTimeLeft: () => void
-  resetTimeLeft: (time: number) => void
 }
 
 const useRigidCountdown: UseRigidCountdowntype = () => {
-  const countdownTimeLeftRef = useRef<ReturnType<typeof setInterval>>()
-  const [countdownTimeLeft, setCountdownTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
+  let countdownTimeLeftRef = useRef<ReturnType<typeof setInterval>>()
+  const [countdownTimeLeft, setCountdownTimeLeft] = useState<number | null>(null)
   const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
 
-  const resetTimeLeft = useCallback((time: number) => {
-    countdownTimeLeftRef.current = undefined
-    setCountdownTimeLeft(time)
-  }, [])
+  // const resetTimeLeft = useCallback((time: number) => {
+  //   countdownTimeLeftRef.current = undefined
+  //   setCountdownTimeLeft(time)
+  // }, [])
 
   const updateCountdownTimeLeft = useCallback(() =>  {
-    setCountdownTimeLeft((previous) => (previous - 1))
+    setCountdownTimeLeft((previous) => (typeof previous === 'number' ? previous - 1 : null))
   }, [])
 
-  const initCountdown = useCallback(() => {
+  const initCountdown = useCallback((timeLeft: number) => {
     if(countdownTimeLeftRef.current) return
-    countdownTimeLeftRef.current = setInterval(updateCountdownTimeLeft, 1000)
+    setCountdownTimeLeft(timeLeft)
+
+    countdownTimeLeftRef.current = setInterval(() => updateCountdownTimeLeft(), 1000)
   }, [updateCountdownTimeLeft])
 
   const resetCooldownTimeLeft = useCallback(() => {
-    clearInterval(countdownTimeLeftRef?.current)
+    clearInterval(countdownTimeLeftRef.current)
+    
+    countdownTimeLeftRef.current = undefined
+
+    setCountdownTimeLeft(null)
   }, [])
 
   useEffect(() => {
     return () => {
-      clearInterval(countdownTimeLeftRef.current)
+      clearInterval(countdownTimeLeftRef?.current)
     }
   }, [])
 
   useEffect(() => {
-    if(authMessage.status !== 429) {
+    console.log({
+      message: 'countdownTimeLeft',
+      value: countdownTimeLeft
+    })
+    if(authMessage.status === 429) {
       if(countdownTimeLeft === -1) {
         resetCooldownTimeLeft()
       }
@@ -52,8 +61,7 @@ const useRigidCountdown: UseRigidCountdowntype = () => {
   return {
     initCountdown,
     countdownTimeLeft,
-    resetCooldownTimeLeft,
-    resetTimeLeft
+    resetCooldownTimeLeft
   }
 }
 

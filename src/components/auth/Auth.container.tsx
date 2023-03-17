@@ -1,9 +1,9 @@
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
-import { AuthTypeOptionsType, AUTH_TYPE_OPTIONS } from "../../../pages/auth"
+import { AuthPageType, AUTH_TYPE_OPTIONS } from "../../../pages/auth"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
-import { useAppDispatch } from "../../redux/redux_hooks"
+import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
 import { getRedirectURL } from "../../utils/redirect"
 import { supabase } from "../../utils/supabase"
@@ -18,32 +18,35 @@ import {
   HandleWrapperAuthType,
   RouterQueryEnum,
   TypePropsType,
-  StatusMessageTypesEnum,
-  ExpandedResType
+  StatusMessageTypesEnum
 } from "./Auth.types"
 import {
   hide_message,
+  selectAuthMessage,
   status_message,
   update_dynamic_message
 } from "../../redux/slices/authMessageSlice"
 import useRigidCountdown, { REGISTRATION_ERROR_TIME } from "../../hooks/useRigidCountdown"
+import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
 
 export const AUTH_TRANSITION_TIME = 300
 
-const AuthContainer: FC<AuthTypeOptionsType> = ({
+const AuthContainer: FC<AuthPageType> = ({
   id,
   hasEmail,
   hasPassword,
   hasConfirmedPassword,
   hasPasswordValidation,
   title,
-  toAuthLinks
+  toAuthLinks,
+  initRouterAuthType
 }) => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
 
   const [password, setPassword] = useState('')
-  const [resStatus, setResStatus] = useState<ResType['status']>()
+  const [resStatus, setResStatus] = useState<number | undefined>()
+  const [routerAuthType, setRouterAuthType] = useState(initRouterAuthType)
   const [typeProps, setTypeProps] = useState<TypePropsType>({
     id,
     hasEmail,
@@ -53,15 +56,15 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
     title,
     toAuthLinks
   })
-
+  
+  const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
   const router = useRouter()
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
   const {
     initCountdown,
     countdownTimeLeft,
-    resetCooldownTimeLeft,
-    resetTimeLeft
+    resetCooldownTimeLeft
   } = useRigidCountdown()
 
   /* #region LOGIN */
@@ -108,7 +111,22 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
 
     const error = resError as ResType
 
-    initCountdown()
+    if(error?.status === 429) {
+      const bufferFormat = [
+        'For security purposes, you can only request this after ',
+        ' seconds.'
+      ]
+
+      console.log(error?.message)
+
+      if(error.message.includes(bufferFormat[0])) {
+        let timeLeft: string | number = error.message.replace(bufferFormat[0], '')
+        timeLeft = timeLeft.replace(bufferFormat[1], '')
+        timeLeft = Number(timeLeft)
+        console.log(timeLeft)
+        initCountdown(timeLeft)
+      }
+    }
 
     let errorStatus = error ? error.status : 200
     setResStatus(errorStatus)
@@ -117,6 +135,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       source: RouterQueryEnum.REGISTRATION,
       type: data?.user ? StatusMessageTypesEnum.SUCCESS : StatusMessageTypesEnum.ERROR,
       status: errorStatus,
+      message: error?.message,
       dynamicValue: data?.user ? emailRef.current.value : undefined
     }))
   }, [initCountdown, dispatch])
@@ -135,7 +154,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       redirectTo: getRedirectURL('reset-password'),
     })
 
-    const error = resError as ExpandedResType
+    const error = resError as ResType
 
     let errorStatus = error ? error.status : 200
     setResStatus(errorStatus)
@@ -152,14 +171,6 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
   /* #endregion */
 
   /* #region ANIMATION */
-
-  const transitionObject = useMemo(() => ({
-    title: AuthTransitionIdsEnum.TITLE,
-    hasEmail: AuthTransitionIdsEnum.EMAIL,
-    hasPassword: AuthTransitionIdsEnum.PASSWORD,
-    toAuthLinks: AuthTransitionIdsEnum.TO_AUTH_LINKS
-  }), [])
-
   const contentSwitchAnimation: ContentSwitchAnimationType = (id, shrinkHeight) => {
     const shrinkHeightProperties = shrinkHeight ? {
       remove: {
@@ -213,8 +224,9 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
 
     setTimeout(() => {
       dispatch(status_message(null))
+      resetCooldownTimeLeft()
     }, AUTH_TRANSITION_TIME * 2)
-  }, [resetCooldownTimeLeft, dispatch])
+  }, [dispatch])
 
   const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
     removeStatusMessage()
@@ -235,17 +247,20 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
   }, [typeProps, password, validationStatuses, handlePasswordUpdate])
 
   const disableSubmit = useMemo(() => {
-    let passwordCheck = false
+    if(routerAuthType === RouterQueryEnum.FORGOT_PASSWORD) return false
+
     if(typeProps.hasPassword && typeProps.hasPasswordValidation) {
       if(!validationStatuses?.isSuccess) {
-        passwordCheck = true
+        return true
       }
     }
 
-    const errorStatusCheck= countdownTimeLeft !== 60 && resStatus === 429
-    const isDisabled = passwordCheck || errorStatusCheck
-    return isDisabled
-  }, [validationStatuses, countdownTimeLeft, typeProps, resStatus])
+    if(authMessage.type === StatusMessageTypesEnum.ERROR) {
+      return true
+    }
+
+    return false
+  }, [validationStatuses, typeProps, routerAuthType, authMessage])
 
   /* #endregion */
 
@@ -257,11 +272,6 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
     if(resStatus === 429) {
       if(countdownTimeLeft === -1) {
         removeStatusMessage()
-
-        timeout = setTimeout(() => {
-          resetTimeLeft(REGISTRATION_ERROR_TIME)
-        }, AUTH_TRANSITION_TIME * 2)
-        return
       }
 
       dispatch(update_dynamic_message(countdownTimeLeft))
@@ -270,20 +280,26 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
     return () => {
       clearInterval(timeout)
     }
-  }, [countdownTimeLeft, resStatus, dispatch, removeStatusMessage, resetTimeLeft])
+  }, [countdownTimeLeft, resStatus, dispatch, removeStatusMessage])
+
+  useEffect(() => {
+    const authType = router.asPath.split('/auth?type=')[1]
+
+    if(authType === RouterQueryEnum.REGISTRATION || authType === RouterQueryEnum.FORGOT_PASSWORD) {
+      setRouterAuthType(authType)
+
+    } else {
+      setRouterAuthType(RouterQueryEnum.LOGIN)
+    }
+  }, [router])
 
   useEffect(() => {
     removeStatusMessage()
 
-    const authType = router.asPath.split('/auth?type=')[1]
-
     let newTypeProps: TypePropsType
 
-    if(authType === RouterQueryEnum.REGISTRATION) {
-      newTypeProps = AUTH_TYPE_OPTIONS[RouterQueryEnum.REGISTRATION]
-
-    } else if(authType === RouterQueryEnum.FORGOT_PASSWORD) {
-      newTypeProps = AUTH_TYPE_OPTIONS[RouterQueryEnum.FORGOT_PASSWORD]
+    if(routerAuthType === RouterQueryEnum.REGISTRATION || routerAuthType === RouterQueryEnum.FORGOT_PASSWORD) {
+      newTypeProps = AUTH_TYPE_OPTIONS[routerAuthType]
 
     } else {
       newTypeProps = AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
@@ -294,6 +310,13 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
     setTimeout(() => {
       setTypeProps(newTypeProps)
     }, timeoutTime)
+
+    const transitionObject = {
+      title: AuthTransitionIdsEnum.TITLE,
+      hasEmail: AuthTransitionIdsEnum.EMAIL,
+      hasPassword: AuthTransitionIdsEnum.PASSWORD,
+      toAuthLinks: AuthTransitionIdsEnum.TO_AUTH_LINKS
+    }
 
     if(typeProps.title && newTypeProps) {
       for (let i = 0; i < Object.keys(transitionObject).length; i++) {
@@ -311,7 +334,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
         }
       }
     }
-  }, [router, transitionObject, typeProps, removeStatusMessage])
+  }, [router, typeProps, removeStatusMessage, routerAuthType])
 
   /* #endregion */
 

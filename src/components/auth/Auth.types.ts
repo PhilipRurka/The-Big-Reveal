@@ -29,9 +29,10 @@ export type ToAuthLinkType = {
   title: string
 }
 
-export type ResType = {
-  name?: string
-  status?: number
+export type ResType = null | {
+  name: string
+  status: number
+  message: string
 }
 
 export type PasswordPropsType = {
@@ -80,8 +81,4 @@ export type ContentSwitchAnimationType = (
 
 export type ResMessageType = {
   statusType: undefined | StatusMessageTypesEnum
-}
-
-export type ExpandedResType = ResType & {
-  message?: string
 }

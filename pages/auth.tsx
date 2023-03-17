@@ -1,9 +1,14 @@
 import AuthContainer from "../src/components/auth/Auth.container";
 import { RouterQueryEnum } from "../src/components/auth/Auth.types";
 import { isKeyOfObject } from "../src/types/global";
-import { initialConsole } from "./api/initial-console"
 
-export type AuthTypeOptionsType = typeof AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
+type AuthTypeType = keyof typeof AUTH_TYPE_OPTIONS
+
+type AuthTypeOptionsType = typeof AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
+
+export type AuthPageType = AuthTypeOptionsType & {
+  initRouterAuthType: AuthTypeType
+}
 
 export const AUTH_TYPE_OPTIONS = {
   [RouterQueryEnum.REGISTRATION]: {
@@ -49,25 +54,29 @@ export const AUTH_TYPE_OPTIONS = {
 
 export async function getServerSideProps(context: any) {
   let initialValues: AuthTypeOptionsType
+  let initRouterAuthType: AuthTypeType
   const newAuthTypeOptions: typeof AUTH_TYPE_OPTIONS = {...AUTH_TYPE_OPTIONS}
 
   const type: string = context.query.type
 
   if(context.query.type && isKeyOfObject(type, newAuthTypeOptions)) {
     initialValues = newAuthTypeOptions[type]
+    initRouterAuthType = type
 
   } else {
     initialValues = newAuthTypeOptions[RouterQueryEnum.LOGIN]
+    initRouterAuthType = RouterQueryEnum.LOGIN
   }
 
   return {
     props: {
-      ...initialValues
+      ...initialValues,
+      initRouterAuthType
     },
  };
 }
 
-function AuthPage(props: AuthTypeOptionsType) {
+function AuthPage(props: AuthPageType) {
   return <AuthContainer {...props} />
 }
 

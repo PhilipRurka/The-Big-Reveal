@@ -31,7 +31,10 @@ export const statusMessage = {
 
     const messagesObj: MessageObjType = {}
 
-    if(source === RouterQueryEnum.LOGIN) {
+    if(message === 'Email rate limit exceeded') {
+      messagesObj.defaultMessage = message
+
+    } else if(source === RouterQueryEnum.LOGIN) {
       if(status === 400) {
         messagesObj.defaultMessage = 'Invalid Cradential'
 
@@ -58,7 +61,7 @@ export const statusMessage = {
         messagesObj.defaultMessage = 'Invalid Email'
 
       } else if(status === 429) {
-        messagesObj.defaultMessage = 'You must wait ${} seconds before you can submit another registration request'
+        messagesObj.defaultMessage = 'For security purposes, you can only request this once every 60 seconds.'
 
       } else if(type === StatusMessageTypesEnum.SUCCESS) {
         messagesObj.defaultMessage = 'A registration has been sent to ${}'
@@ -94,7 +97,7 @@ export const statusMessage = {
 export const updateFormattedMessage: UpdateFormattedMessageType = (state, { payload }) => {
   const definedState = { ...state as DefinedStatusMessageStateType }
 
-  if(!definedState.defaultMessage) return
+  if(!definedState.defaultMessage || !payload) return
 
   const formattedMessage = definedState.defaultMessage.split('${}').join(payload.toString())
 
