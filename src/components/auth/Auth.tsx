@@ -29,7 +29,6 @@ const Auth = forwardRef<RefsType, AuthType>(({
   handleConfirmedPasswordUpdate,
   validationStatuses,
   disableSubmit,
-  // statusMessage,
   removeStatusMessage,
   hasPasswordValidation,
   hasConfirmedPassword
@@ -44,7 +43,6 @@ const Auth = forwardRef<RefsType, AuthType>(({
         { title }
       </AuthTitle>
       <Form>
-        {/* <AuthResMessage statusMessage={statusMessage} /> */}
         <AuthResMessage />
         {hasEmail && (
           <Fields id={AuthTransitionIdsEnum.EMAIL}>
