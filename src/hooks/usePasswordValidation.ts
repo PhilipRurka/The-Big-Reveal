@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { passwordLengthTest, passwordLowerTest, passwordNumberTest, passwordSpecialTest, passwordUpperTest } from "../utils/authConditions"
 
-type UsePasswordValidation = (password: string | undefined) => ItemsSuccessStatesType
+type usePasswordValidation = (password: string | undefined) => ItemsSuccessStatesType
 export type ItemsSuccessStatesType = {
   isSuccess: boolean
   hasLength: boolean
@@ -11,7 +11,7 @@ export type ItemsSuccessStatesType = {
   hasSpecial: boolean
 }
 
-const usePasswordValidation: UsePasswordValidation = (password = '') => {
+const usePasswordValidation: usePasswordValidation = (password = '') => {
   const [itemsSuccessStates, setItemsSuccessStates] = useState<ItemsSuccessStatesType>({
     isSuccess: false,
     hasLength: false,

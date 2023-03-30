@@ -1,11 +1,11 @@
 import { RefObject, useEffect, useState } from "react"
 
-type UseIsInputFocusedType = (
+type useIsInputFocusedType = (
   ref: RefObject<HTMLInputElement>,
   dependencies?: Array<unknown>
 ) => boolean
 
-const useIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
+const useIsInputFocused: useIsInputFocusedType = (ref, dependencies) => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
   useEffect(() => {

@@ -2,13 +2,13 @@ import { useCallback, useEffect, useRef, useState } from "react"
 
 export const REGISTRATION_ERROR_TIME = 60
 
-type UseRigidCountdowntype = () => {
+type useRigidCountdowntype = () => {
   initCountdown: (timeLeft: number) => void
   countdownTimeLeft: number | null
   resetCooldownTimeLeft: () => void
 }
 
-const useRigidCountdown: UseRigidCountdowntype = () => {
+const UseRigidCountdown: useRigidCountdowntype = () => {
   let countdownTimeLeftRef = useRef<ReturnType<typeof setInterval>>()
   const [countdownTimeLeft, setCountdownTimeLeft] = useState<number | null>(null)
 
@@ -42,4 +42,4 @@ const useRigidCountdown: UseRigidCountdowntype = () => {
   }
 }
 
-export default useRigidCountdown
+export default UseRigidCountdown
