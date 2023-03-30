@@ -3,7 +3,7 @@ import { useEffect } from "react"
 import { supabase } from "../utils/supabase"
 
 // eslint-disable-next-line react/display-name
-const withAuthRequired = (Component: any) => (props: any) => {
+const WithAuthRequired = (Component: any) => (props: any) => {
   useEffect(() => {
     (async () => {
       const { data, error } = await supabase.auth.getSession()
@@ -21,4 +21,4 @@ const withAuthRequired = (Component: any) => (props: any) => {
   return <Component {...props}/>
 }
 
-export default withAuthRequired
+export default WithAuthRequired

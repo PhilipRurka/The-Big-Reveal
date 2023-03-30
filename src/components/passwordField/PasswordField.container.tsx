@@ -1,6 +1,6 @@
 import gsap from "gsap"
 import { forwardRef, RefObject, useCallback, useEffect, useRef } from "react"
-import useIsInputFocused from "../../hooks/useIsInputFocused"
+import UseIsInputFocused from "../../hooks/useIsInputFocused"
 import type { PasswordPropsType } from "../auth/Auth.types"
 import PasswordField from "./PasswordField"
 
@@ -19,7 +19,7 @@ const PasswordFieldContainer = forwardRef<HTMLInputElement, PasswordFieldContain
   hasPassword,
   hasPasswordValidation
 }, forwardRef) => {
-  const isPasswordFocused = useIsInputFocused(forwardRef as RefObject<HTMLInputElement>)
+  const isPasswordFocused = UseIsInputFocused(forwardRef as RefObject<HTMLInputElement>)
 
   const tlRef = useRef<gsap.core.Timeline>(gsap.timeline())
 
