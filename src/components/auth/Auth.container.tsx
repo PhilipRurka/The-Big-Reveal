@@ -26,10 +26,10 @@ import {
   status_message,
   update_dynamic_message
 } from "../../redux/slices/authMessageSlice"
-import useRigidCountdown, { REGISTRATION_ERROR_TIME } from "../../hooks/useRigidCountdown"
+import useRigidCountdown from "../../hooks/useRigidCountdown"
 import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
 
-export const AUTH_TRANSITION_TIME = 300
+export const AUTH_TRANSITION_TIME = 200
 
 const AuthContainer: FC<AuthPageType> = ({
   id,

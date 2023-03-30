@@ -1,7 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react"
-import { useAppSelector } from "../redux/redux_hooks"
-import { selectAuthMessage } from "../redux/slices/authMessageSlice"
-import { DefinedStatusMessageStateType } from "../redux/types/authMessageRedux.type"
 
 export const REGISTRATION_ERROR_TIME = 60
 
@@ -14,7 +11,6 @@ type UseRigidCountdowntype = () => {
 const useRigidCountdown: UseRigidCountdowntype = () => {
   let countdownTimeLeftRef = useRef<ReturnType<typeof setInterval>>()
   const [countdownTimeLeft, setCountdownTimeLeft] = useState<number | null>(null)
-  const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
 
   const updateCountdownTimeLeft = useCallback(() =>  {
     setCountdownTimeLeft((previous) => (typeof previous === 'number' ? previous - 1 : null))
