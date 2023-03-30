@@ -1,12 +1,18 @@
 import AuthContainer from "../src/components/auth/Auth.container";
-import { RouterQuery } from "../src/components/auth/Auth.types";
-import { initialConsole } from "./api/initial-console"
+import { RouterQueryEnum } from "../src/components/auth/Auth.types";
+import { isKeyOfObject } from "../src/types/global";
 
-export type AuthTypeOptionsType = typeof AUTH_TYPE_OPTIONS[RouterQuery.LOGIN]
+type AuthTypeType = keyof typeof AUTH_TYPE_OPTIONS
+
+type AuthTypeOptionsType = typeof AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
+
+export type AuthPageType = AuthTypeOptionsType & {
+  initRouterAuthType: AuthTypeType
+}
 
 export const AUTH_TYPE_OPTIONS = {
-  [RouterQuery.REGISTRATION]: {
-    id: RouterQuery.REGISTRATION,
+  [RouterQueryEnum.REGISTRATION]: {
+    id: RouterQueryEnum.REGISTRATION,
     hasEmail: true,
     hasPassword: true,
     hasConfirmedPassword: false,
@@ -17,8 +23,8 @@ export const AUTH_TYPE_OPTIONS = {
       title: 'Have an account?'
     }]
   },
-  [RouterQuery.FORGOT_PASSWORD]: {
-    id: RouterQuery.FORGOT_PASSWORD,
+  [RouterQueryEnum.FORGOT_PASSWORD]: {
+    id: RouterQueryEnum.FORGOT_PASSWORD,
     hasEmail: true,
     hasPassword: false,
     hasConfirmedPassword: false,
@@ -29,18 +35,18 @@ export const AUTH_TYPE_OPTIONS = {
       title: 'Remember your password?'
     }]
   },
-  [RouterQuery.LOGIN]: {
-    id: RouterQuery.LOGIN,
+  [RouterQueryEnum.LOGIN]: {
+    id: RouterQueryEnum.LOGIN,
     hasEmail: true,
     hasPassword: true,
     hasConfirmedPassword: false,
     hasPasswordValidation: false,
     title: 'Login',
     toAuthLinks: [{
-      href: `/auth?type=${RouterQuery.REGISTRATION}`,
+      href: `/auth?type=${RouterQueryEnum.REGISTRATION}`,
       title: 'Don\'t have an account?'
     },{
-      href: `/auth?type=${RouterQuery.FORGOT_PASSWORD}`,
+      href: `/auth?type=${RouterQueryEnum.FORGOT_PASSWORD}`,
       title: 'Forgot your password?'
     }]
   }
@@ -48,23 +54,29 @@ export const AUTH_TYPE_OPTIONS = {
 
 export async function getServerSideProps(context: any) {
   let initialValues: AuthTypeOptionsType
-  const newAuthTypeOptions: any = {...AUTH_TYPE_OPTIONS}
+  let initRouterAuthType: AuthTypeType
+  const newAuthTypeOptions: typeof AUTH_TYPE_OPTIONS = {...AUTH_TYPE_OPTIONS}
 
-  if(context.query.type && newAuthTypeOptions[context.query.type]) {
-    initialValues = newAuthTypeOptions[context.query.type]
+  const type: string = context.query.type
+
+  if(context.query.type && isKeyOfObject(type, newAuthTypeOptions)) {
+    initialValues = newAuthTypeOptions[type]
+    initRouterAuthType = type
 
   } else {
-    initialValues = newAuthTypeOptions[RouterQuery.LOGIN]
+    initialValues = newAuthTypeOptions[RouterQueryEnum.LOGIN]
+    initRouterAuthType = RouterQueryEnum.LOGIN
   }
 
   return {
     props: {
-      ...initialValues
+      ...initialValues,
+      initRouterAuthType
     },
  };
 }
 
-function AuthPage(props: AuthTypeOptionsType) {
+function AuthPage(props: AuthPageType) {
   return <AuthContainer {...props} />
 }
 
