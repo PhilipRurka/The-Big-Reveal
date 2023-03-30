@@ -1,6 +1,6 @@
 import Router from 'next/router'
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import usePasswordValidation from '../../hooks/usePasswordValidation'
+import UsePasswordValidation from '../../hooks/usePasswordValidation'
 import { useAppDispatch } from '../../redux/redux_hooks'
 import { hide_message, status_message } from '../../redux/slices/authMessageSlice'
 import { update_userData } from '../../redux/slices/userSlice'
@@ -17,7 +17,7 @@ const ResetPasswordContainer = () => {
   const [confirmedPassword, setConfirmedPassword] = useState('')
 
   const dispatch = useAppDispatch()
-  const validationStatuses = usePasswordValidation(password)
+  const validationStatuses = UsePasswordValidation(password)
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
