@@ -1,10 +1,10 @@
 import Router from "next/router"
-import React from "react"
+import React, { Component, ComponentType } from "react"
+import { getDisplayName } from "../utils/hoc"
 import { supabase } from "../utils/supabase"
 
-function withAuthRequired(Component: any) {
-  return class extends React.Component {
-
+const withAuthRequired = <T extends object>(WrappedComponent: ComponentType<T>) => {
+  class WithAuthRequired extends Component<T> {
     async componentDidMount(): Promise<void> {
       const { data, error } = await supabase.auth.getSession()
 
@@ -18,9 +18,14 @@ function withAuthRequired(Component: any) {
     }
 
     render() {
-      return <Component {...this.props} />
+      return <WrappedComponent {...this.props} />
     }
   }
+
+  /** @ts-ignore */
+  WithAuthRequired.displayName = `withAuthRequired-${getDisplayName(WrappedComponent)}`
+  
+  return WithAuthRequired
 }
 
 export default withAuthRequired
