@@ -226,7 +226,7 @@ const AuthContainer: FC<AuthPageType> = ({
       dispatch(status_message(null))
       resetCooldownTimeLeft()
     }, AUTH_TRANSITION_TIME * 2)
-  }, [dispatch])
+  }, [dispatch, resetCooldownTimeLeft])
 
   const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
     removeStatusMessage()
@@ -270,7 +270,7 @@ const AuthContainer: FC<AuthPageType> = ({
     let timeout: ReturnType<typeof setInterval>
     
     if(resStatus === 429) {
-      if(countdownTimeLeft === -1) {
+      if(countdownTimeLeft === 0) {
         removeStatusMessage()
       }
 

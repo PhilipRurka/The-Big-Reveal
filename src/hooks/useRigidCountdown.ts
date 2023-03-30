@@ -16,11 +16,6 @@ const useRigidCountdown: UseRigidCountdowntype = () => {
   const [countdownTimeLeft, setCountdownTimeLeft] = useState<number | null>(null)
   const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
 
-  // const resetTimeLeft = useCallback((time: number) => {
-  //   countdownTimeLeftRef.current = undefined
-  //   setCountdownTimeLeft(time)
-  // }, [])
-
   const updateCountdownTimeLeft = useCallback(() =>  {
     setCountdownTimeLeft((previous) => (typeof previous === 'number' ? previous - 1 : null))
   }, [])
@@ -34,9 +29,7 @@ const useRigidCountdown: UseRigidCountdowntype = () => {
 
   const resetCooldownTimeLeft = useCallback(() => {
     clearInterval(countdownTimeLeftRef.current)
-    
     countdownTimeLeftRef.current = undefined
-
     setCountdownTimeLeft(null)
   }, [])
 
@@ -45,18 +38,6 @@ const useRigidCountdown: UseRigidCountdowntype = () => {
       clearInterval(countdownTimeLeftRef?.current)
     }
   }, [])
-
-  useEffect(() => {
-    console.log({
-      message: 'countdownTimeLeft',
-      value: countdownTimeLeft
-    })
-    if(authMessage.status === 429) {
-      if(countdownTimeLeft === -1) {
-        resetCooldownTimeLeft()
-      }
-    }
-  }, [countdownTimeLeft, resetCooldownTimeLeft, authMessage.status])
 
   return {
     initCountdown,
