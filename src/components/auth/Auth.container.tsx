@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
 import { AuthPageType, AUTH_TYPE_OPTIONS } from "../../../pages/auth"
-import UsePasswordValidation from "../../hooks/usePasswordValidation"
+import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
 import { getRedirectURL } from "../../utils/redirect"
@@ -26,7 +26,7 @@ import {
   status_message,
   update_dynamic_message
 } from "../../redux/slices/authMessageSlice"
-import UseRigidCountdown from "../../hooks/useRigidCountdown"
+import useRigidCountdown from "../../hooks/useRigidCountdown"
 import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
 
 export const AUTH_TRANSITION_TIME = 200
@@ -60,12 +60,12 @@ const AuthContainer: FC<AuthPageType> = ({
   const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const validationStatuses = UsePasswordValidation(password)
+  const validationStatuses = usePasswordValidation(password)
   const {
     initCountdown,
     countdownTimeLeft,
     resetCooldownTimeLeft
-  } = UseRigidCountdown()
+  } = useRigidCountdown()
 
   /* #region LOGIN */
   const handleLogin: HandleNarrowAuthType = useCallback(async () => {

@@ -1,11 +1,11 @@
 import Router from "next/router"
-import { useEffect } from "react"
+import React, { Component, ComponentType } from "react"
+import { getDisplayName } from "../utils/hoc"
 import { supabase } from "../utils/supabase"
 
-// eslint-disable-next-line react/display-name
-const WithAuthRequired = (Component: any) => (props: any) => {
-  useEffect(() => {
-    (async () => {
+const withAuthRequired = <T extends object>(WrappedComponent: ComponentType<T>) => {
+  class WithAuthRequired extends Component<T> {
+    async componentDidMount(): Promise<void> {
       const { data, error } = await supabase.auth.getSession()
 
       if(error) {
@@ -15,10 +15,17 @@ const WithAuthRequired = (Component: any) => (props: any) => {
       if(!data.session) {
         Router.push('auth')
       }
-    })()
-  }, [])
+    }
 
-  return <Component {...props}/>
+    render() {
+      return <WrappedComponent {...this.props} />
+    }
+  }
+
+  /** @ts-ignore */
+  WithAuthRequired.displayName = `withAuthRequired-${getDisplayName(WrappedComponent)}`
+  
+  return WithAuthRequired
 }
 
-export default WithAuthRequired
+export default withAuthRequired

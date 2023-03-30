@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BreakObj } from "../styled/layout-styled";
 
-const UseIsXs = () => {
+const useIsXs = () => {
   const matchMedia_ref = useRef<MediaQueryList>();
   const [isXs, setIsXs] = useState<boolean>();
 
@@ -25,4 +25,4 @@ const UseIsXs = () => {
   return isXs;
 };
 
-export default UseIsXs;
+export default useIsXs;
