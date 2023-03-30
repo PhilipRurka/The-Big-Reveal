@@ -1,4 +1,4 @@
-import withAuthRequired from '../src/hoc/withAuthRequired';
+import WithAuthRequired from '../src/hoc/withAuthRequired';
 import { useAppSelector } from '../src/redux/redux_hooks';
 import { selectUser } from '../src/redux/slices/userSlice';
 
@@ -33,4 +33,4 @@ function Dashboard({
   );
 }
 
-export default withAuthRequired(Dashboard)
+export default WithAuthRequired(Dashboard)

@@ -8,7 +8,7 @@ type UseRigidCountdowntype = () => {
   resetCooldownTimeLeft: () => void
 }
 
-const useRigidCountdown: UseRigidCountdowntype = () => {
+const UseRigidCountdown: UseRigidCountdowntype = () => {
   let countdownTimeLeftRef = useRef<ReturnType<typeof setInterval>>()
   const [countdownTimeLeft, setCountdownTimeLeft] = useState<number | null>(null)
 
@@ -42,4 +42,4 @@ const useRigidCountdown: UseRigidCountdowntype = () => {
   }
 }
 
-export default useRigidCountdown
+export default UseRigidCountdown

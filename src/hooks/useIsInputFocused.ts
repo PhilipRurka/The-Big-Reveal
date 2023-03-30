@@ -5,7 +5,7 @@ type UseIsInputFocusedType = (
   dependencies?: Array<unknown>
 ) => boolean
 
-const useIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
+const UseIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
   useEffect(() => {
@@ -35,4 +35,4 @@ const useIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
   return isFocused
 }
 
-export default useIsInputFocused
+export default UseIsInputFocused

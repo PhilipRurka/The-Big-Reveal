@@ -11,7 +11,7 @@ export type ItemsSuccessStatesType = {
   hasSpecial: boolean
 }
 
-const usePasswordValidation: UsePasswordValidation = (password = '') => {
+const UsePasswordValidation: UsePasswordValidation = (password = '') => {
   const [itemsSuccessStates, setItemsSuccessStates] = useState<ItemsSuccessStatesType>({
     isSuccess: false,
     hasLength: false,
@@ -51,4 +51,4 @@ const usePasswordValidation: UsePasswordValidation = (password = '') => {
   return itemsSuccessStates
 }
 
-export default usePasswordValidation
+export default UsePasswordValidation
