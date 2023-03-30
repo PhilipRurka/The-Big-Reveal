@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../redux/redux_hooks";
 import { remove_userData, selectUser } from "../../redux/slices/userSlice";
 import { useAppSelector } from '../../redux/redux_hooks';
 import { supabase } from "../../utils/supabase";
-import UseIsXs from "../../hooks/useIsXs";
+import useIsXs from "../../hooks/useIsXs";
 
 export type handleUpdateBurgerType = (openBurger: boolean) => void;
 
@@ -16,7 +16,7 @@ const HeaderContainer: FC = () => {
     session: userSession,
     status: getUserStatus
   } = useAppSelector(selectUser)
-  const isXs = UseIsXs()
+  const isXs = useIsXs()
 
   const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
     setOpenedBurger(openBurger)
