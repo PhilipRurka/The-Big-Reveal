@@ -1,5 +1,5 @@
 import Router from "next/router"
-import React, { useEffect } from "react"
+import React from "react"
 import { supabase } from "../utils/supabase"
 
 function withAuthRequired(Component: any) {
@@ -22,26 +22,5 @@ function withAuthRequired(Component: any) {
     }
   }
 }
-
-
-
-
-// const withAuthRequired = (Component: any) => (props: any) => {
-//   useEffect(() => {
-//     (async () => {
-//       const { data, error } = await supabase.auth.getSession()
-
-//       if(error) {
-//         console.error(error)
-//       }
-
-//       if(!data.session) {
-//         Router.push('auth')
-//       }
-//     })()
-//   }, [])
-
-//   return <Component {...props}/>
-// }
 
 export default withAuthRequired
