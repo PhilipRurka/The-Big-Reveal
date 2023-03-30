@@ -1,9 +1,9 @@
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { AuthTypeOptionsType, AUTH_TYPE_OPTIONS } from "../../../pages/auth"
+import { AuthPageType, AUTH_TYPE_OPTIONS } from "../../../pages/auth"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
-import { useAppDispatch } from "../../redux/redux_hooks"
+import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
 import { getRedirectURL } from "../../utils/redirect"
 import { supabase } from "../../utils/supabase"
@@ -11,38 +11,42 @@ import { InputOnChangeType } from "../input/Input"
 import Auth from "./Auth"
 import {
   AuthPropsType,
-  AuthTransitionIds,
+  AuthTransitionIdsEnum,
   ContentSwitchAnimationType,
   ResType,
   HandleNarrowAuthType,
   HandleWrapperAuthType,
-  RouterQuery,
+  RouterQueryEnum,
   TypePropsType,
-  StatusMessageTypesEnum,
-  ExpandedResType,
-  StatusMessageType
+  StatusMessageTypesEnum
 } from "./Auth.types"
+import {
+  hide_message,
+  selectAuthMessage,
+  status_message,
+  update_dynamic_message
+} from "../../redux/slices/authMessageSlice"
+import useRigidCountdown from "../../hooks/useRigidCountdown"
+import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
 
-export const AUTH_TRANSITION_TIME = 300
-const REGISTRATION_ERROR_TIME = 60
+export const AUTH_TRANSITION_TIME = 200
 
-const AuthContainer: FC<AuthTypeOptionsType> = ({
+const AuthContainer: FC<AuthPageType> = ({
   id,
   hasEmail,
   hasPassword,
   hasConfirmedPassword,
   hasPasswordValidation,
   title,
-  toAuthLinks
+  toAuthLinks,
+  initRouterAuthType
 }) => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
-  const registrationTimeLeftRef = useRef<any>()
 
   const [password, setPassword] = useState('')
-  const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
-  const [resStatus, setResStatus] = useState<ResType['status']>()
-  const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
+  const [resStatus, setResStatus] = useState<number | undefined>()
+  const [routerAuthType, setRouterAuthType] = useState(initRouterAuthType)
   const [typeProps, setTypeProps] = useState<TypePropsType>({
     id,
     hasEmail,
@@ -52,10 +56,16 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
     title,
     toAuthLinks
   })
-
+  
+  const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
   const router = useRouter()
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
+  const {
+    initCountdown,
+    countdownTimeLeft,
+    resetCooldownTimeLeft
+  } = useRigidCountdown()
 
   /* #region LOGIN */
   const handleLogin: HandleNarrowAuthType = useCallback(async () => {
@@ -71,31 +81,14 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
 
     const error = resError as ResType
 
-    if(error) {
-      console.error({
-        Location: 'auth.container.tsx',
-        error
-      })
+    let errorStatus = error ? error.status : 200
+    setResStatus(errorStatus)
 
-      setResStatus(error.status)
-
-      if(error.status === 400) {
-        setStatusMessage({
-          type: StatusMessageTypesEnum.ERROR,
-          showMessage: true,
-          message: 'Invalid Cradential'
-        })
-
-      } else if(error.status) {
-        setStatusMessage({
-          type: StatusMessageTypesEnum.ERROR,
-          showMessage: true,
-          message: 'Something went wrong on our end (server issue). Refresh the page and try again'
-        })
-      }
-      
-      return
-    }
+    dispatch(status_message({
+      source: RouterQueryEnum.LOGIN,
+      type: StatusMessageTypesEnum.ERROR,
+      status: errorStatus,
+    }))
 
     if(data?.session) {
       dispatch(update_userData(data.session))
@@ -105,17 +98,6 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
   /* #endregion */
 
   /* #region REGISTRATION */
-
-  const resetRegistrationTimeLeft = useCallback(() => {
-    clearInterval(registrationTimeLeftRef?.current)
-    registrationTimeLeftRef.current = undefined
-    setRegistrationTimeLeft(REGISTRATION_ERROR_TIME)
-  }, [])
-
-  const updateRegistrationTimeLeft = useCallback(() =>  {
-    setRegistrationTimeLeft((previous) => (previous - 1))
-  }, [])
-
   const handleRegistration: HandleNarrowAuthType = useCallback(async () => {
     if(!passwordRef?.current || !emailRef.current) return
 
@@ -129,53 +111,34 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
 
     const error = resError as ResType
 
-    if(!registrationTimeLeftRef.current) {
-      registrationTimeLeftRef.current = setInterval(updateRegistrationTimeLeft, 1000)
-    }
+    if(error?.status === 429) {
+      const bufferFormat = [
+        'For security purposes, you can only request this after ',
+        ' seconds.'
+      ]
 
-    if(error) {
-      console.error({
-        Location: 'auth.container.tsx',
-        error
-      })
+      console.log(error?.message)
 
-      if(error.status === 422) {
-        setResStatus(error.status)
-        setStatusMessage({
-          type: StatusMessageTypesEnum.ERROR,
-          showMessage: true,
-          message: `Invalid Email Format`
-        })
-
-      } else if(error.status === 429) {
-        setResStatus(error.status)
-        setStatusMessage({
-          type: StatusMessageTypesEnum.ERROR,
-          showMessage: true,
-          message: ``
-        })
-
-      } else if(error.status) {
-        setResStatus(error.status)
-        setStatusMessage({
-          type: StatusMessageTypesEnum.ERROR,
-          showMessage: true,
-          message: `An error has occured, refresh and try again!`
-        })
+      if(error.message.includes(bufferFormat[0])) {
+        let timeLeft: string | number = error.message.replace(bufferFormat[0], '')
+        timeLeft = timeLeft.replace(bufferFormat[1], '')
+        timeLeft = Number(timeLeft)
+        console.log(timeLeft)
+        initCountdown(timeLeft)
       }
-
-      return
     }
 
-    if(data?.user) {
-      setResStatus(200)
-      setStatusMessage({
-        type: StatusMessageTypesEnum.SUCCESS,
-        showMessage: true,
-        message: `A registration has been sent to ${emailRef.current.value}`
-      })
-    }
-  }, [updateRegistrationTimeLeft])
+    let errorStatus = error ? error.status : 200
+    setResStatus(errorStatus)
+
+    dispatch(status_message({
+      source: RouterQueryEnum.REGISTRATION,
+      type: data?.user ? StatusMessageTypesEnum.SUCCESS : StatusMessageTypesEnum.ERROR,
+      status: errorStatus,
+      message: error?.message,
+      dynamicValue: data?.user ? emailRef.current.value : undefined
+    }))
+  }, [initCountdown, dispatch])
 
   /* #endregion */
 
@@ -191,54 +154,23 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       redirectTo: getRedirectURL('reset-password'),
     })
 
-    const error = resError as ExpandedResType
+    const error = resError as ResType
 
-    if(error) {
-      if(error.status === 422) {
-        if(error.message === 'Password recovery requires an email') {
-          setStatusMessage({
-            type: StatusMessageTypesEnum.ERROR,
-            showMessage: true,
-            message: 'An email is required!'
-          })
+    let errorStatus = error ? error.status : 200
+    setResStatus(errorStatus)
 
-        } else if(error.message === 'Unable to validate email address: invalid format') {
-          setStatusMessage({
-            type: StatusMessageTypesEnum.ERROR,
-            showMessage: true,
-            message: 'Invalid Email'
-          })
-        }
-
-      } else {
-        setStatusMessage({
-          type: StatusMessageTypesEnum.ERROR,
-          showMessage: true,
-          message: 'Something went wrong! Oh no!'
-        })
-      }
-    }
-
-    if(data) {
-      setStatusMessage({
-        type: StatusMessageTypesEnum.SUCCESS,
-        showMessage: true,
-        message: `A registration has been sent to ${emailRef.current.value}`
-      })
-    }
-  }, [])
+    dispatch(status_message({
+      source: RouterQueryEnum.FORGOT_PASSWORD,
+      type: data ? StatusMessageTypesEnum.SUCCESS : StatusMessageTypesEnum.ERROR,
+      status: errorStatus,
+      message: error?.message,
+      dynamicValue: data ? emailRef.current.value : undefined
+    }))
+  }, [dispatch])
 
   /* #endregion */
 
   /* #region ANIMATION */
-
-  const transitionObject = useMemo(() => ({
-    title: AuthTransitionIds.TITLE,
-    hasEmail: AuthTransitionIds.EMAIL,
-    hasPassword: AuthTransitionIds.PASSWORD,
-    toAuthLinks: AuthTransitionIds.TO_AUTH_LINKS
-  }), [])
-
   const contentSwitchAnimation: ContentSwitchAnimationType = (id, shrinkHeight) => {
     const shrinkHeightProperties = shrinkHeight ? {
       remove: {
@@ -276,28 +208,25 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
   /* #region UTILITIES */
   const handleSubmit: HandleWrapperAuthType = useCallback((event) => {
     event.preventDefault()
-    if(typeProps.id === RouterQuery.LOGIN) {
+    if(typeProps.id === RouterQueryEnum.LOGIN) {
       handleLogin()
 
-    } else if(typeProps.id === RouterQuery.REGISTRATION) {
+    } else if(typeProps.id === RouterQueryEnum.REGISTRATION) {
       handleRegistration()
 
-    } else if(typeProps.id === RouterQuery.FORGOT_PASSWORD) {
+    } else if(typeProps.id === RouterQueryEnum.FORGOT_PASSWORD) {
       handleForgotPassword()
     }
   }, [typeProps, handleLogin, handleRegistration, handleForgotPassword])
 
   const removeStatusMessage = useCallback(() => {
-    setStatusMessage((previous: any) => ({
-      ...previous,
-      showMessage: false
-    }))
+    dispatch(hide_message())
 
     setTimeout(() => {
-      setStatusMessage(null)
-      resetRegistrationTimeLeft()
+      dispatch(status_message(null))
+      resetCooldownTimeLeft()
     }, AUTH_TRANSITION_TIME * 2)
-  }, [resetRegistrationTimeLeft])
+  }, [dispatch, resetCooldownTimeLeft])
 
   const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
     removeStatusMessage()
@@ -318,68 +247,62 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
   }, [typeProps, password, validationStatuses, handlePasswordUpdate])
 
   const disableSubmit = useMemo(() => {
-  let passwordCheck = false
-  if(typeProps.hasPassword && typeProps.hasPasswordValidation) {
-    if(!validationStatuses?.isSuccess) {
-      passwordCheck = true
-    }
-  }
+    if(routerAuthType === RouterQueryEnum.FORGOT_PASSWORD) return false
 
-  const errorStatusCheck= registrationTimeLeft !== 60 && resStatus === 429
-  const isDisabled = passwordCheck || errorStatusCheck
-  return isDisabled
-}, [validationStatuses, registrationTimeLeft, typeProps, resStatus])
+    if(typeProps.hasPassword && typeProps.hasPasswordValidation) {
+      if(!validationStatuses?.isSuccess) {
+        return true
+      }
+    }
+
+    if(authMessage.type === StatusMessageTypesEnum.ERROR) {
+      return true
+    }
+
+    return false
+  }, [validationStatuses, typeProps, routerAuthType, authMessage])
+
   /* #endregion */
 
   /* #region USE_EFFECT */
 
-  /** Update Dynamic Messages */
   useEffect(() => {
-    if(resStatus === 429 && registrationTimeLeftRef?.current) {
-      if(registrationTimeLeft === -1) {
+    let timeout: ReturnType<typeof setInterval>
+    
+    if(resStatus === 429) {
+      if(countdownTimeLeft === 0) {
         removeStatusMessage()
-        return
       }
 
-      setStatusMessage((previous: any) => {
-        return {
-          ...previous,
-          message: `You must wait ${registrationTimeLeft} seconds before you can submit another registration request`
-        }
-      })
-
+      dispatch(update_dynamic_message(countdownTimeLeft))
     }
-  }, [registrationTimeLeft, removeStatusMessage, resStatus])
+
+    return () => {
+      clearInterval(timeout)
+    }
+  }, [countdownTimeLeft, resStatus, dispatch, removeStatusMessage])
 
   useEffect(() => {
-    if(resStatus !== 429) {
-      if(registrationTimeLeft === -1) {
-        resetRegistrationTimeLeft()
-      }
-    }
-  }, [registrationTimeLeft, resetRegistrationTimeLeft, resStatus])
+    const authType = router.asPath.split('/auth?type=')[1]
 
-  useEffect(() => { /** Init */
-    return () => {
-      clearInterval(registrationTimeLeftRef.current)
+    if(authType === RouterQueryEnum.REGISTRATION || authType === RouterQueryEnum.FORGOT_PASSWORD) {
+      setRouterAuthType(authType)
+
+    } else {
+      setRouterAuthType(RouterQueryEnum.LOGIN)
     }
-  }, [])
+  }, [router])
 
   useEffect(() => {
     removeStatusMessage()
 
-    const authType = router.asPath.split('/auth?type=')[1]
-
     let newTypeProps: TypePropsType
 
-    if(authType === RouterQuery.REGISTRATION) {
-      newTypeProps = AUTH_TYPE_OPTIONS[RouterQuery.REGISTRATION]
-
-    } else if(authType === RouterQuery.FORGOT_PASSWORD) {
-      newTypeProps = AUTH_TYPE_OPTIONS[RouterQuery.FORGOT_PASSWORD]
+    if(routerAuthType === RouterQueryEnum.REGISTRATION || routerAuthType === RouterQueryEnum.FORGOT_PASSWORD) {
+      newTypeProps = AUTH_TYPE_OPTIONS[routerAuthType]
 
     } else {
-      newTypeProps = AUTH_TYPE_OPTIONS[RouterQuery.LOGIN]
+      newTypeProps = AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
     }
 
     const timeoutTime = typeProps.title ? AUTH_TRANSITION_TIME : 0
@@ -387,6 +310,13 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
     setTimeout(() => {
       setTypeProps(newTypeProps)
     }, timeoutTime)
+
+    const transitionObject = {
+      title: AuthTransitionIdsEnum.TITLE,
+      hasEmail: AuthTransitionIdsEnum.EMAIL,
+      hasPassword: AuthTransitionIdsEnum.PASSWORD,
+      toAuthLinks: AuthTransitionIdsEnum.TO_AUTH_LINKS
+    }
 
     if(typeProps.title && newTypeProps) {
       for (let i = 0; i < Object.keys(transitionObject).length; i++) {
@@ -404,7 +334,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
         }
       }
     }
-  }, [router, removeStatusMessage, transitionObject, typeProps])
+  }, [router, typeProps, removeStatusMessage, routerAuthType])
 
   /* #endregion */
 
@@ -417,8 +347,7 @@ const AuthContainer: FC<AuthTypeOptionsType> = ({
       ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
-      statusMessage={statusMessage}
-      removeStatusMessage={removeStatusMessage} />
+      removeStatusMessage={() => removeStatusMessage()} />
   )
 }
 

@@ -2,11 +2,12 @@ import Router from 'next/router'
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import usePasswordValidation from '../../hooks/usePasswordValidation'
 import { useAppDispatch } from '../../redux/redux_hooks'
+import { hide_message, status_message } from '../../redux/slices/authMessageSlice'
 import { update_userData } from '../../redux/slices/userSlice'
 import { supabase } from '../../utils/supabase'
 import Auth from '../auth/Auth'
 import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
-import { ResType, RouterQuery, StatusMessageType, StatusMessageTypesEnum } from '../auth/Auth.types'
+import { ResType, RouterQueryEnum, StatusMessageType, StatusMessageTypesEnum } from '../auth/Auth.types'
 import { InputOnChangeType } from '../input/Input'
 
 const ResetPasswordContainer = () => {
@@ -14,8 +15,6 @@ const ResetPasswordContainer = () => {
 
   const [password, setPassword] = useState('')
   const [confirmedPassword, setConfirmedPassword] = useState('')
-  const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
-  const [resStatus, setResStatus] = useState<ResType['status']>()
 
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
@@ -50,36 +49,40 @@ const ResetPasswordContainer = () => {
 
     const error = resError as ResType
 
-    if(error) {
-      setResStatus(error.status)
-      setStatusMessage({
-        type: StatusMessageTypesEnum.ERROR,
-        showMessage: true,
-        message: `Invalid Email Format`
-      })
+    let errorStatus = error ? error.status : 200
+
+    dispatch(status_message({
+      source: RouterQueryEnum.RESET_PASSWORD,
+      type: StatusMessageTypesEnum.ERROR,
+      status: errorStatus
+    }))
+
+    // if(error) {
+    //   setStatusMessage({
+    //     source: RouterQueryEnum.RESET_PASSWORD,
+    //     type: StatusMessageTypesEnum.ERROR,
+    //     message: `Invalid Email Format`
+    //   })
       
-    } else {
+    // } else {
       if(data?.user) {
         Router.push('dashboard')
       }
 
-      console.log({
-        data,
-        error
-      })
-    }
-  }, [])
+      // console.log({
+      //   data,
+      //   error
+      // })
+    // }
+  }, [dispatch])
 
   const removeStatusMessage = useCallback(() => {
-    setStatusMessage((previous: any) => ({
-      ...previous,
-      showMessage: false
-    }))
+    dispatch(hide_message())
 
     setTimeout(() => {
-      setStatusMessage(null)
+      dispatch(status_message(null))
     }, AUTH_TRANSITION_TIME * 2)
-  }, [])
+  }, [dispatch])
 
   const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
     removeStatusMessage()
@@ -96,7 +99,7 @@ const ResetPasswordContainer = () => {
   }, [validationStatuses, password, confirmedPassword])
 
   const typeProps = {
-    id: RouterQuery.REGISTRATION,
+    id: RouterQueryEnum.REGISTRATION,
     hasEmail: false,
     hasPassword: true,
     hasConfirmedPassword: true,
@@ -116,7 +119,6 @@ const ResetPasswordContainer = () => {
       handleConfirmedPasswordUpdate={handleConfirmedPasswordUpdate}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
-      statusMessage={statusMessage}
       removeStatusMessage={removeStatusMessage} />
   )
 }

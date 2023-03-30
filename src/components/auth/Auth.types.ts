@@ -2,13 +2,14 @@ import { FormEvent } from "react"
 import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import { InputOnChangeType } from "../input/Input"
 
-export enum RouterQuery {
+export enum RouterQueryEnum {
   REGISTRATION    = 'registration',
   FORGOT_PASSWORD = 'forgot-password',
-  LOGIN           = 'login'
+  LOGIN           = 'login',
+  RESET_PASSWORD  = 'reset-password'
 }
 
-export enum AuthTransitionIds {
+export enum AuthTransitionIdsEnum {
   TITLE         = 'auth-title',
   EMAIL         = 'auth-email',
   PASSWORD      = 'auth-password',
@@ -28,9 +29,10 @@ export type ToAuthLinkType = {
   title: string
 }
 
-export type ResType = {
-  name?: string
-  status?: number
+export type ResType = null | {
+  name: string
+  status: number
+  message: string
 }
 
 export type PasswordPropsType = {
@@ -54,9 +56,11 @@ export type TypePropsType = {
 }
 
 export type StatusMessageType = null | {
+  source: RouterQueryEnum
   type: StatusMessageTypesEnum
+  status: number
   showMessage: boolean
-  message: string
+  message?: string
 }
 
 export type RefsType = {
@@ -66,7 +70,6 @@ export type RefsType = {
 
 export type AuthType = AuthPropsType & TypePropsType & {
   handleSubmit: HandleWrapperAuthType
-  statusMessage: StatusMessageType
   disableSubmit: boolean
   removeStatusMessage: () => void
 }
@@ -78,8 +81,4 @@ export type ContentSwitchAnimationType = (
 
 export type ResMessageType = {
   statusType: undefined | StatusMessageTypesEnum
-}
-
-export type ExpandedResType = ResType & {
-  message?: string
 }

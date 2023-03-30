@@ -5,24 +5,35 @@ import {
 import { Session } from '@supabase/supabase-js';
 import type { RootState } from '../redux_store';
 
-// declaring the types for our state
 export type UserDataSliceType = {
   session: Session | null
-  isLoading: boolean
+  status: UserDataStatusType
 };
+
+type UserDataStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 const initialState: UserDataSliceType = {
   session: null,
-  isLoading: true
+  status: 'idle'
 };
 
-export const userDataSlice = createSlice({
+const userSlice = createSlice({
   name: 'userData',
   initialState,
   reducers: {
-    update_userData: (state, action: PayloadAction<UserDataSliceType['session']>) => {
-      state.session = action.payload
-      state.isLoading = false
+    update_userData: {
+      reducer(state, action: PayloadAction<UserDataSliceType>) {
+        return {
+          ...state,
+          ...action.payload
+        }
+      },
+      prepare(session: UserDataSliceType['session']) {
+        return { payload: {
+          session,
+          status: 'succeeded' as UserDataStatusType
+        }}
+      }
     },
     remove_userData: state => {
       state.session = null
@@ -33,8 +44,8 @@ export const userDataSlice = createSlice({
 export const {
   update_userData,
   remove_userData
-} = userDataSlice.actions;
+} = userSlice.actions;
 
-export const selectUserData = (state: RootState) => state.userData;
+export const selectUser = (state: RootState) => state.user;
 
-export default userDataSlice.reducer;
+export default userSlice.reducer;

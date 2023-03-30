@@ -9,7 +9,7 @@ import {
 } from "./Auth.styled";
 import Input from "../input";
 import {
-  AuthTransitionIds,
+  AuthTransitionIdsEnum,
   AuthType,
   RefsType,
 } from "./Auth.types";
@@ -29,7 +29,6 @@ const Auth = forwardRef<RefsType, AuthType>(({
   handleConfirmedPasswordUpdate,
   validationStatuses,
   disableSubmit,
-  statusMessage,
   removeStatusMessage,
   hasPasswordValidation,
   hasConfirmedPassword
@@ -40,13 +39,13 @@ const Auth = forwardRef<RefsType, AuthType>(({
 
   return (
     <AuthWrapper>
-      <AuthTitle id={AuthTransitionIds.TITLE}>
+      <AuthTitle id={AuthTransitionIdsEnum.TITLE}>
         { title }
       </AuthTitle>
       <Form>
-        <AuthResMessage statusMessage={statusMessage} />
+        <AuthResMessage />
         {hasEmail && (
-          <Fields id={AuthTransitionIds.EMAIL}>
+          <Fields id={AuthTransitionIdsEnum.EMAIL}>
             <Label htmlFor="emailAddress">
               Email
             </Label>
@@ -74,7 +73,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
         </SubmitButton>
       </Form>
       {toAuthLinks && (
-        <ToAuthLinkWrapper id={AuthTransitionIds.TO_AUTH_LINKS}>
+        <ToAuthLinkWrapper id={AuthTransitionIdsEnum.TO_AUTH_LINKS}>
           {toAuthLinks.map(({
             href: toLinkHref,
             title: toLinkTitle

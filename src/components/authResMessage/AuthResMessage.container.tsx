@@ -1,17 +1,16 @@
-import { FC, useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
-import { StatusMessageType } from '../auth/Auth.types'
 import AuthResMessage from './AuthResMessage'
 import gsap from "gsap"
+import { useAppSelector } from '../../redux/redux_hooks'
+import { selectAuthMessage } from '../../redux/slices/authMessageSlice'
+import { DefinedStatusMessageStateType } from '../../redux/types/authMessageRedux.type'
 
-export type AuthResMessageType = {
-  statusMessage: StatusMessageType
-}
-
-const AuthResMessageContainer: FC<AuthResMessageType> = ({ statusMessage }) => {
+const AuthResMessageContainer = () => {
   const tlStatusMessageRef = useRef<gsap.core.Timeline>(gsap.timeline({
     paused: true
   }))
+  const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
 
   const initGsap = useCallback(() => {
     tlStatusMessageRef.current.fromTo('#status-message-wrapper', {
@@ -41,16 +40,18 @@ const AuthResMessageContainer: FC<AuthResMessageType> = ({ statusMessage }) => {
   }, [initGsap])
 
   useEffect(() => {
-    if(statusMessage?.showMessage) {
+    if(authMessage?.showMessage) {
       tlStatusMessageRef.current.play()
       
     } else {
       tlStatusMessageRef.current.reverse()
     }
-  }, [statusMessage?.showMessage])
+  }, [authMessage?.showMessage])
   
   return (
-    <AuthResMessage statusMessage={statusMessage} />
+    <AuthResMessage
+      message={authMessage?.formattedMessage}
+      type={authMessage?.type} />
   )
 }
 

@@ -1,6 +1,6 @@
 import { forwardRef } from "react"
 import { Fields, Label } from "../../styled"
-import { AuthTransitionIds } from "../auth/Auth.types"
+import { AuthTransitionIdsEnum } from "../auth/Auth.types"
 import PasswordValidation from "../passwordValidation"
 import { PasswordFieldType } from "./PasswordField.container"
 import { PasswordInput } from "./PasswordField.styled"
@@ -14,7 +14,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
   return (
     <Fields
       hide={!hasPassword}
-      id={AuthTransitionIds.PASSWORD}
+      id={AuthTransitionIdsEnum.PASSWORD}
       aria-hidden={!hasPassword} >
       <Label htmlFor="password-input">
         Password

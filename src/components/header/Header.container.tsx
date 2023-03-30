@@ -2,7 +2,7 @@ import { FC, useMemo, useState } from "react"
 import Header from "./Header"
 import { navWithAuth, navWithoutAuth } from '../../utils/navigation';
 import { useAppDispatch } from "../../redux/redux_hooks";
-import { remove_userData, selectUserData } from "../../redux/slices/userSlice";
+import { remove_userData, selectUser } from "../../redux/slices/userSlice";
 import { useAppSelector } from '../../redux/redux_hooks';
 import { supabase } from "../../utils/supabase";
 import useIsXs from "../../hooks/useIsXs";
@@ -14,8 +14,8 @@ const HeaderContainer: FC = () => {
   const dispatch = useAppDispatch()
   const {
     session: userSession,
-    isLoading
-  } = useAppSelector(selectUserData)
+    status: getUserStatus
+  } = useAppSelector(selectUser)
   const isXs = useIsXs()
 
   const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
@@ -28,16 +28,13 @@ const HeaderContainer: FC = () => {
   }
 
   const navigationItems = useMemo(() => {
-    if(isLoading) {
-      return []
-
-    } else if(userSession) {
+    if(getUserStatus === "succeeded" && userSession) {
       return navWithAuth
-
+      
     } else {
       return navWithoutAuth
     }
-  }, [userSession, isLoading])
+  }, [userSession, getUserStatus])
   
   return (
     <Header

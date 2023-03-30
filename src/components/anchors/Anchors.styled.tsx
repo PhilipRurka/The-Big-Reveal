@@ -24,6 +24,6 @@ export const AnchorMainWrapper = styled.div<AnchorMainWrapperType>`
 
 export const AnchorMainLink = styled(LinkNext)``;
 
-export const AnchorMainTrigger = styled.span`
+export const AnchorMainTrigger = styled.button`
   cursor: pointer;
 `
