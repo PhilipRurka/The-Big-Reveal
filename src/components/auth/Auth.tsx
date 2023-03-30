@@ -5,9 +5,7 @@ import {
   Form,
   SubmitButton,
   ToAuthLinkWrapper,
-  ToAuthLinkItem,
-  ErrorMessageWrapper,
-  ErrorMessage
+  ToAuthLinkItem
 } from "./Auth.styled";
 import Input from "../input";
 import {
@@ -17,6 +15,8 @@ import {
 } from "./Auth.types";
 import { Fields, Label } from "../../styled";
 import PasswordField from "../passwordField";
+import AuthResMessage from "../authResMessage";
+import ConfirmedPasswordField from "../confirmedPasswordField";
 
 const Auth = forwardRef<RefsType, AuthType>(({
   hasEmail,
@@ -26,29 +26,25 @@ const Auth = forwardRef<RefsType, AuthType>(({
   toAuthLinks,
   password,
   handlePasswordUpdate,
+  handleConfirmedPasswordUpdate,
   validationStatuses,
   disableSubmit,
   statusMessage,
   removeStatusMessage,
+  hasPasswordValidation,
+  hasConfirmedPassword
 }, {
   emailRef,
   passwordRef
 }: any) => {
 
   return (
-    <AuthWrapper> 
+    <AuthWrapper>
       <AuthTitle id={AuthTransitionIds.TITLE}>
         { title }
       </AuthTitle>
-      <ErrorMessageWrapper id='status-message-wrapper'>
-        <ErrorMessage
-          id='status-message'
-          statusType={statusMessage?.type} >
-          { statusMessage?.message }
-        </ErrorMessage>
-      </ErrorMessageWrapper>
-      
       <Form>
+        <AuthResMessage statusMessage={statusMessage} />
         {hasEmail && (
           <Fields id={AuthTransitionIds.EMAIL}>
             <Label htmlFor="emailAddress">
@@ -62,11 +58,15 @@ const Auth = forwardRef<RefsType, AuthType>(({
           </Fields>
         )}
         <PasswordField
-          password={password}
           ref={passwordRef}
+          password={password}
+          hasPasswordValidation={hasPasswordValidation}
           handlePasswordUpdate={handlePasswordUpdate}
           validationStatuses={validationStatuses}
           hasPassword={hasPassword} />
+        {hasConfirmedPassword && handleConfirmedPasswordUpdate && (
+          <ConfirmedPasswordField handleUpdate={handleConfirmedPasswordUpdate} />
+        )}
         <SubmitButton
           onClick={handleSubmit}
           disabled={disableSubmit} >

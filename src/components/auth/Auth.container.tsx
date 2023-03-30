@@ -1,6 +1,7 @@
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { AuthTypeOptionsType, AUTH_TYPE_OPTIONS } from "../../../pages/auth"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
@@ -12,37 +13,44 @@ import {
   AuthPropsType,
   AuthTransitionIds,
   ContentSwitchAnimationType,
-  StatusMessageType,
-  ErrorType,
+  ResType,
   HandleNarrowAuthType,
   HandleWrapperAuthType,
   RouterQuery,
   TypePropsType,
   StatusMessageTypesEnum,
-  ExpandedErrorType
+  ExpandedResType,
+  StatusMessageType
 } from "./Auth.types"
 
-const TRANSITION_TIME = 300
+export const AUTH_TRANSITION_TIME = 300
 const REGISTRATION_ERROR_TIME = 60
 
-const AuthContainer = () => {
+const AuthContainer: FC<AuthTypeOptionsType> = ({
+  id,
+  hasEmail,
+  hasPassword,
+  hasConfirmedPassword,
+  hasPasswordValidation,
+  title,
+  toAuthLinks
+}) => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
-  const tlStatusMessageRef = useRef<gsap.core.Timeline>(gsap.timeline({
-    paused: true
-  }))
   const registrationTimeLeftRef = useRef<any>()
 
   const [password, setPassword] = useState('')
   const [statusMessage, setStatusMessage] = useState<StatusMessageType>(null)
+  const [resStatus, setResStatus] = useState<ResType['status']>()
   const [registrationTimeLeft, setRegistrationTimeLeft] = useState<number>(REGISTRATION_ERROR_TIME)
-  const [errorStatus, setErrorStatus] = useState<ErrorType['status']>()
   const [typeProps, setTypeProps] = useState<TypePropsType>({
-    id: undefined,
-    hasEmail: undefined,
-    hasPassword: undefined,
-    title: undefined,
-    toAuthLinks: undefined
+    id,
+    hasEmail,
+    hasPassword,
+    hasConfirmedPassword,
+    hasPasswordValidation,
+    title,
+    toAuthLinks
   })
 
   const router = useRouter()
@@ -61,7 +69,7 @@ const AuthContainer = () => {
       password: passwordRef.current.value,
     })
 
-    const error = resError as ErrorType
+    const error = resError as ResType
 
     if(error) {
       console.error({
@@ -69,17 +77,19 @@ const AuthContainer = () => {
         error
       })
 
-      setErrorStatus(error.status)
+      setResStatus(error.status)
 
       if(error.status === 400) {
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: 'Invalid Cradential'
         })
 
       } else if(error.status) {
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: 'Something went wrong on our end (server issue). Refresh the page and try again'
         })
       }
@@ -91,10 +101,16 @@ const AuthContainer = () => {
       dispatch(update_userData(data.session))
       Router.push('dashboard')
     }
-  }, [])
+  }, [dispatch])
   /* #endregion */
 
   /* #region REGISTRATION */
+
+  const resetRegistrationTimeLeft = useCallback(() => {
+    clearInterval(registrationTimeLeftRef?.current)
+    registrationTimeLeftRef.current = undefined
+    setRegistrationTimeLeft(REGISTRATION_ERROR_TIME)
+  }, [])
 
   const updateRegistrationTimeLeft = useCallback(() =>  {
     setRegistrationTimeLeft((previous) => (previous - 1))
@@ -111,7 +127,7 @@ const AuthContainer = () => {
       password: passwordRef.current.value,
     })
 
-    const error = resError as ErrorType
+    const error = resError as ResType
 
     if(!registrationTimeLeftRef.current) {
       registrationTimeLeftRef.current = setInterval(updateRegistrationTimeLeft, 1000)
@@ -124,23 +140,26 @@ const AuthContainer = () => {
       })
 
       if(error.status === 422) {
-        setErrorStatus(error.status)
+        setResStatus(error.status)
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: `Invalid Email Format`
         })
 
       } else if(error.status === 429) {
-        setErrorStatus(error.status)
+        setResStatus(error.status)
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: ``
         })
 
       } else if(error.status) {
-        setErrorStatus(error.status)
+        setResStatus(error.status)
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: `An error has occured, refresh and try again!`
         })
       }
@@ -149,19 +168,14 @@ const AuthContainer = () => {
     }
 
     if(data?.user) {
-      setErrorStatus(200)
+      setResStatus(200)
       setStatusMessage({
         type: StatusMessageTypesEnum.SUCCESS,
+        showMessage: true,
         message: `A registration has been sent to ${emailRef.current.value}`
       })
     }
   }, [updateRegistrationTimeLeft])
-
-  const resetRegistrationTimeLeft = useCallback(() => {
-    clearInterval(registrationTimeLeftRef?.current)
-    registrationTimeLeftRef.current = undefined
-    setRegistrationTimeLeft(REGISTRATION_ERROR_TIME)
-  }, [])
 
   /* #endregion */
 
@@ -177,19 +191,21 @@ const AuthContainer = () => {
       redirectTo: getRedirectURL('reset-password'),
     })
 
-    const error = resError as ExpandedErrorType
+    const error = resError as ExpandedResType
 
     if(error) {
       if(error.status === 422) {
         if(error.message === 'Password recovery requires an email') {
           setStatusMessage({
             type: StatusMessageTypesEnum.ERROR,
+            showMessage: true,
             message: 'An email is required!'
           })
 
         } else if(error.message === 'Unable to validate email address: invalid format') {
           setStatusMessage({
             type: StatusMessageTypesEnum.ERROR,
+            showMessage: true,
             message: 'Invalid Email'
           })
         }
@@ -197,6 +213,7 @@ const AuthContainer = () => {
       } else {
         setStatusMessage({
           type: StatusMessageTypesEnum.ERROR,
+          showMessage: true,
           message: 'Something went wrong! Oh no!'
         })
       }
@@ -205,6 +222,7 @@ const AuthContainer = () => {
     if(data) {
       setStatusMessage({
         type: StatusMessageTypesEnum.SUCCESS,
+        showMessage: true,
         message: `A registration has been sent to ${emailRef.current.value}`
       })
     }
@@ -213,22 +231,6 @@ const AuthContainer = () => {
   /* #endregion */
 
   /* #region ANIMATION */
-  const initGsap = useCallback(() => {
-    tlStatusMessageRef.current.fromTo('#status-message-wrapper', {
-      height: 0,
-      duration: TRANSITION_TIME / 1000,
-      ease: 'power1.out'
-    }, {
-      height: 54
-    }, 0)
-    .fromTo('#status-message', {
-      alpha: 0,
-      duration: TRANSITION_TIME / 1000,
-      ease: 'power1.out'
-    }, {
-      alpha: 1
-    }, '>')
-  }, [])
 
   const transitionObject = useMemo(() => ({
     title: AuthTransitionIds.TITLE,
@@ -253,13 +255,13 @@ const AuthContainer = () => {
 
     const contentSwitch = gsap.timeline().to(id, {
       alpha: 0,
-      duration: TRANSITION_TIME / 1000,
+      duration: AUTH_TRANSITION_TIME / 1000,
       ease: 'none',
       ...shrinkHeightProperties.remove
     })
     .to(id, {
       alpha: 1,
-      duration: TRANSITION_TIME / 1000,
+      duration: AUTH_TRANSITION_TIME / 1000,
       ease: 'none',
       ...shrinkHeightProperties.add
     })
@@ -267,7 +269,7 @@ const AuthContainer = () => {
     contentSwitch.play()
     setTimeout(() => {
       contentSwitch.kill()
-    }, TRANSITION_TIME * 2)
+    }, AUTH_TRANSITION_TIME * 2)
   }
   /* #endregion */
 
@@ -286,11 +288,15 @@ const AuthContainer = () => {
   }, [typeProps, handleLogin, handleRegistration, handleForgotPassword])
 
   const removeStatusMessage = useCallback(() => {
-    tlStatusMessageRef.current.reverse()
+    setStatusMessage((previous: any) => ({
+      ...previous,
+      showMessage: false
+    }))
+
     setTimeout(() => {
       setStatusMessage(null)
       resetRegistrationTimeLeft()
-    }, TRANSITION_TIME * 2)
+    }, AUTH_TRANSITION_TIME * 2)
   }, [resetRegistrationTimeLeft])
 
   const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
@@ -298,77 +304,38 @@ const AuthContainer = () => {
     setPassword(event.currentTarget.value)
   }, [removeStatusMessage])
 
-  const typesPropsOptions = useMemo(() => ({
-    [RouterQuery.REGISTRATION]: {
-      id: RouterQuery.REGISTRATION,
-      hasEmail: true,
-      hasPassword: true,
-      title: 'Registration',
-      toAuthLinks: [{
-        href: '/auth',
-        title: 'Have an account?'
-      }]
-    },
-    [RouterQuery.FORGOT_PASSWORD]: {
-      id: RouterQuery.FORGOT_PASSWORD,
-      hasEmail: true,
-      hasPassword: false,
-      title: 'Forgot Password',
-      toAuthLinks: [{
-        href: '/auth',
-        title: 'Remember your password?'
-      }]
-    },
-    [RouterQuery.LOGIN]: {
-      id: RouterQuery.LOGIN,
-      hasEmail: true,
-      hasPassword: true,
-      title: 'Login',
-      toAuthLinks: [{
-        href: `/auth?type=${RouterQuery.REGISTRATION}`,
-        title: 'Don\'t have an account?'
-      },{
-        href: `/auth?type=${RouterQuery.FORGOT_PASSWORD}`,
-        title: 'Forgot your password?'
-      }]
-    }
-  }), [])
-
   const authProps: AuthPropsType = useMemo(() => {
+    let finalObject: AuthPropsType = {}
     if(typeProps.hasPassword) {
-      return {
+      finalObject = {
         password,
-        handlePasswordUpdate,
-        validationStatuses
+        validationStatuses,
+        handlePasswordUpdate
       }
     }
 
-    return 
-  }, [
-    typeProps.hasPassword,
-    password,
-    validationStatuses
-  ])
+    return finalObject
+  }, [typeProps, password, validationStatuses, handlePasswordUpdate])
 
   const disableSubmit = useMemo(() => {
   let passwordCheck = false
-  if(typeProps.hasPassword) {
+  if(typeProps.hasPassword && typeProps.hasPasswordValidation) {
     if(!validationStatuses?.isSuccess) {
       passwordCheck = true
     }
   }
 
-  const errorStatusCheck= registrationTimeLeft !== 60 && errorStatus === 429
+  const errorStatusCheck= registrationTimeLeft !== 60 && resStatus === 429
   const isDisabled = passwordCheck || errorStatusCheck
   return isDisabled
-}, [validationStatuses, registrationTimeLeft, typeProps])
+}, [validationStatuses, registrationTimeLeft, typeProps, resStatus])
   /* #endregion */
 
   /* #region USE_EFFECT */
 
   /** Update Dynamic Messages */
   useEffect(() => {
-    if(errorStatus === 429 && registrationTimeLeftRef?.current) {
+    if(resStatus === 429 && registrationTimeLeftRef?.current) {
       if(registrationTimeLeft === -1) {
         removeStatusMessage()
         return
@@ -382,15 +349,15 @@ const AuthContainer = () => {
       })
 
     }
-  }, [registrationTimeLeft, removeStatusMessage, errorStatus])
+  }, [registrationTimeLeft, removeStatusMessage, resStatus])
 
   useEffect(() => {
-    if(errorStatus !== 429) {
+    if(resStatus !== 429) {
       if(registrationTimeLeft === -1) {
         resetRegistrationTimeLeft()
       }
     }
-  }, [registrationTimeLeft, resetRegistrationTimeLeft, errorStatus])
+  }, [registrationTimeLeft, resetRegistrationTimeLeft, resStatus])
 
   useEffect(() => { /** Init */
     return () => {
@@ -406,16 +373,16 @@ const AuthContainer = () => {
     let newTypeProps: TypePropsType
 
     if(authType === RouterQuery.REGISTRATION) {
-      newTypeProps = typesPropsOptions[RouterQuery.REGISTRATION]
+      newTypeProps = AUTH_TYPE_OPTIONS[RouterQuery.REGISTRATION]
 
     } else if(authType === RouterQuery.FORGOT_PASSWORD) {
-      newTypeProps = typesPropsOptions[RouterQuery.FORGOT_PASSWORD]
+      newTypeProps = AUTH_TYPE_OPTIONS[RouterQuery.FORGOT_PASSWORD]
 
     } else {
-      newTypeProps = typesPropsOptions[RouterQuery.LOGIN]
+      newTypeProps = AUTH_TYPE_OPTIONS[RouterQuery.LOGIN]
     }
 
-    const timeoutTime = typeProps.title ? TRANSITION_TIME : 0
+    const timeoutTime = typeProps.title ? AUTH_TRANSITION_TIME : 0
 
     setTimeout(() => {
       setTypeProps(newTypeProps)
@@ -437,21 +404,7 @@ const AuthContainer = () => {
         }
       }
     }
-  }, [router])
-
-  useEffect(() => {
-    initGsap()
-
-    return () => {
-      tlStatusMessageRef?.current?.kill()
-    }
-  }, [])
-
-  useEffect(() => {
-    if(statusMessage) {
-      tlStatusMessageRef.current.play()
-    }
-  }, [statusMessage])
+  }, [router, removeStatusMessage, transitionObject, typeProps])
 
   /* #endregion */
 
@@ -459,9 +412,9 @@ const AuthContainer = () => {
 
   return (
     <Auth
-      ref={refs as any}
       {...authProps}
       {...typeProps}
+      ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
       statusMessage={statusMessage}

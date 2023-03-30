@@ -9,15 +9,17 @@ const useIsInputFocused: UseIsInputFocusedType = (ref, dependencies) => {
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
   useEffect(() => {
-    if(ref) {
-      ref.current?.addEventListener('focus', handleFocus)
-      ref.current?.addEventListener('blur', handleBlur)
+    const refScoped = ref?.current
+
+    if(refScoped) {
+      refScoped.addEventListener('focus', handleFocus)
+      refScoped.addEventListener('blur', handleBlur)
     }
 
     return () => {
-      if(ref) {
-        ref.current?.removeEventListener('focus', handleFocus)
-        ref.current?.removeEventListener('blur', handleBlur)
+      if(refScoped) {
+        refScoped.removeEventListener('focus', handleFocus)
+        refScoped.removeEventListener('blur', handleBlur)
       }
     }
   }, [ref, dependencies])

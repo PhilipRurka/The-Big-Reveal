@@ -13,7 +13,7 @@ const withAuthRequired = (Component: any) => (props: any) => {
       }
 
       if(!data.session) {
-        Router.push('login')
+        Router.push('auth')
       }
     })()
   }, [])

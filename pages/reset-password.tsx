@@ -8,6 +8,8 @@ export const getStaticProps = () => {
  };
 }
 
-const ResetPasswordPage: FC = () => <ResetPassword />
+function ResetPasswordPage() {
+  return <ResetPassword />
+}
 
 export default ResetPasswordPage

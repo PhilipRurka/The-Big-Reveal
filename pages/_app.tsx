@@ -1,7 +1,7 @@
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { SessionContextProvider, Session } from '@supabase/auth-helpers-react'
 import type { AppProps } from "next/app";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Provider } from 'react-redux';
 // import Head from "../src/components/head";
 import Header from "../src/components/header";
@@ -10,14 +10,12 @@ import { FontStyles, LayoutStyles } from "../src/styled";
 import { ResetStyles } from "../src/styled/base-styled";
 import InitGetSession from '../src/utils/InitGetSession';
 
-type ComponentProps = any
-
-const MyApp: FC<AppProps<ComponentProps>> = ({
+function MyApp({
   Component,
   pageProps
 }: AppProps<{
   initialSession: Session
-}>) => {
+}>) {
   const [supabaseClient] = useState(() => createBrowserSupabaseClient())
 
   return (

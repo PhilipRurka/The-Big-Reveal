@@ -6,7 +6,6 @@ import { PasswordFieldType } from "./PasswordField.container"
 import { PasswordInput } from "./PasswordField.styled"
 
 const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
-  password,
   handlePasswordUpdate,
   validationStatuses,
   hasPassword
@@ -17,7 +16,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
       hide={!hasPassword}
       id={AuthTransitionIds.PASSWORD}
       aria-hidden={!hasPassword} >
-      <Label htmlFor="password">
+      <Label htmlFor="password-input">
         Password
       </Label>
       <PasswordInput

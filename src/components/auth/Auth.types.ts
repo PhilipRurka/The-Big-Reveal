@@ -28,29 +28,34 @@ export type ToAuthLinkType = {
   title: string
 }
 
-export type ErrorType = {
+export type ResType = {
   name?: string
   status?: number
 }
 
 export type PasswordPropsType = {
   password?: string;
+  confirmedPassword?: string;
   handlePasswordUpdate?: (event: InputOnChangeType) => void;
+  handleConfirmedPasswordUpdate?: (event: InputOnChangeType) => void;
   validationStatuses?: ItemsSuccessStatesType
 }
 
 export type AuthPropsType = PasswordPropsType | undefined
 
 export type TypePropsType = {
-  id:             undefined | string
-  hasEmail:       undefined | boolean
-  hasPassword:    undefined | boolean
-  title:          undefined | string
-  toAuthLinks:    undefined | Array<ToAuthLinkType>
+  id:                       undefined | string
+  hasEmail:                 undefined | boolean
+  hasPassword:              undefined | boolean
+  hasConfirmedPassword:     undefined | boolean
+  hasPasswordValidation:    undefined | boolean
+  title:                    undefined | string
+  toAuthLinks:              undefined | Array<ToAuthLinkType>
 }
 
 export type StatusMessageType = null | {
   type: StatusMessageTypesEnum
+  showMessage: boolean
   message: string
 }
 
@@ -71,10 +76,10 @@ export type ContentSwitchAnimationType = (
   shrinkHeight: null | 'add' | 'remove'
 ) => void
 
-export type ErrorMessageType = {
+export type ResMessageType = {
   statusType: undefined | StatusMessageTypesEnum
 }
 
-export type ExpandedErrorType = ErrorType & {
+export type ExpandedResType = ResType & {
   message?: string
 }
