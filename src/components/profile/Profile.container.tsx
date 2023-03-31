@@ -4,6 +4,7 @@ import withAuthRequired from "../../hoc/withAuthRequired"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
 import { supabase } from "../../utils/supabase"
+import dayjs from "dayjs"
 
 export type handleSaveResetType = (event: FormEvent) => void
 
@@ -41,7 +42,8 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
       .from('profiles')
       .update({
         full_name: fullName,
-        username: username
+        username: username,
+        updated_at: dayjs().toISOString()
       })
       .eq('id', profileData.id)
 
@@ -50,10 +52,9 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
         fullName,
         username
       })
-      // Some success message
 
     } else {
-      // Some error message
+      // Some sort of error message
     }
   }, [fullName, username, profileData.id])
 

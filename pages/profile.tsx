@@ -10,7 +10,7 @@ export const getServerSideProps = async (ctx: any) => {
     data: { session },
   } = await supabase.auth.getSession()
 
-  if(!session?.user.id) return {}
+  if(!session?.user.id) return { props: {}}
 
   const {
     data: profileDataArray,
