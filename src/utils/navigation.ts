@@ -22,5 +22,9 @@ export const navWithAuth: NavigationsType = [
   {
     name: 'Dashboard',
     path: '/dashboard'
+  },
+  {
+    name: 'profile',
+    path: '/profile'
   }
 ]
