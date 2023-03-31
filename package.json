@@ -46,7 +46,6 @@
       "start": "Serve the build directory as localhost",
       "lint": "Run esLint",
       "build": "Build for production",
-      "codegen": ">>Don't Use<< - Construct and store database types",
       "update-types": "Generates the src/types/supabase-types.ts file from the database"
     }
   }
