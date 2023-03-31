@@ -58,9 +58,12 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   }, [fullName, username, profileData.id])
 
   const hasChangeOccured: boolean = useMemo(() => {
+    if(username !== originalInputs.username || fullName !== originalInputs.fullName) {
+      return true
+    }
 
-    return true
-  }, [])
+    return false
+  }, [originalInputs, username, fullName])
 
   return (
     <Profile
@@ -70,7 +73,8 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
       handleFullNameUpdate={handleFullNameUpdate}
       handleUserNameUpdate={handleUserNameUpdate}
       handleReset={handleReset}
-      handleSave={handleSave} />
+      handleSave={handleSave}
+      hasChangeOccured={hasChangeOccured} />
   )
 }
 

@@ -12,6 +12,7 @@ type ProfileType = {
   handleUserNameUpdate: (event: InputOnChangeType) => void
   handleSave: handleSaveResetType
   handleReset: handleSaveResetType
+  hasChangeOccured:boolean
 }
 
 const Profile: FC<ProfileType> = ({
@@ -21,7 +22,8 @@ const Profile: FC<ProfileType> = ({
     handleFullNameUpdate,
     handleUserNameUpdate,
     handleSave,
-    handleReset
+    handleReset,
+    hasChangeOccured
   }) => {
   return (
     <ProfileWrapper>
@@ -52,12 +54,14 @@ const Profile: FC<ProfileType> = ({
         <ButtonWrapper>
           <SaveButton
             type='button'
-            onClick={handleSave} >
+            onClick={handleSave}
+            disabled={!hasChangeOccured} >
             Save
           </SaveButton>
           <ResetButton
             type='button'
-            onClick={handleReset} >
+            onClick={handleReset}
+            disabled={!hasChangeOccured} >
             Reset
           </ResetButton>
         </ButtonWrapper>
