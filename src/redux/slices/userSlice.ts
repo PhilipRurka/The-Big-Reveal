@@ -2,8 +2,9 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { Session } from '@supabase/supabase-js';
+import type { Session } from '@supabase/supabase-js';
 import type { RootState } from '../redux_store';
+import Router from 'next/router';
 
 export type UserDataSliceType = {
   session: Session | null
@@ -29,14 +30,24 @@ const userSlice = createSlice({
         }
       },
       prepare(session: UserDataSliceType['session']) {
-        return { payload: {
-          session,
-          status: 'succeeded' as UserDataStatusType
-        }}
+        if(session) {
+          return { payload: {
+            session,
+            status: 'succeeded' as UserDataStatusType
+          }}
+
+        } else {
+          console.error('useSlice Error')
+          return { payload: {
+            session: null,
+            status: 'failed' as UserDataStatusType
+          }}
+        }
       }
     },
     remove_userData: state => {
       state.session = null
+      Router.push('/auth')
     }
   },
 });

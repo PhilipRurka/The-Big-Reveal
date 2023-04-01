@@ -1,3 +1,4 @@
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { FC, useMemo, useState } from "react"
 import Header from "./Header"
 import { navWithAuth, navWithoutAuth } from '../../utils/navigation';
@@ -17,13 +18,14 @@ const HeaderContainer: FC = () => {
     status: getUserStatus
   } = useAppSelector(selectUser)
   const isXs = useIsXs()
+  const supabaseClient = useSupabaseClient()
 
   const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
     setOpenedBurger(openBurger)
   }
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
+    await supabaseClient.auth.signOut()
     dispatch(remove_userData())
   }
 

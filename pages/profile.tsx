@@ -5,17 +5,17 @@ import { authRequired } from "./api/authRequired";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
-  console.log({ ctx })
+  // console.log({ ctx })
 
   return authRequired(ctx)
     .then(async res => {
-      if(!res?.supabase || !res?.id) {
+      if(!res?.supabase || !res?.session) {
         return res
       }
 
       const {
         supabase,
-        id
+        session
       } = res
 
       const {
@@ -24,7 +24,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       } = await supabase
         .from('profiles')
         .select('*')
-        .eq('id', id)
+        .eq('id', session.user.id)
     
       if(error) {
         console.log(error)
