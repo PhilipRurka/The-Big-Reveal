@@ -10,7 +10,7 @@ export const navWithoutAuth: NavigationsType = [
   }
 ]
 
-export const navWithAuth: NavigationsType = [=
+export const navWithAuth: NavigationsType = [
   {
     name: 'Dashboard',
     path: '/dashboard'
