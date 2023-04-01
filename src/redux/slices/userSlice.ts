@@ -2,8 +2,9 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { Session } from '@supabase/supabase-js';
+import type { Session } from '@supabase/auth-helpers-react'
 import type { RootState } from '../redux_store';
+import Router from 'next/router';
 
 export type UserDataSliceType = {
   session: Session | null
@@ -11,6 +12,11 @@ export type UserDataSliceType = {
 };
 
 type UserDataStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+
+const PUBLIC_PATHS = [
+  '/',
+  '/auth'
+]
 
 const initialState: UserDataSliceType = {
   session: null,
@@ -29,14 +35,53 @@ const userSlice = createSlice({
         }
       },
       prepare(session: UserDataSliceType['session']) {
-        return { payload: {
-          session,
-          status: 'succeeded' as UserDataStatusType
-        }}
+        if(session) {
+          const status: UserDataStatusType = 'succeeded'
+
+          return { payload: {
+            session,
+            status
+          }}
+
+        } else {
+          console.error('useSlice Error')
+          const status: UserDataStatusType = 'failed'
+
+          return { payload: {
+            session: null,
+            status
+          }}
+        }
       }
     },
-    remove_userData: state => {
-      state.session = null
+    remove_userData: {
+      reducer(state, action: PayloadAction<any> ) {
+        return {
+          ...state,
+          ...action.payload
+        }
+      },
+      prepare(router) {
+        const status: UserDataStatusType = 'idle'
+        let isPublic = false
+
+        for (let i = 0; i < PUBLIC_PATHS.length; i++) {
+          const publicPath = PUBLIC_PATHS[i];
+          if(publicPath === router.asPath) {
+            isPublic = true
+            break
+          }
+        }
+
+        if(!isPublic) {
+          Router.push('/auth')
+        }
+        
+        return { payload: {
+          session: null,
+          status
+        }}
+      }
     }
   },
 });

@@ -1,5 +1,4 @@
-import { FC } from 'react';
-import { initialConsole } from './api/initial-console';
+import { initialConsole } from '../lib/initial-console';
 
 export const getStaticProps = () => {
   initialConsole('Home')

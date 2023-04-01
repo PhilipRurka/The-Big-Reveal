@@ -6,11 +6,6 @@ export const emailTest: ConditionType = (email) => {
   return regex.test(email);
 };
 
-/** Test for name length. */
-// export const nameLengthTest = (name) => (
-//   name.length < 2
-// );
-
 /** Test for password length. */
 export const passwordLengthTest: ConditionType = (password) => (
   password.length >= 8

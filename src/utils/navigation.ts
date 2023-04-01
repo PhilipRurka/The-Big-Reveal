@@ -4,10 +4,6 @@ export type NavigationsType = Array<{
 }>
 
 export const navWithoutAuth: NavigationsType = [
-  // {
-  //   name: 'Home',
-  //   path: '/'
-  // },
   {
     name: 'Login',
     path: '/auth'
@@ -15,12 +11,12 @@ export const navWithoutAuth: NavigationsType = [
 ]
 
 export const navWithAuth: NavigationsType = [
-  // {
-  //   name: 'Home',
-  //   path: '/'
-  // },
   {
     name: 'Dashboard',
     path: '/dashboard'
+  },
+  {
+    name: 'profile',
+    path: '/profile'
   }
 ]
