@@ -1,3 +1,4 @@
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
@@ -6,7 +7,6 @@ import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
 import { getRedirectURL } from "../../utils/redirect"
-import { supabase } from "../../utils/supabase"
 import { InputOnChangeType } from "../input/Input"
 import Auth from "./Auth"
 import {
@@ -44,6 +44,7 @@ const AuthContainer: FC<AuthPageType> = ({
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
 
+  const supabaseClient = useSupabaseClient()
   const [password, setPassword] = useState('')
   const [resStatus, setResStatus] = useState<number | undefined>()
   const [routerAuthType, setRouterAuthType] = useState(initRouterAuthType)
@@ -74,7 +75,7 @@ const AuthContainer: FC<AuthPageType> = ({
     const {
       data,
       error: resError
-    } = await supabase.auth.signInWithPassword({
+    } = await supabaseClient.auth.signInWithPassword({
       email: emailRef.current.value ?? '',
       password: passwordRef.current.value,
     })
@@ -84,15 +85,25 @@ const AuthContainer: FC<AuthPageType> = ({
     let errorStatus = error ? error.status : 200
     setResStatus(errorStatus)
 
-    dispatch(status_message({
-      source: RouterQueryEnum.LOGIN,
-      type: StatusMessageTypesEnum.ERROR,
-      status: errorStatus,
-    }))
+    if(data) {
+      if(data?.session) {
+        dispatch(update_userData(data.session))
+        Router.push('dashboard')
+  
+      } else {
+        dispatch(status_message({
+          source: RouterQueryEnum.LOGIN,
+          type: StatusMessageTypesEnum.ERROR,
+          status: errorStatus,
+        })) 
+      }
 
-    if(data?.session) {
-      dispatch(update_userData(data.session))
-      Router.push('dashboard')
+    } else {
+      dispatch(status_message({
+        source: RouterQueryEnum.LOGIN,
+        type: StatusMessageTypesEnum.ERROR,
+        status: errorStatus,
+      }))
     }
   }, [dispatch])
   /* #endregion */
@@ -104,7 +115,7 @@ const AuthContainer: FC<AuthPageType> = ({
     const {
       data,
       error: resError
-    } = await supabase.auth.signUp({
+    } = await supabaseClient.auth.signUp({
       email: emailRef.current.value ?? '',
       password: passwordRef.current.value,
     })
@@ -150,7 +161,7 @@ const AuthContainer: FC<AuthPageType> = ({
     const {
       data,
       error: resError
-    } = await supabase.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
+    } = await supabaseClient.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
       redirectTo: getRedirectURL('reset-password'),
     })
 

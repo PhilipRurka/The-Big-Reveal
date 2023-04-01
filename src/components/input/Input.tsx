@@ -9,9 +9,10 @@ export type InputOnChangeType = FormEvent<HTMLInputElement>
 export type InputType = {
   id: string
   type: string
-  value?: string
+  value?: string | number
   tabIndex?: number
   handleChange?: (event: InputOnChangeType) => void
+  defaultValue?: string | number
 }
 
 const Input = forwardRef<InputRefType, InputType>(({
@@ -19,7 +20,8 @@ const Input = forwardRef<InputRefType, InputType>(({
   type,
   value,
   tabIndex = 0,
-  handleChange
+  handleChange,
+  defaultValue
 }, ref) => {
   return (
     <InputWrapper
@@ -28,7 +30,8 @@ const Input = forwardRef<InputRefType, InputType>(({
       type={type}
       value={value}
       onChange={handleChange}
-      tabIndex={tabIndex} />
+      tabIndex={tabIndex}
+      defaultValue={defaultValue} />
   );
 });
 

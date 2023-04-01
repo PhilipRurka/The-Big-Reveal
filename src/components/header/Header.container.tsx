@@ -1,3 +1,4 @@
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { FC, useMemo, useState } from "react"
 import Header from "./Header"
 import { navWithAuth, navWithoutAuth } from '../../utils/navigation';
@@ -6,6 +7,7 @@ import { remove_userData, selectUser } from "../../redux/slices/userSlice";
 import { useAppSelector } from '../../redux/redux_hooks';
 import { supabase } from "../../utils/supabase";
 import useIsXs from "../../hooks/useIsXs";
+import { useRouter } from 'next/router';
 
 export type handleUpdateBurgerType = (openBurger: boolean) => void;
 
@@ -17,14 +19,16 @@ const HeaderContainer: FC = () => {
     status: getUserStatus
   } = useAppSelector(selectUser)
   const isXs = useIsXs()
+  const supabaseClient = useSupabaseClient()
+  const router = useRouter()
 
   const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
     setOpenedBurger(openBurger)
   }
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
-    dispatch(remove_userData())
+    await supabaseClient.auth.signOut()
+    dispatch(remove_userData(router))
   }
 
   const navigationItems = useMemo(() => {

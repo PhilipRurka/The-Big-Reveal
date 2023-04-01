@@ -7,7 +7,7 @@ import {
   PageList
 } from './DesktopMainNav.styled';
 import { AnchorMain } from '../../../anchors';
-import { Session } from '@supabase/supabase-js';
+import type { Session } from '@supabase/supabase-js';
 
 type DesktopMainNavType = {
   navigationItems: NavigationsType;
