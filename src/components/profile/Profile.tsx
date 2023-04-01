@@ -1,7 +1,18 @@
 import { FC } from "react"
-import { Fields, Label } from "../../styled"
+import {
+  Fields,
+  Label
+} from "../../styled"
 import Input, { InputOnChangeType } from "../input/Input"
-import { ButtonWrapper, Form, ProfileWrapper, ResetButton, SaveButton, Subtitle, Title } from "./Profile.styled"
+import {
+  ButtonWrapper,
+  Form,
+  ProfileWrapper,
+  ResetButton,
+  SaveButton,
+  Subtitle,
+  Title
+} from "./Profile.styled"
 import { handleSaveResetType } from "./Profile.container"
 
 type ProfileType = {
@@ -17,8 +28,8 @@ type ProfileType = {
 
 const Profile: FC<ProfileType> = ({
     subtitle,
-    fullName = '',
-    username = '',
+    fullName,
+    username,
     handleFullNameUpdate,
     handleUserNameUpdate,
     handleSave,

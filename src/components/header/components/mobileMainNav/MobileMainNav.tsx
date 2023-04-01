@@ -7,7 +7,7 @@ import {
   PageList
 } from './MobileMainNav.styled';
 import { NavigationsType } from '../../../../utils/navigation';
-import { Session } from '@supabase/supabase-js';
+import type { Session } from '@supabase/supabase-js';
 import { NextRouter } from 'next/router';
 
 type MobileMainNavType = {

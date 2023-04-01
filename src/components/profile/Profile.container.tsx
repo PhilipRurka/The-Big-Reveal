@@ -1,20 +1,20 @@
 import { FC, FormEvent, useCallback, useMemo, useState } from "react"
 import { ProfilePageType } from "../../../pages/profile"
-import withAuthRequired from "../../hoc/withAuthRequired"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
-import { supabase } from "../../utils/supabase"
 import dayjs from "dayjs"
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
 
 export type handleSaveResetType = (event: FormEvent) => void
 
 const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
-  const [fullName, setFullName] = useState(profileData.full_name)
-  const [username, setUsername] = useState(profileData.username)
+  const [fullName, setFullName] = useState(profileData.full_name || '')
+  const [username, setUsername] = useState(profileData.username || '')
   const [originalInputs, setOriginalInputs] = useState({
-    fullName: profileData.full_name,
-    username: profileData.username
+    fullName: profileData.full_name || '',
+    username: profileData.username || ''
   })
+  const supabaseClient = useSupabaseClient()
   
   const subtitleFormated = useMemo(() => {
     return `Welcome ${originalInputs.username || 'back'}`
@@ -38,7 +38,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   const handleSave: handleSaveResetType = useCallback(async event => {
     event.preventDefault()
 
-    const { data: _, error } = await supabase
+    const { data: _, error } = await supabaseClient
       .from('profiles')
       .update({
         full_name: fullName,
@@ -79,4 +79,4 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   )
 }
 
-export default withAuthRequired(ProfileContainer)
+export default ProfileContainer
