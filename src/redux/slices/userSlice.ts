@@ -13,6 +13,11 @@ export type UserDataSliceType = {
 
 type UserDataStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
+const PUBLIC_PATHS = [
+  '/',
+  '/auth'
+]
+
 const initialState: UserDataSliceType = {
   session: null,
   status: 'idle'
@@ -31,23 +36,52 @@ const userSlice = createSlice({
       },
       prepare(session: UserDataSliceType['session']) {
         if(session) {
+          const status: UserDataStatusType = 'succeeded'
+
           return { payload: {
             session,
-            status: 'succeeded' as UserDataStatusType
+            status
           }}
 
         } else {
           console.error('useSlice Error')
+          const status: UserDataStatusType = 'failed'
+
           return { payload: {
             session: null,
-            status: 'failed' as UserDataStatusType
+            status
           }}
         }
       }
     },
-    remove_userData: state => {
-      state.session = null
-      Router.push('/auth')
+    remove_userData: {
+      reducer(state, action: PayloadAction<any> ) {
+        return {
+          ...state,
+          ...action.payload
+        }
+      },
+      prepare(router) {
+        const status: UserDataStatusType = 'idle'
+        let isPublic = false
+
+        for (let i = 0; i < PUBLIC_PATHS.length; i++) {
+          const publicPath = PUBLIC_PATHS[i];
+          if(publicPath === router.asPath) {
+            isPublic = true
+            break
+          }
+        }
+
+        if(!isPublic) {
+          Router.push('/auth')
+        }
+        
+        return { payload: {
+          session: null,
+          status
+        }}
+      }
     }
   },
 });

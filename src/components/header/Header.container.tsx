@@ -7,6 +7,7 @@ import { remove_userData, selectUser } from "../../redux/slices/userSlice";
 import { useAppSelector } from '../../redux/redux_hooks';
 import { supabase } from "../../utils/supabase";
 import useIsXs from "../../hooks/useIsXs";
+import { useRouter } from 'next/router';
 
 export type handleUpdateBurgerType = (openBurger: boolean) => void;
 
@@ -19,6 +20,7 @@ const HeaderContainer: FC = () => {
   } = useAppSelector(selectUser)
   const isXs = useIsXs()
   const supabaseClient = useSupabaseClient()
+  const router = useRouter()
 
   const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
     setOpenedBurger(openBurger)
@@ -26,7 +28,7 @@ const HeaderContainer: FC = () => {
 
   const handleLogout = async () => {
     await supabaseClient.auth.signOut()
-    dispatch(remove_userData())
+    dispatch(remove_userData(router))
   }
 
   const navigationItems = useMemo(() => {
