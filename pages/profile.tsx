@@ -5,8 +5,6 @@ import { authRequired } from "./api/authRequired";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
-  // console.log({ ctx })
-
   return authRequired(ctx)
     .then(async res => {
       if(!res?.supabase || !res?.session) {

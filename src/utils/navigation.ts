@@ -4,21 +4,13 @@ export type NavigationsType = Array<{
 }>
 
 export const navWithoutAuth: NavigationsType = [
-  // {
-  //   name: 'Home',
-  //   path: '/'
-  // },
   {
     name: 'Login',
     path: '/auth'
   }
 ]
 
-export const navWithAuth: NavigationsType = [
-  // {
-  //   name: 'Home',
-  //   path: '/'
-  // },
+export const navWithAuth: NavigationsType = [=
   {
     name: 'Dashboard',
     path: '/dashboard'

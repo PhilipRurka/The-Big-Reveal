@@ -11,10 +11,6 @@ export const authRequired = async (ctx: any) => {
     supabase,
     session
   })
-
-  // console.log({
-  //   session
-  // })
   
   if(session && supabase) {
     return {
