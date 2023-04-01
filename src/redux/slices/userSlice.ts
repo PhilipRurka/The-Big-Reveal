@@ -2,7 +2,7 @@ import {
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import type { Session } from '@supabase/supabase-js';
+import type { Session } from '@supabase/auth-helpers-react'
 import type { RootState } from '../redux_store';
 import Router from 'next/router';
 

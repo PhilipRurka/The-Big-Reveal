@@ -58,23 +58,9 @@ const ResetPasswordContainer = () => {
       status: errorStatus
     }))
 
-    // if(error) {
-    //   setStatusMessage({
-    //     source: RouterQueryEnum.RESET_PASSWORD,
-    //     type: StatusMessageTypesEnum.ERROR,
-    //     message: `Invalid Email Format`
-    //   })
-      
-    // } else {
-      if(data?.user) {
-        Router.push('dashboard')
-      }
-
-      // console.log({
-      //   data,
-      //   error
-      // })
-    // }
+    if(data?.user) {
+      Router.push('dashboard')
+    }
   }, [dispatch])
 
   const removeStatusMessage = useCallback(() => {
