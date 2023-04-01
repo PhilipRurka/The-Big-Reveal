@@ -38,7 +38,7 @@ const ResetPasswordContainer = () => {
         authListener.subscription.unsubscribe()
       }
     };
-  }, [dispatch])
+  }, [dispatch, supabaseClient.auth])
 
   const handleSubmit = useCallback( async(event: FormEvent): Promise<void> => {
     event.preventDefault()
@@ -61,7 +61,7 @@ const ResetPasswordContainer = () => {
     if(data?.user) {
       Router.push('dashboard')
     }
-  }, [dispatch])
+  }, [dispatch, supabaseClient.auth])
 
   const removeStatusMessage = useCallback(() => {
     dispatch(hide_message())

@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from "next";
 import Profile from "../src/components/profile/Profile.container";
 import { Database } from "../src/types/supabase-types";
-import { authRequired } from "./api/authRequired";
+import { authRequired } from "../lib/authRequired";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 

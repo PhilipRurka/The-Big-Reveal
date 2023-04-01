@@ -5,7 +5,6 @@ import { navWithAuth, navWithoutAuth } from '../../utils/navigation';
 import { useAppDispatch } from "../../redux/redux_hooks";
 import { remove_userData, selectUser } from "../../redux/slices/userSlice";
 import { useAppSelector } from '../../redux/redux_hooks';
-import { supabase } from "../../utils/supabase";
 import useIsXs from "../../hooks/useIsXs";
 import { useRouter } from 'next/router';
 

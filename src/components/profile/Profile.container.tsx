@@ -56,7 +56,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
     } else {
       // Some sort of error message
     }
-  }, [fullName, username, profileData.id])
+  }, [fullName, username, profileData.id, supabaseClient])
 
   const hasChangeOccured: boolean = useMemo(() => {
     if(username !== originalInputs.username || fullName !== originalInputs.fullName) {

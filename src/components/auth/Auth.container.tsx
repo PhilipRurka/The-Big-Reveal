@@ -105,7 +105,7 @@ const AuthContainer: FC<AuthPageType> = ({
         status: errorStatus,
       }))
     }
-  }, [dispatch])
+  }, [dispatch, supabaseClient.auth])
   /* #endregion */
 
   /* #region REGISTRATION */
@@ -149,7 +149,7 @@ const AuthContainer: FC<AuthPageType> = ({
       message: error?.message,
       dynamicValue: data?.user ? emailRef.current.value : undefined
     }))
-  }, [initCountdown, dispatch])
+  }, [initCountdown, dispatch, supabaseClient.auth])
 
   /* #endregion */
 
@@ -177,7 +177,7 @@ const AuthContainer: FC<AuthPageType> = ({
       message: error?.message,
       dynamicValue: data ? emailRef.current.value : undefined
     }))
-  }, [dispatch])
+  }, [dispatch, supabaseClient.auth])
 
   /* #endregion */
 
