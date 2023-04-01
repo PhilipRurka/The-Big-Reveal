@@ -84,15 +84,16 @@ const AuthContainer: FC<AuthPageType> = ({
     let errorStatus = error ? error.status : 200
     setResStatus(errorStatus)
 
-    dispatch(status_message({
-      source: RouterQueryEnum.LOGIN,
-      type: StatusMessageTypesEnum.ERROR,
-      status: errorStatus,
-    }))
-
     if(data?.session) {
       dispatch(update_userData(data.session))
       Router.push('dashboard')
+
+    } else {
+      dispatch(status_message({
+        source: RouterQueryEnum.LOGIN,
+        type: StatusMessageTypesEnum.ERROR,
+        status: errorStatus,
+      }))
     }
   }, [dispatch])
   /* #endregion */

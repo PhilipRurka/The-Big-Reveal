@@ -1,3 +1,4 @@
+import { GetServerSidePropsContext } from "next";
 import AuthContainer from "../src/components/auth/Auth.container";
 import { RouterQueryEnum } from "../src/components/auth/Auth.types";
 import { isKeyOfObject } from "../src/types/global";
@@ -52,12 +53,12 @@ export const AUTH_TYPE_OPTIONS = {
   }
 }
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   let initialValues: AuthTypeOptionsType
   let initRouterAuthType: AuthTypeType
   const newAuthTypeOptions: typeof AUTH_TYPE_OPTIONS = {...AUTH_TYPE_OPTIONS}
 
-  const type: string = context.query.type
+  const type = context.query.type as string
 
   if(context.query.type && isKeyOfObject(type, newAuthTypeOptions)) {
     initialValues = newAuthTypeOptions[type]

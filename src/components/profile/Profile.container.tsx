@@ -1,6 +1,5 @@
 import { FC, FormEvent, useCallback, useMemo, useState } from "react"
 import { ProfilePageType } from "../../../pages/profile"
-import withAuthRequired from "../../hoc/withAuthRequired"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
 import { supabase } from "../../utils/supabase"
@@ -79,4 +78,4 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   )
 }
 
-export default withAuthRequired(ProfileContainer)
+export default ProfileContainer

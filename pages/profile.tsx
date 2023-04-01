@@ -1,33 +1,40 @@
+import { GetServerSidePropsContext } from "next";
 import Profile from "../src/components/profile/Profile.container";
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from "../src/types/supabase-types";
+import { authRequired } from "./api/authRequired";
 
-export const getServerSideProps = async (ctx: any) => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
-  const supabase = createServerSupabaseClient(ctx)
+  console.log({ ctx })
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  return authRequired(ctx)
+    .then(async res => {
+      if(!res?.supabase || !res?.id) {
+        return res
+      }
 
-  if(!session?.user.id) return { props: {}}
+      const {
+        supabase,
+        id
+      } = res
 
-  const {
-    data: profileDataArray,
-    error
-  } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', session?.user.id)
-
-  if(error) {
-    console.log(error)
-    return {}
-  }
-
-  return { props: {
-    profileData: profileDataArray[0]
-  }}
+      const {
+        data: profileDataArray,
+        error
+      } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', id)
+    
+      if(error) {
+        console.log(error)
+        return {}
+      }
+    
+      return { props: {
+        profileData: profileDataArray[0]
+      }}
+    })
 }
 
 export type ProfilePageType = {
