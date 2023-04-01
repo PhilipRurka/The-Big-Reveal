@@ -7,7 +7,6 @@ import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
 import { getRedirectURL } from "../../utils/redirect"
-import { supabase } from "../../utils/supabase"
 import { InputOnChangeType } from "../input/Input"
 import Auth from "./Auth"
 import {
@@ -116,7 +115,7 @@ const AuthContainer: FC<AuthPageType> = ({
     const {
       data,
       error: resError
-    } = await supabase.auth.signUp({
+    } = await supabaseClient.auth.signUp({
       email: emailRef.current.value ?? '',
       password: passwordRef.current.value,
     })
@@ -162,7 +161,7 @@ const AuthContainer: FC<AuthPageType> = ({
     const {
       data,
       error: resError
-    } = await supabase.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
+    } = await supabaseClient.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
       redirectTo: getRedirectURL('reset-password'),
     })
 

@@ -4,11 +4,11 @@ import usePasswordValidation from '../../hooks/usePasswordValidation'
 import { useAppDispatch } from '../../redux/redux_hooks'
 import { hide_message, status_message } from '../../redux/slices/authMessageSlice'
 import { update_userData } from '../../redux/slices/userSlice'
-import { supabase } from '../../utils/supabase'
 import Auth from '../auth/Auth'
 import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
-import { ResType, RouterQueryEnum, StatusMessageType, StatusMessageTypesEnum } from '../auth/Auth.types'
+import { ResType, RouterQueryEnum, StatusMessageTypesEnum } from '../auth/Auth.types'
 import { InputOnChangeType } from '../input/Input'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
 const ResetPasswordContainer = () => {
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -18,9 +18,10 @@ const ResetPasswordContainer = () => {
 
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
+  const supabaseClient = useSupabaseClient()
 
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const { data: authListener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
       if(event === "SIGNED_IN") {
         console.log({
           event,
@@ -45,7 +46,7 @@ const ResetPasswordContainer = () => {
     const {
       data,
       error: resError
-    } = await supabase.auth.updateUser({ password: passwordRef.current.value })
+    } = await supabaseClient.auth.updateUser({ password: passwordRef.current.value })
 
     const error = resError as ResType
 
