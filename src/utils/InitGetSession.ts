@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from "react"
 import { useAppDispatch } from "../redux/redux_hooks"
 import { update_userData } from "../redux/slices/userSlice"
-import { supabase } from "./supabase"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 
 const InitGetSession = () => {

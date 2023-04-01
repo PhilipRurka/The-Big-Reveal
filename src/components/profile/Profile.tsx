@@ -17,8 +17,8 @@ type ProfileType = {
 
 const Profile: FC<ProfileType> = ({
     subtitle,
-    fullName = '',
-    username = '',
+    fullName,
+    username,
     handleFullNameUpdate,
     handleUserNameUpdate,
     handleSave,
