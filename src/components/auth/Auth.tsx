@@ -36,7 +36,6 @@ const Auth = forwardRef<RefsType, AuthType>(({
   emailRef,
   passwordRef
 }: any) => {
-
   return (
     <AuthWrapper>
       <AuthTitle id={AuthTransitionIdsEnum.TITLE}>
