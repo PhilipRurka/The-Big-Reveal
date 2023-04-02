@@ -1,9 +1,8 @@
 import Router from 'next/router'
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { FormEvent, useCallback, useMemo, useRef, useState } from 'react'
 import usePasswordValidation from '../../hooks/usePasswordValidation'
 import { useAppDispatch } from '../../redux/redux_hooks'
 import { hide_message, status_message } from '../../redux/slices/authMessageSlice'
-import { update_userData } from '../../redux/slices/userSlice'
 import Auth from '../auth/Auth'
 import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
 import { ResType, RouterQueryEnum, StatusMessageTypesEnum } from '../auth/Auth.types'
@@ -19,26 +18,6 @@ const ResetPasswordContainer = () => {
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
   const supabaseClient = useSupabaseClient()
-
-  // useEffect(() => {
-  //   const { data: authListener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
-  //     if(event === "SIGNED_IN") {
-  //       console.log({
-  //         event,
-  //         session
-  //       })
-  //       if(session) {
-  //         dispatch(update_userData(session))
-  //       }
-  //     }
-  //   })
-
-  //   return () => {
-  //     if (authListener?.subscription) {
-  //       authListener.subscription.unsubscribe()
-  //     }
-  //   };
-  // }, [dispatch, supabaseClient.auth])
 
   const handleSubmit = useCallback( async(event: FormEvent): Promise<void> => {
     event.preventDefault()
