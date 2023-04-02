@@ -20,25 +20,25 @@ const ResetPasswordContainer = () => {
   const validationStatuses = usePasswordValidation(password)
   const supabaseClient = useSupabaseClient()
 
-  useEffect(() => {
-    const { data: authListener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
-      if(event === "SIGNED_IN") {
-        console.log({
-          event,
-          session
-        })
-        if(session) {
-          dispatch(update_userData(session))
-        }
-      }
-    })
+  // useEffect(() => {
+  //   const { data: authListener } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
+  //     if(event === "SIGNED_IN") {
+  //       console.log({
+  //         event,
+  //         session
+  //       })
+  //       if(session) {
+  //         dispatch(update_userData(session))
+  //       }
+  //     }
+  //   })
 
-    return () => {
-      if (authListener?.subscription) {
-        authListener.subscription.unsubscribe()
-      }
-    };
-  }, [dispatch, supabaseClient.auth])
+  //   return () => {
+  //     if (authListener?.subscription) {
+  //       authListener.subscription.unsubscribe()
+  //     }
+  //   };
+  // }, [dispatch, supabaseClient.auth])
 
   const handleSubmit = useCallback( async(event: FormEvent): Promise<void> => {
     event.preventDefault()
