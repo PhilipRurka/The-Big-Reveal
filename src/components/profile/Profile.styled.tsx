@@ -24,11 +24,3 @@ export const ButtonWrapper = styled.div`
   display: flex;
   margin-top: 20px;
 `;
-
-export const SaveButton = styled.button`
-  margin-right: 20px;
-`;
-
-export const ResetButton = styled.button`
-  
-`;
