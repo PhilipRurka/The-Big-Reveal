@@ -3,9 +3,9 @@ import {
   AuthWrapper,
   AuthTitle,
   Form,
-  SubmitButton,
   ToAuthLinkWrapper,
-  ToAuthLinkItem
+  ToAuthLinkItem,
+  SubmitButton
 } from "./Auth.styled";
 import Input from "../input";
 import {
@@ -36,7 +36,6 @@ const Auth = forwardRef<RefsType, AuthType>(({
   emailRef,
   passwordRef
 }: any) => {
-
   return (
     <AuthWrapper>
       <AuthTitle id={AuthTransitionIdsEnum.TITLE}>
@@ -67,6 +66,8 @@ const Auth = forwardRef<RefsType, AuthType>(({
           <ConfirmedPasswordField handleUpdate={handleConfirmedPasswordUpdate} />
         )}
         <SubmitButton
+          type='submit'
+          colorType="primary"
           onClick={handleSubmit}
           disabled={disableSubmit} >
           Submit

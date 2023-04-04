@@ -5,15 +5,16 @@ import {
 } from "../../styled"
 import Input, { InputOnChangeType } from "../input/Input"
 import {
-  ButtonWrapper,
   Form,
   ProfileWrapper,
-  ResetButton,
-  SaveButton,
   Subtitle,
   Title
 } from "./Profile.styled"
 import { handleSaveResetType } from "./Profile.container"
+import {
+  ButtonWrapper,
+  Button
+} from "../../styled/button"
 
 type ProfileType = {
   subtitle: string
@@ -63,18 +64,20 @@ const Profile: FC<ProfileType> = ({
         </Fields>
 
         <ButtonWrapper>
-          <SaveButton
+          <Button
             type='button'
+            colorType="primary"
             onClick={handleSave}
             disabled={!hasChangeOccured} >
             Save
-          </SaveButton>
-          <ResetButton
+          </Button>
+          <Button
             type='button'
+            colorType="primary"
             onClick={handleReset}
             disabled={!hasChangeOccured} >
             Reset
-          </ResetButton>
+          </Button>
         </ButtonWrapper>
       </Form>
     </ProfileWrapper>

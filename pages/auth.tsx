@@ -2,6 +2,8 @@ import { GetServerSidePropsContext } from "next";
 import AuthContainer from "../src/components/auth/Auth.container";
 import { RouterQueryEnum } from "../src/components/auth/Auth.types";
 import { isKeyOfObject } from "../src/types/global";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SendGrid } from "../lib/sendgrid";
 
 type AuthTypeType = keyof typeof AUTH_TYPE_OPTIONS
 
@@ -53,14 +55,31 @@ export const AUTH_TYPE_OPTIONS = {
   }
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  // SendGrid()
+
+  const supabase = createServerSupabaseClient(ctx)
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if(session) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false
+      }
+    }
+  }
+
   let initialValues: AuthTypeOptionsType
   let initRouterAuthType: AuthTypeType
   const newAuthTypeOptions: typeof AUTH_TYPE_OPTIONS = {...AUTH_TYPE_OPTIONS}
 
-  const type = context.query.type as string
+  const type = ctx.query.type as string
 
-  if(context.query.type && isKeyOfObject(type, newAuthTypeOptions)) {
+  if(ctx.query.type && isKeyOfObject(type, newAuthTypeOptions)) {
     initialValues = newAuthTypeOptions[type]
     initRouterAuthType = type
 

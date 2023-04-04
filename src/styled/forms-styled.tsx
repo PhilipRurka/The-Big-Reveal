@@ -1,23 +1,24 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 type FieldsType = {
-  hide?: boolean
+  isHidden?: boolean
 }
 
-export const Fields = styled.div<FieldsType>`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  margin-top: ${props => props.hide ? '0' : '20px'};
-  height: ${props => props.hide ? '0' : 'auto'};
-  opacity: ${props => props.hide ? '0' : '1'};
-  pointer-events: ${props => props.hide ? 'none' : 'initial'};
-  /* pointer-events: ${props => props.hide ? 'none' : 'auto'}; */
+export const Fields = styled.div<FieldsType>(({isHidden}) => {
+  return css`
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    margin-top: ${isHidden ? '0' : '20px'};
+    height: ${isHidden ? '0' : 'auto'};
+    opacity: ${isHidden ? '0' : '1'};
+    pointer-events: ${isHidden ? 'none' : 'initial'};
 
-  &:first-child {
-    margin: 0;
-  }
-`;
+    &:first-child {
+      margin: 0;
+    }
+  `
+});
 
 export const Label = styled.label`
   font-size: 14px;

@@ -6,11 +6,6 @@ export const authRequired = async (ctx: any) => {
   const {
     data: { session },
   } = await supabase.auth.getSession()
-
-  console.log({
-    supabase,
-    session
-  })
   
   if(session && supabase) {
     return {

@@ -15,7 +15,7 @@ vercel login
 ```
 Once complete you will be able to pull in the environment variables via vercel.
 ```
-vercel env pull .env.local
+vercel env pull
 ```
 
 ## Node Version Manager

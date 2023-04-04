@@ -128,13 +128,10 @@ const AuthContainer: FC<AuthPageType> = ({
         ' seconds.'
       ]
 
-      console.log(error?.message)
-
       if(error.message.includes(bufferFormat[0])) {
         let timeLeft: string | number = error.message.replace(bufferFormat[0], '')
         timeLeft = timeLeft.replace(bufferFormat[1], '')
         timeLeft = Number(timeLeft)
-        console.log(timeLeft)
         initCountdown(timeLeft)
       }
     }
