@@ -3,6 +3,7 @@ import AuthContainer from "../src/components/auth/Auth.container";
 import { RouterQueryEnum } from "../src/components/auth/Auth.types";
 import { isKeyOfObject } from "../src/types/global";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SendGrid } from "../lib/sendgrid";
 
 type AuthTypeType = keyof typeof AUTH_TYPE_OPTIONS
 
@@ -55,6 +56,8 @@ export const AUTH_TYPE_OPTIONS = {
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  // SendGrid()
+
   const supabase = createServerSupabaseClient(ctx)
 
   const {
