@@ -4,35 +4,33 @@ import { Database } from "../src/types/supabase-types";
 import { authRequired } from "../lib/authRequired";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const res = await authRequired(ctx)
 
-  return authRequired(ctx)
-    .then(async res => {
-      if(!res?.supabase || !res?.session) {
-        return res
-      }
+  if(!res?.supabase || !res?.session) {
+    return res
+  }
 
-      const {
-        supabase,
-        session
-      } = res
+  const {
+    supabase,
+    session
+  } = res
 
-      const {
-        data: profileDataArray,
-        error
-      } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-    
-      if(error) {
-        console.log(error)
-        return {}
-      }
-    
-      return { props: {
-        profileData: profileDataArray[0]
-      }}
-    })
+  const {
+    data: profileDataArray,
+    error
+  } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', session.user.id)
+
+  if(error) {
+    console.log(error)
+    return {}
+  }
+
+  return { props: {
+    profileData: profileDataArray[0]
+  }}
 }
 
 export type ProfilePageType = {
