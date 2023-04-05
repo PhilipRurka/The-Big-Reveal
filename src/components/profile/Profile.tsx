@@ -1,6 +1,6 @@
 import { FC } from "react"
 import {
-  Fields,
+  Field,
   Label
 } from "../../styled"
 import Input, { InputOnChangeType } from "../input/Input"
@@ -42,7 +42,7 @@ const Profile: FC<ProfileType> = ({
       <Title>Profile</Title>
       <Subtitle>{ subtitle }</Subtitle>
       <Form>
-        <Fields>
+        <Field>
           <Label htmlFor='full-name'>
             Full Name
           </Label>
@@ -51,8 +51,8 @@ const Profile: FC<ProfileType> = ({
             type='text'
             value={fullName as string}
             handleChange={handleFullNameUpdate} />
-        </Fields>
-        <Fields>
+        </Field>
+        <Field>
           <Label htmlFor='username'>
             UserName
           </Label>
@@ -61,7 +61,7 @@ const Profile: FC<ProfileType> = ({
             type='text'
             value={username as string}
             handleChange={handleUserNameUpdate} />
-        </Fields>
+        </Field>
 
         <ButtonWrapper>
           <Button

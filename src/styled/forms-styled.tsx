@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
 
-type FieldsType = {
+type FieldType = {
   isHidden?: boolean
 }
 
-export const Fields = styled.div<FieldsType>(({isHidden}) => {
+export const Field = styled.div<FieldType>(({isHidden}) => {
   return css`
     display: flex;
     position: relative;

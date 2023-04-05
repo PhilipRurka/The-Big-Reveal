@@ -1,21 +1,21 @@
-import { Fields } from "../../styled"
+import { Field } from "../../styled"
 import { NewPostWrapper } from "./NewPost.styled"
 
 const NewPost = () => {
 
   return (
     <NewPostWrapper>
-      <Title>
+      {/* <Title>
         New Post?!?
       </Title>
       <Subtitle>
         Share today's thoughts and ideas
       </Subtitle>
       <Form>
-        <Fields>
+        <Field>
           
-        </Fields>
-      </Form>
+        </Field>
+      </Form> */}
     </NewPostWrapper>
   )
 }
