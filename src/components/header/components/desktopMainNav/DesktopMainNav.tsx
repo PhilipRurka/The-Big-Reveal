@@ -6,8 +6,9 @@ import {
   PageItem,
   PageList
 } from './DesktopMainNav.styled';
-import { AnchorMain } from '../../../anchors';
+import { NavLink } from '../../../anchors';
 import type { Session } from '@supabase/auth-helpers-react'
+import { NavLinkFormButton } from '../../../anchors/Anchors.styled';
 
 type DesktopMainNavType = {
   navigationItems: NavigationsType;
@@ -26,19 +27,29 @@ const DesktopMainNav: FC<DesktopMainNavType> = ({
   return (
     <DesktopMainNavWrapper>
       <PageList>
+        <PageItem key={`DesktopMainNav_new_entry`}>
+          {!!userSession && (
+            <NavLinkFormButton
+              href='/new-post'
+              $isActive={router.asPath === '/new-post'} >
+              New
+            </NavLinkFormButton>
+          )}
+        </PageItem>
         {navigationItems.map(item => (
           <PageItem key={`DesktopMainNav_${item.name}`}>
-            <AnchorMain
-              name={item.name}
+            <NavLink
               path={item.path}
-              isActive={router.asPath === item.path} />
+              isActive={router.asPath === item.path} >
+              {item.name}
+            </NavLink>
           </PageItem>
         ))}
         {!!userSession && (
           <PageItem key={`DesktopMainNav_logout`}>
-            <AnchorMain
-              name='logout'
-              trigger={handleLogout} />
+            <NavLink trigger={handleLogout} >
+              logout
+            </NavLink>
           </PageItem>
         )}
       </PageList>

@@ -1,29 +1,79 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { default as LinkNext } from 'next/link'
-import { Colors } from "../../styled";
+import { Colors, Fonts } from "../../styled";
 
-type AnchorMainWrapperType = {
-  isActive?: boolean
+type NavLinkType = {
+  $isActive?: boolean
 }
 
-export const AnchorMainWrapper = styled.div<AnchorMainWrapperType>`
+const sharedBasicLink = (isActive: boolean | undefined) => ({
+  color: isActive ? Colors.eucalyptus : 'initial',
+  transition: 'color 0.2s ease',
+
+  '&:hover': {
+    color: Colors.persimmon
+  },
+
+  '&:active': {
+    color: Colors.dodger
+  }
+} as const)
+
+export const NavLinkWrapper = styled.div`
+  display: flex;
+  align-content: center;
+  height: 100%;
+  flex-wrap: wrap;
+
   a,
-  span {
+  button {
+    ${Fonts.primary}
+    font-size: 16px;
+    line-height: 16px;
     display: inline-block;
-    color: ${props => props.isActive ? Colors.eucalyptus : 'initial'};
-
-    &:hover {
-      color: ${Colors.persimmon};
-    }
-
-    &:active {
-      color: ${Colors.dodger};
-    }
   }
 `;
 
-export const AnchorMainLink = styled(LinkNext)``;
+export const NavLinkAnchor = styled(LinkNext)<NavLinkType>(({ $isActive }) => {
+  return css`
+    ${sharedBasicLink($isActive)}
+  `
+})
 
-export const AnchorMainTrigger = styled.button`
-  cursor: pointer;
-`
+export const NavLinkButton = styled.button<NavLinkType>(({ $isActive }) => {
+  return css`
+    ${sharedBasicLink($isActive)}
+    cursor: pointer;
+  `
+})
+
+export const NavLinkFormButton = styled(LinkNext)<NavLinkType>`
+  position: relative;
+  padding: 8px 30px 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+  color: #fff;
+  background-color: ${(props) => props.$isActive ? Colors.eucalyptus : 'black'};
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 11px;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background-image: url('/assets/svg/plus-white.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  &:hover {
+    background-color: ${Colors.persimmon}
+  }
+
+  &:active {
+    color: white;
+    background-color: ${Colors.dodger}
+  }
+`;

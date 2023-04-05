@@ -13,7 +13,7 @@ import {
   AuthType,
   RefsType,
 } from "./Auth.types";
-import { Fields, Label } from "../../styled";
+import { Field, Label } from "../../styled";
 import PasswordField from "../passwordField";
 import AuthResMessage from "../authResMessage";
 import ConfirmedPasswordField from "../confirmedPasswordField";
@@ -44,7 +44,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
       <Form>
         <AuthResMessage />
         {hasEmail && (
-          <Fields id={AuthTransitionIdsEnum.EMAIL}>
+          <Field id={AuthTransitionIdsEnum.EMAIL}>
             <Label htmlFor="emailAddress">
               Email
             </Label>
@@ -53,7 +53,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
               type='text'
               handleChange={removeStatusMessage}
               ref={emailRef} />
-          </Fields>
+          </Field>
         )}
         <PasswordField
           ref={passwordRef}

@@ -1,10 +1,10 @@
-import { FormEvent, forwardRef } from 'react';
+import { ChangeEvent, forwardRef } from 'react';
 import {
   InputWrapper
 } from './Input.styled';
 
 export type InputRefType = HTMLInputElement
-export type InputOnChangeType = FormEvent<HTMLInputElement>
+export type InputOnChangeType = ChangeEvent<HTMLInputElement>
 
 export type InputType = {
   id: string
