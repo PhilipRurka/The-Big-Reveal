@@ -3,7 +3,7 @@ import { default as LinkNext } from 'next/link'
 import { Colors, Fonts } from "../../styled";
 
 type NavLinkType = {
-  isActive?: boolean
+  $isActive?: boolean
 }
 
 const sharedBasicLink = (isActive: boolean | undefined) => ({
@@ -34,15 +34,15 @@ export const NavLinkWrapper = styled.div`
   }
 `;
 
-export const NavLinkAnchor = styled(LinkNext)<NavLinkType>(({ isActive }) => {
+export const NavLinkAnchor = styled(LinkNext)<NavLinkType>(({ $isActive }) => {
   return css`
-    ${sharedBasicLink(isActive)}
+    ${sharedBasicLink($isActive)}
   `
 })
 
-export const NavLinkButton = styled.button<NavLinkType>(({ isActive }) => {
+export const NavLinkButton = styled.button<NavLinkType>(({ $isActive }) => {
   return css`
-    ${sharedBasicLink(isActive)}
+    ${sharedBasicLink($isActive)}
     cursor: pointer;
   `
 })
@@ -53,7 +53,7 @@ export const NavLinkFormButton = styled(LinkNext)<NavLinkType>`
   border-radius: 5px;
   transition: background-color 0.2s ease;
   color: #fff;
-  background-color: ${(props) => props.isActive ? Colors.eucalyptus : 'black'};
+  background-color: ${(props) => props.$isActive ? Colors.eucalyptus : 'black'};
 
   &::before {
     content: '';

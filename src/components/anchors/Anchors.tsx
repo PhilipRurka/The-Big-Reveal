@@ -24,13 +24,13 @@ export const NavLink: FC<NavLinkType> = ({
       {path ? (
         <NavLinkAnchor
           href={path}
-          isActive={isActive} >
+          $isActive={isActive} >
           {children}
         </NavLinkAnchor>
       ) : (
         <NavLinkButton
           onClick={trigger}
-          isActive={isActive} >
+          $isActive={isActive} >
           {children}
         </NavLinkButton>
       )}
