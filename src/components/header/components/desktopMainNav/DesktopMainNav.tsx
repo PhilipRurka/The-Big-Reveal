@@ -31,7 +31,7 @@ const DesktopMainNav: FC<DesktopMainNavType> = ({
           {!!userSession && (
             <NavLinkFormButton
               href='/new-post'
-              isActive={router.asPath === '/new-post'} >
+              $isActive={router.asPath === '/new-post'} >
               New
             </NavLinkFormButton>
           )}
