@@ -1,7 +1,8 @@
-import { ChangeEvent, FC } from "react"
+import { ChangeEvent, FC, FormEvent } from "react"
 import { DisabledField, Field, Label, Textarea } from "../../styled"
 import Input, { InputOnChangeType } from "../input/Input"
 import { Form, NewPostWrapper, Subtitle, Title } from "./NewPost.styled"
+import { Button, ButtonWrapper } from "../../styled/button"
 
 type NewPostType = {
   handleTitleUpdate: (event: InputOnChangeType) => void
@@ -9,6 +10,8 @@ type NewPostType = {
   handlePublicUpdate: (event: ChangeEvent<HTMLTextAreaElement>) => void
   handleFollowUpdate: (event: ChangeEvent<HTMLTextAreaElement>) => void
   handlepPrivateUpdate: (event: ChangeEvent<HTMLTextAreaElement>) => void
+  isDisabled: boolean
+  handleSubmit: (event: FormEvent) => void
 }
 
 const NewPost: FC<NewPostType> = ({
@@ -16,7 +19,9 @@ const NewPost: FC<NewPostType> = ({
   handleSubtitleUpdate,
   handlePublicUpdate,
   handleFollowUpdate,
-  handlepPrivateUpdate
+  handlepPrivateUpdate,
+  isDisabled,
+  handleSubmit
 }) => {
 
   return (
@@ -25,7 +30,7 @@ const NewPost: FC<NewPostType> = ({
         New Post?!?
       </Title>
       <Subtitle>
-        Share today's thoughts and ideas
+        {'Share today\'s thoughts and ideas'}
       </Subtitle>
       <Form>
         <Field>
@@ -66,12 +71,20 @@ const NewPost: FC<NewPostType> = ({
         <Field>
           <DisabledField /> {/* Temporary */}
           <Label htmlFor='post-private'>
-            Private - You don't day?
+            {'Private - You don\'t day?'}
           </Label>
           <Textarea
             id='post-private'
             onChange={handlepPrivateUpdate} />
         </Field>
+        <ButtonWrapper>
+          <Button
+            colorType="primary"
+            onClick={handleSubmit}
+            disabled={isDisabled} >
+            Post!
+          </Button>
+        </ButtonWrapper>
       </Form>
     </NewPostWrapper>
   )

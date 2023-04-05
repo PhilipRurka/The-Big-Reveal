@@ -19,8 +19,3 @@ export const Form = styled.form`
   margin-top: 20px;
   padding: 20px;
 `;
-
-export const ButtonWrapper = styled.div`
-  display: flex;
-  margin-top: 20px;
-`;
