@@ -34,7 +34,7 @@ const MobileMainNav: FC<MobileMainNavType> = ({
           <PageItem key={`MobileMainNavWrapper_${name}`}>
             <NavLink
               path={path}
-              $isActive={router.asPath === path} >
+              isActive={router.asPath === path} >
               name
             </NavLink>
           </PageItem>
