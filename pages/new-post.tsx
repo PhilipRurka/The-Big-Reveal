@@ -1,5 +1,6 @@
 import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../lib/authRequired";
+import NewPost from "../src/components/newPost/NewPost.container";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)
@@ -11,13 +12,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   return {props: {}}
 }
 
-function NewPost() {
+function NewPostPage() {
   
-  return (
-    <main>
-      <h1>New Post</h1>
-    </main>
-  );
+  return <NewPost />
 }
 
-export default NewPost
+export default NewPostPage
