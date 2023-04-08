@@ -54,10 +54,12 @@ const NewPostContainer = () => {
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
 
+    const publicId = uuidv4()
+
     const { data, error: publicError } = await supabaseClient
       .from('public posts')
       .insert([{
-        id: uuidv4(),
+        id: publicId,
         post_title: titleValue,
         post_subtitle: subtitleValue,
         post_content: publicValue
@@ -95,7 +97,7 @@ const NewPostContainer = () => {
     dispatch(update_toaster({
       title: 'New post',
       subtitle: 'Click here to view it.',
-      to: 'https://google.com'
+      to: `/post/${publicId}`
     }))
 
     return () => {
