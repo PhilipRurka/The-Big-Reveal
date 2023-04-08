@@ -10,6 +10,7 @@ export const HeaderWrapper = styled.header`
   padding-bottom: 20px;
   background-color: white;
   box-shadow: 0px 0px 5px black;
+  z-index: 1;
 `
 
 export const HeaderMainNavbar = styled.div`

@@ -4,14 +4,18 @@ import { default as LinkNext } from 'next/link'
 const sharedContent = {
   'border-radius': '20px',
   'background-color': 'white',
-  'padding': '14px',
-  'box-shadow': '0 0 4px 0px black'
+  'padding': '14px'
 }
 
 export const ToasterWrapper = styled.div`
-  position: absolute;
+  position: fixed;
+  white-space: nowrap;
+  z-index: 2;
+  display: inline-block;
   top: 30px;
-  left: calc(100% + 5px);
+  left: 100%;
+  border-radius: 20px;
+  transform: translate(40px, 0);
 `;
 
 export const StaticContent = styled.div`

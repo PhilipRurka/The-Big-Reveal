@@ -5,6 +5,11 @@ import { Form, NewPostWrapper, Subtitle, Title } from "./NewPost.styled"
 import { Button, ButtonWrapper } from "../../styled/button"
 
 type NewPostType = {
+  titleValue: string
+  subtitleValue: string
+  publicValue: string
+  followValue: string
+  privateValue: string
   handleTitleUpdate: (event: InputOnChangeType) => void
   handleSubtitleUpdate: (event: InputOnChangeType) => void
   handlePublicUpdate: (event: ChangeEvent<HTMLTextAreaElement>) => void
@@ -15,6 +20,11 @@ type NewPostType = {
 }
 
 const NewPost: FC<NewPostType> = ({
+  titleValue,
+  subtitleValue,
+  publicValue,
+  followValue,
+  privateValue,
   handleTitleUpdate,
   handleSubtitleUpdate,
   handlePublicUpdate,
@@ -40,6 +50,7 @@ const NewPost: FC<NewPostType> = ({
           <Input
             id='post-title'
             type='text'
+            value={titleValue}
             handleChange={handleTitleUpdate} />
         </Field>
         <Field>
@@ -49,6 +60,7 @@ const NewPost: FC<NewPostType> = ({
           <Input
             id='post-subtitle'
             type='text'
+            value={subtitleValue}
             handleChange={handleSubtitleUpdate} />
         </Field>
         <Field>
@@ -57,6 +69,7 @@ const NewPost: FC<NewPostType> = ({
           </Label>
           <Textarea
             id='post-public'
+            value={publicValue}
             onChange={handlePublicUpdate} />
         </Field>
         <Field>
@@ -65,6 +78,7 @@ const NewPost: FC<NewPostType> = ({
           </Label>
           <Textarea
             id='post-follow'
+            value={followValue}
             onChange={handleFollowUpdate} />
         </Field>
         <Field>
@@ -73,6 +87,7 @@ const NewPost: FC<NewPostType> = ({
           </Label>
           <Textarea
             id='post-private'
+            value={privateValue}
             onChange={handlepPrivateUpdate} />
         </Field>
         <ButtonWrapper>

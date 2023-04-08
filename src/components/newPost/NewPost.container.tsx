@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from "react"
+import { ChangeEvent, FormEvent, useCallback, useMemo, useRef, useState } from "react"
 import { InputOnChangeType } from "../input/Input"
 import NewPost from "./NewPost"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
@@ -8,14 +8,15 @@ import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 
 const NewPostContainer = () => {
+  const mountedRef = useRef(true)
+
   const [titleValue, setTitleValue] = useState('')
-  const [subtitleValue, setSubitleValue] = useState('')
+  const [subtitleValue, setSubtitleValue] = useState('')
   const [publicValue, setPublicValue] = useState('')
   const [followValue, setFollowValue] = useState('')
   const [privateValue, setPrivateValue] = useState('')
 
   const dispatch = useAppDispatch()
-
   const supabaseClient = useSupabaseClient<Database>()
   
   const handleTitleUpdate = useCallback((event: InputOnChangeType): void => {
@@ -23,7 +24,7 @@ const NewPostContainer = () => {
   }, [])
 
   const handleSubtitleUpdate = useCallback((event: InputOnChangeType): void => {
-    setSubitleValue(event.currentTarget.value)
+    setSubtitleValue(event.currentTarget.value)
   }, [])
 
   const handlePublicUpdate = useCallback((event: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -53,36 +54,40 @@ const NewPostContainer = () => {
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
 
-    const { data, error: publicError } = await supabaseClient
-      .from('public posts')
-      .insert([{
-        id: uuidv4(),
-        post_title: titleValue,
-        post_subtitle: subtitleValue,
-        post_content: publicValue
-      }])
-      .select()
+    // const { data, error: publicError } = await supabaseClient
+    //   .from('public posts')
+    //   .insert([{
+    //     id: uuidv4(),
+    //     post_title: titleValue,
+    //     post_subtitle: subtitleValue,
+    //     post_content: publicValue
+    //   }])
+    //   .select()
 
-    if(!data || publicError) {
-      // Some error
-      return
-    }
+    // if(!data || publicError) {
+    //   // Some error
+    //   return
+    // }
 
-    const { data: _, error: privateError } = await supabaseClient
-      .from('private posts')
-      .insert([{
-        id: uuidv4(),
-        post_id: data[0].id,
-        post_content: privateValue
-      }])
+    // if(!mountedRef) return
 
-    if(privateError) {
-      // Do something
-      return
-    }
+    // const { data: _, error: privateError } = await supabaseClient
+    //   .from('private posts')
+    //   .insert([{
+    //     id: uuidv4(),
+    //     post_id: data[0].id,
+    //     post_content: privateValue
+    //   }])
+
+    // if(privateError) {
+    //   // Do something
+    //   return
+    // }
+
+    if(!mountedRef) return
 
     setTitleValue('')
-    setPrivateValue('')
+    setSubtitleValue('')
     setPublicValue('')
     setFollowValue('')
     setPrivateValue('')
@@ -93,10 +98,18 @@ const NewPostContainer = () => {
       to: 'https://google.com'
     }))
 
-  }, [titleValue, subtitleValue, publicValue, followValue, privateValue])
+    return () => {
+      mountedRef.current = false
+    }
+  }, [titleValue, subtitleValue, publicValue, privateValue, dispatch, supabaseClient])
 
   return (
     <NewPost
+      titleValue={titleValue}
+      subtitleValue={subtitleValue}
+      publicValue={publicValue}
+      followValue={followValue}
+      privateValue={privateValue}
       handleTitleUpdate={handleTitleUpdate}
       handleSubtitleUpdate={handleSubtitleUpdate}
       handlePublicUpdate={handlePublicUpdate}

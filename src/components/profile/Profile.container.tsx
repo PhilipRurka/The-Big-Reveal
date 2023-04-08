@@ -1,4 +1,4 @@
-import { FC, FormEvent, useCallback, useMemo, useState } from "react"
+import { FC, FormEvent, useCallback, useMemo, useRef, useState } from "react"
 import { ProfilePageType } from "../../../pages/profile"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
@@ -8,12 +8,15 @@ import { Database } from "../../types/supabase-types"
 export type handleSaveResetType = (event: FormEvent) => void
 
 const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
+  const mountedRef = useRef(true)
+
   const [fullName, setFullName] = useState(profileData.full_name || '')
   const [username, setUsername] = useState(profileData.username || '')
   const [originalInputs, setOriginalInputs] = useState({
     fullName: profileData.full_name || '',
     username: profileData.username || ''
   })
+
   const supabaseClient = useSupabaseClient<Database>()
   
   const subtitleFormated = useMemo(() => {
@@ -46,6 +49,8 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
       })
       .eq('id', profileData.id)
 
+      if(!mountedRef) return
+
     if(!error) {
       setOriginalInputs({
         fullName,
@@ -54,6 +59,10 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
 
     } else {
       // Some sort of error message
+    }
+
+    return () => {
+      mountedRef.current = false
     }
   }, [fullName, username, profileData.id, supabaseClient])
 
