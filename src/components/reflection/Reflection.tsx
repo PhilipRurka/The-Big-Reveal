@@ -1,10 +1,38 @@
 import { FC } from "react";
-import { ReflectionWrapper } from "./Reflection.styled";
+import {
+  Card,
+  CardSubtitle,
+  CardTitle,
+  CreatedAt,
+  ReflectionWrapper,
+  Title
+} from "./Reflection.styled";
+import { ReflectionDataType } from "../../../pages/feed/reflection";
 
-const Reflection: FC = () => {
+const Reflection: FC<ReflectionDataType> = ({ publicData }) => {
   return (
     <ReflectionWrapper>
-      Reflection
+      <Title>
+        Reflection
+      </Title>
+      {publicData.map(({
+        id,
+        post_title,
+        post_subtitle,
+        created_at
+      }) => (
+        <Card href={`/post/${id}`}>
+          <CardTitle>
+            { post_title }
+          </CardTitle>
+          <CardSubtitle>
+            { post_subtitle }
+          </CardSubtitle>
+          <CreatedAt>
+            Created at { created_at }
+          </CreatedAt>
+        </Card>
+      ))}
     </ReflectionWrapper>
   )
 }

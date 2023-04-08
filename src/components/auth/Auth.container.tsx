@@ -29,7 +29,7 @@ import {
 import useRigidCountdown from "../../hooks/useRigidCountdown"
 import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
 
-export const AUTH_TRANSITION_TIME = 200
+export const AUTH_TRANSITION_TIME = 300
 
 const AuthContainer: FC<AuthPageType> = ({
   id,
