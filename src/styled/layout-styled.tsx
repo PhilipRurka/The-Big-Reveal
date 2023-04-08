@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const BreakObj = {
   xs: {
@@ -62,8 +62,7 @@ export const Container = (size: keyof typeof BreakObj): string => {
   `
 };
 
-export const LayoutStyles = createGlobalStyle`
-  main {
-    padding-top: 72px;
-  }
-`
+export const Main = styled.main`
+  position: relative;
+  margin-top: 72px;
+`;
