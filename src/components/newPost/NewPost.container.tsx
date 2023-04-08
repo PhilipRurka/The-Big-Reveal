@@ -1,14 +1,22 @@
 import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from "react"
 import { InputOnChangeType } from "../input/Input"
 import NewPost from "./NewPost"
+import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { Database } from "../../types/supabase-types"
+import { v4 as uuidv4 } from 'uuid';
+import { useAppDispatch } from "../../redux/redux_hooks"
+import { update_toaster } from "../../redux/slices/toasterSlice"
 
 const NewPostContainer = () => {
-
   const [titleValue, setTitleValue] = useState('')
   const [subtitleValue, setSubitleValue] = useState('')
   const [publicValue, setPublicValue] = useState('')
   const [followValue, setFollowValue] = useState('')
   const [privateValue, setPrivateValue] = useState('')
+
+  const dispatch = useAppDispatch()
+
+  const supabaseClient = useSupabaseClient<Database>()
   
   const handleTitleUpdate = useCallback((event: InputOnChangeType): void => {
     setTitleValue(event.currentTarget.value)
@@ -42,9 +50,50 @@ const NewPostContainer = () => {
     return false
   }, [titleValue, subtitleValue, publicValue, followValue, privateValue])
 
-  const handleSubmit = useCallback((event: FormEvent) => {
+  const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
-  }, [])
+
+    const { data, error: publicError } = await supabaseClient
+      .from('public posts')
+      .insert([{
+        id: uuidv4(),
+        post_title: titleValue,
+        post_subtitle: subtitleValue,
+        post_content: publicValue
+      }])
+      .select()
+
+    if(!data || publicError) {
+      // Some error
+      return
+    }
+
+    const { data: _, error: privateError } = await supabaseClient
+      .from('private posts')
+      .insert([{
+        id: uuidv4(),
+        post_id: data[0].id,
+        post_content: privateValue
+      }])
+
+    if(privateError) {
+      // Do something
+      return
+    }
+
+    setTitleValue('')
+    setPrivateValue('')
+    setPublicValue('')
+    setFollowValue('')
+    setPrivateValue('')
+
+    dispatch(update_toaster({
+      title: 'New post',
+      subtitle: 'Click here to view it.',
+      to: 'https://google.com'
+    }))
+
+  }, [titleValue, subtitleValue, publicValue, followValue, privateValue])
 
   return (
     <NewPost

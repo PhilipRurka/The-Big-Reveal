@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, FormEvent } from "react"
-import { DisabledField, Field, Label, Textarea } from "../../styled"
+import { Field, Label, Textarea } from "../../styled"
 import Input, { InputOnChangeType } from "../input/Input"
 import { Form, NewPostWrapper, Subtitle, Title } from "./NewPost.styled"
 import { Button, ButtonWrapper } from "../../styled/button"
@@ -60,7 +60,6 @@ const NewPost: FC<NewPostType> = ({
             onChange={handlePublicUpdate} />
         </Field>
         <Field>
-          <DisabledField /> {/* Temporary */}
           <Label htmlFor='post-follow'>
             Follow - Say Whaat?
           </Label>
@@ -69,7 +68,6 @@ const NewPost: FC<NewPostType> = ({
             onChange={handleFollowUpdate} />
         </Field>
         <Field>
-          <DisabledField /> {/* Temporary */}
           <Label htmlFor='post-private'>
             {'Private - You don\'t day?'}
           </Label>
