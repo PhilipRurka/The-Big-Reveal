@@ -18,17 +18,17 @@ const ToasterContainer: FC = () => {
     const finalXValue = -toasterRef.current.clientWidth - 20
 
     tlToasterRef.current.fromTo('#toaster', {
-      duration: 200,
       x: 40,
-      ease: 'power1.inOut',
       boxShadow: '0 0 4px 0px black',
     }, {
+      duration: 0.3,
+      ease: 'power1.out',
       x: finalXValue
     }, 0)
 
-    if(!content.title) return
-
     tlToasterRef.current.play()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content])
 
   const reverseGsap = useCallback(() => {
@@ -46,14 +46,16 @@ const ToasterContainer: FC = () => {
   }, [playGsap, reverseGsap])
 
   useEffect(() => {
-    const tlToasterReference = tlToasterRef.current
+    const tlToasterReference = tlToasterRef?.current
+
+    if(!content.title) return
 
     triggerShowToaster()
 
     return () => {
-      tlToasterReference.kill()
+      tlToasterReference?.kill()
     }
-  }, [triggerShowToaster])
+  }, [triggerShowToaster, content])
 
   return (
     <Toaster

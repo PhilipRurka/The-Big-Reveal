@@ -54,35 +54,35 @@ const NewPostContainer = () => {
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
 
-    // const { data, error: publicError } = await supabaseClient
-    //   .from('public posts')
-    //   .insert([{
-    //     id: uuidv4(),
-    //     post_title: titleValue,
-    //     post_subtitle: subtitleValue,
-    //     post_content: publicValue
-    //   }])
-    //   .select()
+    const { data, error: publicError } = await supabaseClient
+      .from('public posts')
+      .insert([{
+        id: uuidv4(),
+        post_title: titleValue,
+        post_subtitle: subtitleValue,
+        post_content: publicValue
+      }])
+      .select()
 
-    // if(!data || publicError) {
-    //   // Some error
-    //   return
-    // }
+    if(!data || publicError) {
+      // Some error
+      return
+    }
 
-    // if(!mountedRef) return
+    if(!mountedRef) return
 
-    // const { data: _, error: privateError } = await supabaseClient
-    //   .from('private posts')
-    //   .insert([{
-    //     id: uuidv4(),
-    //     post_id: data[0].id,
-    //     post_content: privateValue
-    //   }])
+    const { data: _, error: privateError } = await supabaseClient
+      .from('private posts')
+      .insert([{
+        id: uuidv4(),
+        post_id: data[0].id,
+        post_content: privateValue
+      }])
 
-    // if(privateError) {
-    //   // Do something
-    //   return
-    // }
+    if(privateError) {
+      // Do something
+      return
+    }
 
     if(!mountedRef) return
 
