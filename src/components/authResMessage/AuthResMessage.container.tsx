@@ -15,16 +15,16 @@ const AuthResMessageContainer = () => {
   const initGsap = useCallback(() => {
     tlStatusMessageRef.current.fromTo('#status-message-wrapper', {
       height: 0,
-      duration: AUTH_TRANSITION_TIME / 1000,
-      ease: 'power1.out'
     }, {
+      duration: AUTH_TRANSITION_TIME / 1000,
+      ease: 'power1.out',
       height: 54
     }, 0)
     .fromTo('#status-message', {
       alpha: 0,
-      duration: AUTH_TRANSITION_TIME / 1000,
-      ease: 'power1.out'
     }, {
+      duration: AUTH_TRANSITION_TIME / 1000,
+      ease: 'power1.out',
       alpha: 1
     }, '>')
   }, [])

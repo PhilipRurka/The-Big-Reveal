@@ -5,11 +5,13 @@ import {
 } from '@reduxjs/toolkit';
 import userReducer from './slices/userSlice'
 import authMessageReducer from './slices/authMessageSlice'
+import toasterReducer from './slices/toasterSlice'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    authMessage: authMessageReducer
+    authMessage: authMessageReducer,
+    toaster: toasterReducer,
   }
 });
 

@@ -20,6 +20,7 @@ export const ResetStyles = createGlobalStyle`
 
   a {
     text-decoration: none;
+    color: black;
 
     &:active,
     &:focus {
