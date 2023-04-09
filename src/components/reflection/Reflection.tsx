@@ -21,7 +21,9 @@ const Reflection: FC<ReflectionDataType> = ({ publicData }) => {
         post_subtitle,
         created_at
       }) => (
-        <Card href={`/post/${id}`}>
+        <Card
+          key={`ReflectionCard - ${created_at}`}
+          href={`/post/${id}`}>
           <CardTitle>
             { post_title }
           </CardTitle>
