@@ -11,7 +11,6 @@
     "update-types": "npx supabase gen types typescript --project-id \"weuircwaseaewsmvjnye\" > src/types/supabase-types.ts"
   },
   "dependencies": {
-    "@next/font": "^13.3.0",
     "@reduxjs/toolkit": "^1.9.1",
     "@sendgrid/mail": "^7.7.0",
     "@supabase/auth-helpers-nextjs": "^0.5.2",

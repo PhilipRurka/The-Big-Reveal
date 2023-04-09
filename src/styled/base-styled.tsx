@@ -3,6 +3,7 @@ import reset from 'styled-reset'
 
 export const Fonts = {
   primary:   'font-family: var(--font-noto), sans-serif;',
+  secondary:   'font-family: var(--font-roboto), sans-serif;'
 };
 
 export const ResetStyles = createGlobalStyle`

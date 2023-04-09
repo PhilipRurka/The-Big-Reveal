@@ -11,7 +11,8 @@ import { ResetStyles } from "../src/styled/base-styled";
 import InitGetSession from '../src/utils/InitGetSession';
 import Toaster from '../src/components/toaster';
 import {
-  noto
+  noto,
+  roboto
 } from '../src/styled/typography-styled'
 
 function MyApp({
@@ -27,7 +28,7 @@ function MyApp({
       <SessionContextProvider
         supabaseClient={supabaseClient}
         initialSession={pageProps.initialSession} >
-        <div className={noto.variable}>
+        <div className={`${noto.variable} ${roboto.variable}`}>
           <ResetStyles />
           <InitGetSession />
           <Head />
