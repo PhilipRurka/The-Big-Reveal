@@ -14,9 +14,9 @@ const sharedBasicLink = (isActive: boolean | undefined) => ({
     color: Colors.persimmon
   },
 
-  '&:active': {
-    color: Colors.dodger
-  }
+  // '&:active': {
+  //   color: Colors.dodger
+  // }
 } as const)
 
 export const NavLinkWrapper = styled.div`

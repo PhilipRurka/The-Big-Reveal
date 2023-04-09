@@ -48,7 +48,7 @@ const DesktopMainNav: FC<DesktopMainNavType> = ({
         {!!userSession && (
           <PageItem key={`DesktopMainNav_logout`}>
             <NavLink trigger={handleLogout} >
-              logout
+              Logout
             </NavLink>
           </PageItem>
         )}

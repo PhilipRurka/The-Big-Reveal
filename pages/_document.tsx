@@ -19,10 +19,8 @@ export default class MyDocument extends Document {
       return {
         ...initialProps,
         styles: [
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
+          initialProps.styles,
+          sheet.getStyleElement()
         ],
       };
     } finally {
