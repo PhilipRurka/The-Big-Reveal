@@ -2,6 +2,18 @@ import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../../lib/authRequired";
 import Reflection from "../../src/components/reflection/Reflection.container";
 
+export type PublicType = {
+  id: string;
+  created_at: string | null;
+  post_title: string;
+  post_subtitle: string;
+  post_content: string;
+}
+
+export type ReflectionDataType = {
+  publicData: PublicType[]
+}
+
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)
   
@@ -31,18 +43,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   return {props: {
     publicData
   }}
-}
-
-export type PublicType = {
-  id: string;
-  created_at: string | null;
-  post_title: string;
-  post_subtitle: string;
-  post_content: string;
-}
-
-export type ReflectionDataType = {
-  publicData: PublicType[]
 }
 
 function ReflectionPage({ publicData }: ReflectionDataType) {

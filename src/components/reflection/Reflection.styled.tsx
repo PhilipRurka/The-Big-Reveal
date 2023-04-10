@@ -41,4 +41,5 @@ export const CreatedAt = styled.span`
   ${sharedCardElementStyles}
   margin-top: 10px;
   font-size: 14px;
+  font-weight: 300;
 `;

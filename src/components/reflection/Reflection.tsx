@@ -8,6 +8,7 @@ import {
   Title
 } from "./Reflection.styled";
 import { ReflectionDataType } from "../../../pages/feed/reflection";
+import dayjs from "dayjs";
 
 const Reflection: FC<ReflectionDataType> = ({ publicData }) => {
   return (
@@ -31,7 +32,7 @@ const Reflection: FC<ReflectionDataType> = ({ publicData }) => {
             { post_subtitle }
           </CardSubtitle>
           <CreatedAt>
-            Created at { created_at }
+            { dayjs(created_at).format('D MMM YYYY, h:ss a')}
           </CreatedAt>
         </Card>
       ))}
