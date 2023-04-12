@@ -1,5 +1,6 @@
 import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../../lib/authRequired";
+import Post from "../../src/components/post/Post.container";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)
@@ -16,7 +17,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = await supabase
     .from("public posts")
     .select('created_at, post_title, post_subtitle, post_content')
-    .eq('id', ctx.query.id)
+    .eq('id', ctx.query['post-id'])
     .order("created_at")
 
     const {
@@ -25,7 +26,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     } = await supabase
       .from("private posts")
       .select('post_content')
-      .eq('post_id', ctx.query.id)
+      .eq('post_id', ctx.query['post-id'])
 
   if(publicError || privateError || !publicData || !privateData) {
     console.log({
@@ -35,15 +36,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
     return { props: {}}
   }
-  
-  console.log({
-    publicData,
-    privateData
-  })
 
   return {props: {
     publicData: publicData[0],
-    // privateData: privateData[0]
+    privateData: privateData[0]
   }}
 }
 
@@ -55,14 +51,18 @@ export type PublicType = {
   post_content: string;
 }
 
-export type ReflectionDataType = {
-  publicData: PublicType[]
+export type privateType = {
+  post_content: string
 }
 
-function ReflectionPage({ publicData }: ReflectionDataType) {
+export type PostDataType = {
+  publicData: PublicType
+  privateData: privateType
+}
+
+function PostPage(props: PostDataType) {
   
-  // return <Reflection publicData={publicData} />
-  return <></>
+  return <Post {...props} />
 }
 
-export default ReflectionPage
+export default PostPage

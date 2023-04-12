@@ -32,7 +32,7 @@ const Reflection: FC<ReflectionDataType> = ({ publicData }) => {
             { post_subtitle }
           </CardSubtitle>
           <CreatedAt>
-            { dayjs(created_at).format('D MMM YYYY, h:ss a')}
+            { dayjs(created_at).format('D MMM YYYY, h:ss a') }
           </CreatedAt>
         </Card>
       ))}

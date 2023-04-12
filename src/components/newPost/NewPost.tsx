@@ -72,7 +72,7 @@ const NewPost: FC<NewPostType> = ({
             value={publicValue}
             onChange={handlePublicUpdate} />
         </Field>
-        <Field>
+        {/* <Field>
           <Label htmlFor='post-follow'>
             Follow - Say Whaat?
           </Label>
@@ -80,7 +80,7 @@ const NewPost: FC<NewPostType> = ({
             id='post-follow'
             value={followValue}
             onChange={handleFollowUpdate} />
-        </Field>
+        </Field> */}
         <Field>
           <Label htmlFor='post-private'>
             {'Private - You don\'t day?'}

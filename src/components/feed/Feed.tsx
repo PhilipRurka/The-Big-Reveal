@@ -8,12 +8,12 @@ const Feed: FC = () => {
       <Link href='/feed/reflection'>
         Reflection
       </Link>
-      <Link href='/feed/following'>
+      {/* <Link href='/feed/following'>
         Following
       </Link>
       <Link href='/feed/exploration'>
         Exploration
-      </Link>
+      </Link> */}
     </FeedWrapper>
   )
 }
