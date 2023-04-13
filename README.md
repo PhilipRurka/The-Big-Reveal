@@ -97,7 +97,22 @@ Remember to restart your shell to apply the new changes.
 
 &nbsp;
 ### Migration
+
 ...
+
+&nbsp;
+### TLDR
+
+- `supabase start` --> Start Docker container
+- `supabase stop` --> Stop Docker Container
+- `supabase db remote commit` --> Pull the latest remote onto your local
+- `Supabase db reset` --> Clear your local environment's data and re-populate using the *seed.sql* (Dummy data)
+- `supabase db diff --use-migra -f [new schame name]` --> Generates a new schema file
+- `supabase db push` --> Push up your local environment changes to the remote branch
+- `supabase migration list` --> List out the remote and remote versions
+- `supabase migration repair [version] --status reverted` --> Remove that remote version
+- `supabase migration repair [version] --status applied` --> Insert that remote version
+
 
 &nbsp;
 ### References
