@@ -73,6 +73,11 @@ Now if you run `supabase migration list` again, then you will see that your loca
 
 ![alt text](./public/readme-assets/remote-local.png)
 
+6. Last but not least run the folowing to reset your local development environment
+```
+supabase db reset
+```
+
 You should be done. You should now be able to see the tables and other such goods on your local environment!
 
 &nbsp;
