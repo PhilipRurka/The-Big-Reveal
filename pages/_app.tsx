@@ -6,9 +6,14 @@ import { Provider } from 'react-redux';
 import Head from "../src/components/head";
 import Header from "../src/components/header";
 import { store } from '../src/redux/redux_store';
-import { FontStyles, LayoutStyles } from "../src/styled";
+import { Main } from "../src/styled";
 import { ResetStyles } from "../src/styled/base-styled";
 import InitGetSession from '../src/utils/InitGetSession';
+import Toaster from '../src/components/toaster';
+import {
+  noto,
+  roboto
+} from '../src/styled/typography-styled'
 
 function MyApp({
   Component,
@@ -23,15 +28,16 @@ function MyApp({
       <SessionContextProvider
         supabaseClient={supabaseClient}
         initialSession={pageProps.initialSession} >
-        <ResetStyles />
-        <FontStyles />
-        <LayoutStyles />
-        <InitGetSession />
-        <Head />
-        <Header />
-          <main>
+        <div className={`${noto.variable} ${roboto.variable}`}>
+          <ResetStyles />
+          <InitGetSession />
+          <Head />
+          <Header />
+          <Main>
+            <Toaster />
             <Component {...pageProps} />
-          </main>
+          </Main>
+        </div>
       </SessionContextProvider>
     </Provider>
   )

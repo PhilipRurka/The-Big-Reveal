@@ -3,6 +3,7 @@ import { StatusMessageColors } from "../../styled";
 import { ResMessageType } from "../auth/Auth.types";
 
 export const ResMessageWrapper = styled.div`
+  height: 0;
   overflow: hidden;
 `;
 

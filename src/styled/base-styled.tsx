@@ -1,16 +1,16 @@
 import { createGlobalStyle } from 'styled-components'
 import reset from 'styled-reset'
-import { Fonts } from '.'
+
+export const Fonts = {
+  primary:   'font-family: var(--font-noto), sans-serif;',
+  secondary:   'font-family: var(--font-roboto), sans-serif;'
+};
 
 export const ResetStyles = createGlobalStyle`
   ${reset}
 
   * {
     box-sizing: border-box;
-  }
-
-  body {
-    ${Fonts.primary}
   }
 
   a,
@@ -20,6 +20,7 @@ export const ResetStyles = createGlobalStyle`
 
   a {
     text-decoration: none;
+    color: black;
 
     &:active,
     &:focus {
@@ -33,5 +34,10 @@ export const ResetStyles = createGlobalStyle`
     background-color: transparent;
     cursor: pointer;
     padding: 0;
+  }
+
+  header,
+  main {
+    ${Fonts.primary}
   }
 `

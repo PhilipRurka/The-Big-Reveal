@@ -13,10 +13,11 @@ export const PasswordValidationWrapper = styled.div`
   border-radius: 10px;
   background-color: white;
   box-shadow: 0 0 5px 0 black;
+  opacity: 0;
   z-index: 1;
 `;
 
-export const ConditionsTitle = styled.ul`
+export const ConditionsTitle = styled.span`
   font-weight: 600;
   margin-bottom: 8px;
 `;
@@ -26,12 +27,14 @@ export const ConditionList = styled.ul`
 `;
 
 export const ConditionItem = styled.li<ConditionItemType>`
+  ${Fonts.secondary}
   position: relative;
   font-style: italic;
   font-size: 14px;
-  letter-spacing: 0.5px;
   margin-bottom: 5px;
   padding-left: 18px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
 
   &:last-child {
     margin-bottom: 0;

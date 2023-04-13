@@ -1,37 +1,39 @@
 import { FC } from "react"
 import {
-  AnchorMainWrapper,
-  AnchorMainLink,
-  AnchorMainTrigger
+  NavLinkWrapper,
+  NavLinkAnchor,
+  NavLinkButton
 } from "./Anchors.styled"
 
-type AnchorMainType = {
-  name: string;
+type NavLinkType = {
+  children: string;
   path?: string;
   trigger?: (props: any) => Promise<void>
   isActive?: boolean;
 }
 
-export const AnchorMain: FC<AnchorMainType> = ({
-  name,
+export const NavLink: FC<NavLinkType> = ({
+  children,
   path,
   trigger,
   isActive
 }) => {
 
   return (
-    <AnchorMainWrapper isActive={isActive}>
+    <NavLinkWrapper>
       {path ? (
-        <AnchorMainLink
-          href={path} >
-          {name}
-        </AnchorMainLink>
+        <NavLinkAnchor
+          href={path}
+          $isActive={isActive} >
+          {children}
+        </NavLinkAnchor>
       ) : (
-        <AnchorMainTrigger
-          onClick={trigger} >
-            Logout
-        </AnchorMainTrigger>
+        <NavLinkButton
+          onClick={trigger}
+          $isActive={isActive} >
+          {children}
+        </NavLinkButton>
       )}
-    </AnchorMainWrapper>
+    </NavLinkWrapper>
   )
 }

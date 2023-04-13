@@ -9,12 +9,53 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      "follow post": {
+        Row: {
+          id: number
+          post_content: string | null
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: number
+          post_content?: string | null
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          id?: number
+          post_content?: string | null
+          post_id?: string
+          user_id?: string
+        }
+      }
+      "private posts": {
+        Row: {
+          id: string
+          post_content: string
+          post_id: string
+          user_id: string | null
+        }
+        Insert: {
+          id: string
+          post_content: string
+          post_id: string
+          user_id?: string | null
+        }
+        Update: {
+          id?: string
+          post_content?: string
+          post_id?: string
+          user_id?: string | null
+        }
+      }
       profiles: {
         Row: {
           avatar_url: string | null
           full_name: string | null
           id: string
           updated_at: string | null
+          user_id: string | null
           username: string | null
           website: string | null
         }
@@ -23,6 +64,7 @@ export interface Database {
           full_name?: string | null
           id: string
           updated_at?: string | null
+          user_id?: string | null
           username?: string | null
           website?: string | null
         }
@@ -31,32 +73,36 @@ export interface Database {
           full_name?: string | null
           id?: string
           updated_at?: string | null
+          user_id?: string | null
           username?: string | null
           website?: string | null
         }
       }
-      todo: {
+      "public posts": {
         Row: {
-          content: string | null
           created_at: string | null
-          id: number
-          is_complete: boolean | null
+          id: string
+          post_content: string
+          post_subtitle: string
+          post_title: string
           updated_at: string | null
           user_id: string | null
         }
         Insert: {
-          content?: string | null
           created_at?: string | null
-          id?: number
-          is_complete?: boolean | null
+          id: string
+          post_content: string
+          post_subtitle: string
+          post_title: string
           updated_at?: string | null
           user_id?: string | null
         }
         Update: {
-          content?: string | null
           created_at?: string | null
-          id?: number
-          is_complete?: boolean | null
+          id?: string
+          post_content?: string
+          post_subtitle?: string
+          post_title?: string
           updated_at?: string | null
           user_id?: string | null
         }
@@ -66,10 +112,7 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      install_available_extensions_and_test: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

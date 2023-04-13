@@ -1,4 +1,4 @@
-import { AnchorMain } from '../../../anchors';
+import { NavLink } from '../../../anchors';
 import React, { FC } from 'react';
 import {
   MobileMainNavWrapper,
@@ -32,17 +32,18 @@ const MobileMainNav: FC<MobileMainNavType> = ({
           path
         }) => (
           <PageItem key={`MobileMainNavWrapper_${name}`}>
-            <AnchorMain
+            <NavLink
               path={path}
-              name={name}
-              isActive={router.asPath === path} />
+              isActive={router.asPath === path} >
+              name
+            </NavLink>
           </PageItem>
         ))}
         {!!userSession && (
           <PageItem key={`DesktopMainNav_logout`}>
-            <AnchorMain
-              name='logout'
-              trigger={handleLogout} />
+            <NavLink trigger={handleLogout} >
+              Logout
+            </NavLink>
           </PageItem>
         )}
       </PageList>

@@ -1,20 +1,23 @@
-import { FC, FormEvent, useCallback, useMemo, useState } from "react"
+import { FC, FormEvent, useCallback, useMemo, useRef, useState } from "react"
 import { ProfilePageType } from "../../../pages/profile"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
-import dayjs from "dayjs"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
+import { Database } from "../../types/supabase-types"
 
 export type handleSaveResetType = (event: FormEvent) => void
 
 const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
+  const mountedRef = useRef(true)
+
   const [fullName, setFullName] = useState(profileData.full_name || '')
   const [username, setUsername] = useState(profileData.username || '')
   const [originalInputs, setOriginalInputs] = useState({
     fullName: profileData.full_name || '',
     username: profileData.username || ''
   })
-  const supabaseClient = useSupabaseClient()
+
+  const supabaseClient = useSupabaseClient<Database>()
   
   const subtitleFormated = useMemo(() => {
     return `Welcome ${originalInputs.username || 'back'}`
@@ -42,10 +45,11 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
       .from('profiles')
       .update({
         full_name: fullName,
-        username: username,
-        updated_at: dayjs().toISOString()
+        username: username
       })
       .eq('id', profileData.id)
+
+      if(!mountedRef) return
 
     if(!error) {
       setOriginalInputs({
@@ -55,6 +59,10 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
 
     } else {
       // Some sort of error message
+    }
+
+    return () => {
+      mountedRef.current = false
     }
   }, [fullName, username, profileData.id, supabaseClient])
 
