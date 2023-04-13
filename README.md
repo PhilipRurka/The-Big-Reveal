@@ -83,7 +83,7 @@ in github.com/supabase/cli/internal/start.Run:33
 Try rerunning the command with --debug to troubleshoot the error.
 ```
 
-The solution is easy, open your `~/.zshrc` file and add in the two lines (the first must be above the second). the first line may already be there, check first.
+The solution is easy, open your `~/.zshrc` (Assuming you are using zsh!) file and add in the two lines (the first must be above the second). the first line may already be there, check first.
 
 ```
 source /Users/eshlox/.docker/init-zsh.sh || true
