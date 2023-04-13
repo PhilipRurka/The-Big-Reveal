@@ -137,6 +137,7 @@ And just like that Production is up to date with your latest changes.
 ### References
 - [Supabase Local Development](https://supabase.com/docs/guides/cli/local-development)
 - [Issue with MacOS Docker Start](https://eshlox.net/2023/02/26/supabase-cli-cannot-connect-to-the-docker-daemon/)
+- [Supabase CLI](https://supabase.com/docs/reference/cli/start)
 
 ---
 &nbsp;
