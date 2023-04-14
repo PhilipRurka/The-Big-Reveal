@@ -112,12 +112,7 @@ Easy ... well easy enough. You first must create a new local schema file by runn
 supabase db diff --use-migra -f [schema file sufix]
 ```
 
-This sufix can be anything as it is an identifyer you are giving it. Once your new schema is created, you now need to push up that new schema to the main branch (production) by running this
-```
-supabase db push
-```
-
-And just like that Production is up to date with your latest changes.
+This sufix can be anything as it is an identifyer you are giving it.
 
 &nbsp;
 ### Github Actions
