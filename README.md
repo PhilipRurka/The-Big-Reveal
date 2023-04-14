@@ -128,7 +128,7 @@ That said we should never never never update any of the databases directly. They
 - `supabase start` --> Start Docker container
 - `supabase stop` --> Stop Docker Container
 - `supabase db remote commit` --> Pull the latest remote onto your local
-- `Supabase db reset` --> Clear your local environment's data and re-populate using the *seed.sql* (Dummy data). Basically restarting the container.
+- `supabase db reset` --> Clear your local environment's data and re-populate using the *seed.sql* (Dummy data). Basically restarting the container.
 - `supabase db diff --use-migra -f [new schame name]` --> Generates a new schema file
 - `supabase db push` --> Push up your local environment changes to the remote branch
 - `supabase migration list` --> List out the remote and remote versions
