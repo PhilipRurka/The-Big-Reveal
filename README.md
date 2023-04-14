@@ -120,6 +120,14 @@ supabase db push
 And just like that Production is up to date with your latest changes.
 
 &nbsp;
+### Github Actions
+There are two Supabase Github actions implemented
+- When the *develop* Github branch gets updated, it performs a migration to *Goalden Dev*.
+- When the *main* Github branch gets updated, it performs a migration to *Goalden Prod*.
+
+That said we should never never never update any of the databases directly. They should always be adjusted locally, migrated to a Github branch and then automatically updated via the Github actions.
+
+&nbsp;
 ### TLDR
 
 - `supabase start` --> Start Docker container
@@ -131,7 +139,6 @@ And just like that Production is up to date with your latest changes.
 - `supabase migration list` --> List out the remote and remote versions
 - `supabase migration repair [version] --status reverted` --> Remove that remote version
 - `supabase migration repair [version] --status applied` --> Insert that remote version
-
 
 &nbsp;
 ### References
