@@ -56,7 +56,7 @@ Once complete, you should be able to validate if it all worked by going to http:
 supabase link --project-ref weuircwaseaewsmvjnye
 ```
 
-At this point you should still have an empty local database. We can fix this by pulling in the latest from the Supabase Repository. You can check and see if you are up to date by running (Make sure you have pulled in the latest from the development Github granch)
+<!-- At this point you should still have an empty local database. We can fix this by pulling in the latest from the Supabase Repository. You can check and see if you are up to date by running (Make sure you have pulled in the latest from the development Github granch)
 ```
 supabase migration list
 ```
@@ -76,7 +76,7 @@ Now if you run `supabase migration list` again, then you will see that your loca
 6. Last but not least run the folowing to reset your local development environment
 ```
 supabase db reset
-```
+``` -->
 
 You should be done. You should now be able to see the tables and other such goods on your local environment!
 
