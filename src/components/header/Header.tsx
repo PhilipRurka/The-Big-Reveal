@@ -11,6 +11,7 @@ import {
 } from './components'
 import { MobileMainBurgerType } from "./components/mobileMainBurger/MobileMainBurger.container"
 import { NavigationsType } from "../../utils/navigation"
+import DesktopHeader from "./components/desktopHeader/DesktopHeader.container"
 
 export type HeaderType = MobileMainBurgerType & {
   navigationItems: NavigationsType
@@ -27,24 +28,18 @@ const Header: FC<HeaderType> = ({
 }) => {
   return (
     <HeaderWrapper>
-    <HeaderMainNavbar>
-      <GoaldenLogo />
       {!isXs ? (
-        <DesktopMainNav
+        <DesktopHeader
           navigationItems={navigationItems}
           handleLogout={handleLogout} />
       ) : (
-        <MobileMainBurger
+        <MobileHeader
+          navigationItems={navigationItems}
           openedBurger={openedBurger}
-          handleUpdateBurger={handleUpdateBurger} />
+          handleUpdateBurger={handleUpdateBurger}
+          handleLogout={handleLogout} />
       )}
-    </HeaderMainNavbar>
-    {isXs && (
-      <MobileMainNav
-        navigationItems={navigationItems}
-        handleLogout={handleLogout} />
-    )}
-  </HeaderWrapper>
+    </HeaderWrapper>
   )
 }
 
