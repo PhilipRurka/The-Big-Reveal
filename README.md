@@ -42,9 +42,8 @@ supabase login
 
 2. Make sure your Docker is running and your Docker Dashboard is open befoe moving forward
 
-3. Run the following two commands
+3. Run the following commands
 ```
-supabase init
 supabase start
 ```
 
