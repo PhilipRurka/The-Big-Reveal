@@ -1,1 +1,1 @@
-export { default } from './NewComponentTemplate.Comtainer'
+export { default } from './NewComponentTemplate.container'
