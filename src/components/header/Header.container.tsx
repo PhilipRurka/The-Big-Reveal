@@ -1,5 +1,5 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { FC, useMemo, useState } from "react"
+import { FC, useMemo } from "react"
 import Header from "./Header"
 import { navWithAuth, navWithoutAuth } from '../../utils/navigation';
 import { useAppDispatch } from "../../redux/redux_hooks";
@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 export type handleUpdateBurgerType = (openBurger: boolean) => void;
 
 const HeaderContainer: FC = () => {
-  const [openedBurger, setOpenedBurger] = useState<boolean>(false);
   const dispatch = useAppDispatch()
   const {
     session: userSession,
@@ -20,10 +19,6 @@ const HeaderContainer: FC = () => {
   const isXs = useIsXs()
   const supabaseClient = useSupabaseClient()
   const router = useRouter()
-
-  const handleUpdateBurger: handleUpdateBurgerType = (openBurger) => {
-    setOpenedBurger(openBurger)
-  }
 
   const handleLogout = async () => {
     await supabaseClient.auth.signOut()
@@ -41,8 +36,6 @@ const HeaderContainer: FC = () => {
   
   return (
     <Header
-      openedBurger={openedBurger}
-      handleUpdateBurger={handleUpdateBurger}
       navigationItems={navigationItems}
       handleLogout={handleLogout}
       isXs={isXs} />

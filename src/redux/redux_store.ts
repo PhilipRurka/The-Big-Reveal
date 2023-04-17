@@ -6,12 +6,14 @@ import {
 import userReducer from './slices/userSlice'
 import authMessageReducer from './slices/authMessageSlice'
 import toasterReducer from './slices/toasterSlice'
+import burgerNavReducer from './slices/burgerNavSlice'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     authMessage: authMessageReducer,
     toaster: toasterReducer,
+    burgerNav: burgerNavReducer
   }
 });
 

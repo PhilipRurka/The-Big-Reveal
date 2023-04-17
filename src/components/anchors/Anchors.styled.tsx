@@ -47,7 +47,7 @@ export const NavLinkButton = styled.button<NavLinkType>(({ $isActive }) => {
   `
 })
 
-export const NavLinkFormButton = styled(LinkNext)<NavLinkType>`
+export const NewPostButton = styled(LinkNext)<NavLinkType>`
   position: relative;
   padding: 8px 30px 8px 12px;
   border-radius: 5px;

@@ -1,4 +1,3 @@
-export { default as DesktopMainNav } from './desktopMainNav'
-export { default as MobileMainNav } from './mobileMainNav'
+export { default as DesktopHeader } from './desktopHeader'
+export { default as MobileHeader } from './mobileHeader'
 export { default as GoaldenLogo } from './goaldenLogo'
-export { default as MobileMainBurger } from './mobileMainBurger'
