@@ -1,27 +1,27 @@
 import { FC } from 'react';
 import {
-  MobileMainBurgerWrapper,
-} from './MbileMainBurger.styled';
+  MobileBurgerWrapper,
+} from './MobileBurger.styled';
 
-type MobileMainNavType = {
+type MobileBurgerType = {
   openedBurger: boolean;
   handleBurgerClick: () => void;
 }
 
-const MobileMainNav: FC<MobileMainNavType> = ({
+const MobileBurger: FC<MobileBurgerType> = ({
   openedBurger,
   handleBurgerClick
 }) => {
 
   return (
-      <MobileMainBurgerWrapper
+      <MobileBurgerWrapper
         className={openedBurger ? 'opened' : ''}
         aria-label='Open Mobile Menu'
         onClick={handleBurgerClick} >
         <span aria-hidden />
         <span aria-hidden />
-      </MobileMainBurgerWrapper>
+      </MobileBurgerWrapper>
   );
 };
 
-export default MobileMainNav;
+export default MobileBurger;

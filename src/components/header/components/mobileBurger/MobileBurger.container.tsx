@@ -1,13 +1,13 @@
-import { FC, MutableRefObject, useCallback, useEffect, useRef } from 'react';
-import MobileMainBurger from './MbileMainBurger'
+import { FC, useCallback, useEffect, useRef } from 'react';
+import MobileBurger from './MobileBurger'
 import gsap from 'gsap';
 
-export type MobileMainBurgerType = {
+export type MobileBurgerType = {
   openedBurger: boolean;
   handleUpdateBurger: (openBurger: boolean) => void;
 }
 
-const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
+const MobileBurgerContainer: FC<MobileBurgerType> = ({
   openedBurger,
   handleUpdateBurger
 }) => {
@@ -29,12 +29,14 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   }, [handleUpdateBurger])
 
   const initGsap = useCallback((): void => {
+    if(window === undefined) return
+
     mobileNavTlRef.current = gsap.fromTo('#mobileMenu', {
       height: 0
     } ,{
-      height: 66,
-      duration: 0.3,
-      ease: "power1.out"
+      height: window.innerHeight - 50,
+      duration: 0.8,
+      ease: "power3.inOut"
     });
   }, []);
   
@@ -72,10 +74,10 @@ const MobileMainBurgerContainer: FC<MobileMainBurgerType> = ({
   }, [openedBurger, handleListenerClick, handleListenerKeydown]);
 
   return (
-    <MobileMainBurger
+    <MobileBurger
       handleBurgerClick={handleBurgerClick}
       openedBurger={openedBurger} />
   );
 };
 
-export default MobileMainBurgerContainer;
+export default MobileBurgerContainer;

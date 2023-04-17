@@ -12,7 +12,7 @@ export const navWithoutAuth: NavigationsType = [
 
 export const navWithAuth: NavigationsType = [
   {
-    named: 'New',
+    named: 'New Post',
     path: '/new-post'
   },
   {

@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Container } from '../../styled'
 
 export const HeaderWrapper = styled.header`
   position: fixed;
@@ -11,11 +10,4 @@ export const HeaderWrapper = styled.header`
   background-color: white;
   box-shadow: 0px 0px 5px black;
   z-index: 1;
-`
-
-export const HeaderMainNavbar = styled.div`
-  ${Container('xl')}
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `

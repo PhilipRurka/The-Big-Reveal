@@ -213,7 +213,7 @@ If you are using a Git GUI likew me (GitKraken), you may want to look into how t
 ---
 &nbsp;
 ## NewComponentTemplate ... whats this?
-This is a folder you can find at the root level of this project. It is used as a new component template (its in its name). Idealy when creating a new component, you can simply copy the files within it and past it inside your new component directory. Then you just have to change every instamce of _NewComponentTemplate_ with the name of the component.
+This is a folder you can find at the root level of this project. It is used as a new component template (its in its name). Idealy when creating a new component, you can simply copy the files within it and past it inside your new component directory. Then you just have to change every instamce of `NewComponentTemplate` with the name of the component.
 
 ---
 &nbsp;

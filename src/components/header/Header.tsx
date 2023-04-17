@@ -1,19 +1,15 @@
 import { FC } from "react"
 import {
-  HeaderMainNavbar,
   HeaderWrapper,
 } from "./Header.styled"
-import {
-  DesktopMainNav,
-  MobileMainNav,
-  GoaldenLogo,
-  MobileMainBurger
-} from './components'
-import { MobileMainBurgerType } from "./components/mobileMainBurger/MobileMainBurger.container"
+import { MobileBurgerType } from "./components/mobileBurger/MobileBurger.container"
 import { NavigationsType } from "../../utils/navigation"
-import DesktopHeader from "./components/desktopHeader/DesktopHeader.container"
+import {
+  DesktopHeader,
+  MobileHeader
+} from "./components"
 
-export type HeaderType = MobileMainBurgerType & {
+export type HeaderType = MobileBurgerType & {
   navigationItems: NavigationsType
   handleLogout: () => Promise<void>
   isXs: boolean | undefined
@@ -28,15 +24,15 @@ const Header: FC<HeaderType> = ({
 }) => {
   return (
     <HeaderWrapper>
-      {!isXs ? (
-        <DesktopHeader
-          navigationItems={navigationItems}
-          handleLogout={handleLogout} />
-      ) : (
+      <DesktopHeader
+        navigationItems={navigationItems}
+        handleLogout={handleLogout}
+        openedBurger={openedBurger}
+        handleUpdateBurger={handleUpdateBurger}
+        isXs={isXs} />
+      {isXs && (
         <MobileHeader
           navigationItems={navigationItems}
-          openedBurger={openedBurger}
-          handleUpdateBurger={handleUpdateBurger}
           handleLogout={handleLogout} />
       )}
     </HeaderWrapper>

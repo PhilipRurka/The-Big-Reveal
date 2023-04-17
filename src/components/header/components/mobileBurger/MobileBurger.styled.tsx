@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const MobileMainBurgerWrapper = styled.button(() => {
+export const MobileBurgerWrapper = styled.button(() => {
   const containerHeight: number = 35;
   const lineHeight: number = 2;
   const spacing: number = (containerHeight - lineHeight) / 7;
