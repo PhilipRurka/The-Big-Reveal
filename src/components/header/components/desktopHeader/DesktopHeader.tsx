@@ -9,7 +9,7 @@ import {
   PageList
 } from './DesktopHeader.styled';
 import MobileBurger from '../mobileBurger';
-import GoaldenLogo from '../goaldenLogo/GoaldenLogo';
+import BrandLogo from '../brandLogo/BrandLogo';
 
 type DesktopHeaderType = {
   navigationItems: NavigationsType;
@@ -26,7 +26,7 @@ const DesktopNav: FC<DesktopHeaderType> = ({
 }) => {
   return (
     <DesktopHeaderWrapper>
-      <GoaldenLogo />
+      <BrandLogo />
       {!isXs ? (
         <PageList>
           {navigationItems.map(({

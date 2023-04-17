@@ -117,8 +117,8 @@ This sufix can be anything as it is an identifyer you are giving it.
 &nbsp;
 ### Github Actions
 There are two Supabase Github actions implemented
-- When the *develop* Github branch gets updated, it performs a migration to *Goalden Dev*.
-- When the *main* Github branch gets updated, it performs a migration to *Goalden Prod*.
+- When the *develop* Github branch gets updated, it performs a migration to *The_Big_Reveal Dev*.
+- When the *main* Github branch gets updated, it performs a migration to *The_Big_Reveal Prod*.
 
 That said we should never never never update any of the databases directly. They should always be adjusted locally, migrated to a Github branch and then automatically updated via the Github actions.
 
@@ -218,7 +218,7 @@ This is a folder you can find at the root level of this project. It is used as a
 ---
 &nbsp;
 ## Trello
-We have a [Trello board](https://trello.com/invite/b/lG5uOxCP/ATTId6e6003095ad6ae63068d53323cd21f244790C77/goalden), jump in, assign yourself to a task and walk it through to victory (Done & Live).
+We have a, ask for an invite and jump in, assign yourself to a task and walk it through to victory (Done & Live).
 
 ---
 &nbsp;
