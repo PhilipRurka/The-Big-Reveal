@@ -1,7 +1,7 @@
-# Goalden
-This is a Goal tracking project designed to help people define and track their goals and their frequency.
+# The Big Reveal
+****** Gonna add something soon ******
 
-Production Domain: [goalden.club](https://goalden.club)
+Production Domain: [thebigreveal.club](https://thebigreveal.club)
 
 ---
 &nbsp;
