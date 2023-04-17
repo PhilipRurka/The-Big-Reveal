@@ -1,32 +1,24 @@
 import { FC, useCallback, useEffect, useRef } from 'react';
 import MobileBurger from './MobileBurger'
 import gsap from 'gsap';
+import { useAppDispatch, useAppSelector } from '../../../../redux/redux_hooks';
+import { selectBurgerNav, update_burger_nav } from '../../../../redux/slices/burgerNavSlice';
 
-export type MobileBurgerType = {
-  openedBurger: boolean;
-  handleUpdateBurger: (openBurger: boolean) => void;
-}
-
-const MobileBurgerContainer: FC<MobileBurgerType> = ({
-  openedBurger,
-  handleUpdateBurger
-}) => {
-
+const MobileBurgerContainer: FC = () => {
   const mobileNavTlRef = useRef<GSAPAnimation | undefined>();
 
-  const handleBurgerClick = () => {
-    handleUpdateBurger(!openedBurger);
-  };
+  const dispatch = useAppDispatch()
+  const isBurgerOpen = useAppSelector(selectBurgerNav)
+
+  const handleBurgerClick = useCallback(() => {
+    dispatch(update_burger_nav(!isBurgerOpen));
+  }, [dispatch, isBurgerOpen]);
 
   const handleListenerKeydown = useCallback((event: KeyboardEvent) => {
     if(event.key === 'Escape') {
-      handleUpdateBurger(false);
+      dispatch(update_burger_nav(false));
     }
-  }, [handleUpdateBurger]);
-
-  const handleListenerClick = useCallback(() => {
-    handleUpdateBurger(false);
-  }, [handleUpdateBurger])
+  }, [dispatch]);
 
   const initGsap = useCallback((): void => {
     if(window === undefined) return
@@ -49,34 +41,27 @@ const MobileBurgerContainer: FC<MobileBurgerType> = ({
   }, [initGsap]);
 
   useEffect(() => {
-    let mainElement: HTMLElement | null
-
-    
-    if(openedBurger) {
+    if(isBurgerOpen) {
       if(typeof window === 'undefined') return;
 
       mobileNavTlRef?.current?.play();
       document.addEventListener('keydown', handleListenerKeydown);
-
-      mainElement = document.querySelector('main');
-      mainElement?.addEventListener('click', handleListenerClick);
 
     } else {
       mobileNavTlRef?.current?.reverse();
     };
 
     return () => {
-      if(typeof window === 'undefined' || !openedBurger) return;
+      if(typeof window === 'undefined' || !isBurgerOpen) return;
 
       document.removeEventListener('keydown', handleListenerKeydown);
-      mainElement?.removeEventListener('click', handleListenerClick);
     }
-  }, [openedBurger, handleListenerClick, handleListenerKeydown]);
+  }, [isBurgerOpen, handleListenerKeydown]);
 
   return (
     <MobileBurger
       handleBurgerClick={handleBurgerClick}
-      openedBurger={openedBurger} />
+      isBurgerOpen={isBurgerOpen} />
   );
 };
 

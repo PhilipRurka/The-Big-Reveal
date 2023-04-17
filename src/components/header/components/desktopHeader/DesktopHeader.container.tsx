@@ -2,9 +2,8 @@ import { FC } from "react"
 import DesktopHeader from "./DesktopHeader"
 import { NavigationsType } from "../../../../utils/navigation"
 import { useRouter } from "next/router"
-import { MobileBurgerType } from "../mobileBurger/MobileBurger.container"
 
-type DesktopHeaderType = MobileBurgerType & {
+type DesktopHeaderType = {
   navigationItems: NavigationsType
   handleLogout: () => Promise<void>,
   isXs: undefined | boolean
@@ -13,8 +12,6 @@ type DesktopHeaderType = MobileBurgerType & {
 const DesktopHeaderContainer: FC<DesktopHeaderType> = ({
   navigationItems,
   handleLogout,
-  openedBurger,
-  handleUpdateBurger,
   isXs
 }) => {
   const router = useRouter()
@@ -23,8 +20,6 @@ const DesktopHeaderContainer: FC<DesktopHeaderType> = ({
     <DesktopHeader
       navigationItems={navigationItems}
       handleLogout={handleLogout}
-      openedBurger={openedBurger}
-      handleUpdateBurger={handleUpdateBurger}
       router={router}
       isXs={isXs} />
   )

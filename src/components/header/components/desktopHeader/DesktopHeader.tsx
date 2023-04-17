@@ -8,11 +8,10 @@ import {
   PageItem,
   PageList
 } from './DesktopHeader.styled';
-import { MobileBurgerType } from '../mobileBurger/MobileBurger.container';
 import MobileBurger from '../mobileBurger';
 import GoaldenLogo from '../goaldenLogo/GoaldenLogo';
 
-type DesktopHeaderType = MobileBurgerType & {
+type DesktopHeaderType = {
   navigationItems: NavigationsType;
   handleLogout: () => Promise<void>
   router: NextRouter
@@ -23,8 +22,6 @@ const DesktopNav: FC<DesktopHeaderType> = ({
   navigationItems,
   handleLogout,
   router,
-  openedBurger,
-  handleUpdateBurger,
   isXs
 }) => {
   return (
@@ -72,9 +69,7 @@ const DesktopNav: FC<DesktopHeaderType> = ({
           })}
         </PageList>
       ): (
-        <MobileBurger
-          openedBurger={openedBurger}
-          handleUpdateBurger={handleUpdateBurger} />
+        <MobileBurger />
       )}
     </DesktopHeaderWrapper>
   );
