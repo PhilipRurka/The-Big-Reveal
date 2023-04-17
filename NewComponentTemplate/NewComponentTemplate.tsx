@@ -1,7 +1,11 @@
 import { FC } from "react";
 import { NewComponentTemplateWrapper } from "./NewComponentTemplate.styled";
 
-const NewComponentTemplate: FC = () => {
+type NewComponentTemplateType = {
+  
+}
+
+const NewComponentTemplate: FC<NewComponentTemplateType> = () => {
   return (
     <NewComponentTemplateWrapper>
       
