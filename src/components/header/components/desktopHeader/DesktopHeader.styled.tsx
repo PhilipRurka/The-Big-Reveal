@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Container } from '../../../../styled';
+import { BreakObj, Container } from '../../../../styled';
 
 export const DesktopHeaderWrapper = styled.div`
   ${Container('xl')}
@@ -10,6 +10,10 @@ export const DesktopHeaderWrapper = styled.div`
 
 export const PageList = styled.ul`
   display: flex;
+
+  ${BreakObj.xs.breakpoint.media} {
+    display: none
+  }
 `;
 
 export const PageItem = styled.li`
