@@ -12,15 +12,8 @@ const NewPostContainer = () => {
   const mountedRef = useRef(true)
   const poemRef = useRef<Editor>()
 
-  const [titleValue, setTitleValue] = useState('')
-  const [tagsValue, setTagsValue] = useState('')
-
   const dispatch = useAppDispatch()
   const supabaseClient = useSupabaseClient<Database>()
-  
-  const handleTitleUpdate = useCallback((event: InputOnChangeType): void => {
-    setTitleValue(event.currentTarget.value)
-  }, [])
 
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
@@ -36,7 +29,6 @@ const NewPostContainer = () => {
       .from('post base')
       .insert([{
         id: publicId,
-        post_title: titleValue,
         tags: null,
         enable_reveal_date: null,
         enable_reveal: null,
@@ -69,9 +61,6 @@ const NewPostContainer = () => {
 
     if(!mountedRef) return
 
-    setTitleValue('')
-    setTagsValue('')
-
     dispatch(update_toaster({
       title: 'New post',
       subtitle: 'Click here to view it.',
@@ -81,13 +70,11 @@ const NewPostContainer = () => {
     return () => {
       mountedRef.current = false
     }
-  }, [titleValue, tagsValue, dispatch, supabaseClient])
+  }, [dispatch, supabaseClient])
 
   return (
     <NewPost
       poemRef={poemRef as MutableRefObject<Editor>}
-      titleValue={titleValue}
-      handleTitleUpdate={handleTitleUpdate}
       handleSubmit={handleSubmit} />
   )
 }
