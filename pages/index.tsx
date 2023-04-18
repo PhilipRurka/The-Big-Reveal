@@ -1,4 +1,5 @@
 import { initialConsole } from '../lib/initial-console';
+import Home from '../src/components/home/Home.container';
 
 export const getStaticProps = () => {
   initialConsole('Home')
@@ -8,16 +9,8 @@ export const getStaticProps = () => {
  };
 }
 
-function Home() {
-
-  return (
-    <>
-      <h1>Homepage</h1>
-      <div className="container" style={{ padding: '50px 0 100px 0' }}>
-        
-      </div>
-    </>
-  )
+function HomePage() {
+  return <Home />
 }
 
-export default Home;
+export default HomePage;

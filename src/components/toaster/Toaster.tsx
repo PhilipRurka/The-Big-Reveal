@@ -1,4 +1,4 @@
-import { FC, ForwardedRef, Ref, forwardRef } from "react";
+import { FC, forwardRef } from "react";
 import { AnchorContent, StaticContent, Subtitle, Title, ToasterWrapper } from "./Toaster.styled";
 
 export type ToasterType = {
