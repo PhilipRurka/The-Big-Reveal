@@ -1,8 +1,15 @@
-import { forwardRef, useMemo } from "react"
+import { FC, MutableRefObject, useMemo } from "react"
 import Tiny from "./Tiny"
+import { Editor } from "tinymce"
 
-const TinyContainer = forwardRef<any, any>((_, ref: any) => {
-  const onInit = (_: any, editor: any) => ref.current = editor
+type TinyType = {
+  tinyRef: MutableRefObject<Editor>
+}
+
+const TinyContainer: FC<TinyType> = ({
+  tinyRef
+}) => {
+  const onInit = (_: unknown, editor: Editor) => tinyRef.current = editor
 
   const TinyConfigs = useMemo(() => {
     return {
@@ -30,6 +37,6 @@ const TinyContainer = forwardRef<any, any>((_, ref: any) => {
       {...TinyConfigs}
       onInit={onInit} />
   )
-})
+}
 
 export default TinyContainer
