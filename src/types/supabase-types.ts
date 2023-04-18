@@ -11,42 +11,39 @@ export interface Database {
     Tables: {
       "post base": {
         Row: {
-          allow_publish_at: string | null
+          allow_published_at: string | null
           created_at: string | null
           enable_reveal: boolean | null
           enable_reveal_date: string | null
           id: string
           is_published: boolean
           post_content: string
-          post_title: string
           tags: string | null
           updated_at: string | null
           user_id: string | null
           written_at: string | null
         }
         Insert: {
-          allow_publish_at?: string | null
+          allow_published_at?: string | null
           created_at?: string | null
           enable_reveal?: boolean | null
           enable_reveal_date?: string | null
           id: string
           is_published?: boolean
           post_content: string
-          post_title: string
           tags?: string | null
           updated_at?: string | null
           user_id?: string | null
           written_at?: string | null
         }
         Update: {
-          allow_publish_at?: string | null
+          allow_published_at?: string | null
           created_at?: string | null
           enable_reveal?: boolean | null
           enable_reveal_date?: string | null
           id?: string
           is_published?: boolean
           post_content?: string
-          post_title?: string
           tags?: string | null
           updated_at?: string | null
           user_id?: string | null
