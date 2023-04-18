@@ -1,8 +1,9 @@
-import { ChangeEvent, FC, FormEvent } from "react"
+import { ChangeEvent, FC, FormEvent, forwardRef } from "react"
 import { Field, Label, Textarea } from "../../styled"
 import Input, { InputOnChangeType } from "../input/Input"
 import { Form, NewPostWrapper, Subtitle, Title } from "./NewPost.styled"
 import { Button, ButtonWrapper } from "../../styled/button"
+import Tiny from "../tiny"
 
 type NewPostType = {
   titleValue: string
@@ -19,7 +20,7 @@ type NewPostType = {
   handleSubmit: (event: FormEvent) => void
 }
 
-const NewPost: FC<NewPostType> = ({
+const NewPost = forwardRef<NewPostType, any>(({
   titleValue,
   subtitleValue,
   publicValue,
@@ -32,7 +33,9 @@ const NewPost: FC<NewPostType> = ({
   handlepPrivateUpdate,
   isDisabled,
   handleSubmit
-}) => {
+}, {
+  poemRef
+}: any) => {
 
   return (
     <NewPostWrapper>
@@ -67,10 +70,11 @@ const NewPost: FC<NewPostType> = ({
           <Label htmlFor='post-public'>
             Public - What is up?
           </Label>
-          <Textarea
+          {/* <Textarea
             id='post-public'
             value={publicValue}
-            onChange={handlePublicUpdate} />
+            onChange={handlePublicUpdate} /> */}
+            <Tiny ref={poemRef} />
         </Field>
         {/* <Field>
           <Label htmlFor='post-follow'>
@@ -101,6 +105,6 @@ const NewPost: FC<NewPostType> = ({
       </Form>
     </NewPostWrapper>
   )
-}
+})
 
 export default NewPost

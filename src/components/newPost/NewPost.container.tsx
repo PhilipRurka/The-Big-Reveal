@@ -9,6 +9,7 @@ import { update_toaster } from "../../redux/slices/toasterSlice"
 
 const NewPostContainer = () => {
   const mountedRef = useRef(true)
+  const poemRef = useRef('')
 
   const [titleValue, setTitleValue] = useState('')
   const [subtitleValue, setSubtitleValue] = useState('')
@@ -55,6 +56,8 @@ const NewPostContainer = () => {
     event.preventDefault()
 
     const publicId = uuidv4()
+
+    console.log(poemRef.current.getContent())
 
     const { data, error: publicError } = await supabaseClient
       .from('public posts')
@@ -107,6 +110,7 @@ const NewPostContainer = () => {
 
   return (
     <NewPost
+      ref={{poemRef} as any}
       titleValue={titleValue}
       subtitleValue={subtitleValue}
       publicValue={publicValue}

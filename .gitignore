@@ -37,3 +37,5 @@ next-env.d.ts
 
 .cd-reminder
 todo.md
+
+/public/tinymce/
