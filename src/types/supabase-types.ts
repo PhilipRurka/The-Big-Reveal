@@ -9,7 +9,7 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      "post base": {
+      post_base: {
         Row: {
           allow_published_at: string | null
           created_at: string | null
@@ -50,7 +50,7 @@ export interface Database {
           written_at?: string | null
         }
       }
-      "post description": {
+      post_description: {
         Row: {
           id: string
           post_content: string
