@@ -2,9 +2,9 @@ import { FC } from "react";
 import Reflection from "./Reflection";
 import { ReflectionDataType } from "../../../pages/feed/reflection";
 
-const ReflectionContainer: FC<ReflectionDataType> = ({ publicData }) => {
+const ReflectionContainer: FC<ReflectionDataType> = ({ postBase }) => {
   return (
-    <Reflection publicData={publicData} />
+    <Reflection postBase={postBase} />
   )
 }
 

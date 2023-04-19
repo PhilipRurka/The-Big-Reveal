@@ -3,13 +3,13 @@ import { PostDataType } from "../../../pages/post/[...post-id]";
 import Post from "./Post";
 
 const PostContainer: FC<PostDataType> = ({
-  publicData,
-  privateData
+  postBase,
+  postDescription
 }) => {
   return (
     <Post
-      publicData={publicData}
-      privateData={privateData} />
+      postBase={postBase}
+      postDescription={postDescription} />
   )
 }
 

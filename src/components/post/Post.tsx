@@ -4,24 +4,22 @@ import { PostWrapper } from "./Post.styled";
 import dayjs from "dayjs";
 
 const Post: FC<PostDataType> = ({
-  publicData,
-  privateData
+  postBase,
+  postDescription
 }) => {
   return (
     <PostWrapper>
-      <h1>{ publicData.post_title }</h1>
-      <h2>{ publicData.post_subtitle }</h2>
-      <span>{ dayjs(publicData.created_at).format('D MMM YYYY, h:ss a') }</span>
-      {publicData.post_content && (
+      <span>{ dayjs(postBase.created_at).format('D MMM YYYY, h:ss a') }</span>
+      {postBase.post_content && (
         <>
-          <h3>Public</h3>
-          <p>{ publicData.post_content }</p>
+          <h3>Post Base</h3>
+          <p>{ postBase.post_content }</p>
         </>
       )}
-      {privateData.post_content && (
+      {postDescription.post_content && (
         <>
-          <h3>Private</h3>
-          <p>{ privateData.post_content }</p>
+          <h3>Post Description</h3>
+          <p>{ postDescription.post_content }</p>
         </>
       )}
     </PostWrapper>
