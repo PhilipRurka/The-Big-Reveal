@@ -56,19 +56,19 @@ export interface Database {
       post_description: {
         Row: {
           id: string
-          post_content: string
+          post_content: string | null
           post_id: string
           user_id: string | null
         }
         Insert: {
           id: string
-          post_content: string
+          post_content?: string | null
           post_id: string
           user_id?: string | null
         }
         Update: {
           id?: string
-          post_content?: string
+          post_content?: string | null
           post_id?: string
           user_id?: string | null
         }
