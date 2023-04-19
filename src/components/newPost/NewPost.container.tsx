@@ -1,5 +1,4 @@
 import { FormEvent, MutableRefObject, useCallback, useRef, useState } from "react"
-import { InputOnChangeType } from "../input/Input"
 import NewPost from "./NewPost"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Database } from "../../types/supabase-types"

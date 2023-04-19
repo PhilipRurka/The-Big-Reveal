@@ -33,10 +33,6 @@ export const CardTitle = styled.span`
   margin-bottom: 5px;
 `;
 
-export const CardSubtitle = styled.span`
-  ${sharedCardElementStyles}
-`;
-
 export const CreatedAt = styled.span`
   ${sharedCardElementStyles}
   margin-top: 10px;
