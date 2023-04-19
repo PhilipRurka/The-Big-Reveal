@@ -29,7 +29,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     error
   } = await supabase
     .from("post_base")
-    .select('is_published, post_content, created_at')
+    .select('id, is_published, post_content, created_at')
     .eq('user_id', session.user.id)
     .order("created_at")
 

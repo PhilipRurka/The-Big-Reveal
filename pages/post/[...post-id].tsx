@@ -20,13 +20,13 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .eq('id', ctx.query['post-id'])
     .order("created_at")
 
-    const {
-      data: postDescriptionData,
-      error: postDescriptionError
-    } = await supabase
-      .from("post_description")
-      .select('post_content')
-      .eq('post_id', ctx.query['post-id'])
+  const {
+    data: postDescriptionData,
+    error: postDescriptionError
+  } = await supabase
+    .from("post_description")
+    .select('post_content')
+    .eq('post_id', ctx.query['post-id'])
 
   if(postBaseError || postDescriptionError || !postBaseData || !postDescriptionData) {
     console.log({
@@ -39,7 +39,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   return {props: {
     postBase: postBaseData[0],
-    postDescription: postDescriptionData[0]
+    postDescription: postDescriptionData[0] || null
   }}
 }
 

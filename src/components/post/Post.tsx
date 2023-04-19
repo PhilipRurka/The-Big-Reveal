@@ -16,7 +16,7 @@ const Post: FC<PostDataType> = ({
           <p>{ postBase.post_content }</p>
         </>
       )}
-      {postDescription.post_content && (
+      {postDescription?.post_content && (
         <>
           <h3>Post Description</h3>
           <p>{ postDescription.post_content }</p>
