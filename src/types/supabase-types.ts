@@ -18,6 +18,7 @@ export interface Database {
           id: string
           is_published: boolean
           post_content: string
+          post_title: string
           tags: string | null
           updated_at: string | null
           user_id: string | null
@@ -31,6 +32,7 @@ export interface Database {
           id: string
           is_published?: boolean
           post_content: string
+          post_title?: string
           tags?: string | null
           updated_at?: string | null
           user_id?: string | null
@@ -44,6 +46,7 @@ export interface Database {
           id?: string
           is_published?: boolean
           post_content?: string
+          post_title?: string
           tags?: string | null
           updated_at?: string | null
           user_id?: string | null

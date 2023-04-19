@@ -6,6 +6,7 @@ export type PostBaseType = {
   id: string;
   created_at: string | null;
   post_content: string;
+  post_title: string;
 }
 
 export type ReflectionDataType = {
@@ -29,7 +30,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     error
   } = await supabase
     .from("post_base")
-    .select('id, is_published, post_content, created_at')
+    .select('id, is_published, post_content, created_at, post_title')
     .eq('user_id', session.user.id)
     .order("created_at")
 
