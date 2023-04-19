@@ -1,5 +1,4 @@
 import { FC, FormEvent, MutableRefObject } from "react"
-import { Field, Label } from "../../styled"
 import { Form, NewPostWrapper,  Title } from "./NewPost.styled"
 import { Button, ButtonWrapper } from "../../styled/button"
 import Tiny from "../tiny"
@@ -8,25 +7,22 @@ import { Editor } from "tinymce"
 type NewPostType = {
   handleSubmit: (event: FormEvent) => void
   poemRef: MutableRefObject<Editor>
+  descriptionRef: MutableRefObject<Editor>
 }
 
 const NewPost: FC<NewPostType> = ({
   handleSubmit,
-  poemRef
+  poemRef,
+  descriptionRef
 }) => {
-
   return (
     <NewPostWrapper>
       <Title>
         Wanna share something new?
       </Title>
       <Form>
-        <Field>
-          <Label>
-            Drop that work of art!
-          </Label>
-            <Tiny tinyRef={poemRef} />
-        </Field>
+        <Tiny tinyRef={poemRef} />
+        <Tiny tinyRef={descriptionRef} />
         <ButtonWrapper>
           <Button
             colorType="primary"

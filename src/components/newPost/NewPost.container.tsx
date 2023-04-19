@@ -12,6 +12,7 @@ import Router from "next/router"
 const NewPostContainer = () => {
   const mountedRef = useRef(true)
   const poemRef = useRef<Editor>()
+  const descriptionRef = useRef<Editor>()
 
   const dispatch = useAppDispatch()
   const supabaseClient = useSupabaseClient<Database>()
@@ -26,6 +27,7 @@ const NewPostContainer = () => {
 
     const publicId = uuidv4()
     const postBaseContent = poemRef.current.getContent()
+    const postDescriptionContent = descriptionRef.current?.getContent() || null
 
     let title = postBaseContent.split('</h1>')[0]
     title = title.replaceAll('<h1>', '')
@@ -61,7 +63,7 @@ const NewPostContainer = () => {
       .insert([{
         id: uuidv4(), 
         post_id: data[0].id,
-        post_content: ''
+        post_content: postDescriptionContent
       }])
 
     if(privateError) {
@@ -87,7 +89,8 @@ const NewPostContainer = () => {
   return (
     <NewPost
       poemRef={poemRef as MutableRefObject<Editor>}
-      handleSubmit={handleSubmit} />
+      handleSubmit={handleSubmit}
+      descriptionRef={descriptionRef} />
   )
 }
 
