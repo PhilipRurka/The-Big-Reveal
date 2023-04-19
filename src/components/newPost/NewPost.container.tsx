@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
+import Router from "next/router"
 
 const NewPostContainer = () => {
   const mountedRef = useRef(true)
@@ -56,7 +57,7 @@ const NewPostContainer = () => {
     if(!mountedRef) return
 
     const { data: _, error: privateError } = await supabaseClient
-      .from('post description')
+      .from('post_description')
       .insert([{
         id: uuidv4(), 
         post_id: data[0].id,
@@ -75,6 +76,8 @@ const NewPostContainer = () => {
       subtitle: 'Click here to view it.',
       to: `/post/${publicId}`
     }))
+
+    Router.push('feed/reflection')
 
     return () => {
       mountedRef.current = false
