@@ -26,7 +26,7 @@ const NewPostContainer = () => {
     const publicId = uuidv4()
 
     const { data, error: publicError } = await supabaseClient
-      .from('post base')
+      .from('post_base')
       .insert([{
         id: publicId,
         tags: null,
