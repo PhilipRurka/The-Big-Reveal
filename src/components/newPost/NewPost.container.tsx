@@ -24,18 +24,27 @@ const NewPostContainer = () => {
     }
 
     const publicId = uuidv4()
+    const postBaseContent = poemRef.current.getContent()
+
+    let title = postBaseContent.split('</h1>')[0]
+    title = title.replaceAll('<h1>', '')
+    title = title.replaceAll(/<h1 [A-Za-z0-9]+="[^"]*">/g, '')
+    title = title.replaceAll(/<span [A-Za-z0-9]+="[^"]*">/g, '').replaceAll('</span>', '')
+    title = title.replaceAll('<strong>', '').replaceAll('</strong>', '')
+    title = title.replaceAll('<em>', '').replaceAll('</em>', '')
 
     const { data, error: publicError } = await supabaseClient
       .from('post_base')
       .insert([{
         id: publicId,
+        post_title: title,
         tags: null,
         enable_reveal_date: null,
         enable_reveal: null,
         allow_published_at: null,
         written_at: null,
         is_published: false,
-        post_content: poemRef.current.getContent()
+        post_content: postBaseContent
       }])
       .select()
 
@@ -49,7 +58,7 @@ const NewPostContainer = () => {
     const { data: _, error: privateError } = await supabaseClient
       .from('post description')
       .insert([{
-        id: uuidv4(),
+        id: uuidv4(), 
         post_id: data[0].id,
         post_content: ''
       }])
