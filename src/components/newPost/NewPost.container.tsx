@@ -89,8 +89,8 @@ const NewPostContainer = () => {
   return (
     <NewPost
       poemRef={poemRef as MutableRefObject<Editor>}
-      handleSubmit={handleSubmit}
-      descriptionRef={descriptionRef} />
+      descriptionRef={descriptionRef as MutableRefObject<Editor>}
+      handleSubmit={handleSubmit} />
   )
 }
 
