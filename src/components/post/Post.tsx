@@ -1,46 +1,29 @@
 import { FC } from "react";
 import {
-  PostWrapper,
-  Date
+  PostWrapper
 } from "./Post.styled";
-import dayjs from "dayjs";
-import CleanContent from "../cleanContent";
-import NormalLayout from "../normalLayout";
-import BubbleLayout from "../bubbleLayout";
-import BaseSection from "../baseSection";
-import DescriptionSection from "../descriptionSection";
+import PostDisplay from "../postDisplay";
 
-type PostType = {
-  id: string
+export type PostType = {
+  author_username: string | null
   created_at: string | null
   cleanBase: string
   cleanDescription: string
 }
 
 const Post: FC<PostType> = ({
-  id,
+  author_username,
   created_at,
   cleanBase,
   cleanDescription
-}) => {
-
-  return (
-    <PostWrapper>
-      <Date>
-        { dayjs(created_at).format('D MMM YYYY, h:ss a') }
-      </Date>
-      <BubbleLayout>
-        <BaseSection>
-          <CleanContent content={cleanBase} />
-        </BaseSection>
-      </BubbleLayout>
-      <NormalLayout>
-        <DescriptionSection>
-          <CleanContent content={cleanDescription}/>
-        </DescriptionSection>
-      </NormalLayout>
-    </PostWrapper>
-  )
-}
+}) => (
+  <PostWrapper>
+    <PostDisplay
+      author_username={author_username}
+      created_at={created_at}
+      cleanBase={cleanBase}
+      cleanDescription={cleanDescription} />
+  </PostWrapper>
+)
 
 export default Post

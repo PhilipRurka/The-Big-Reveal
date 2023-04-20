@@ -29,8 +29,3 @@ export const PostWrapper = styled.div`
     display: inline;
   }
 `;
-
-export const Date = styled.span`
-  font-size: 14px;
-  margin-bottom: 40px;
-`;
