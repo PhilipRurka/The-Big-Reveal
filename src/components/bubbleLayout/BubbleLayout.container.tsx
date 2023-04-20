@@ -4,22 +4,23 @@ import { getContrast } from "../../utils/colors"
 
 export type BubbleLayoutContainerType = {
   children: JSX.Element | JSX.Element[]
-  backgroundColor: string
+  // backgroundColor?: string
 }
 
 const BubbleLayoutContainer: FC<BubbleLayoutContainerType> = ({
   children,
-  backgroundColor
+  // backgroundColor
 }) => {
 
-  const copyColor = useMemo(() => {
-    return getContrast(backgroundColor)
-  }, [backgroundColor])
+  // const copyColor = useMemo(() => {
+  //   return getContrast(backgroundColor)
+  // }, [backgroundColor])
 
   return (
     <BubbleLayout
-      backgroundColor={backgroundColor}
-      copyColor={copyColor} >
+      // backgroundColor={backgroundColor}
+      // copyColor={copyColor}
+       >
       { children }
     </BubbleLayout>
   )

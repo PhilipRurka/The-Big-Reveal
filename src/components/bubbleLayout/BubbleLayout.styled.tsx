@@ -1,16 +1,18 @@
 import styled, { css } from 'styled-components';
 
 type BubbleLayoutType = {
-  backgroundColor: string
-  copyColor: string
+  // backgroundColor: string
+  // copyColor: string
 }
 
 export const BubbleLayoutWrapper = styled.div<BubbleLayoutType>(({
-  copyColor,
-  backgroundColor
+  // copyColor,
+  // backgroundColor
 }) => {
-  return css`
-    color: ${copyColor};
-    background-color: ${backgroundColor};
-  `
+  return ``
+
+  // return css`
+  //   color: ${copyColor};
+  //   background-color: ${backgroundColor};
+  // `
 })

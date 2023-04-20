@@ -5,6 +5,10 @@ import {
 } from "./Post.styled";
 import dayjs from "dayjs";
 import CleanContent from "../cleanContent";
+import NormalLayout from "../normalLayout";
+import BubbleLayout from "../bubbleLayout";
+import BaseSection from "../baseSection";
+import DescriptionSection from "../descriptionSection";
 
 type PostType = {
   id: string
@@ -19,19 +23,22 @@ const Post: FC<PostType> = ({
   cleanBase,
   cleanDescription
 }) => {
+
   return (
     <PostWrapper>
       <Date>
         { dayjs(created_at).format('D MMM YYYY, h:ss a') }
       </Date>
-        <h3>Post Base</h3>
-        <CleanContent content={cleanBase}/>
-      {cleanDescription && (
-        <>
-          <h3>Post Description</h3>
+      <BubbleLayout>
+        <BaseSection>
+          <CleanContent content={cleanBase} />
+        </BaseSection>
+      </BubbleLayout>
+      <NormalLayout>
+        <DescriptionSection>
           <CleanContent content={cleanDescription}/>
-        </>
-      )}
+        </DescriptionSection>
+      </NormalLayout>
     </PostWrapper>
   )
 }
