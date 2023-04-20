@@ -40,3 +40,7 @@ export const ToAuthLinkItem = styled(LinkNext)`
 export const SubmitButton = styled(Button)`
   margin: 20px auto 40px;
 `;
+
+export const FieldContainer = styled.div`
+  margin-top: 20px;
+`;

@@ -1,6 +1,7 @@
 import { FormEvent } from "react"
 import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import { InputOnChangeType } from "../input/Input"
+import { StatusMessageTypesEnum } from "../authResMessage/FormMessage.container"
 
 export enum RouterQueryEnum {
   REGISTRATION    = 'registration',
@@ -13,6 +14,7 @@ export enum AuthTransitionIdsEnum {
   TITLE         = 'auth-title',
   EMAIL         = 'auth-email',
   PASSWORD      = 'auth-password',
+  USERNAME      = 'auth-username',
   TO_AUTH_LINKS = 'auth-to-auth-links'
 }
 
@@ -46,6 +48,7 @@ export type TypePropsType = {
   hasPassword:              undefined | boolean
   hasConfirmedPassword:     undefined | boolean
   hasPasswordValidation:    undefined | boolean
+  hasUsername:              undefined | boolean
   title:                    undefined | string
   toAuthLinks:              undefined | Array<ToAuthLinkType>
 }
@@ -61,6 +64,7 @@ export type StatusMessageType = null | {
 export type RefsType = {
   emailRef?:    HTMLInputElement
   passwordRef?: HTMLInputElement
+  hasUsername?: HTMLInputElement
 }
 
 export type AuthType = AuthPropsType & TypePropsType & {

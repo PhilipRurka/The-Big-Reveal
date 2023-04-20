@@ -1,5 +1,3 @@
-/** Refernece https://www.tiny.cloud/docs-3x/reference/Configuration3x/ */
-
 import { FC, MutableRefObject, useMemo } from "react"
 import Tiny from "./Tiny"
 import { Editor } from "tinymce"
@@ -11,6 +9,11 @@ type TinyType = {
 const TinyContainer: FC<TinyType> = ({
   tinyRef
 }) => {
+
+  const log = () => {
+    console.log('hit')
+  }
+
   const onInit = (_: unknown, editor: Editor) => tinyRef.current = editor
 
   const TinyConfigs = useMemo(() => {

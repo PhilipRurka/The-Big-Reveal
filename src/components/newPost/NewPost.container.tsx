@@ -86,8 +86,7 @@ const NewPostContainer = () => {
       }])
 
     if(descriptionError) {
-      setErrorMessage('Something went wrong on the server side of things. Try again!')
-      setShowMessage(true)
+      triggerErrorMessage('Something went wrong on the server side of things. Try again!')
       return
     }
 

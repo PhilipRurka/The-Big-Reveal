@@ -5,7 +5,8 @@ import {
   Form,
   ToAuthLinkWrapper,
   ToAuthLinkItem,
-  SubmitButton
+  SubmitButton,
+  FieldContainer
 } from "./Auth.styled";
 import Input from "../input";
 import {
@@ -15,7 +16,6 @@ import {
 } from "./Auth.types";
 import { Field, Label } from "../../styled";
 import PasswordField from "../passwordField";
-import AuthResMessage from "../authResMessage";
 import ConfirmedPasswordField from "../confirmedPasswordField";
 import { FormMessageContainerType } from "../authResMessage/FormMessage.container";
 import FormMessage from "../authResMessage"
@@ -27,6 +27,7 @@ type FormMessagePropsType ={
 const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
   hasEmail,
   hasPassword,
+  hasUsername,
   title,
   handleSubmit,
   toAuthLinks,
@@ -41,7 +42,8 @@ const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
   formMessageProps
 }, {
   emailRef,
-  passwordRef
+  passwordRef,
+  usernameRef
 }: any) => {
   return (
     <AuthWrapper>
@@ -50,18 +52,34 @@ const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
       </AuthTitle>
       <Form>
         <FormMessage {...formMessageProps} />
-        {hasEmail && (
-          <Field id={AuthTransitionIdsEnum.EMAIL}>
-            <Label htmlFor="emailAddress">
-              Email
-            </Label>
-            <Input
-              id='emailAddress'
-              type='text'
-              handleChange={removeStatusMessage}
-              ref={emailRef} />
-          </Field>
-        )}
+        <FieldContainer id={AuthTransitionIdsEnum.USERNAME}>
+          {hasUsername && (
+            <Field>
+              <Label htmlFor="username">
+                Username
+              </Label>
+              <Input
+                id='username'
+                type='text'
+                handleChange={removeStatusMessage}
+                ref={usernameRef} />
+            </Field>
+          )}
+        </FieldContainer>
+        <FieldContainer id={AuthTransitionIdsEnum.EMAIL}>
+          {hasEmail && (
+            <Field>
+              <Label htmlFor="emailAddress">
+                Email
+              </Label>
+              <Input
+                id='emailAddress'
+                type='text'
+                handleChange={removeStatusMessage}
+                ref={emailRef} />
+            </Field>
+          )}
+        </FieldContainer>
         <PasswordField
           ref={passwordRef}
           password={password}
