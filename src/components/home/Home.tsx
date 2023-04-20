@@ -6,14 +6,16 @@ import { PostType } from "../post/Post";
 const Home: FC<PostType> = ({
   author_username,
   created_at,
-  cleanBase
+  cleanBase,
+  cleanDescription
 }) => {
   return (
     <HomeWrapper>
       <PostDisplay
         author_username={author_username}
         created_at={created_at}
-        cleanBase={cleanBase} />
+        cleanBase={cleanBase}
+        cleanDescription={cleanDescription} />
     </HomeWrapper>
   )
 }

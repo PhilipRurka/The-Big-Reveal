@@ -15,7 +15,8 @@ const staticHookCopy = {
       <br>
       Then, and only then, we can have, The Big Reveal
     </p>
-  `
+  `,
+  cleanDescription: 'Coming soon!'
 }
 
 const HomeContainer: FC = () => {
