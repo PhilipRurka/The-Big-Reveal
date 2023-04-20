@@ -1,98 +1,99 @@
-import { ChangeEvent, FormEvent, useCallback, useMemo, useRef, useState } from "react"
-import { InputOnChangeType } from "../input/Input"
+import { FC, FormEvent, MutableRefObject, useCallback, useRef, useState } from "react"
 import NewPost from "./NewPost"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Database } from "../../types/supabase-types"
 import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
+import { Editor } from "tinymce"
+import { StatusMessageTypesEnum } from "../authResMessage/FormMessage.container";
+import { NewPostPageType } from "../../../pages/new-post";
 
-const NewPostContainer = () => {
+const NewPostContainer: FC<NewPostPageType> = ({
+  username
+}) => {
   const mountedRef = useRef(true)
+  const baseRef = useRef<Editor>()
+  const descriptionRef = useRef<Editor>()
 
-  const [titleValue, setTitleValue] = useState('')
-  const [subtitleValue, setSubtitleValue] = useState('')
-  const [publicValue, setPublicValue] = useState('')
-  const [followValue, setFollowValue] = useState('')
-  const [privateValue, setPrivateValue] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [showMessage, setShowMessage] = useState(false)
 
   const dispatch = useAppDispatch()
   const supabaseClient = useSupabaseClient<Database>()
-  
-  const handleTitleUpdate = useCallback((event: InputOnChangeType): void => {
-    setTitleValue(event.currentTarget.value)
-  }, [])
 
-  const handleSubtitleUpdate = useCallback((event: InputOnChangeType): void => {
-    setSubtitleValue(event.currentTarget.value)
-  }, [])
-
-  const handlePublicUpdate = useCallback((event: ChangeEvent<HTMLTextAreaElement>): void => {
-    setPublicValue(event.currentTarget.value)
-  }, [])
-
-  const handleFollowUpdate = useCallback((event: ChangeEvent<HTMLTextAreaElement>): void => {
-    setFollowValue(event.currentTarget.value)
-  }, [])
-
-  const handlepPrivateUpdate = useCallback((event: ChangeEvent<HTMLTextAreaElement>): void => {
-    setPrivateValue(event.currentTarget.value)
-  }, [])
-
-  const isDisabled = useMemo(() => {
-    if(!titleValue || !subtitleValue) {
-      return true
-    }
-
-    if(!(publicValue || followValue || privateValue)) {
-      return true
-    }
-
-    return false
-  }, [titleValue, subtitleValue, publicValue, followValue, privateValue])
+  const triggerErrorMessage = (message: string) => {
+    setErrorMessage(message)
+    setShowMessage(true)
+  }
 
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
 
-    const publicId = uuidv4()
+    if(!baseRef.current?.getContent()) {
+      triggerErrorMessage('The "Drop that poem" section musn\'t be empty')
+      return
+    }
 
-    const { data, error: publicError } = await supabaseClient
-      .from('public posts')
+    const publicId = uuidv4()
+    const postBaseContent = baseRef.current.getContent()
+    const postDescriptionContent = descriptionRef.current?.getContent() || null
+
+    let title: string | string[] = postBaseContent.split('<h1')
+    if(title.length === 1 ) {
+      triggerErrorMessage('Your poem requires a "Heading 1"')
+      return
+
+    } else if(title.length > 2) {
+      triggerErrorMessage('You can onlt have one "Heading 1"')
+      return
+    }
+
+    title = title[1]
+    title = title.split('</h1>')[0]
+    title = title.replaceAll('>', '')
+    title = title.replaceAll(/<h1 [A-Za-z0-9]+="[^"]*">/g, '')
+    title = title.replaceAll(/<span [A-Za-z0-9]+="[^"]*">/g, '').replaceAll('</span>', '')
+    title = title.replaceAll('<strong>', '').replaceAll('</strong>', '')
+    title = title.replaceAll('<em>', '').replaceAll('</em>', '')
+
+    const { data, error: baseError } = await supabaseClient
+      .from('post_base')
       .insert([{
         id: publicId,
-        post_title: titleValue,
-        post_subtitle: subtitleValue,
-        post_content: publicValue
+        author_username: username,
+        post_title: title,
+        tags: null,
+        enable_reveal_date: null,
+        enable_reveal: null,
+        allow_published_at: null,
+        written_at: null,
+        is_published: false,
+        post_content: postBaseContent
       }])
-      .select()
+      .select('id')
 
-    if(!data || publicError) {
-      // Some error
+    if(!data || baseError) {
+      triggerErrorMessage('Something went wrong on the server side of things. Try again!')
       return
     }
 
     if(!mountedRef) return
 
-    const { data: _, error: privateError } = await supabaseClient
-      .from('private posts')
+    const { data: _, error: descriptionError } = await supabaseClient
+      .from('post_description')
       .insert([{
-        id: uuidv4(),
+        id: uuidv4(), 
         post_id: data[0].id,
-        post_content: privateValue
+        post_content: postDescriptionContent
       }])
 
-    if(privateError) {
-      // Do something
+    if(descriptionError) {
+      triggerErrorMessage('Something went wrong on the server side of things. Try again!')
       return
     }
 
     if(!mountedRef) return
-
-    setTitleValue('')
-    setSubtitleValue('')
-    setPublicValue('')
-    setFollowValue('')
-    setPrivateValue('')
 
     dispatch(update_toaster({
       title: 'New post',
@@ -100,25 +101,30 @@ const NewPostContainer = () => {
       to: `/post/${publicId}`
     }))
 
+    baseRef.current.setContent('')
+    descriptionRef.current?.setContent('')
+    
+    setShowMessage(false)
+    setTimeout(() => {
+      setErrorMessage('')
+    }, 300)
+
+
     return () => {
       mountedRef.current = false
     }
-  }, [titleValue, subtitleValue, publicValue, privateValue, dispatch, supabaseClient])
+  }, [dispatch, supabaseClient])
 
   return (
     <NewPost
-      titleValue={titleValue}
-      subtitleValue={subtitleValue}
-      publicValue={publicValue}
-      followValue={followValue}
-      privateValue={privateValue}
-      handleTitleUpdate={handleTitleUpdate}
-      handleSubtitleUpdate={handleSubtitleUpdate}
-      handlePublicUpdate={handlePublicUpdate}
-      handleFollowUpdate={handleFollowUpdate}
-      handlepPrivateUpdate={handlepPrivateUpdate}
-      isDisabled={isDisabled}
-      handleSubmit={handleSubmit} />
+      baseRef={baseRef as MutableRefObject<Editor>}
+      descriptionRef={descriptionRef as MutableRefObject<Editor>}
+      handleSubmit={handleSubmit}
+      formMessageProps={{
+        message: errorMessage,
+        showMessage,
+        type: StatusMessageTypesEnum.ERROR
+      }} />
   )
 }
 

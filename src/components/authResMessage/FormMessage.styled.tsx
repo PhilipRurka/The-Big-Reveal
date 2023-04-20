@@ -1,13 +1,17 @@
 import styled, { css } from "styled-components";
 import { StatusMessageColors } from "../../styled";
-import { ResMessageType } from "../auth/Auth.types";
+import { StatusMessageTypesEnum } from "./FormMessage.container";
 
-export const ResMessageWrapper = styled.div`
+type FormMessageContentType = {
+  statusType: StatusMessageTypesEnum | undefined
+}
+
+export const FormMessageWrapper = styled.div`
   height: 0;
   overflow: hidden;
 `;
 
-export const ResMessage = styled.p<ResMessageType>(({ statusType }) => {
+export const FormMessageContent = styled.p<FormMessageContentType>(({ statusType }) => {
   const statusTypsColors = statusType ? StatusMessageColors[statusType] : ''
 
   return css`

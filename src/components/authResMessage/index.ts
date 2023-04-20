@@ -1,1 +1,1 @@
-export { default } from './AuthResMessage.container'
+export { default } from './FormMessage.container'

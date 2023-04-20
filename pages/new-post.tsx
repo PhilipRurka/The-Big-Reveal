@@ -9,12 +9,39 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return res
   }
 
+  const {
+    supabase,
+    session
+  } = res
+
+  const {
+    data,
+    error
+  } = await supabase
+    .from('profiles')
+    .select('username')
+    .eq('id', session.user.id)
+
+
+  if(error) {
+    console.log(error)
+    return {}
+  }
+
+  return { props: {
+    username: data[0].username
+  }}
+
   return {props: {}}
 }
 
-function NewPostPage() {
+export type NewPostPageType = {
+  username: string
+}
+
+function NewPostPage(props: NewPostPageType) {
   
-  return <NewPost />
+  return <NewPost {...props} />
 }
 
 export default NewPostPage

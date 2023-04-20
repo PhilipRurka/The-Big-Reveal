@@ -18,7 +18,6 @@ import {
   HandleWrapperAuthType,
   RouterQueryEnum,
   TypePropsType,
-  StatusMessageTypesEnum
 } from "./Auth.types"
 import {
   hide_message,
@@ -28,6 +27,7 @@ import {
 } from "../../redux/slices/authMessageSlice"
 import useRigidCountdown from "../../hooks/useRigidCountdown"
 import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
+import { StatusMessageTypesEnum } from '../authResMessage/FormMessage.container'
 
 export const AUTH_TRANSITION_TIME = 300
 
@@ -36,6 +36,7 @@ const AuthContainer: FC<AuthPageType> = ({
   hasEmail,
   hasPassword,
   hasConfirmedPassword,
+  hasUsername,
   hasPasswordValidation,
   title,
   toAuthLinks,
@@ -43,8 +44,8 @@ const AuthContainer: FC<AuthPageType> = ({
 }) => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
+  const usernameRef = useRef<HTMLInputElement>(null)
 
-  const supabaseClient = useSupabaseClient()
   const [password, setPassword] = useState('')
   const [resStatus, setResStatus] = useState<number | undefined>()
   const [routerAuthType, setRouterAuthType] = useState(initRouterAuthType)
@@ -53,11 +54,13 @@ const AuthContainer: FC<AuthPageType> = ({
     hasEmail,
     hasPassword,
     hasConfirmedPassword,
+    hasUsername,
     hasPasswordValidation,
     title,
     toAuthLinks
   })
-  
+
+  const supabaseClient = useSupabaseClient()
   const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -110,7 +113,7 @@ const AuthContainer: FC<AuthPageType> = ({
 
   /* #region REGISTRATION */
   const handleRegistration: HandleNarrowAuthType = useCallback(async () => {
-    if(!passwordRef?.current || !emailRef.current) return
+    if(!passwordRef?.current || !emailRef.current || !usernameRef.current) return
 
     const {
       data,
@@ -118,6 +121,12 @@ const AuthContainer: FC<AuthPageType> = ({
     } = await supabaseClient.auth.signUp({
       email: emailRef.current.value ?? '',
       password: passwordRef.current.value,
+      options: {
+        data: { 
+          username: usernameRef.current.value,
+          age: 27,
+        }
+      }
     })
 
     const error = resError as ResType
@@ -323,6 +332,7 @@ const AuthContainer: FC<AuthPageType> = ({
       title: AuthTransitionIdsEnum.TITLE,
       hasEmail: AuthTransitionIdsEnum.EMAIL,
       hasPassword: AuthTransitionIdsEnum.PASSWORD,
+      hasUsername: AuthTransitionIdsEnum.USERNAME,
       toAuthLinks: AuthTransitionIdsEnum.TO_AUTH_LINKS
     }
 
@@ -334,7 +344,7 @@ const AuthContainer: FC<AuthPageType> = ({
         if(JSON.stringify(typeProps[key]) !== JSON.stringify(newTypeProps[key])) {
           let shrinkHeight: null | 'add' | 'remove' = null
 
-          if(key === 'hasEmail' || key === 'hasPassword') {
+          if(key === 'hasEmail' || key === 'hasPassword' || key === 'hasUsername') {
             shrinkHeight = typeProps[key] ? 'remove' : 'add'
           }
 
@@ -346,7 +356,7 @@ const AuthContainer: FC<AuthPageType> = ({
 
   /* #endregion */
 
-  const refs = { emailRef, passwordRef }
+  const refs = { emailRef, passwordRef, usernameRef }
 
   return (
     <Auth
@@ -355,7 +365,12 @@ const AuthContainer: FC<AuthPageType> = ({
       ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
-      removeStatusMessage={() => removeStatusMessage()} />
+      removeStatusMessage={() => removeStatusMessage()}
+      formMessageProps={{
+        type: authMessage.type,
+        message: authMessage.formattedMessage,
+        showMessage: authMessage.showMessage
+      }} />
   )
 }
 

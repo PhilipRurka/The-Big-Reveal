@@ -1,31 +1,29 @@
 import { FC } from "react";
-import { PostDataType } from "../../../pages/post/[...post-id]";
-import { PostWrapper } from "./Post.styled";
-import dayjs from "dayjs";
+import {
+  PostWrapper
+} from "./Post.styled";
+import PostDisplay from "../postDisplay";
 
-const Post: FC<PostDataType> = ({
-  publicData,
-  privateData
-}) => {
-  return (
-    <PostWrapper>
-      <h1>{ publicData.post_title }</h1>
-      <h2>{ publicData.post_subtitle }</h2>
-      <span>{ dayjs(publicData.created_at).format('D MMM YYYY, h:ss a') }</span>
-      {publicData.post_content && (
-        <>
-          <h3>Public</h3>
-          <p>{ publicData.post_content }</p>
-        </>
-      )}
-      {privateData.post_content && (
-        <>
-          <h3>Private</h3>
-          <p>{ privateData.post_content }</p>
-        </>
-      )}
-    </PostWrapper>
-  )
+export type PostType = {
+  author_username: string | null
+  created_at: string | null
+  cleanBase: string
+  cleanDescription?: string
 }
+
+const Post: FC<PostType> = ({
+  author_username,
+  created_at,
+  cleanBase,
+  cleanDescription
+}) => (
+  <PostWrapper>
+    <PostDisplay
+      author_username={author_username}
+      created_at={created_at}
+      cleanBase={cleanBase}
+      cleanDescription={cleanDescription} />
+  </PostWrapper>
+)
 
 export default Post

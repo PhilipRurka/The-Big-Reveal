@@ -2,16 +2,15 @@ import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../../lib/authRequired";
 import Reflection from "../../src/components/reflection/Reflection.container";
 
-export type PublicType = {
+export type PostBaseType = {
   id: string;
   created_at: string | null;
-  post_title: string;
-  post_subtitle: string;
   post_content: string;
+  post_title: string;
 }
 
 export type ReflectionDataType = {
-  publicData: PublicType[]
+  postBase: PostBaseType[]
 }
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -27,27 +26,27 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = res
 
   const {
-    data: publicData,
+    data: postBaseData,
     error
   } = await supabase
-    .from("public posts")
-    .select('id, created_at, post_title, post_subtitle')
+    .from("post_base")
+    .select('id, is_published, post_content, created_at, post_title')
     .eq('user_id', session.user.id)
     .order("created_at")
 
-  if(error || !publicData) {
+  if(error || !postBaseData) {
     console.log(error)
     return {}
   }
 
   return {props: {
-    publicData
+    postBase: postBaseData
   }}
 }
 
-function ReflectionPage({ publicData }: ReflectionDataType) {
+function ReflectionPage({ postBase }: ReflectionDataType) {
   
-  return <Reflection publicData={publicData} />
+  return <Reflection postBase={postBase} />
 }
 
 export default ReflectionPage

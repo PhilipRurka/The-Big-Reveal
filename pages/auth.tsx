@@ -19,6 +19,7 @@ export const AUTH_TYPE_OPTIONS = {
     hasEmail: true,
     hasPassword: true,
     hasConfirmedPassword: false,
+    hasUsername: true,
     hasPasswordValidation: true,
     title: 'Registration',
     toAuthLinks: [{
@@ -31,6 +32,7 @@ export const AUTH_TYPE_OPTIONS = {
     hasEmail: true,
     hasPassword: false,
     hasConfirmedPassword: false,
+    hasUsername: false,
     hasPasswordValidation: false,
     title: 'Forgot Password',
     toAuthLinks: [{
@@ -43,6 +45,7 @@ export const AUTH_TYPE_OPTIONS = {
     hasEmail: true,
     hasPassword: true,
     hasConfirmedPassword: false,
+    hasUsername: false,
     hasPasswordValidation: false,
     title: 'Login',
     toAuthLinks: [{

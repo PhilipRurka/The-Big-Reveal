@@ -1,7 +1,6 @@
 import { FC } from "react";
 import {
   Card,
-  CardSubtitle,
   CardTitle,
   CreatedAt,
   ReflectionWrapper,
@@ -10,17 +9,16 @@ import {
 import { ReflectionDataType } from "../../../pages/feed/reflection";
 import dayjs from "dayjs";
 
-const Reflection: FC<ReflectionDataType> = ({ publicData }) => {
+const Reflection: FC<ReflectionDataType> = ({ postBase }) => {
   return (
     <ReflectionWrapper>
       <Title>
         Reflection
       </Title>
-      {publicData.map(({
+      {postBase.map(({
         id,
-        post_title,
-        post_subtitle,
-        created_at
+        created_at,
+        post_title
       }) => (
         <Card
           key={`ReflectionCard - ${created_at}`}
@@ -28,9 +26,6 @@ const Reflection: FC<ReflectionDataType> = ({ publicData }) => {
           <CardTitle>
             { post_title }
           </CardTitle>
-          <CardSubtitle>
-            { post_subtitle }
-          </CardSubtitle>
           <CreatedAt>
             { dayjs(created_at).format('D MMM YYYY, h:ss a') }
           </CreatedAt>

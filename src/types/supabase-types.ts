@@ -9,42 +9,66 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      "follow post": {
+      post_base: {
         Row: {
-          id: number
-          post_content: string | null
-          post_id: string
-          user_id: string
+          allow_published_at: string | null
+          created_at: string | null
+          enable_reveal: boolean | null
+          enable_reveal_date: string | null
+          id: string
+          is_published: boolean
+          post_content: string
+          post_title: string
+          tags: string | null
+          updated_at: string | null
+          user_id: string | null
+          written_at: string | null
         }
         Insert: {
-          id?: number
-          post_content?: string | null
-          post_id: string
-          user_id: string
+          allow_published_at?: string | null
+          created_at?: string | null
+          enable_reveal?: boolean | null
+          enable_reveal_date?: string | null
+          id: string
+          is_published?: boolean
+          post_content: string
+          post_title?: string
+          tags?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          written_at?: string | null
         }
         Update: {
-          id?: number
-          post_content?: string | null
-          post_id?: string
-          user_id?: string
+          allow_published_at?: string | null
+          created_at?: string | null
+          enable_reveal?: boolean | null
+          enable_reveal_date?: string | null
+          id?: string
+          is_published?: boolean
+          post_content?: string
+          post_title?: string
+          tags?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          written_at?: string | null
         }
       }
-      "private posts": {
+      post_description: {
         Row: {
           id: string
-          post_content: string
+          post_content: string | null
           post_id: string
           user_id: string | null
         }
         Insert: {
           id: string
-          post_content: string
+          post_content?: string | null
           post_id: string
           user_id?: string | null
         }
         Update: {
           id?: string
-          post_content?: string
+          post_content?: string | null
           post_id?: string
           user_id?: string | null
         }
@@ -55,7 +79,6 @@ export interface Database {
           full_name: string | null
           id: string
           updated_at: string | null
-          user_id: string | null
           username: string | null
           website: string | null
         }
@@ -64,7 +87,6 @@ export interface Database {
           full_name?: string | null
           id: string
           updated_at?: string | null
-          user_id?: string | null
           username?: string | null
           website?: string | null
         }
@@ -73,38 +95,8 @@ export interface Database {
           full_name?: string | null
           id?: string
           updated_at?: string | null
-          user_id?: string | null
           username?: string | null
           website?: string | null
-        }
-      }
-      "public posts": {
-        Row: {
-          created_at: string | null
-          id: string
-          post_content: string
-          post_subtitle: string
-          post_title: string
-          updated_at: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          id: string
-          post_content: string
-          post_subtitle: string
-          post_title: string
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          post_content?: string
-          post_subtitle?: string
-          post_title?: string
-          updated_at?: string | null
-          user_id?: string | null
         }
       }
     }

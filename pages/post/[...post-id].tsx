@@ -12,52 +12,50 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { supabase } = res
 
   const {
-    data: publicData,
-    error: publicError
+    data: postBaseData,
+    error: postBaseError
   } = await supabase
-    .from("public posts")
-    .select('created_at, post_title, post_subtitle, post_content')
+    .from("post_base")
+    .select('is_published, post_content, created_at, author_username')
     .eq('id', ctx.query['post-id'])
     .order("created_at")
 
-    const {
-      data: privateData,
-      error: privateError
-    } = await supabase
-      .from("private posts")
-      .select('post_content')
-      .eq('post_id', ctx.query['post-id'])
+  const {
+    data: postDescriptionData,
+    error: postDescriptionError
+  } = await supabase
+    .from("post_description")
+    .select('post_content')
+    .eq('post_id', ctx.query['post-id'])
 
-  if(publicError || privateError || !publicData || !privateData) {
+  if(postBaseError || postDescriptionError || !postBaseData || !postDescriptionData) {
     console.log({
-      publicError,
-      privateError
+      postBaseError,
+      postDescriptionError
     })
 
     return { props: {}}
   }
 
   return {props: {
-    publicData: publicData[0],
-    privateData: privateData[0]
+    postBase: postBaseData[0],
+    postDescription: postDescriptionData[0] || null
   }}
 }
 
-export type PublicType = {
-  id: string;
+export type PostBaseType = {
+  author_username: string | null
   created_at: string | null;
-  post_title: string;
-  post_subtitle: string;
   post_content: string;
 }
 
-export type privateType = {
+export type PostDescriptionType = {
   post_content: string
 }
 
 export type PostDataType = {
-  publicData: PublicType
-  privateData: privateType
+  postBase: PostBaseType
+  postDescription: PostDescriptionType
 }
 
 function PostPage(props: PostDataType) {
