@@ -1,4 +1,4 @@
-import { FormEvent, MutableRefObject, useCallback, useRef, useState } from "react"
+import { FC, FormEvent, MutableRefObject, useCallback, useRef, useState } from "react"
 import NewPost from "./NewPost"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Database } from "../../types/supabase-types"
@@ -6,10 +6,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
-import Router from "next/router"
 import { StatusMessageTypesEnum } from "../authResMessage/FormMessage.container";
+import { NewPostPageType } from "../../../pages/new-post";
 
-const NewPostContainer = () => {
+const NewPostContainer: FC<NewPostPageType> = ({
+  username
+}) => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()
@@ -59,6 +61,7 @@ const NewPostContainer = () => {
       .from('post_base')
       .insert([{
         id: publicId,
+        author_username: username,
         post_title: title,
         tags: null,
         enable_reveal_date: null,
