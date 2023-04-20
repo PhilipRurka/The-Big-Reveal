@@ -2,8 +2,9 @@ import { FC } from "react"
 import Home from "./Home"
 
 const staticHookCopy = {
-  title: 'The Great Reveal',
-  poem: `
+  author_username: 'Philip Rurka',
+  created_at: 'Sometime ago!',
+  cleanBase: `
     <h1 style="text-align: center;">The Great Reveal!</h1>
     <p style="text-align: center;">
       We all know that two can not exist without one
@@ -19,7 +20,7 @@ const staticHookCopy = {
 
 const HomeContainer: FC = () => {
   return (
-    <Home staticHookCopy={staticHookCopy} />
+    <Home {...staticHookCopy} />
   )
 }
 

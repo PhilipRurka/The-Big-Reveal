@@ -1,18 +1,19 @@
 import { FC } from "react";
 import { HomeWrapper } from "./Home.styled";
 import PostDisplay from "../postDisplay";
-import type { PostDisplayType } from "../postDisplay/PostDisplay.container";
+import { PostType } from "../post/Post";
 
-type HomeType = {
-  staticHookCopy: PostDisplayType
-}
-
-const Home: FC<HomeType> = ({
-  staticHookCopy
+const Home: FC<PostType> = ({
+  author_username,
+  created_at,
+  cleanBase
 }) => {
   return (
     <HomeWrapper>
-      <PostDisplay post={staticHookCopy} />
+      <PostDisplay
+        author_username={author_username}
+        created_at={created_at}
+        cleanBase={cleanBase} />
     </HomeWrapper>
   )
 }
