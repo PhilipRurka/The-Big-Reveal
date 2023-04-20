@@ -1,5 +1,6 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit"
-import { RouterQueryEnum, StatusMessageTypesEnum } from "../../components/auth/Auth.types"
+import { RouterQueryEnum } from "../../components/auth/Auth.types"
+import { StatusMessageTypesEnum } from "../../components/authResMessage/FormMessage.container"
 
 export type DefinedStatusMessageRequestType = {
   source: RouterQueryEnum
