@@ -4,20 +4,13 @@ import { BubbleLayoutContainerType } from "./BubbleLayout.container";
 
 type BubbleLayoutType = {
   children: BubbleLayoutContainerType['children']
-  // backgroundColor: string
-  // copyColor: string
 }
 
 const BubbleLayout: FC<BubbleLayoutType> = ({
-  children,
-  // backgroundColor,
-  // copyColor
+  children
 }) => {
   return (
-    <BubbleLayoutWrapper
-      // backgroundColor={backgroundColor}
-      // copyColor={copyColor}
-       >
+    <BubbleLayoutWrapper>
       { children }
     </BubbleLayoutWrapper>
   )

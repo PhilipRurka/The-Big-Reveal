@@ -9,6 +9,10 @@ export const Fonts = {
 export const ResetStyles = createGlobalStyle`
   ${reset}
 
+  :root {
+    --bubble-layout-side-padding: 30px;
+  }
+
   * {
     box-sizing: border-box;
   }
