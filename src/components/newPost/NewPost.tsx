@@ -4,17 +4,21 @@ import { Button, ButtonWrapper } from "../../styled/button"
 import Tiny from "../tiny"
 import { Editor } from "tinymce"
 import { Label } from "../../styled"
+import FormMessage from "../authResMessage"
+import { FormMessageContainerType } from "../authResMessage/FormMessage.container"
 
 type NewPostType = {
   handleSubmit: (event: FormEvent) => void
-  poemRef: MutableRefObject<Editor>
+  baseRef: MutableRefObject<Editor>
   descriptionRef: MutableRefObject<Editor>
+  formMessageProps: FormMessageContainerType
 }
 
 const NewPost: FC<NewPostType> = ({
   handleSubmit,
-  poemRef,
-  descriptionRef
+  baseRef,
+  descriptionRef,
+  formMessageProps
 }) => {
   return (
     <NewPostWrapper>
@@ -22,11 +26,11 @@ const NewPost: FC<NewPostType> = ({
         Wanna share something new?
       </Title>
       <Form>
+        <FormMessage {...formMessageProps} />
         <Label>
           Drop that poem
         </Label>
-        <Tiny tinyRef={poemRef} />
-
+        <Tiny tinyRef={baseRef} />
         <Label>
           The Big Reveal!
         </Label>

@@ -7,35 +7,55 @@ import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
 import Router from "next/router"
+import { StatusMessageTypesEnum } from "../authResMessage/FormMessage.container";
 
 const NewPostContainer = () => {
   const mountedRef = useRef(true)
-  const poemRef = useRef<Editor>()
+  const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()
+
+  const [errorMessage, setErrorMessage] = useState('')
+  const [showMessage, setShowMessage] = useState(false)
 
   const dispatch = useAppDispatch()
   const supabaseClient = useSupabaseClient<Database>()
 
+  const triggerErrorMessage = (message: string) => {
+    setErrorMessage(message)
+    setShowMessage(true)
+  }
+
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
 
-    if(!poemRef.current) {
-      console.log('Missing Poem!!')
+    if(!baseRef.current?.getContent()) {
+      triggerErrorMessage('The "Drop that poem" section musn\'t be empty')
       return
     }
 
     const publicId = uuidv4()
-    const postBaseContent = poemRef.current.getContent()
+    const postBaseContent = baseRef.current.getContent()
     const postDescriptionContent = descriptionRef.current?.getContent() || null
 
-    let title = postBaseContent.split('</h1>')[0]
-    title = title.replaceAll('<h1>', '')
+    let title: string | string[] = postBaseContent.split('<h1')
+    if(title.length === 1 ) {
+      triggerErrorMessage('Your poem requires a "Heading 1"')
+      return
+
+    } else if(title.length > 2) {
+      triggerErrorMessage('You can onlt have one "Heading 1"')
+      return
+    }
+
+    title = title[1]
+    title = title.split('</h1>')[0]
+    title = title.replaceAll('>', '')
     title = title.replaceAll(/<h1 [A-Za-z0-9]+="[^"]*">/g, '')
     title = title.replaceAll(/<span [A-Za-z0-9]+="[^"]*">/g, '').replaceAll('</span>', '')
     title = title.replaceAll('<strong>', '').replaceAll('</strong>', '')
     title = title.replaceAll('<em>', '').replaceAll('</em>', '')
 
-    const { data, error: publicError } = await supabaseClient
+    const { data, error: baseError } = await supabaseClient
       .from('post_base')
       .insert([{
         id: publicId,
@@ -48,16 +68,16 @@ const NewPostContainer = () => {
         is_published: false,
         post_content: postBaseContent
       }])
-      .select()
+      .select('id')
 
-    if(!data || publicError) {
-      // Some error
+    if(!data || baseError) {
+      triggerErrorMessage('Something went wrong on the server side of things. Try again!')
       return
     }
 
     if(!mountedRef) return
 
-    const { data: _, error: privateError } = await supabaseClient
+    const { data: _, error: descriptionError } = await supabaseClient
       .from('post_description')
       .insert([{
         id: uuidv4(), 
@@ -65,8 +85,9 @@ const NewPostContainer = () => {
         post_content: postDescriptionContent
       }])
 
-    if(privateError) {
-      // Do something
+    if(descriptionError) {
+      setErrorMessage('Something went wrong on the server side of things. Try again!')
+      setShowMessage(true)
       return
     }
 
@@ -78,7 +99,14 @@ const NewPostContainer = () => {
       to: `/post/${publicId}`
     }))
 
-    Router.push('feed/reflection')
+    baseRef.current.setContent('')
+    descriptionRef.current?.setContent('')
+    
+    setShowMessage(false)
+    setTimeout(() => {
+      setErrorMessage('')
+    }, 300)
+
 
     return () => {
       mountedRef.current = false
@@ -87,9 +115,14 @@ const NewPostContainer = () => {
 
   return (
     <NewPost
-      poemRef={poemRef as MutableRefObject<Editor>}
+      baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}
-      handleSubmit={handleSubmit} />
+      handleSubmit={handleSubmit}
+      formMessageProps={{
+        message: errorMessage,
+        showMessage,
+        type: StatusMessageTypesEnum.ERROR
+      }} />
   )
 }
 

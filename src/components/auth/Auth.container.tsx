@@ -18,7 +18,6 @@ import {
   HandleWrapperAuthType,
   RouterQueryEnum,
   TypePropsType,
-  StatusMessageTypesEnum
 } from "./Auth.types"
 import {
   hide_message,
@@ -28,6 +27,7 @@ import {
 } from "../../redux/slices/authMessageSlice"
 import useRigidCountdown from "../../hooks/useRigidCountdown"
 import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
+import { StatusMessageTypesEnum } from '../authResMessage/FormMessage.container'
 
 export const AUTH_TRANSITION_TIME = 300
 
@@ -44,7 +44,6 @@ const AuthContainer: FC<AuthPageType> = ({
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
 
-  const supabaseClient = useSupabaseClient()
   const [password, setPassword] = useState('')
   const [resStatus, setResStatus] = useState<number | undefined>()
   const [routerAuthType, setRouterAuthType] = useState(initRouterAuthType)
@@ -57,7 +56,8 @@ const AuthContainer: FC<AuthPageType> = ({
     title,
     toAuthLinks
   })
-  
+
+  const supabaseClient = useSupabaseClient()
   const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -355,7 +355,12 @@ const AuthContainer: FC<AuthPageType> = ({
       ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
-      removeStatusMessage={() => removeStatusMessage()} />
+      removeStatusMessage={() => removeStatusMessage()}
+      formMessageProps={{
+        type: authMessage.type,
+        message: authMessage.formattedMessage,
+        showMessage: authMessage.showMessage
+      }} />
   )
 }
 

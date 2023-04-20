@@ -17,8 +17,14 @@ import { Field, Label } from "../../styled";
 import PasswordField from "../passwordField";
 import AuthResMessage from "../authResMessage";
 import ConfirmedPasswordField from "../confirmedPasswordField";
+import { FormMessageContainerType } from "../authResMessage/FormMessage.container";
+import FormMessage from "../authResMessage"
 
-const Auth = forwardRef<RefsType, AuthType>(({
+type FormMessagePropsType ={
+  formMessageProps: FormMessageContainerType
+}
+
+const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
   hasEmail,
   hasPassword,
   title,
@@ -31,7 +37,8 @@ const Auth = forwardRef<RefsType, AuthType>(({
   disableSubmit,
   removeStatusMessage,
   hasPasswordValidation,
-  hasConfirmedPassword
+  hasConfirmedPassword,
+  formMessageProps
 }, {
   emailRef,
   passwordRef
@@ -42,7 +49,7 @@ const Auth = forwardRef<RefsType, AuthType>(({
         { title }
       </AuthTitle>
       <Form>
-        <AuthResMessage />
+        <FormMessage {...formMessageProps} />
         {hasEmail && (
           <Field id={AuthTransitionIdsEnum.EMAIL}>
             <Label htmlFor="emailAddress">

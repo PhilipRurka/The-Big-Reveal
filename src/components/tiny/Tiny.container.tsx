@@ -1,3 +1,5 @@
+/** Refernece https://www.tiny.cloud/docs-3x/reference/Configuration3x/ */
+
 import { FC, MutableRefObject, useMemo } from "react"
 import Tiny from "./Tiny"
 import { Editor } from "tinymce"

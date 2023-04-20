@@ -16,11 +16,6 @@ export enum AuthTransitionIdsEnum {
   TO_AUTH_LINKS = 'auth-to-auth-links'
 }
 
-export enum StatusMessageTypesEnum {
-  SUCCESS = 'success',
-  ERROR   = 'error'
-}
-
 export type HandleWrapperAuthType = (event: FormEvent) => void
 export type HandleNarrowAuthType = () => Promise<void>
 
@@ -78,7 +73,3 @@ export type ContentSwitchAnimationType = (
   id: string,
   shrinkHeight: null | 'add' | 'remove'
 ) => void
-
-export type ResMessageType = {
-  statusType: undefined | StatusMessageTypesEnum
-}

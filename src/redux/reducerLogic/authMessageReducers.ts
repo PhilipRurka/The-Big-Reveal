@@ -1,5 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit"
-import { RouterQueryEnum, StatusMessageTypesEnum } from "../../components/auth/Auth.types"
+import { RouterQueryEnum } from "../../components/auth/Auth.types"
 import {
   DefinedStatusMessageRequestType,
   StatusMessageStateType,
@@ -8,6 +8,7 @@ import {
   UpdateFormattedMessageType,
   DefinedStatusMessageStateType,
 } from "../types/authMessageRedux.type"
+import { StatusMessageTypesEnum } from "../../components/authResMessage/FormMessage.container"
 
 export const statusMessage = {
   reducer(state: StatusMessageStateType, action: PayloadAction<StatusMessageStateType>) {
