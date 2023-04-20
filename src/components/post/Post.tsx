@@ -1,25 +1,35 @@
 import { FC } from "react";
-import { PostDataType } from "../../../pages/post/[...post-id]";
-import { PostWrapper } from "./Post.styled";
+import {
+  PostWrapper,
+  Date
+} from "./Post.styled";
 import dayjs from "dayjs";
+import CleanContent from "../cleanContent";
 
-const Post: FC<PostDataType> = ({
-  postBase,
-  postDescription
+type PostType = {
+  id: string
+  created_at: string | null
+  cleanBase: string
+  cleanDescription: string
+}
+
+const Post: FC<PostType> = ({
+  id,
+  created_at,
+  cleanBase,
+  cleanDescription
 }) => {
   return (
     <PostWrapper>
-      <span>{ dayjs(postBase.created_at).format('D MMM YYYY, h:ss a') }</span>
-      {postBase.post_content && (
-        <>
-          <h3>Post Base</h3>
-          <p>{ postBase.post_content }</p>
-        </>
-      )}
-      {postDescription?.post_content && (
+      <Date>
+        { dayjs(created_at).format('D MMM YYYY, h:ss a') }
+      </Date>
+        <h3>Post Base</h3>
+        <CleanContent content={cleanBase}/>
+      {cleanDescription && (
         <>
           <h3>Post Description</h3>
-          <p>{ postDescription.post_content }</p>
+          <CleanContent content={cleanDescription}/>
         </>
       )}
     </PostWrapper>

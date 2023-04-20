@@ -21,12 +21,16 @@ export const PostWrapper = styled.div`
     margin: 10px 0;
   }
 
-  span {
-    font-size: 14px;
-    margin-bottom: 40px;
-  }
-
   p {
     padding-bottom: 20px;
   }
+
+  ul span {
+    display: inline;
+  }
+`;
+
+export const Date = styled.span`
+  font-size: 14px;
+  margin-bottom: 40px;
 `;
