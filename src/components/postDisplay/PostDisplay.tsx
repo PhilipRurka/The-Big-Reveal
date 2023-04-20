@@ -58,4 +58,6 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
   )
 })
 
+PostDisplay.displayName = 'PostDisplay'
+
 export default PostDisplay

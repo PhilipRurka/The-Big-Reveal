@@ -49,7 +49,7 @@ const PostDisplayContainer: FC<PostDisplayContainerType> = ({
     return () => {
       tlDescriptionScoped?.kill()
     }
-  }, [])
+  }, [initGsap])
 
   return (
     <PostDisplay

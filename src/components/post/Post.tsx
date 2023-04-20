@@ -8,7 +8,7 @@ export type PostType = {
   author_username: string | null
   created_at: string | null
   cleanBase: string
-  cleanDescription?: string
+  cleanDescription: string
 }
 
 const Post: FC<PostType> = ({
