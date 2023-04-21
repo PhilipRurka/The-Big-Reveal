@@ -12,6 +12,7 @@ export interface Database {
       post_base: {
         Row: {
           allow_published_at: string | null
+          author_username: string | null
           created_at: string | null
           enable_reveal: boolean | null
           enable_reveal_date: string | null
@@ -19,6 +20,7 @@ export interface Database {
           is_published: boolean
           post_content: string
           post_title: string
+          profile_path: string
           tags: string | null
           updated_at: string | null
           user_id: string | null
@@ -26,6 +28,7 @@ export interface Database {
         }
         Insert: {
           allow_published_at?: string | null
+          author_username?: string | null
           created_at?: string | null
           enable_reveal?: boolean | null
           enable_reveal_date?: string | null
@@ -33,6 +36,7 @@ export interface Database {
           is_published?: boolean
           post_content: string
           post_title?: string
+          profile_path?: string
           tags?: string | null
           updated_at?: string | null
           user_id?: string | null
@@ -40,6 +44,7 @@ export interface Database {
         }
         Update: {
           allow_published_at?: string | null
+          author_username?: string | null
           created_at?: string | null
           enable_reveal?: boolean | null
           enable_reveal_date?: string | null
@@ -47,6 +52,7 @@ export interface Database {
           is_published?: boolean
           post_content?: string
           post_title?: string
+          profile_path?: string
           tags?: string | null
           updated_at?: string | null
           user_id?: string | null
@@ -78,6 +84,7 @@ export interface Database {
           avatar_url: string | null
           full_name: string | null
           id: string
+          path: string | null
           updated_at: string | null
           username: string | null
           website: string | null
@@ -86,6 +93,7 @@ export interface Database {
           avatar_url?: string | null
           full_name?: string | null
           id: string
+          path?: string | null
           updated_at?: string | null
           username?: string | null
           website?: string | null
@@ -94,6 +102,7 @@ export interface Database {
           avatar_url?: string | null
           full_name?: string | null
           id?: string
+          path?: string | null
           updated_at?: string | null
           username?: string | null
           website?: string | null

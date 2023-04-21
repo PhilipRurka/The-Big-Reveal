@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@apollo/rover": "^0.9.1",
+    "@babel/core": "^7.0.0-0",
     "@graphql-codegen/cli": "^2.13.11",
     "@graphql-codegen/typescript-react-apollo": "^3.3.6",
     "@graphql-codegen/typescript-resolvers": "^2.7.6",

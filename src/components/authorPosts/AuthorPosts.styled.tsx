@@ -9,7 +9,7 @@ const sharedCardElementStyles = {
   'max-width': '400px'
 }
 
-export const YourPostsWrapper = styled.div`
+export const AuthorPostsWrapper = styled.div`
   ${Container('lg')}
   margin-top: 50px;
 `;
