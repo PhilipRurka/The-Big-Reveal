@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Button as styledButton } from "../../styled/button";
 
 export const PostDisplayWrapper = styled.div`
-line-height: 1.4;
+  line-height: 1.4;
   font-size: 16px;
 
   /** START - Grabbed from Tiny Styles */

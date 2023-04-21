@@ -4,17 +4,17 @@ import {
   Card,
   CardTitle,
   CreatedAt,
-  YourPostsWrapper,
+  AuthorPostsWrapper,
   Title,
-} from "./YourPosts.styled";
-import { YourPostsDataType } from "../../../pages/[...profile-path]";
+} from "./AuthorPosts.styled";
+import { AuthorPostsDataType } from "../../../pages/[...profile-path]";
 import dayjs from "dayjs";
 
-const YourPosts: FC<YourPostsDataType> = ({ cards }) => {
+const AuthorPosts: FC<AuthorPostsDataType> = ({ cards }) => {
   return (
-    <YourPostsWrapper>
+    <AuthorPostsWrapper>
       <Title>
-        Your Posts
+        {`${ cards[0].author_username }'s collection`}
       </Title>
       {cards.map(({
         id,
@@ -23,7 +23,7 @@ const YourPosts: FC<YourPostsDataType> = ({ cards }) => {
         post_title
       }) => (
         <Card
-          key={`YourPostsCard - ${created_at}`}
+          key={`AuthorPostsCard - ${created_at}`}
           href={`/post/${id}`}>
           <CardTitle>
             { post_title }
@@ -36,8 +36,8 @@ const YourPosts: FC<YourPostsDataType> = ({ cards }) => {
           </CreatedAt>
         </Card>
       ))}
-    </YourPostsWrapper>
+    </AuthorPostsWrapper>
   )
 }
 
-export default YourPosts
+export default AuthorPosts

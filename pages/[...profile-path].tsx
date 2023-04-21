@@ -1,6 +1,6 @@
 import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../lib/authRequired";
-import YourPosts from "../src/components/yourPosts/YourPosts.container";
+import AuthorPosts from "../src/components/authorPosts/AuthorPosts.container";
 
 export type CardsType = {
   id: string;
@@ -9,7 +9,7 @@ export type CardsType = {
   post_title: string;
 }
 
-export type YourPostsDataType = {
+export type AuthorPostsDataType = {
   cards: CardsType[]
 }
 
@@ -36,14 +36,23 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return {}
   }
 
+  if(!cardsData.length) {
+    return {
+      redirect: {
+        destination: '/your-space',
+        permanent: false,
+      },
+    }
+  }
+
   return { props: {
     cards: cardsData
   }}
 }
 
-function YourPostsPage({ cards }: YourPostsDataType) {
+function AuthorPostsPage({ cards }: AuthorPostsDataType) {
   
-  return <YourPosts cards={cards} />
+  return <AuthorPosts cards={cards} />
 }
 
-export default YourPostsPage
+export default AuthorPostsPage
