@@ -15,6 +15,8 @@ import {
   ButtonWrapper,
   Button
 } from "../../styled/button"
+import FormMessage from "../FormMessage"
+import type { FormMessageContainerType } from "../FormMessage/FormMessage.container";
 
 type ProfileType = {
   subtitle: string
@@ -25,6 +27,7 @@ type ProfileType = {
   handleSave: handleSaveResetType
   handleReset: handleSaveResetType
   hasChangeOccured:boolean
+  formMessageProps: FormMessageContainerType
 }
 
 const Profile: FC<ProfileType> = ({
@@ -35,13 +38,18 @@ const Profile: FC<ProfileType> = ({
     handleUserNameUpdate,
     handleSave,
     handleReset,
-    hasChangeOccured
+    hasChangeOccured,
+    formMessageProps
   }) => {
   return (
     <ProfileWrapper>
       <Title>Profile</Title>
       <Subtitle>{ subtitle }</Subtitle>
       <Form>
+        <FormMessage
+          message={formMessageProps.message}
+          type={formMessageProps.type}
+          showMessage={formMessageProps.showMessage} />
         <Field>
           <Label htmlFor='full-name'>
             Full Name
@@ -54,7 +62,7 @@ const Profile: FC<ProfileType> = ({
         </Field>
         <Field>
           <Label htmlFor='username'>
-            UserName
+            Username
           </Label>
           <Input
             id='username'

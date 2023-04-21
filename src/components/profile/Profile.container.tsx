@@ -4,8 +4,13 @@ import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Database } from "../../types/supabase-types"
+import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
 
 export type handleSaveResetType = (event: FormEvent) => void
+type ShowFormMessageType = {
+  message: string
+  type: undefined | StatusMessageTypesEnum
+}
 
 const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   const mountedRef = useRef(true)
@@ -18,6 +23,34 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   })
 
   const supabaseClient = useSupabaseClient<Database>()
+
+  const [formMessageContent, setFormMessageContent] = useState<ShowFormMessageType>({
+    message: '',
+    type: undefined
+  })
+  const [showFormMessage, setShowMessage] = useState(false)
+
+  const triggerFormMessage = useCallback(({
+    message,
+    type
+  }: ShowFormMessageType) => {
+    setFormMessageContent({
+      message,
+      type
+    })
+
+    setShowMessage(true)
+  }, [])
+
+  const triggerRemoveFormMessage = useCallback(() => {
+    setShowMessage(false)
+    setTimeout(() => {
+      setFormMessageContent({
+        message: '',
+        type: undefined
+      })
+    }, 300)
+  }, [])
   
   const subtitleFormated = useMemo(() => {
     return `Welcome ${originalInputs.username || 'back'}`
@@ -25,11 +58,13 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
 
   const handleFullNameUpdate = useCallback((event: InputOnChangeType) => {
     setFullName(event.currentTarget.value)
-  }, [])
+    triggerRemoveFormMessage()
+  }, [triggerRemoveFormMessage])
 
   const handleUserNameUpdate = useCallback((event: InputOnChangeType) => {
     setUsername(event.currentTarget.value)
-  }, [])
+    triggerRemoveFormMessage()
+  }, [triggerRemoveFormMessage])
 
   const handleReset: handleSaveResetType = useCallback((event) => {
     event.preventDefault()
@@ -57,14 +92,28 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
         username
       })
 
-    } else {
-      // Some sort of error message
+      triggerFormMessage({
+        message: 'Your profile has been updated!',
+        type: StatusMessageTypesEnum.SUCCESS
+      })
+
+    } else if(error.code === '23505') {
+      triggerFormMessage({
+        message: 'This username already exists',
+        type: StatusMessageTypesEnum.ERROR
+      })
+
+    } else if(error) {
+      triggerFormMessage({
+        message: 'Something went wrong. Refresh and try again!',
+        type: StatusMessageTypesEnum.ERROR
+      })
     }
 
     return () => {
       mountedRef.current = false
     }
-  }, [fullName, username, profileData.id, supabaseClient])
+  }, [fullName, username, profileData.id, supabaseClient, triggerFormMessage])
 
   const hasChangeOccured: boolean = useMemo(() => {
     if(username !== originalInputs.username || fullName !== originalInputs.fullName) {
@@ -83,7 +132,12 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
       handleUserNameUpdate={handleUserNameUpdate}
       handleReset={handleReset}
       handleSave={handleSave}
-      hasChangeOccured={hasChangeOccured} />
+      hasChangeOccured={hasChangeOccured}
+      formMessageProps={{
+        type: formMessageContent.type,
+        message: formMessageContent.message,
+        showMessage: showFormMessage
+      }} />
   )
 }
 

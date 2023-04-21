@@ -6,11 +6,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
-import { StatusMessageTypesEnum } from "../authResMessage/FormMessage.container";
+import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container";
 import { NewPostPageType } from "../../../pages/new-post";
 
 const NewPostContainer: FC<NewPostPageType> = ({
-  username
+  username,
+  profile_path
 }) => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
@@ -69,7 +70,8 @@ const NewPostContainer: FC<NewPostPageType> = ({
         allow_published_at: null,
         written_at: null,
         is_published: false,
-        post_content: postBaseContent
+        post_content: postBaseContent,
+        profile_path
       }])
       .select('id')
 
@@ -113,7 +115,7 @@ const NewPostContainer: FC<NewPostPageType> = ({
     return () => {
       mountedRef.current = false
     }
-  }, [username, dispatch, supabaseClient])
+  }, [username, profile_path, dispatch, supabaseClient])
 
   return (
     <NewPost

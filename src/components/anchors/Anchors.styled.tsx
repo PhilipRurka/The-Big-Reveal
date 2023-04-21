@@ -76,4 +76,8 @@ export const NewPostButton = styled(LinkNext)<NavLinkType>`
     color: white;
     background-color: ${Colors.dodger}
   }
+
+  &:focus {
+    color: #fff;
+  }
 `;

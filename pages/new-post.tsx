@@ -19,9 +19,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     error
   } = await supabase
     .from('profiles')
-    .select('username')
+    .select('username, path')
     .eq('id', session.user.id)
-
 
   if(error) {
     console.log(error)
@@ -37,6 +36,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
 export type NewPostPageType = {
   username: string
+  profile_path: string
 }
 
 function NewPostPage(props: NewPostPageType) {

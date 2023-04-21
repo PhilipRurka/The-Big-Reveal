@@ -1,31 +1,8 @@
 import styled from 'styled-components';
-import { Container } from '../../styled';
+import { Container, Fonts } from '../../styled';
 
 export const PostWrapper = styled.div`
   ${Container('lg')}
+  ${Fonts.tiny}
   padding-top: 40px;
-
-  h1 {
-    font-size: 40px;
-    margin-bottom: 15px;
-  }
-
-  h2 {
-    font-size: 30px;
-    margin-bottom: 15px;
-  }
-
-  h3 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 10px 0;
-  }
-
-  p {
-    padding-bottom: 20px;
-  }
-
-  ul span {
-    display: inline;
-  }
 `;

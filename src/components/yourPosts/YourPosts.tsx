@@ -1,38 +1,43 @@
 import { FC } from "react";
 import {
+  Author,
   Card,
   CardTitle,
   CreatedAt,
-  ReflectionWrapper,
-  Title
-} from "./Reflection.styled";
-import { ReflectionDataType } from "../../../pages/feed/reflection";
+  YourPostsWrapper,
+  Title,
+} from "./YourPosts.styled";
+import { YourPostsDataType } from "../../../pages/[...profile-path]";
 import dayjs from "dayjs";
 
-const Reflection: FC<ReflectionDataType> = ({ postBase }) => {
+const YourPosts: FC<YourPostsDataType> = ({ cards }) => {
   return (
-    <ReflectionWrapper>
+    <YourPostsWrapper>
       <Title>
-        Reflection
+        Your Posts
       </Title>
-      {postBase.map(({
+      {cards.map(({
         id,
         created_at,
+        author_username,
         post_title
       }) => (
         <Card
-          key={`ReflectionCard - ${created_at}`}
+          key={`YourPostsCard - ${created_at}`}
           href={`/post/${id}`}>
           <CardTitle>
             { post_title }
           </CardTitle>
+          <Author>
+            { author_username }
+          </Author>
           <CreatedAt>
             { dayjs(created_at).format('D MMM YYYY, h:ss a') }
           </CreatedAt>
         </Card>
       ))}
-    </ReflectionWrapper>
+    </YourPostsWrapper>
   )
 }
 
-export default Reflection
+export default YourPosts
