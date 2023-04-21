@@ -34,7 +34,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       postDescriptionError
     })
 
-    return { props: {}}
+    return { props: {} }
   }
 
   return {props: {
