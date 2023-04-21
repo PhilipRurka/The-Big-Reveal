@@ -7,7 +7,7 @@ import {
   YourPostsWrapper,
   Title,
 } from "./YourPosts.styled";
-import { YourPostsDataType } from "../../../pages/feed/your-posts";
+import { YourPostsDataType } from "../../../pages/[...profile-path]";
 import dayjs from "dayjs";
 
 const YourPosts: FC<YourPostsDataType> = ({ cards }) => {

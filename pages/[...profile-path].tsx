@@ -1,6 +1,6 @@
 import type { GetServerSidePropsContext } from "next";
-import { authRequired } from "../../lib/authRequired";
-import YourPosts from "../../src/components/yourPosts/YourPosts.container";
+import { authRequired } from "../lib/authRequired";
+import YourPosts from "../src/components/yourPosts/YourPosts.container";
 
 export type CardsType = {
   id: string;
@@ -20,10 +20,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return res
   }
 
-  const {
-    supabase,
-    session
-  } = res
+  const { supabase } = res
 
   const {
     data: cardsData,
@@ -31,7 +28,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = await supabase
     .from("post_base")
     .select('id, created_at, post_title, author_username')
-    .eq('user_id', session.user.id)
+    .eq('profile_path', ctx.query['profile-path'])
     .order("created_at")
 
   if(error || !cardsData) {
@@ -39,7 +36,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return {}
   }
 
-  return {props: {
+  return { props: {
     cards: cardsData
   }}
 }

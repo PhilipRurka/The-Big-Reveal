@@ -1,6 +1,6 @@
 import { FC } from "react";
 import YourPosts from "./YourPosts";
-import { YourPostsDataType } from "../../../pages/feed/your-posts";
+import { YourPostsDataType } from "../../../pages/[...profile-path]";
 
 const YourPostsContainer: FC<YourPostsDataType> = ({ cards }) => {
   return (
