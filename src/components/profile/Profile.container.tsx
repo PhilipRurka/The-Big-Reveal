@@ -59,12 +59,12 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   const handleFullNameUpdate = useCallback((event: InputOnChangeType) => {
     setFullName(event.currentTarget.value)
     triggerRemoveFormMessage()
-  }, [])
+  }, [triggerRemoveFormMessage])
 
   const handleUserNameUpdate = useCallback((event: InputOnChangeType) => {
     setUsername(event.currentTarget.value)
     triggerRemoveFormMessage()
-  }, [])
+  }, [triggerRemoveFormMessage])
 
   const handleReset: handleSaveResetType = useCallback((event) => {
     event.preventDefault()
@@ -113,7 +113,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
     return () => {
       mountedRef.current = false
     }
-  }, [fullName, username, profileData.id, supabaseClient])
+  }, [fullName, username, profileData.id, supabaseClient, triggerFormMessage])
 
   const hasChangeOccured: boolean = useMemo(() => {
     if(username !== originalInputs.username || fullName !== originalInputs.fullName) {

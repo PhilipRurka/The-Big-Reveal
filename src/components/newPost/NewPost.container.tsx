@@ -115,7 +115,7 @@ const NewPostContainer: FC<NewPostPageType> = ({
     return () => {
       mountedRef.current = false
     }
-  }, [username, dispatch, supabaseClient])
+  }, [username, profile_path, dispatch, supabaseClient])
 
   return (
     <NewPost
