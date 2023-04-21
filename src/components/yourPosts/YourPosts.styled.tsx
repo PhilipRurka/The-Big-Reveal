@@ -9,7 +9,7 @@ const sharedCardElementStyles = {
   'max-width': '400px'
 }
 
-export const ReflectionWrapper = styled.div`
+export const YourPostsWrapper = styled.div`
   ${Container('lg')}
   margin-top: 50px;
 `;
@@ -20,9 +20,8 @@ export const Title = styled.h1`
 `;
 
 export const Card = styled(LinkNext)`
-  border-radius: 20px;
-  box-shadow: 0 0 4px 0 black;
-  padding: 15px;
+  border-left: 3px solid black;
+  padding-left: 15px;
   max-width: 400px;
   display: table;
   margin-top: 20px;
@@ -38,4 +37,8 @@ export const CreatedAt = styled.span`
   margin-top: 10px;
   font-size: 14px;
   font-weight: 300;
+`;
+
+export const Author = styled.span`
+  
 `;

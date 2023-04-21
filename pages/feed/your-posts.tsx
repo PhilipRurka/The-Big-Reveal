@@ -1,16 +1,16 @@
 import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../../lib/authRequired";
-import Reflection from "../../src/components/reflection/Reflection.container";
+import YourPosts from "../../src/components/yourPosts/YourPosts.container";
 
-export type PostBaseType = {
+export type CardsType = {
   id: string;
   created_at: string | null;
-  post_content: string;
+  author_username: string;
   post_title: string;
 }
 
-export type ReflectionDataType = {
-  postBase: PostBaseType[]
+export type YourPostsDataType = {
+  cards: CardsType[]
 }
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -26,27 +26,27 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = res
 
   const {
-    data: postBaseData,
+    data: cardsData,
     error
   } = await supabase
     .from("post_base")
-    .select('id, is_published, post_content, created_at, post_title')
+    .select('id, created_at, post_title, author_username')
     .eq('user_id', session.user.id)
     .order("created_at")
 
-  if(error || !postBaseData) {
+  if(error || !cardsData) {
     console.log(error)
     return {}
   }
 
   return {props: {
-    postBase: postBaseData
+    cards: cardsData
   }}
 }
 
-function ReflectionPage({ postBase }: ReflectionDataType) {
+function YourPostsPage({ cards }: YourPostsDataType) {
   
-  return <Reflection postBase={postBase} />
+  return <YourPosts cards={cards} />
 }
 
-export default ReflectionPage
+export default YourPostsPage

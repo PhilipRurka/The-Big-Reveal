@@ -5,8 +5,8 @@ import Link from "next/link";
 const Feed: FC = () => {
   return (
     <FeedWrapper>
-      <Link href='/feed/reflection'>
-        Reflection
+      <Link href='/feed/your-posts'>
+        Your Posts
       </Link>
       {/* <Link href='/feed/following'>
         Following
