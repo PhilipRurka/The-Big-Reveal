@@ -12,6 +12,10 @@ export const Title = styled.h1`
 
 export const Form = styled.form`
   margin-top: 20px;
-  background-color: mintcream;
   padding: 20px;
+`;
+
+export const Label = styled.label`
+  margin-bottom: 25px;
+  font-size: 25px;
 `;
