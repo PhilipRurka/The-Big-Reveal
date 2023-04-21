@@ -1,7 +1,7 @@
 import { FormEvent } from "react"
 import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import { InputOnChangeType } from "../input/Input"
-import { StatusMessageTypesEnum } from "../authResMessage/FormMessage.container"
+import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
 
 export enum RouterQueryEnum {
   REGISTRATION    = 'registration',

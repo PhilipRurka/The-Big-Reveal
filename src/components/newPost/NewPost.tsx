@@ -8,8 +8,8 @@ import {
 import { Button, ButtonWrapper } from "../../styled/button"
 import Tiny from "../tiny"
 import type { Editor } from "tinymce"
-import FormMessage from "../authResMessage"
-import type { FormMessageContainerType } from "../authResMessage/FormMessage.container"
+import FormMessage from "../FormMessage"
+import type { FormMessageContainerType } from "../FormMessage/FormMessage.container"
 import BubbleLayout from "../bubbleLayout"
 import NormalLayout from "../normalLayout"
 

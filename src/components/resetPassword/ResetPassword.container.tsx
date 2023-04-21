@@ -8,7 +8,7 @@ import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
 import { ResType, RouterQueryEnum } from '../auth/Auth.types'
 import { InputOnChangeType } from '../input/Input'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { StatusMessageTypesEnum } from '../authResMessage/FormMessage.container'
+import { StatusMessageTypesEnum } from '../FormMessage/FormMessage.container'
 import { DefinedStatusMessageStateType } from '../../redux/types/authMessageRedux.type'
 
 const ResetPasswordContainer = () => {

@@ -8,7 +8,7 @@ import {
   UpdateFormattedMessageType,
   DefinedStatusMessageStateType,
 } from "../types/authMessageRedux.type"
-import { StatusMessageTypesEnum } from "../../components/authResMessage/FormMessage.container"
+import { StatusMessageTypesEnum } from "../../components/FormMessage/FormMessage.container"
 
 export const statusMessage = {
   reducer(state: StatusMessageStateType, action: PayloadAction<StatusMessageStateType>) {

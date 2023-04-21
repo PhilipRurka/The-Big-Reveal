@@ -27,7 +27,7 @@ import {
 } from "../../redux/slices/authMessageSlice"
 import useRigidCountdown from "../../hooks/useRigidCountdown"
 import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
-import { StatusMessageTypesEnum } from '../authResMessage/FormMessage.container'
+import { StatusMessageTypesEnum } from '../FormMessage/FormMessage.container'
 
 export const AUTH_TRANSITION_TIME = 300
 

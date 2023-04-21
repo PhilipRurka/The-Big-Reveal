@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
-import { StatusMessageTypesEnum } from "../authResMessage/FormMessage.container";
+import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container";
 import { NewPostPageType } from "../../../pages/new-post";
 
 const NewPostContainer: FC<NewPostPageType> = ({
