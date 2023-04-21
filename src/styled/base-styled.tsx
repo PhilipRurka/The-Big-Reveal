@@ -3,7 +3,8 @@ import reset from 'styled-reset'
 
 export const Fonts = {
   primary:   'font-family: var(--font-noto), sans-serif;',
-  secondary:   'font-family: var(--font-roboto), sans-serif;'
+  secondary:   'font-family: var(--font-roboto), sans-serif;',
+  tiny: 'font-family: Helvetica,Arial,sans-serif;'
 };
 
 export const ResetStyles = createGlobalStyle`
@@ -18,7 +19,7 @@ export const ResetStyles = createGlobalStyle`
   }
 
   a,
-  span {
+  span, label {
     display: block;
   }
 
