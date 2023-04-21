@@ -115,6 +115,9 @@ const AuthContainer: FC<AuthPageType> = ({
   const handleRegistration: HandleNarrowAuthType = useCallback(async () => {
     if(!passwordRef?.current || !emailRef.current || !usernameRef.current) return
 
+    let path = usernameRef.current.value.toLowerCase()
+    path = path.replaceAll(/ /g, '-')
+
     const {
       data,
       error: resError
@@ -124,7 +127,7 @@ const AuthContainer: FC<AuthPageType> = ({
       options: {
         data: { 
           username: usernameRef.current.value,
-          age: 27,
+          path
         }
       }
     })

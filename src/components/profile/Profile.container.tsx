@@ -9,7 +9,7 @@ import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
 export type handleSaveResetType = (event: FormEvent) => void
 type ShowFormMessageType = {
   message: string
-  type: null | StatusMessageTypesEnum
+  type: undefined | StatusMessageTypesEnum
 }
 
 const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
@@ -26,7 +26,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
 
   const [formMessageContent, setFormMessageContent] = useState<ShowFormMessageType>({
     message: '',
-    type: null
+    type: undefined
   })
   const [showFormMessage, setShowMessage] = useState(false)
 
@@ -47,7 +47,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
     setTimeout(() => {
       setFormMessageContent({
         message: '',
-        type: null
+        type: undefined
       })
     }, 300)
   }, [])
