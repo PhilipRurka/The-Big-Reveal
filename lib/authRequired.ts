@@ -19,7 +19,7 @@ export const authRequired = async (ctx: any) => {
       redirect: {
         destination: '/auth',
         permanent: false,
-      },
+      }
     }
   }
 }

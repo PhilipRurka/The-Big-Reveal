@@ -2,7 +2,7 @@ import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../lib/authRequired";
 import AuthorPosts from "../src/components/authorPosts/AuthorPosts.container";
 
-export type CardsType = {
+export type ListType = {
   id: string;
   created_at: string | null;
   author_username: string;
@@ -10,7 +10,7 @@ export type CardsType = {
 }
 
 export type AuthorPostsDataType = {
-  cards: CardsType[]
+  list: ListType[]
 }
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -23,7 +23,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const { supabase } = res
 
   const {
-    data: cardsData,
+    data: listData,
     error
   } = await supabase
     .from("post_base")
@@ -31,12 +31,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .eq('profile_path', ctx.query['profile-path'])
     .order("created_at")
 
-  if(error || !cardsData) {
+  if(error || !listData) {
     console.log(error)
     return {}
   }
 
-  if(!cardsData.length) {
+  if(!listData.length) {
     return {
       redirect: {
         destination: '/your-space',
@@ -46,13 +46,13 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }
 
   return { props: {
-    cards: cardsData
+    list: listData
   }}
 }
 
-function AuthorPostsPage({ cards }: AuthorPostsDataType) {
+function AuthorPostsPage({ list }: AuthorPostsDataType) {
   
-  return <AuthorPosts cards={cards} />
+  return <AuthorPosts list={list} />
 }
 
 export default AuthorPostsPage

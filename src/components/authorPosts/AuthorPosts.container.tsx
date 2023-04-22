@@ -2,9 +2,9 @@ import { FC } from "react";
 import AuthorPosts from "./AuthorPosts";
 import { AuthorPostsDataType } from "../../../pages/[...profile-path]";
 
-const AuthorPostsContainer: FC<AuthorPostsDataType> = ({ cards }) => {
+const AuthorPostsContainer: FC<AuthorPostsDataType> = ({ list }) => {
   return (
-    <AuthorPosts cards={cards} />
+    <AuthorPosts list={list} />
   )
 }
 

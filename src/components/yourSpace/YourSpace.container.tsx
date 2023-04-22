@@ -1,10 +1,15 @@
 import { FC } from "react"
 import YourSpace from "./YourSpace"
-import { YourSpaceType } from "../../../pages/your-space"
+import { YourSpaceDataType } from "../../../pages/your-space"
 
-const YourSpaceContainer: FC<YourSpaceType> = ({ yourSpaceData }) => {
+const YourSpaceContainer: FC<YourSpaceDataType> = ({
+  profileData,
+  baseData
+}) => {
   return (
-    <YourSpace {...yourSpaceData} />
+    <YourSpace
+      {...profileData}
+      yourWorkList={baseData} />
   )
 }
 

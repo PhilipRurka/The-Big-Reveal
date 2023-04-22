@@ -15,34 +15,68 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = res
 
   const {
-    data: yourSpaceData,
-    error
+    data: profileData,
+    error: profileError
   } = await supabase
     .from('profiles')
     .select('username, path')
     .eq('id', session.user.id)
 
-  if(error) {
-    console.log(error)
-    return {
-      props: {}
+    if(profileError || !profileData) {
+      console.error(profileError)
+      return {
+        redirect: {
+          destination: '/auth',
+          permanent: false,
+        }
+      }
     }
-  }
+
+  const {
+    data: baseData,
+    error: baseError
+  } = await supabase
+    .from("post_base")
+    .select('id, created_at, post_title, author_username')
+    .eq('profile_path', profileData[0].path)
+    .order("created_at")
+
+    if(baseError || !baseData) {
+      console.error(baseError)
+      return {
+        redirect: {
+          destination: '/auth',
+          permanent: false,
+        }
+      }
+    }
 
   return { props: {
-    yourSpaceData: yourSpaceData[0]
+    profileData: profileData[0],
+    baseData: baseData
   }}
 }
 
-export type YourSpaceType = {
-  yourSpaceData: {
+export type YourSpaceDataType = {
+  profileData: {
     username: string
     path: string
   }
+  baseData: Array<{
+    id: string
+    created_at: string
+    post_title: string
+    author_username: string
+  }>
 }
 
-function YourSpacePage({ yourSpaceData }: YourSpaceType) {
-  return <YourSpace yourSpaceData={yourSpaceData} />
+function YourSpacePage({
+  profileData,
+  baseData
+}: YourSpaceDataType) {
+  return <YourSpace
+    profileData={profileData}
+    baseData={baseData} />
 }
 
 export default YourSpacePage
