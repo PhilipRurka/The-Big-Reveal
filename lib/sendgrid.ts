@@ -2,7 +2,7 @@ import client, { MailDataRequired } from "@sendgrid/mail"
 import { registrationTemplate } from "../email-templates/registrationTemplate"
 
 export const SendGrid = () => {
-  client.setApiKey('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')
+  client.setApiKey('SG.1234567890') // Update apikey
 
   const message: MailDataRequired | MailDataRequired[] = {
     to: 'hey@philiprurka.com',
