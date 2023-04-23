@@ -37,13 +37,17 @@ const NewPost: FC<NewPostType> = ({
           <Label>
             Drop that poem
           </Label>
-          <Tiny tinyRef={baseRef} />
+          <Tiny
+            tinyId={'tiny-base'}
+            tinyRef={baseRef} />
         </BubbleLayout>
         <NormalLayout>
           <Label>
             The Big Reveal!
           </Label>
-          <Tiny tinyRef={descriptionRef} />
+          <Tiny
+            tinyId={'tiny-description'}
+            tinyRef={descriptionRef} />
           <ButtonWrapper>
             <Button
               colorType="primary"

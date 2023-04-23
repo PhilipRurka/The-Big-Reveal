@@ -16,8 +16,8 @@ export const navWithAuth: NavigationsType = [
     path: '/new-post'
   },
   {
-    named: 'Dashboard',
-    path: '/dashboard'
+    named: 'Your Space',
+    path: '/your-space'
   },
   {
     named: 'Feed',

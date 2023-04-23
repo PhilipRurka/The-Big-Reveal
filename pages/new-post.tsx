@@ -28,7 +28,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }
 
   return { props: {
-    username: data[0].username
+    username: data[0].username,
+    profile_path: data[0].path
   }}
 
   return {props: {}}

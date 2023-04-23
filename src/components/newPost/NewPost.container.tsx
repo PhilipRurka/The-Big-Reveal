@@ -40,20 +40,20 @@ const NewPostContainer: FC<NewPostPageType> = ({
     const postBaseContent = baseRef.current.getContent()
     const postDescriptionContent = descriptionRef.current?.getContent() || null
 
-    let title: string | string[] = postBaseContent.split('<h1')
-    if(title.length === 1 ) {
+    let titleArrayLength: number = postBaseContent.split('<h1').length
+    if(titleArrayLength === 1 ) {
       triggerErrorMessage('Your poem requires a "Heading 1"')
       return
 
-    } else if(title.length > 2) {
-      triggerErrorMessage('You can onlt have one "Heading 1"')
+    } else if(titleArrayLength > 2) {
+      triggerErrorMessage('You can only have one "Heading 1"')
       return
     }
-
-    title = title[1]
-    title = title.split('</h1>')[0]
-    title = title.replaceAll('>', '')
-    title = title.replaceAll(/<h1 [A-Za-z0-9]+="[^"]*">/g, '')
+    
+    let title = postBaseContent.split('</h1>')[0]
+    title = title.replace('>', '')
+    title = title.replace(/<h1 [A-Za-z0-9]+="[^"]*"/g, '')
+    title = title.replace(/<h1/g, '')
     title = title.replaceAll(/<span [A-Za-z0-9]+="[^"]*">/g, '').replaceAll('</span>', '')
     title = title.replaceAll('<strong>', '').replaceAll('</strong>', '')
     title = title.replaceAll('<em>', '').replaceAll('</em>', '')
