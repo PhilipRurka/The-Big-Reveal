@@ -20,7 +20,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     error
   } = await supabase
     .from('profiles')
-    .select('*')
+    .select('username, fullName')
     .eq('id', session.user.id)
 
   if(error) {
@@ -36,7 +36,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 }
 
 export type ProfilePageType = {
-  profileData: Database['public']['Tables']['profiles']['Row']
+  profileData: {
+    username: string
+    full_name: string
+  }
 }
 
 function ProfilePage({ profileData }: ProfilePageType) {

@@ -2,8 +2,6 @@ import { FC, FormEvent, useCallback, useMemo, useRef, useState } from "react"
 import { ProfilePageType } from "../../../pages/profile"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { Database } from "../../types/supabase-types"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
 import axios from "axios"
 
@@ -22,8 +20,6 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
     fullName: profileData.full_name || '',
     username: profileData.username || ''
   })
-
-  const supabaseClient = useSupabaseClient<Database>()
 
   const [formMessageContent, setFormMessageContent] = useState<ShowFormMessageType>({
     message: '',
@@ -108,7 +104,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
     return () => {
       mountedRef.current = false
     }
-  }, [fullName, username, profileData.id, supabaseClient, triggerFormMessage])
+  }, [fullName, username, triggerFormMessage])
 
   const hasChangeOccured: boolean = useMemo(() => {
     if(username !== originalInputs.username || fullName !== originalInputs.fullName) {
