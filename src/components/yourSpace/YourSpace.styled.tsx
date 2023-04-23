@@ -26,6 +26,10 @@ export const YourWorkList = styled.ul`
 `;
 
 export const InformationStatsSection = styled.section`
+  
+`;
+
+export const InformationStatsContainer = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   padding: 23px 25px;

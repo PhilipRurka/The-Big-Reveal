@@ -14,7 +14,8 @@ import {
   StatsItem,
   ShareCollectionContainer,
   CopyConfirmation,
-  CopyConfirmationContainer
+  CopyConfirmationContainer,
+  InformationStatsContainer
 } from "./YourSpace.styled";
 import PostCardList from "../postCardList/PostCardList";
 import { YourSpaceDataType } from "../../../pages/your-space";
@@ -44,34 +45,36 @@ const YourSpace: FC<YourSpaceType> = ({
           </YourWorkList>
         </YourWorkSection>
         <InformationStatsSection>
-          <InformationContainer>
-            <ViewCollection href={`/${path}`} >
-              View your collection
-            </ViewCollection>
-            <ShareCollectionContainer>
-              <ShareCollection onClick={handleCopy} >
-                Share your collection
-              </ShareCollection>
-              <CopyConfirmationContainer id='copy-to-clipboard'>
-                <CopyConfirmation>
-                  Copied
-                </CopyConfirmation>
-              </CopyConfirmationContainer>
-            </ShareCollectionContainer>
-          </InformationContainer>
-          <StatsContainer>
-            <StatsList>
-              <StatsItem>
-                Total marked reads: #
-              </StatsItem>
-              <StatsItem>
-                Total responds: #
-              </StatsItem>
-              <StatsItem>
-                Total poems: #
-              </StatsItem>
-            </StatsList>
-          </StatsContainer>
+          <InformationStatsContainer>
+            <InformationContainer>
+              <ViewCollection href={`/${path}`} >
+                View your collection
+              </ViewCollection>
+              <ShareCollectionContainer>
+                <ShareCollection onClick={handleCopy} >
+                  Share your collection
+                </ShareCollection>
+                <CopyConfirmationContainer id='copy-to-clipboard'>
+                  <CopyConfirmation>
+                    Copied
+                  </CopyConfirmation>
+                </CopyConfirmationContainer>
+              </ShareCollectionContainer>
+            </InformationContainer>
+            <StatsContainer>
+              <StatsList>
+                <StatsItem>
+                  Total marked reads: #
+                </StatsItem>
+                <StatsItem>
+                  Total responds: #
+                </StatsItem>
+                <StatsItem>
+                  Total poems: #
+                </StatsItem>
+              </StatsList>
+            </StatsContainer>
+          </InformationStatsContainer>
         </InformationStatsSection>
       </ListStatsContainer>
     </YourSpaceWrapper>
