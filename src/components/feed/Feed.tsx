@@ -7,7 +7,7 @@ import {
 import PostCardList from "../postCardList";
 import { FeedListType } from "./Feed.container";
 
-type FeedListPropsType = {
+export type FeedListPropsType = {
   list: FeedListType
 }
 

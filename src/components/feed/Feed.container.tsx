@@ -27,7 +27,7 @@ const FeedContainer: FC = () => {
     if(!listData || error) return
 
       setFeedList(listData)
-  }, [])
+  }, [supabaseClient])
 
   useEffect(() => {
     getinitialData()

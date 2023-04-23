@@ -3,10 +3,10 @@ import {
   AuthorPostsWrapper,
   Title,
 } from "./AuthorPosts.styled";
-import { AuthorPostsDataType } from "../../../pages/[...profile-path]";
 import PostCardList from "../postCardList";
+import { FeedListPropsType } from "../feed/Feed";
 
-const AuthorPosts: FC<AuthorPostsDataType> = ({ list }) => {
+const AuthorPosts: FC<FeedListPropsType> = ({ list }) => {
   return (
     <AuthorPostsWrapper>
       <Title>

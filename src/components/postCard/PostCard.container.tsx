@@ -4,7 +4,7 @@ import PostCard from "./PostCard"
 export type PostCardType = {
   id: string
   date: string | null
-  username: string
+  username: string | null
   title: string
 }
 

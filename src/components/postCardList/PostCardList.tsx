@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { PostCardListWrapper } from "./PostCardList.styled";
-import { AuthorPostsDataType } from "../../../pages/[...profile-path]";
 import PostCard from "../postCard/PostCard";
+import { FeedListPropsType } from "../feed/Feed";
 
-const PostCardList: FC<AuthorPostsDataType> = ({ list }) => {
+const PostCardList: FC<FeedListPropsType> = ({ list }) => {
   return (
     <PostCardListWrapper>
       {list.map((card, i) => (
