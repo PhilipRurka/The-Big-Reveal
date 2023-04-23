@@ -1,19 +1,27 @@
 import { FC } from "react";
-import { FeedWrapper } from "./Feed.styled";
-import Link from "next/link";
+import {
+  FeedListContainer,
+  FeedWrapper,
+  Title
+} from "./Feed.styled";
+import PostCardList from "../postCardList";
+import { FeedListType } from "./Feed.container";
 
-const Feed: FC = () => {
+type FeedListPropsType = {
+  list: FeedListType
+}
+
+const Feed: FC<FeedListPropsType> = ({
+  list
+}) => {
   return (
     <FeedWrapper>
-      <Link href='/feed/your-posts'>
-        Your Posts
-      </Link>
-      {/* <Link href='/feed/following'>
-        Following
-      </Link>
-      <Link href='/feed/exploration'>
-        Exploration
-      </Link> */}
+      <Title>
+        Feed
+      </Title>
+      <FeedListContainer>
+        <PostCardList list={list} />
+      </FeedListContainer>
     </FeedWrapper>
   )
 }

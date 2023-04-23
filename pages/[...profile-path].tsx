@@ -1,17 +1,7 @@
 import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../lib/authRequired";
 import AuthorPosts from "../src/components/authorPosts/AuthorPosts.container";
-
-export type ListType = {
-  id: string;
-  created_at: string | null;
-  author_username: string;
-  post_title: string;
-}
-
-export type AuthorPostsDataType = {
-  list: ListType[]
-}
+import { PostCardListType } from "../src/components/postCardList/PostCardList.container";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)
@@ -50,7 +40,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }}
 }
 
-function AuthorPostsPage({ list }: AuthorPostsDataType) {
+function AuthorPostsPage({ list }: PostCardListType) {
   
   return <AuthorPosts list={list} />
 }
