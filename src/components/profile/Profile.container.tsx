@@ -5,6 +5,7 @@ import Profile from "./Profile"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Database } from "../../types/supabase-types"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
+import axios from "axios"
 
 export type handleSaveResetType = (event: FormEvent) => void
 type ShowFormMessageType = {
@@ -76,39 +77,33 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   const handleSave: handleSaveResetType = useCallback(async event => {
     event.preventDefault()
 
-    const { data: _, error } = await supabaseClient
-      .from('profiles')
-      .update({
-        full_name: fullName,
-        username: username
-      })
-      .eq('id', profileData.id)
-
+    axios.post('/api/profile', {
+      fullName,
+      username,
+    })
+    .then(({ data: {
+      message
+    }
+    }) => {
       if(!mountedRef) return
-
-    if(!error) {
       setOriginalInputs({
         fullName,
         username
       })
 
       triggerFormMessage({
-        message: 'Your profile has been updated!',
+        message,
         type: StatusMessageTypesEnum.SUCCESS
       })
-
-    } else if(error.code === '23505') {
+    })
+    .catch(({ response: { data: {
+      message
+    }}}) => {
       triggerFormMessage({
-        message: 'This username already exists',
+        message,
         type: StatusMessageTypesEnum.ERROR
       })
-
-    } else if(error) {
-      triggerFormMessage({
-        message: 'Something went wrong. Refresh and try again!',
-        type: StatusMessageTypesEnum.ERROR
-      })
-    }
+    })
 
     return () => {
       mountedRef.current = false
