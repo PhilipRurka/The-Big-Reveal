@@ -22,7 +22,7 @@ const YourSpaceContainer: FC<YourSpaceDataType> = ({
     setTimeout(() => {
       tlCopiedRef.current.reverse()
     }, 500)
-  }, [path])
+  }, [path, host])
 
   const initCopyGsap = useCallback(() => {
     tlCopiedRef.current.fromTo('#copy-to-clipboard', {
