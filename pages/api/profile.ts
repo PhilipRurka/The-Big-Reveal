@@ -50,7 +50,10 @@ const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) => {
 
   const { error: postBaseError } = await supabase
     .from('post_base')
-    .update({ profile_path: path })
+    .update({
+      author_username: username,
+      profile_path: path
+    })
     .eq('user_id', session.user.id)
 
   if(profileError?.code === '23505') {
