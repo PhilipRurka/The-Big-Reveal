@@ -6,9 +6,9 @@ import PostCard from "../postCard/PostCard";
 const PostCardList: FC<AuthorPostsDataType> = ({ list }) => {
   return (
     <PostCardListWrapper>
-      {list.map((card) => (
+      {list.map((card, i) => (
         <PostCard
-          key={`PostCardList ${card.post_title}`}
+          key={`PostCardList ${card.post_title} - ${i}`}
           id={card.id}
           date={card.created_at}
           username={card.author_username}

@@ -6,12 +6,14 @@ type TinyType = any
 
 const Tiny: FC<TinyType> = ({
   onInit,
+  tinyId,
   ...TinyConfigs
 }) => {
   return (
     <TinyWrapper>
       <Editor
         {...TinyConfigs}
+        id={tinyId}
         onInit={onInit} />
     </TinyWrapper>
   )

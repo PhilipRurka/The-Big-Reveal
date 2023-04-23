@@ -39,6 +39,7 @@ export const ResetStyles = createGlobalStyle`
     background-color: transparent;
     cursor: pointer;
     padding: 0;
+    font: inherit;
   }
 
   header,

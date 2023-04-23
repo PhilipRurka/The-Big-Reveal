@@ -3,9 +3,18 @@ import {
   ListStatsContainer,
   Title,
   YourSpaceWrapper,
-  YourStatsSection,
+  InformationStatsSection,
   YourWorkList,
-  YourWorkSection
+  YourWorkSection,
+  InformationContainer,
+  StatsContainer,
+  ViewCollection,
+  ShareCollection,
+  StatsList,
+  StatsItem,
+  ShareCollectionContainer,
+  CopyConfirmation,
+  CopyConfirmationContainer
 } from "./YourSpace.styled";
 import PostCardList from "../postCardList/PostCardList";
 import { YourSpaceDataType } from "../../../pages/your-space";
@@ -14,12 +23,14 @@ type YourSpaceType = {
   path: string
   username: string
   yourWorkList: YourSpaceDataType['baseData']
+  handleCopy: () => void
 }
 
 const YourSpace: FC<YourSpaceType> = ({
   path,
   username,
-  yourWorkList
+  yourWorkList,
+  handleCopy
 }) => {
   return (
     <YourSpaceWrapper>
@@ -32,9 +43,36 @@ const YourSpace: FC<YourSpaceType> = ({
             <PostCardList list={yourWorkList} />
           </YourWorkList>
         </YourWorkSection>
-        <YourStatsSection>
-
-        </YourStatsSection>
+        <InformationStatsSection>
+          <InformationContainer>
+            <ViewCollection href={`/${path}`} >
+              View your collection
+            </ViewCollection>
+            <ShareCollectionContainer>
+              <ShareCollection onClick={handleCopy} >
+                Share your collection
+              </ShareCollection>
+              <CopyConfirmationContainer id='copy-to-clipboard'>
+                <CopyConfirmation>
+                  Copied
+                </CopyConfirmation>
+              </CopyConfirmationContainer>
+            </ShareCollectionContainer>
+          </InformationContainer>
+          <StatsContainer>
+            <StatsList>
+              <StatsItem>
+                Total marked reads: #
+              </StatsItem>
+              <StatsItem>
+                Total responds: #
+              </StatsItem>
+              <StatsItem>
+                Total poems: #
+              </StatsItem>
+            </StatsList>
+          </StatsContainer>
+        </InformationStatsSection>
       </ListStatsContainer>
     </YourSpaceWrapper>
   )

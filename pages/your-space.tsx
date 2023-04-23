@@ -53,7 +53,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   return { props: {
     profileData: profileData[0],
-    baseData: baseData
+    baseData: baseData,
+    host: ctx.req.headers.host
   }}
 }
 
@@ -68,15 +69,18 @@ export type YourSpaceDataType = {
     post_title: string
     author_username: string
   }>
+  host: string
 }
 
 function YourSpacePage({
   profileData,
-  baseData
+  baseData,
+  host
 }: YourSpaceDataType) {
   return <YourSpace
     profileData={profileData}
-    baseData={baseData} />
+    baseData={baseData}
+    host={host} />
 }
 
 export default YourSpacePage
