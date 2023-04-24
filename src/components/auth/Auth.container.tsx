@@ -170,9 +170,7 @@ const AuthContainer: FC<AuthPageType> = ({
       data,
       error: resError
     } = await supabaseClient.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
-      redirectTo: process?.env?.NEXT_PUBLIC_VERCEL_URL ?
-        `https://${process?.env?.NEXT_PUBLIC_VERCEL_URL}/${RouterQueryEnum.RESET_PASSWORD}/` :
-        `http://localhost:3000/${RouterQueryEnum.RESET_PASSWORD}/`
+      redirectTo: `https://${process?.env?.NEXT_PUBLIC_VERCEL_URL}/${RouterQueryEnum.RESET_PASSWORD}/`
     })
 
     const error = resError as ResType
