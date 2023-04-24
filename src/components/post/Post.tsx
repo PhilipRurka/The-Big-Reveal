@@ -5,9 +5,9 @@ import {
 import PostDisplay from "../postDisplay";
 
 export type PostType = {
-  profile_path: string
-  author_username: string | null
-  created_at: string | null
+  profile_path?: string
+  author_username?: string | null
+  created_at?: string | null
   cleanBase: string
   cleanDescription: string
 }

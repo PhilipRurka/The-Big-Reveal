@@ -33,19 +33,25 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
       <BubbleLayout>
         <BaseSection>
           <BaseInformation>
-            <Author href={`/${profile_path}`}>
-              Author - { author_username }
-            </Author>
-            <Date>
-              { dayjs(created_at).format('D MMM YYYY, h:ss a') } - Uploaded
-            </Date>
+            {profile_path && (
+              <Author href={`/${profile_path}`}>
+                Author - { author_username }
+              </Author>
+            )}
+            {created_at && (
+              <Date>
+                { dayjs(created_at).format('D MMM YYYY, h:ss a') } - Uploaded
+              </Date>
+            )}
           </BaseInformation>
           <CleanContent content={cleanBase} />
-          <Button
-            colorType="primary"
-            onClick={handleRevealDescription} >
-            The Big Reveal!
-          </Button>
+          {cleanDescription && (
+            <Button
+              colorType="primary"
+              onClick={handleRevealDescription} >
+              The Big Reveal!
+            </Button>
+          )}
         </BaseSection>
       </BubbleLayout>
       <NormalLayout>
