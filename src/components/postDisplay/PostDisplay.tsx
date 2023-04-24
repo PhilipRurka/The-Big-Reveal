@@ -25,14 +25,15 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
   created_at,
   cleanBase,
   cleanDescription,
-  handleRevealDescription
+  handleRevealDescription,
+  profile_path
 }, descriptionRef) => {
   return (
     <PostDisplayWrapper>
       <BubbleLayout>
         <BaseSection>
           <BaseInformation>
-            <Author>
+            <Author href={`/${profile_path}`}>
               Author - { author_username }
             </Author>
             <Date>

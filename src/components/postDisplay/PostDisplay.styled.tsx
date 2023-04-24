@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Button as styledButton } from "../../styled/button";
+import { default as LinkNext } from 'next/link'
+import { Colors } from '../../styled';
 
 export const PostDisplayWrapper = styled.div`
   line-height: 1.4;
@@ -140,8 +142,8 @@ export const Date = styled.span`
 
 `;
 
-export const Author = styled.span`
-
+export const Author = styled(LinkNext)`
+  color: ${Colors.eucalyptus};
 `;
 
 export const BaseInformation = styled.div`
