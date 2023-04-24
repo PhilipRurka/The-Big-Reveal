@@ -15,11 +15,8 @@ const PostCard: FC<PostCardType> = ({
   title
 }) => {
   return (
-    <PostCardWrapper
-      href={`/post/${id}`} >
-      <Title>
-        { title }
-      </Title>
+    <PostCardWrapper href={`/post/${id}`} >
+      <Title dangerouslySetInnerHTML={{ __html: `<span>${title}</span>` }} />
       <Author>
         { username }
       </Author>
