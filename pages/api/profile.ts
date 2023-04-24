@@ -60,7 +60,7 @@ const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) => {
     return res.status(500).send({message: 'This username already exists'})
     
   } else if(profileError || postBaseError) {
-    return res.status(403).send({message: 'Something went wrong. Refresh and try again!'})
+    return res.status(405).send({message: 'Something went wrong. Refresh and try again!'})
   }
 
   return res.status(200).send({message: 'Your profile has been updated!'})
