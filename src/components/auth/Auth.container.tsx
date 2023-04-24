@@ -168,6 +168,8 @@ const AuthContainer: FC<AuthPageType> = ({
 
     const url = process.env.NEXT_PUBLIC_VERCEL_URL
 
+    console.log(`https://${url}/${RouterQueryEnum.RESET_PASSWORD}/`)
+
     const {
       data,
       error: resError
