@@ -19,7 +19,7 @@ const PostCardContainer: FC<PostCardType> = ({
 
   useEffect(() => {
     setDate(dayjs(rawDate).format('D MMM YYYY, h:ss a'))
-  },[])
+  }, [rawDate])
 
   return (
     <PostCard
