@@ -20,7 +20,7 @@ export const PostCardWrapper = styled(LinkNext)`
   }
 `;
 
-export const Title = styled.span`
+export const Title = styled.div`
   ${sharedCardElementStyles}
   position: relative;
   padding-bottom: 10px;

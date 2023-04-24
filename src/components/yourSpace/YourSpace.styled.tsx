@@ -7,7 +7,7 @@ const sharedInformationItem = {
 }
 
 export const YourSpaceWrapper = styled.div`
-  ${Container('xl')}
+  ${Container('lg')}
   padding-top: 50px;
 `;
 
