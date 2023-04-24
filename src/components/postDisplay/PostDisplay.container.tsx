@@ -2,13 +2,14 @@ import { FC, useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
 import { PostType } from "../post/Post"
 import gsap from "gsap"
+import dayjs from "dayjs"
 
 type PostDisplayContainerType = PostType
 
 const PostDisplayContainer: FC<PostDisplayContainerType> = ({
   profile_path,
   author_username,
-  created_at,
+  created_at: rawDate,
   cleanBase,
   cleanDescription
 }) => {
@@ -17,6 +18,7 @@ const PostDisplayContainer: FC<PostDisplayContainerType> = ({
     paused: true
   }))
 
+  const [date, setDate] = useState('')
   const [isDescriptionRevlealed, setIsDescriptionRevlealed] = useState(false)
 
   const initGsap = useCallback(() => {
@@ -52,11 +54,15 @@ const PostDisplayContainer: FC<PostDisplayContainerType> = ({
     }
   }, [initGsap])
 
+  useEffect(() => {
+    setDate(dayjs(rawDate).format('D MMM YYYY, h:ss a'))
+  }, [rawDate])
+
   return (
     <PostDisplay
       ref={descriptioncContentRef}
       author_username={author_username}
-      created_at={created_at}
+      created_at={date}
       cleanBase={cleanBase}
       cleanDescription={cleanDescription}
       handleRevealDescription={revealDescription}
