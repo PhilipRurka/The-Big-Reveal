@@ -6,7 +6,6 @@ import { AuthPageType, AUTH_TYPE_OPTIONS } from "../../../pages/auth"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
-import { getRedirectURL } from "../../utils/redirect"
 import { InputOnChangeType } from "../input/Input"
 import Auth from "./Auth"
 import {
@@ -171,7 +170,9 @@ const AuthContainer: FC<AuthPageType> = ({
       data,
       error: resError
     } = await supabaseClient.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
-      redirectTo: getRedirectURL('reset-password')
+      redirectTo: process?.env?.NEXT_PUBLIC_VERCEL_URL ?
+        `https://${process?.env?.NEXT_PUBLIC_VERCEL_URL}/${RouterQueryEnum.RESET_PASSWORD}/` :
+        `http://localhost:3000/${RouterQueryEnum.RESET_PASSWORD}/`
     })
 
     const error = resError as ResType
