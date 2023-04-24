@@ -166,11 +166,13 @@ const AuthContainer: FC<AuthPageType> = ({
   const handleForgotPassword: HandleNarrowAuthType = useCallback(async () => {
     if(!emailRef.current) return
 
+    const url = process.env.NEXT_PUBLIC_VERCEL_URL
+
     const {
       data,
       error: resError
     } = await supabaseClient.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
-      redirectTo: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/${RouterQueryEnum.RESET_PASSWORD}/`
+      redirectTo: `https://${url}/${RouterQueryEnum.RESET_PASSWORD}/`
     })
 
     const error = resError as ResType
