@@ -6,6 +6,7 @@ import gsap from "gsap"
 type PostDisplayContainerType = PostType
 
 const PostDisplayContainer: FC<PostDisplayContainerType> = ({
+  profile_path,
   author_username,
   created_at,
   cleanBase,
@@ -58,7 +59,8 @@ const PostDisplayContainer: FC<PostDisplayContainerType> = ({
       created_at={created_at}
       cleanBase={cleanBase}
       cleanDescription={cleanDescription}
-      handleRevealDescription={revealDescription} />
+      handleRevealDescription={revealDescription}
+      profile_path={profile_path} />
   )
 }
 

@@ -11,13 +11,15 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   const { supabase } = res
 
+  const id = ctx.query['post-id']
+
   const {
     data: postBaseData,
     error: postBaseError
   } = await supabase
     .from("post_base")
-    .select('is_published, post_content, created_at, author_username')
-    .eq('id', ctx.query['post-id'])
+    .select('is_published, post_content, created_at, author_username, profile_path')
+    .eq('id', id)
     .order("created_at")
 
   const {
@@ -26,7 +28,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = await supabase
     .from("post_description")
     .select('post_content')
-    .eq('post_id', ctx.query['post-id'])
+    .eq('post_id', id)
 
   if(postBaseError || postDescriptionError || !postBaseData || !postDescriptionData) {
     console.log({
@@ -44,6 +46,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 }
 
 export type PostBaseType = {
+  profile_path: string
   author_username: string | null
   created_at: string | null;
   post_content: string;
