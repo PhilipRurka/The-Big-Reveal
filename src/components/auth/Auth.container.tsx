@@ -171,7 +171,7 @@ const AuthContainer: FC<AuthPageType> = ({
       data,
       error: resError
     } = await supabaseClient.auth.resetPasswordForEmail(emailRef.current.value ?? '', {
-      redirectTo: getRedirectURL('reset-password'),
+      redirectTo: getRedirectURL('reset-password')
     })
 
     const error = resError as ResType
