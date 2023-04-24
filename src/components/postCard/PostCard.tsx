@@ -12,7 +12,7 @@ const PostCard: FC<PostCardType> = ({
   id,
   date,
   username,
-  title
+  title,
 }) => {
   return (
     <PostCardWrapper href={`/post/${id}`} >
@@ -21,7 +21,7 @@ const PostCard: FC<PostCardType> = ({
         { username }
       </Author>
       <Date>
-        { dayjs(date).format('D MMM YYYY, h:ss a') }
+        { date }
       </Date>
     </PostCardWrapper>
   )

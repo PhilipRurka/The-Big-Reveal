@@ -17,7 +17,7 @@ import {
   CopyConfirmationContainer,
   InformationStatsContainer
 } from "./YourSpace.styled";
-import PostCardList from "../postCardList/PostCardList";
+import PostCardList from "../postCardList";
 import { YourSpaceDataType } from "../../../pages/your-space";
 
 type YourSpaceType = {

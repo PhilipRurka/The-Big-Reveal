@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { PostCardListWrapper } from "./PostCardList.styled";
-import PostCard from "../postCard/PostCard";
+import PostCard from "../postCard";
 import { FeedListPropsType } from "../feed/Feed";
 
 const PostCardList: FC<FeedListPropsType> = ({ list }) => {
