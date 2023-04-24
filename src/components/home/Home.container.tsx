@@ -2,8 +2,6 @@ import { FC } from "react"
 import Home from "./Home"
 
 const staticHookCopy = {
-  author_username: 'Philip Rurka',
-  created_at: 'Sometime ago!',
   cleanBase: `
     <h1 style="text-align: center;">The Great Reveal!</h1>
     <p style="text-align: center;">

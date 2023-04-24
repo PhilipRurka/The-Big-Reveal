@@ -4,7 +4,8 @@ import { CleanContentType } from "./CleanContent.container";
 const CleanContent: FC<CleanContentType> = ({ content }) => (
   <div
     style={{
-      display: 'inline-block'
+      display: 'inline-block',
+      width: '100%'
     }}
     dangerouslySetInnerHTML={{ __html: content }} />
 )
