@@ -55,6 +55,7 @@ const PostDisplayContainer: FC<PostDisplayContainerType> = ({
   }, [initGsap])
 
   useEffect(() => {
+    if(!rawDate) return
     setDate(dayjs(rawDate).format('D MMM YYYY, h:ss a'))
   }, [rawDate])
 
