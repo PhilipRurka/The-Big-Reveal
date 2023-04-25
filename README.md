@@ -230,3 +230,71 @@ If you see anything you don't like in terms of ... well any thing, bring it up. 
 &nbsp;
 ## Have fun!
 The ultimate purpose of this project is to learn, share and have fun!
+
+&nbsp;
+
+&nbsp;
+# For Developers
+This section is for the developers to drop some helpful information
+
+---
+&nbsp;
+## SQL Queries Constraints
+
+---
+&nbsp;
+### Display list of all check constraints
+To list out every `c` (check) constraints on all tables, drop the following in your Supabase `SQL Editor`.
+```
+select pgc.conname as constraint_name,
+  ccu.table_schema as table_schema,
+  ccu.table_name,
+  ccu.column_name,
+  pg_get_constraintdef(pgc.oid) 
+from pg_constraint pgc
+  join pg_namespace nsp on nsp.oid = pgc.connamespace
+  join pg_class  cls on pgc.conrelid = cls.oid
+  left join information_schema.constraint_column_usage ccu
+    on pgc.conname = ccu.constraint_name
+    and nsp.nspname = ccu.constraint_schema
+where contype ='c'
+order by ccu.table_name;
+```
+
+---
+&nbsp;
+### Create a new check constraint
+if you want to add one. Here is an example
+```
+alter table public.profiles
+  add constraint full_name_formating 
+  check (full_name ~* '^[A-Za-z\s]*$' );
+```
+`public.profiles` being the name of the table
+
+`full_name_formating` being the name of the check contstraint
+
+---
+&nbsp;
+### Remove check constraint
+Here is how you can remove a paticular check constraint. Here is an example
+```
+ALTER TABLE public.profiles
+  DROP CONSTRAINT full_name_length
+```
+`public.profiles` being the name of the table
+
+`full_name_length` being the name of the constraint
+
+---
+&nbsp;
+### Update check constraint
+Here is how you can update a paticular check constraint. Here is an example
+```
+ALTER TABLE public.profiles
+  DROP CONSTRAINT full_name_length
+, ADD  CONSTRAINT full_name_length CHECK (char_length(full_name) = 1);
+```
+`public.profiles` being the name of the table
+
+`full_name_length` being the name of the constraint
