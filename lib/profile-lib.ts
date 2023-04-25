@@ -16,6 +16,8 @@ type ErrorContentType = {
   status: number
 }
 
+type ValidationType = (value: string) => boolean
+
 export type UpdateProfileBodyType = {
   fullName: string
   username: string
@@ -63,7 +65,7 @@ export const profileErrorMessages: ProfileErrorMessagesType = {
  * Less then 100 characters
  * Only contains letters and spaces
  */
-export const fullNameValidation = (fullName: string): boolean => {
+export const fullNameValidation: ValidationType = (fullName) => {
   if(fullName.length > 100) return false
 
   const regex =  /^[A-Za-z\s]*$/
@@ -74,7 +76,7 @@ export const fullNameValidation = (fullName: string): boolean => {
  * Less then 100 characters
  * Only contains letters, spaces, numbers and underscores
  */
-export const usernameValidation = (username: string): boolean => {
+export const usernameValidation: ValidationType = (username) => {
   if(username.length > 100) return false
 
   const regex = /^[A-Z0-9 _]*$/
