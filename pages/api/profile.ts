@@ -1,11 +1,17 @@
+/**
+ * Full Names can only contain letters and spaces
+ * Usernames can only contain letters and numbers and spaces
+ */
+
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from '../../src/types/supabase-types'
-
-type UpdateProfileBodyType = {
-  fullName: string
-  username: string
-}
+import {
+  fullNameValidation,
+  profileErrorMessages,
+  UpdateProfileBodyType,
+  usernameValidation
+} from '../../lib/profile-lib'
 
 export default async function ProfileAPI(
   req: NextApiRequest,
@@ -16,7 +22,8 @@ export default async function ProfileAPI(
       return updateProfile(req, res)
 
     default:
-      return res.status(400).send({})
+      return res.status(profileErrorMessages.unrecognizedMethod.status)
+                .send(profileErrorMessages.unrecognizedMethod)
   }
 }
 
@@ -26,16 +33,32 @@ const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) => {
     username
   } = req.body as UpdateProfileBodyType
 
-  if(!username) {
-    return res.status(500).send({message: 'Something went wrong. Refresh and try again!'})
-  }
+  const {
+    missingUsername,
+    unauthorized,
+    usernameAlreadyExists,
+    dataIssue,
+    fullNameIssue,
+    usernameIssue
+  } = profileErrorMessages
 
   const supabase = createServerSupabaseClient<Database>({req, res})
   const { data: { session } } = await supabase.auth.getSession()
 
+  /** Start Error Block */
   if(!supabase || !session) {
-    return res.status(403).send({message: 'Something went wrong. Refresh and try again!'})
+    return res.status(unauthorized.status).send(unauthorized)
+    
+  } else if(!username) {
+    return res.status(missingUsername.status).send(missingUsername)
+
+  } else if(!fullNameValidation(fullName)) {
+    return res.status(fullNameIssue.status).send(fullNameIssue)
+
+  } else if(username && !usernameValidation(username)) {
+    return res.status(usernameIssue.status).send(usernameIssue)
   }
+  /** End Error Block */
 
   const path = username.toLowerCase().replaceAll(/ /g, '-')
 
@@ -56,12 +79,20 @@ const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) => {
     })
     .eq('user_id', session.user.id)
 
+  /** Start Error Block */
   if(profileError?.code === '23505') {
-    return res.status(500).send({message: 'This username already exists'})
+    return res.status(usernameAlreadyExists.status).send(usernameAlreadyExists)
     
   } else if(profileError || postBaseError) {
-    return res.status(405).send({message: 'Something went wrong. Refresh and try again!'})
+    return res.status(dataIssue.status).send({
+      ...dataIssue,
+      dataError: {
+        profileError,
+        postBaseError
+      }
+    })
   }
+  /** End Error Block */
 
   return res.status(200).send({message: 'Your profile has been updated!'})
 }
