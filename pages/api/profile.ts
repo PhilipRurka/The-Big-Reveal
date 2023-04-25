@@ -1,8 +1,3 @@
-/**
- * Full Names can only contain letters and spaces
- * Usernames can only contain letters and numbers and spaces
- */
-
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from '../../src/types/supabase-types'
