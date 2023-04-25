@@ -1,12 +1,6 @@
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Database } from '../../src/types/supabase-types'
-import {
-  fullNameValidation,
-  profileErrorMessages,
-  UpdateProfileBodyType,
-  usernameValidation
-} from '../../lib/profile-lib'
+import { profileErrorMessages } from '../../lib/profileAPI/post/profile.utils'
+import { updateProfile } from '../../lib/profileAPI/post/profile.post'
 
 export default async function ProfileAPI(
   req: NextApiRequest,
@@ -20,74 +14,4 @@ export default async function ProfileAPI(
       return res.status(profileErrorMessages.unrecognizedMethod.status)
                 .send(profileErrorMessages.unrecognizedMethod)
   }
-}
-
-const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) => {
-  const {
-    fullName,
-    username
-  } = req.body as UpdateProfileBodyType
-
-  const {
-    missingUsername,
-    unauthorized,
-    usernameAlreadyExists,
-    dataIssue,
-    fullNameIssue,
-    usernameIssue
-  } = profileErrorMessages
-
-  const supabase = createServerSupabaseClient<Database>({req, res})
-  const { data: { session } } = await supabase.auth.getSession()
-
-  /** Start Error Block */
-  if(!supabase || !session) {
-    return res.status(unauthorized.status).send(unauthorized)
-    
-  } else if(!username) {
-    return res.status(missingUsername.status).send(missingUsername)
-
-  } else if(!fullNameValidation(fullName)) {
-    return res.status(fullNameIssue.status).send(fullNameIssue)
-
-  } else if(username && !usernameValidation(username)) {
-    return res.status(usernameIssue.status).send(usernameIssue)
-  }
-  /** End Error Block */
-
-  const path = username.toLowerCase().replaceAll(/ /g, '-')
-
-  const { error: profileError } = await supabase
-    .from('profiles')
-    .update({
-      full_name: fullName,
-      username: username,
-      path
-    })
-    .eq('id', session.user.id)
-
-  const { error: postBaseError } = await supabase
-    .from('post_base')
-    .update({
-      author_username: username,
-      profile_path: path
-    })
-    .eq('user_id', session.user.id)
-
-  /** Start Error Block */
-  if(profileError?.code === '23505') {
-    return res.status(usernameAlreadyExists.status).send(usernameAlreadyExists)
-    
-  } else if(profileError || postBaseError) {
-    return res.status(dataIssue.status).send({
-      ...dataIssue,
-      dataError: {
-        profileError,
-        postBaseError
-      }
-    })
-  }
-  /** End Error Block */
-
-  return res.status(200).send({message: 'Your profile has been updated!'})
 }

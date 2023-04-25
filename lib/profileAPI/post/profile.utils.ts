@@ -53,8 +53,8 @@ export const profileErrorMessages: ProfileErrorMessagesType = {
     status: 400
   },
   usernameIssue: {
-    logMessage: 'The username is either longer then 100 or contains invalid characters',
-    message:    'Username has to be less then 100 characters long and only contain letters, spaces, numbers and underscores',
+    logMessage: 'The username is either shorter then 3 or longer then 100 or contains invalid characters',
+    message:    'Username has to be between 3 and 100 characters long and only contain letters, spaces, numbers and underscores',
     status: 400
   }
 }
@@ -71,12 +71,12 @@ export const fullNameValidation: ValidationType = (fullName) => {
 }
 
 /**
- * Less then 100 characters
+ * More then 3 and less then 100 characters
  * Only contains letters, spaces, numbers and underscores
  */
 export const usernameValidation: ValidationType = (username) => {
-  if(username.length > 100) return false
+  if(3 > username.length || username.length > 100) return false
 
-  const regex = /^[A-Z0-9 _]*$/
+  const regex = /^[0-9A-Za-z\s\_]+$/
   return regex.test(username)
 }
