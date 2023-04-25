@@ -1,5 +1,3 @@
-import { NextApiResponse } from "next"
-
 type ProfileErrorMessagesType = {
   unrecognizedMethod:     ErrorContentType
   missingUsername:        ErrorContentType
