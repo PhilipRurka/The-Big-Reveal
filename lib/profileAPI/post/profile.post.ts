@@ -52,6 +52,16 @@ export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) 
     })
     .eq('id', session.user.id)
 
+    if(profileError?.code === '23505') {
+      return res.status(usernameAlreadyExists.status).send(usernameAlreadyExists)
+      
+    } else if(profileError) {
+    return res.status(dataIssue.status).send({
+      ...dataIssue,
+      dataError: { profileError }
+    })
+  }
+
   const { error: postBaseError } = await supabase
     .from('post_base')
     .update({
@@ -61,16 +71,10 @@ export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) 
     .eq('user_id', session.user.id)
 
   /** Start Error Block */
-  if(profileError?.code === '23505') {
-    return res.status(usernameAlreadyExists.status).send(usernameAlreadyExists)
-    
-  } else if(profileError || postBaseError) {
+  if(postBaseError) {
     return res.status(dataIssue.status).send({
       ...dataIssue,
-      dataError: {
-        profileError,
-        postBaseError
-      }
+      dataError: { postBaseError }
     })
   }
   /** End Error Block */
