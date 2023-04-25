@@ -153,7 +153,7 @@ Version: v19.0.0
 You can have your projects .nvmrc file automatically install or change. That way you won't have to make any adjustments to your node version when CD'ing into a project that contains a .nvmrc (Like this project for example).
 All you must do is add this to your `bash_profile` or `.zshrc`.
 
-```
+``` Shell
 # Changes node version depending on the project
 autoload -U add-zsh-hook
 load-nvmrc() {
@@ -245,7 +245,7 @@ This section is for the developers to drop some helpful information
 &nbsp;
 ### Display list of all check constraints
 To list out every `c` (check) constraints on all tables, drop the following in your Supabase `SQL Editor`.
-```
+``` SQL
 select pgc.conname as constraint_name,
   ccu.table_schema as table_schema,
   ccu.table_name,
@@ -264,23 +264,30 @@ order by ccu.table_name;
 ---
 &nbsp;
 ### Create a new check constraint
-if you want to add one. Here is an example
-```
+If you want to add one. Here is an example
+``` SQL
 alter table public.profiles
   add constraint full_name_formating 
-  check (full_name ~* '^[A-Za-z\s]*$' );
+  check (full_name ~* '^[A-Za-z\s]*$');
 ```
+To create multiple conditions for one check constraint refer to this example
+``` SQL
+alter table public.profiles
+  add constraint username_length
+  check ((char_length(username) >= 3 ) and (char_length(username) < 100));
+```
+
 `public.profiles` being the name of the table
 
-`full_name_formating` being the name of the check contstraint
+`full_name_formating` & `username_length` being the name of the check contstraint
 
 ---
 &nbsp;
 ### Remove check constraint
 Here is how you can remove a paticular check constraint. Here is an example
-```
-ALTER TABLE public.profiles
-  DROP CONSTRAINT full_name_length
+``` SQL
+alter table public.profiles
+  drop constraint full_name_length
 ```
 `public.profiles` being the name of the table
 
@@ -290,10 +297,10 @@ ALTER TABLE public.profiles
 &nbsp;
 ### Update check constraint
 Here is how you can update a paticular check constraint. Here is an example
-```
-ALTER TABLE public.profiles
-  DROP CONSTRAINT full_name_length
-, ADD  CONSTRAINT full_name_length CHECK (char_length(full_name) = 1);
+``` SQL
+alter table public.profiles
+  drop constraint full_name_length
+, add  constraint full_name_length CHECK (char_length(full_name) < 100);
 ```
 `public.profiles` being the name of the table
 
