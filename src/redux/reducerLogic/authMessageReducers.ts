@@ -9,6 +9,7 @@ import {
   DefinedStatusMessageStateType,
 } from "../types/authMessageRedux.type"
 import { StatusMessageTypesEnum } from "../../components/FormMessage/FormMessage.container"
+import { profileErrorMessages } from "../../../lib/profileAPI/post/profile.utils"
 
 export const statusMessage = {
   reducer(state: StatusMessageStateType, action: PayloadAction<StatusMessageStateType>) {
@@ -52,6 +53,12 @@ export const statusMessage = {
 
       } else if(type === StatusMessageTypesEnum.SUCCESS) {
         messagesObj.defaultMessage = 'A registration has been sent to ${}'
+
+      } else if(message?.includes('username_formating')) {
+        messagesObj.defaultMessage = profileErrorMessages.usernameIssue.message
+
+      } else if(message?.includes('profiles_path_key')) {
+        messagesObj.defaultMessage = profileErrorMessages.usernameAlreadyExists.message
       }
 
     } else if(source === RouterQueryEnum.FORGOT_PASSWORD) {

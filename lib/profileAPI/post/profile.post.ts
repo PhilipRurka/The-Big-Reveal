@@ -10,7 +10,7 @@ import { Database } from '../../../src/types/supabase-types'
 
 export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) => {
   const {
-    fullName,
+    full_name,
     username
   } = req.body as UpdateProfileBodyType
 
@@ -33,7 +33,7 @@ export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) 
   } else if(!username) {
     return res.status(missingUsername.status).send(missingUsername)
 
-  } else if(fullName && !fullNameValidation(fullName)) {
+  } else if(full_name && !fullNameValidation(full_name)) {
     return res.status(fullNameIssue.status).send(fullNameIssue)
 
   } else if(!usernameValidation(username)) {
@@ -46,8 +46,8 @@ export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) 
   const { error: profileError } = await supabase
     .from('profiles')
     .update({
-      full_name: fullName,
-      username: username,
+      full_name,
+      username,
       path
     })
     .eq('id', session.user.id)
