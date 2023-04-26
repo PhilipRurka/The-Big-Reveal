@@ -40,10 +40,10 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
   } else if(titleArrayLength >= 3) {
     return res.status(multipleHeading1.status).send(multipleHeading1)
 
-  } else if(postBaseContent.length > 1000) {
+  } else if(postBaseContent.length > 10000) {
     return res.status(baseTooLong.status).send(baseTooLong)
 
-  } else if(postDescriptionContent && postDescriptionContent.length > 1000) {
+  } else if(postDescriptionContent && postDescriptionContent.length > 10000) {
     return res.status(descriptionTooLong.status).send(descriptionTooLong)
   }
   /** End Error Block */
@@ -51,8 +51,6 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
   let title = formatTitle(postBaseContent)
 
   const baseId = uuidv4()
-  
-  console.log(baseId)
 
   const { error: baseError } = await supabase
   .from('post_base')

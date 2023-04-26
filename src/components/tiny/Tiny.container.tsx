@@ -14,7 +14,7 @@ const TinyContainer: FC<TinyType> = ({
   const onInit = (_: unknown, editor: Editor) => { tinyRef.current = editor }
 
   const handleChange = useCallback((value: string) => {
-    console.log(value)
+    console.log(value.length)
   }, [])
 
   return (
