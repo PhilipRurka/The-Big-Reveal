@@ -15,12 +15,13 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = res
 
   const {
-    data: profileDataArray,
+    data: profileData,
     error
   } = await supabase
     .from('profiles')
     .select('username, full_name')
     .eq('id', session.user.id)
+    .single()
 
   if(error) {
     console.log(error)
@@ -30,7 +31,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }
 
   return { props: {
-    profileData: profileDataArray[0]
+    profileData
   }}
 }
 
