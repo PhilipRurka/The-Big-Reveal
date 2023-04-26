@@ -1,3 +1,5 @@
+import { Database } from "../../../src/types/supabase-types"
+
 type ProfileErrorMessagesType = {
   unrecognizedMethod:     ErrorContentType
   missingUsername:        ErrorContentType
@@ -16,10 +18,7 @@ type ErrorContentType = {
 
 type ValidationType = (value: string) => boolean
 
-export type UpdateProfileBodyType = {
-  fullName: string
-  username: string
-}
+export type UpdateProfileBodyType = Database['public']['Tables']['profiles']['Row']
 
 export const profileErrorMessages: ProfileErrorMessagesType = {
   unrecognizedMethod: {

@@ -1,13 +1,13 @@
-import { FC, FormEvent, MutableRefObject, useCallback, useRef, useState } from "react"
+import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useRef, useState } from "react"
 import NewPost from "./NewPost"
 import { useSupabaseClient } from "@supabase/auth-helpers-react"
 import { Database } from "../../types/supabase-types"
-import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container";
 import { NewPostPageType } from "../../../pages/new-post";
+import axios from "axios"
 
 const NewPostContainer: FC<NewPostPageType> = ({
   username,
@@ -36,86 +36,47 @@ const NewPostContainer: FC<NewPostPageType> = ({
       return
     }
 
-    const publicId = uuidv4()
     const postBaseContent = baseRef.current.getContent()
     const postDescriptionContent = descriptionRef.current?.getContent() || null
 
-    let titleArrayLength: number = postBaseContent.split('<h1').length
-    if(titleArrayLength === 1 ) {
-      triggerErrorMessage('Your poem requires a "Heading 1"')
-      return
-
-    } else if(titleArrayLength > 2) {
-      triggerErrorMessage('You can only have one "Heading 1"')
-      return
-    }
-    
-    let title = postBaseContent.split('</h1>')[0]
-    title = title.replace('>', '')
-    title = title.replace(/<h1 [A-Za-z0-9]+="[^"]*"/g, '')
-    title = title.replace(/<h1/g, '')
-    title = title.replaceAll(/<span [A-Za-z0-9]+="[^"]*">/g, '').replaceAll('</span>', '')
-    title = title.replaceAll('<strong>', '').replaceAll('</strong>', '')
-    title = title.replaceAll('<em>', '').replaceAll('</em>', '')
-
-    const { data, error: baseError } = await supabaseClient
-      .from('post_base')
-      .insert([{
-        id: publicId,
+    axios.put('/api/post', {
+      base: {
         author_username: username,
-        post_title: title,
-        tags: null,
-        enable_reveal_date: null,
-        enable_reveal: null,
-        allow_published_at: null,
-        written_at: null,
-        is_published: false,
         post_content: postBaseContent,
         profile_path
-      }])
-      .select('id')
-
-    if(!data || baseError) {
-      triggerErrorMessage('Something went wrong on the server side of things. Try again!')
-      return
-    }
-
-    if(!mountedRef) return
-
-    const { data: _, error: descriptionError } = await supabaseClient
-      .from('post_description')
-      .insert([{
-        id: uuidv4(), 
-        post_id: data[0].id,
+      },
+      description: {
         post_content: postDescriptionContent
-      }])
+      }
+    })
+    .then(({ data: { id }}) => {
+      if(!mountedRef) return
 
-    if(descriptionError) {
-      triggerErrorMessage('Something went wrong on the server side of things. Try again!')
-      return
-    }
+      dispatch(update_toaster({
+        title: 'New post',
+        subtitle: 'Click here to view it.',
+        to: `/post/${id}`
+      }))
 
-    if(!mountedRef) return
+      baseRef.current?.setContent('')
+      descriptionRef.current?.setContent('')
 
-    dispatch(update_toaster({
-      title: 'New post',
-      subtitle: 'Click here to view it.',
-      to: `/post/${publicId}`
-    }))
-
-    baseRef.current.setContent('')
-    descriptionRef.current?.setContent('')
+    })
+    .catch(({ response: { data: { message }}}) => {
+      triggerErrorMessage(message)
+    })    
     
     setShowMessage(false)
     setTimeout(() => {
       setErrorMessage('')
     }, 300)
+  }, [username, profile_path, dispatch, supabaseClient])
 
-
+  useEffect(() => {
     return () => {
       mountedRef.current = false
     }
-  }, [username, profile_path, dispatch, supabaseClient])
+  }, [])
 
   return (
     <NewPost

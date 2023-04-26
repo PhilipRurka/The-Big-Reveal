@@ -1,4 +1,4 @@
-import { FC, FormEvent, useCallback, useMemo, useRef, useState } from "react"
+import { FC, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ProfilePageType } from "../../../pages/profile"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
@@ -74,7 +74,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
     event.preventDefault()
 
     axios.post('/api/profile', {
-      fullName,
+      full_name: fullName,
       username,
     })
     .then(({ data: {
@@ -100,10 +100,6 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
         type: StatusMessageTypesEnum.ERROR
       })
     })
-
-    return () => {
-      mountedRef.current = false
-    }
   }, [fullName, username, triggerFormMessage])
 
   const hasChangeOccured: boolean = useMemo(() => {
@@ -113,6 +109,12 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
 
     return false
   }, [originalInputs, username, fullName])
+
+  useEffect(() => {
+    return () => {
+      mountedRef.current = false
+    }
+  }, [])
 
   return (
     <Profile
