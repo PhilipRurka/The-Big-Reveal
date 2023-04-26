@@ -16,8 +16,6 @@ type ErrorContentType = {
   status: number
 }
 
-type ValidationType = (value: string) => boolean
-
 export type UpdatePostBodyType = {
   base: Database['public']['Tables']['post_base']['Row']
   description: Database['public']['Tables']['post_description']['Row']
@@ -59,4 +57,15 @@ export const postErrorMessages: PostProfileErrorMessagesType = {
     message:    'Something went wrong. Refresh and try again!',
     status: 400
   },
+}
+
+export const formatTitle = (rawTitle: string): string => {
+  let title = rawTitle.split('</h1>')[0]
+  title = title.replace('>', '')
+  title = title.replace(/<h1 [A-Za-z0-9]+="[^"]*"/g, '')
+  title = title.replace(/<h1/g, '')
+  title = title.replaceAll(/<span [A-Za-z0-9]+="[^"]*">/g, '').replaceAll('</span>', '')
+  title = title.replaceAll('<strong>', '').replaceAll('</strong>', '')
+  title = title.replaceAll('<em>', '').replaceAll('</em>', '')
+  return title
 }
