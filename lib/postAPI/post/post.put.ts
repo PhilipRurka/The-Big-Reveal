@@ -1,7 +1,7 @@
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from '../../../src/types/supabase-types'
-import { UpdatePostBodyType, postErrorMessages } from './post.utils'
+import { UpdatePostBodyType, formatTitle, postErrorMessages } from './post.utils'
 import { v4 as uuidv4 } from 'uuid';
 
 export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => {
@@ -48,13 +48,7 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
   }
   /** End Error Block */
   
-  let title = postBaseContent.split('</h1>')[0]
-  title = title.replace('>', '')
-  title = title.replace(/<h1 [A-Za-z0-9]+="[^"]*"/g, '')
-  title = title.replace(/<h1/g, '')
-  title = title.replaceAll(/<span [A-Za-z0-9]+="[^"]*">/g, '').replaceAll('</span>', '')
-  title = title.replaceAll('<strong>', '').replaceAll('</strong>', '')
-  title = title.replaceAll('<em>', '').replaceAll('</em>', '')
+  let title = formatTitle(postBaseContent)
 
   const baseId = uuidv4()
   
