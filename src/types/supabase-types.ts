@@ -12,7 +12,6 @@ export interface Database {
       post_base: {
         Row: {
           allow_published_at: string | null
-          author_username: string | null
           created_at: string | null
           enable_reveal: boolean | null
           enable_reveal_date: string | null
@@ -20,7 +19,6 @@ export interface Database {
           is_published: boolean
           post_content: string
           post_title: string
-          profile_path: string
           tags: string | null
           updated_at: string | null
           user_id: string | null
@@ -28,15 +26,13 @@ export interface Database {
         }
         Insert: {
           allow_published_at?: string | null
-          author_username?: string | null
           created_at?: string | null
           enable_reveal?: boolean | null
           enable_reveal_date?: string | null
-          id: string
+          id?: string
           is_published?: boolean
           post_content: string
           post_title?: string
-          profile_path?: string
           tags?: string | null
           updated_at?: string | null
           user_id?: string | null
@@ -44,7 +40,6 @@ export interface Database {
         }
         Update: {
           allow_published_at?: string | null
-          author_username?: string | null
           created_at?: string | null
           enable_reveal?: boolean | null
           enable_reveal_date?: string | null
@@ -52,7 +47,6 @@ export interface Database {
           is_published?: boolean
           post_content?: string
           post_title?: string
-          profile_path?: string
           tags?: string | null
           updated_at?: string | null
           user_id?: string | null
@@ -67,7 +61,7 @@ export interface Database {
           user_id: string | null
         }
         Insert: {
-          id: string
+          id?: string
           post_content?: string | null
           post_id: string
           user_id?: string | null
@@ -83,27 +77,33 @@ export interface Database {
         Row: {
           avatar_url: string | null
           full_name: string | null
+          full_name: string | null
           id: string
           path: string | null
           updated_at: string | null
+          username: string | null
           username: string | null
           website: string | null
         }
         Insert: {
           avatar_url?: string | null
           full_name?: string | null
+          full_name?: string | null
           id: string
           path?: string | null
           updated_at?: string | null
+          username?: string | null
           username?: string | null
           website?: string | null
         }
         Update: {
           avatar_url?: string | null
           full_name?: string | null
+          full_name?: string | null
           id?: string
           path?: string | null
           updated_at?: string | null
+          username?: string | null
           username?: string | null
           website?: string | null
         }
@@ -113,7 +113,20 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      insert_base_and_description: {
+        Args: {
+          post_title: string
+          tags: string
+          enable_reveal_date: string
+          enable_reveal: boolean
+          allow_published_at: string
+          written_at: string
+          is_published: boolean
+          base_content: string
+          description_content: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
