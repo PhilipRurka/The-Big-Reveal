@@ -1,7 +1,5 @@
 import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useRef, useState } from "react"
 import NewPost from "./NewPost"
-import { useSupabaseClient } from "@supabase/auth-helpers-react"
-import { Database } from "../../types/supabase-types"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
@@ -21,7 +19,6 @@ const NewPostContainer: FC<NewPostPageType> = ({
   const [showMessage, setShowMessage] = useState(false)
 
   const dispatch = useAppDispatch()
-  const supabaseClient = useSupabaseClient<Database>()
 
   const triggerErrorMessage = (message: string) => {
     setErrorMessage(message)
@@ -70,7 +67,7 @@ const NewPostContainer: FC<NewPostPageType> = ({
     setTimeout(() => {
       setErrorMessage('')
     }, 300)
-  }, [username, profile_path, dispatch, supabaseClient])
+  }, [username, profile_path, dispatch])
 
   useEffect(() => {
     return () => {
