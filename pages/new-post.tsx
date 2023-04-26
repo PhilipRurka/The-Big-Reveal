@@ -21,6 +21,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .from('profiles')
     .select('username, path')
     .eq('id', session.user.id)
+    .single()
 
   if(error) {
     console.log(error)
@@ -28,8 +29,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }
 
   return { props: {
-    username: data[0].username,
-    profile_path: data[0].path
+    username: data.username,
+    profile_path: data.path
   }}
 
   return {props: {}}
