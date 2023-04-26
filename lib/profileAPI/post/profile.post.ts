@@ -62,22 +62,5 @@ export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) 
     })
   }
 
-  const { error: postBaseError } = await supabase
-    .from('post_base')
-    .update({
-      author_username: username,
-      profile_path: path
-    })
-    .eq('user_id', session.user.id)
-
-  /** Start Error Block */
-  if(postBaseError) {
-    return res.status(dataIssue.status).send({
-      ...dataIssue,
-      dataError: { postBaseError }
-    })
-  }
-  /** End Error Block */
-
   return res.status(200).send({message: 'Your profile has been updated!'})
 }

@@ -52,11 +52,7 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
 
   const baseId = uuidv4()
 
-  const { error: baseError } = await supabase
-  .from('post_base')
-  .insert([{
-    id: baseId,
-    author_username: author_username,
+  const { error } = await supabase.rpc('insert_base_and_description', {
     post_title: title,
     tags: null,
     enable_reveal_date: null,
@@ -64,33 +60,17 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
     allow_published_at: null,
     written_at: null,
     is_published: true,
-    post_content: postBaseContent,
-    profile_path
-  }])
+    base_content: postBaseContent,
+    description_content: postDescriptionContent
+  })
 
-  if(baseError) {
+  if(error) {
+    console.log(error)
     return res.status(dataIssue.status).send({
       ...dataIssue,
-      dataError: { baseError }
+      dataError: { error }
     })
   }
-
-  const { error: descriptionError } = await supabase
-  .from('post_description')
-  .insert([{
-    id: uuidv4(),
-    post_id: baseId,
-    post_content: postDescriptionContent
-  }])
-
-  /** Start Error Block */
-  if(descriptionError) {
-    return res.status(dataIssue.status).send({
-      ...dataIssue,
-      dataError: { descriptionError }
-    })
-  }
-  /** End Error Block */
 
   return res.status(200).send({ id: baseId })
 }
