@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from '../../../src/types/supabase-types'
 import { UpdatePostBodyType, formatTitle, postErrorMessages } from './post.utils'
 import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
 
 export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => {
   const {
@@ -52,16 +53,18 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
 
   const baseId = uuidv4()
 
+  const now = dayjs().toISOString()
+
   const { error } = await supabase.rpc('insert_base_and_description', {
     post_title: title,
-    tags: null,
-    enable_reveal_date: null,
-    enable_reveal: null,
-    allow_published_at: null,
-    written_at: null,
+    enable_reveal: true,
     is_published: true,
+    tags: '',
+    enable_reveal_date: now,
+    allow_published_at: now,
+    written_at: now,
     base_content: postBaseContent,
-    description_content: postDescriptionContent
+    description_content: postDescriptionContent || ''
   })
 
   if(error) {
