@@ -8,9 +8,7 @@ import dayjs from 'dayjs';
 export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => {
   const {
     base: {
-      author_username,
-      post_content: postBaseContent,
-      profile_path
+      post_content: postBaseContent
     },
     description: {
       post_content: postDescriptionContent,
