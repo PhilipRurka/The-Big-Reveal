@@ -4,8 +4,9 @@ import { Database } from '../../../src/types/supabase-types'
 import { UpdatePostBodyType, formatTitle, postErrorMessages } from './post.utils'
 import { v4 as uuidv4 } from 'uuid';
 import dayjs from 'dayjs';
+import { generalErrorMessages } from '../../generalErrors';
 
-export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => {
+export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     base: {
       post_content: postBaseContent
@@ -17,11 +18,14 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
 
   const {
     unauthorized,
+    dataIssue
+  } = generalErrorMessages
+
+  const {
     missingHeading1,
     multipleHeading1,
     baseTooLong,
-    descriptionTooLong,
-    dataIssue
+    descriptionTooLong
   } = postErrorMessages
 
   const titleArrayLength: number = postBaseContent.split('<h1').length
@@ -65,6 +69,7 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
     description_content: postDescriptionContent || ''
   })
 
+  /** Start Error Block */
   if(error) {
     console.log(error)
     return res.status(dataIssue.status).send({
@@ -72,6 +77,7 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
       dataError: { error }
     })
   }
+  /** End Error Block */
 
   return res.status(200).send({ id: baseId })
 }

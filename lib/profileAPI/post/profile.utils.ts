@@ -1,11 +1,8 @@
 import { Database } from "../../../src/types/supabase-types"
 
 type ProfileErrorMessagesType = {
-  unrecognizedMethod:     ErrorContentType
   missingUsername:        ErrorContentType
-  unauthorized:           ErrorContentType
   usernameAlreadyExists:  ErrorContentType
-  dataIssue:              ErrorContentType
   fullNameIssue:          ErrorContentType
   usernameIssue:          ErrorContentType
 }
@@ -21,29 +18,14 @@ type ValidationType = (value: string) => boolean
 export type UpdateProfileBodyType = Database['public']['Tables']['profiles']['Row']
 
 export const profileErrorMessages: ProfileErrorMessagesType = {
-  unrecognizedMethod: {
-    logMessage: 'The method requested is not an option',
-    message:    'This is a bug, please notify the owner of the project',
-    status: 400
-  },
   missingUsername: {
     logMessage: 'There is missing a username',
     message:    'A username must be defined',
     status: 404
   },
-  unauthorized: {
-    logMessage: 'Either the supabase or session is undefined',
-    message:    'Something went wrong. Refresh and try again!',
-    status: 403
-  },
   usernameAlreadyExists: {
     logMessage: 'The username the user attempted to use is already taken',
     message:    'This username already exists',
-    status: 400
-  },
-  dataIssue: {
-    logMessage: 'An error has occured on either the profile or post_base update request',
-    message:    'Something went wrong. Refresh and try again!',
     status: 400
   },
   fullNameIssue: {

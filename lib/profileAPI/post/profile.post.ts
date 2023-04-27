@@ -7,6 +7,7 @@ import {
   usernameValidation
 } from './profile.utils'
 import { Database } from '../../../src/types/supabase-types'
+import { generalErrorMessages } from '../../generalErrors'
 
 export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) => {
   const {
@@ -15,10 +16,13 @@ export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) 
   } = req.body as UpdateProfileBodyType
 
   const {
-    missingUsername,
     unauthorized,
+    dataIssue
+  } = generalErrorMessages
+
+  const {
+    missingUsername,
     usernameAlreadyExists,
-    dataIssue,
     fullNameIssue,
     usernameIssue
   } = profileErrorMessages

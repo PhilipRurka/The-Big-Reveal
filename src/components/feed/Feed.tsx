@@ -5,13 +5,9 @@ import {
   Title
 } from "./Feed.styled";
 import PostCardList from "../postCardList";
-import { FeedListType } from "./Feed.container";
+import { PostCardListPropsType } from "../postCardList/PostCardList.container";
 
-export type FeedListPropsType = {
-  list: FeedListType
-}
-
-const Feed: FC<FeedListPropsType> = ({
+const Feed: FC<PostCardListPropsType> = ({
   list
 }) => {
   return (
