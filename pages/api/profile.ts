@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { profileErrorMessages } from '../../lib/profileAPI/post/profile.utils'
 import { updateProfile } from '../../lib/profileAPI/post/profile.post'
+import { generalErrorMessages } from '../../lib/generalErrors'
 
 export default async function ProfileAPI(
   req: NextApiRequest,
@@ -11,7 +11,7 @@ export default async function ProfileAPI(
       return updateProfile(req, res)
 
     default:
-      return res.status(profileErrorMessages.unrecognizedMethod.status)
-                .send(profileErrorMessages.unrecognizedMethod)
+      return res.status(generalErrorMessages.unrecognizedMethod.status)
+                .send(generalErrorMessages.unrecognizedMethod)
   }
 }

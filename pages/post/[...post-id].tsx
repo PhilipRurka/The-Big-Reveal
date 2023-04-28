@@ -18,9 +18,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     error: postBaseError
   } = await supabase
     .from("post_base")
-    .select('is_published, post_content, created_at, author_username, profile_path')
+    .select('post_content, created_at, user_id')
     .eq('id', id)
     .order("created_at")
+    .single()
 
   const {
     data: postDescriptionData,
@@ -29,25 +30,36 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .from("post_description")
     .select('post_content')
     .eq('post_id', id)
+    .single()
+  
+  const {
+    data: profileData,
+    error: profileError
+  } = await supabase
+    .from("profiles")
+    .select('username, path')
+    .eq('id', postBaseData?.user_id)
+    .single()
 
-  if(postBaseError || postDescriptionError || !postBaseData || !postDescriptionData) {
+  if(postBaseError || postDescriptionError || !postBaseData || !postDescriptionData || !profileData || profileError) {
     console.log({
       postBaseError,
-      postDescriptionError
+      postDescriptionError,
+      profileError
     })
 
     return { props: {} }
   }
 
   return {props: {
-    postBase: postBaseData[0],
-    postDescription: postDescriptionData[0] || null
+    username: profileData.username,
+    profilePath: profileData.path,
+    postBase: postBaseData,
+    postDescription: postDescriptionData || null
   }}
 }
 
 export type PostBaseType = {
-  profile_path: string
-  author_username: string | null
   created_at: string | null;
   post_content: string;
 }
@@ -57,6 +69,8 @@ export type PostDescriptionType = {
 }
 
 export type PostDataType = {
+  username: string
+  profilePath: string
   postBase: PostBaseType
   postDescription: PostDescriptionType
 }

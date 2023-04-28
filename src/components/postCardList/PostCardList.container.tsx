@@ -1,16 +1,20 @@
 import { FC } from "react"
 import PostCardList from "./PostCardList"
 
-export type PostCardListType = {
-  list: Array<{
-    id: string;
-    created_at: string | null;
-    author_username: string | null;
-    post_title: string;
-  }>
+export type PostCardListType = Array<{
+  id: string
+  created_at: string | null
+  post_title: string
+  profiles: {
+    username: string
+  }
+}> | []
+
+export type PostCardListPropsType = {
+  list: PostCardListType
 }
 
-const PostCardListContainer: FC<PostCardListType> = ({
+const PostCardListContainer: FC<PostCardListPropsType> = ({
   list
 }) => {
   return (

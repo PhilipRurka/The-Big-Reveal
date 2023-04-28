@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { PostCardListWrapper } from "./PostCardList.styled";
 import PostCard from "../postCard";
-import { FeedListPropsType } from "../feed/Feed";
+import { PostCardListPropsType } from "./PostCardList.container";
 
-const PostCardList: FC<FeedListPropsType> = ({ list }) => {
+const PostCardList: FC<PostCardListPropsType> = ({ list }) => {
   return (
     <PostCardListWrapper>
       {list.map((card, i) => (
@@ -11,7 +11,7 @@ const PostCardList: FC<FeedListPropsType> = ({ list }) => {
           key={`PostCardList ${card.post_title} - ${i}`}
           id={card.id}
           date={card.created_at}
-          username={card.author_username}
+          username={card.profiles.username}
           title={card.post_title} />
       ))}
     </PostCardListWrapper>

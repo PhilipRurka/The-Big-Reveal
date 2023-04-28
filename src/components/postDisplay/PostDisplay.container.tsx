@@ -7,8 +7,8 @@ import dayjs from "dayjs"
 type PostDisplayContainerType = PostType
 
 const PostDisplayContainer: FC<PostDisplayContainerType> = ({
-  profile_path,
-  author_username,
+  profilePath,
+  username,
   created_at: rawDate,
   cleanBase,
   cleanDescription
@@ -62,12 +62,12 @@ const PostDisplayContainer: FC<PostDisplayContainerType> = ({
   return (
     <PostDisplay
       ref={descriptioncContentRef}
-      author_username={author_username}
+      username={username}
       created_at={date}
       cleanBase={cleanBase}
       cleanDescription={cleanDescription}
       handleRevealDescription={revealDescription}
-      profile_path={profile_path} />
+      profilePath={profilePath} />
   )
 }
 

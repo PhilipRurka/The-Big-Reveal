@@ -90,7 +90,7 @@ const AuthContainer: FC<AuthPageType> = ({
     if(data) {
       if(data?.session) {
         dispatch(update_userData(data.session))
-        Router.push('dashboard')
+        Router.push('your-space')
   
       } else {
         dispatch(status_message({

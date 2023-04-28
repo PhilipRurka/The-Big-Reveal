@@ -1,10 +1,17 @@
 import { FC } from "react";
 import AuthorPosts from "./AuthorPosts";
-import { FeedListPropsType } from "../feed/Feed";
+import { UserSpaceDataType } from "../../../pages/[...profile-path]";
 
-const AuthorPostsContainer: FC<FeedListPropsType> = ({ list }) => {
+const AuthorPostsContainer: FC<UserSpaceDataType> = ({
+  list,
+  username,
+  host
+}) => {
   return (
-    <AuthorPosts list={list} />
+    <AuthorPosts
+      list={list}
+      username={username}
+      host={host} />
   )
 }
 

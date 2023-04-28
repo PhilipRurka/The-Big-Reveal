@@ -1,4 +1,4 @@
-import { postErrorMessages } from "../../lib/postAPI/post/post.utils";
+import { generalErrorMessages } from "../../lib/generalErrors";
 import { createPost } from "../../lib/postAPI/post/post.put";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -17,7 +17,7 @@ export default async function postAPI(
     //   return updatePost(req, res)
 
     default:
-      return res.status(postErrorMessages.unrecognizedMethod.status)
-                .send(postErrorMessages.unrecognizedMethod)
+      return res.status(generalErrorMessages.unrecognizedMethod.status)
+                .send(generalErrorMessages.unrecognizedMethod)
   }
 }

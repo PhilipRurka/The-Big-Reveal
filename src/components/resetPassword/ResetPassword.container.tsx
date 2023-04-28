@@ -41,7 +41,7 @@ const ResetPasswordContainer = () => {
     }))
 
     if(data?.user) {
-      Router.push('dashboard')
+      Router.push('your-space')
     }
   }, [dispatch, supabaseClient.auth])
 

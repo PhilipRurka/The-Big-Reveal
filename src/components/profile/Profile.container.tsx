@@ -75,7 +75,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
 
     axios.post('/api/profile', {
       full_name: fullName,
-      username,
+      username
     })
     .then(({ data: {
       message

@@ -3,13 +3,13 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from '../../../src/types/supabase-types'
 import { UpdatePostBodyType, formatTitle, postErrorMessages } from './post.utils'
 import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
+import { generalErrorMessages } from '../../generalErrors';
 
-export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => {
+export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     base: {
-      author_username,
-      post_content: postBaseContent,
-      profile_path
+      post_content: postBaseContent
     },
     description: {
       post_content: postDescriptionContent,
@@ -18,11 +18,14 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
 
   const {
     unauthorized,
+    dataIssue
+  } = generalErrorMessages
+
+  const {
     missingHeading1,
     multipleHeading1,
     baseTooLong,
-    descriptionTooLong,
-    dataIssue
+    descriptionTooLong
   } = postErrorMessages
 
   const titleArrayLength: number = postBaseContent.split('<h1').length
@@ -52,42 +55,26 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse ) => 
 
   const baseId = uuidv4()
 
-  const { error: baseError } = await supabase
-  .from('post_base')
-  .insert([{
-    id: baseId,
-    author_username: author_username,
+  const now = dayjs().toISOString()
+
+  const { error } = await supabase.rpc('insert_base_and_description', {
     post_title: title,
-    tags: null,
-    enable_reveal_date: null,
-    enable_reveal: null,
-    allow_published_at: null,
-    written_at: null,
+    enable_reveal: true,
     is_published: true,
-    post_content: postBaseContent,
-    profile_path
-  }])
-
-  if(baseError) {
-    return res.status(dataIssue.status).send({
-      ...dataIssue,
-      dataError: { baseError }
-    })
-  }
-
-  const { error: descriptionError } = await supabase
-  .from('post_description')
-  .insert([{
-    id: uuidv4(),
-    post_id: baseId,
-    post_content: postDescriptionContent
-  }])
+    tags: '',
+    enable_reveal_date: now,
+    allow_published_at: now,
+    written_at: now,
+    base_content: postBaseContent,
+    description_content: postDescriptionContent || ''
+  })
 
   /** Start Error Block */
-  if(descriptionError) {
+  if(error) {
+    console.log(error)
     return res.status(dataIssue.status).send({
       ...dataIssue,
-      dataError: { descriptionError }
+      dataError: { error }
     })
   }
   /** End Error Block */
