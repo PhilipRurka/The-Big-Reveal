@@ -18,19 +18,19 @@ import {
   InformationStatsContainer
 } from "./YourSpace.styled";
 import PostCardList from "../postCardList";
-import { YourSpaceDataType } from "../../../pages/your-space";
+import { PostCardListType } from "../postCardList/PostCardList.container";
 
 type YourSpaceType = {
-  path: string
-  username: string
-  yourWorkList: YourSpaceDataType['baseData']
+  list: PostCardListType
   handleCopy: () => void
+  username: string
+  path: string
 }
 
 const YourSpace: FC<YourSpaceType> = ({
   path,
   username,
-  yourWorkList,
+  list,
   handleCopy
 }) => {
   return (
@@ -41,7 +41,7 @@ const YourSpace: FC<YourSpaceType> = ({
       <ListStatsContainer>
         <YourWorkSection>
           <YourWorkList>
-            <PostCardList list={yourWorkList} />
+            <PostCardList list={list} />
           </YourWorkList>
         </YourWorkSection>
         <InformationStatsSection>

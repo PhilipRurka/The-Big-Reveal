@@ -1,15 +1,13 @@
 import { FC, useCallback, useEffect, useRef } from "react"
 import YourSpace from "./YourSpace"
-import { YourSpaceDataType } from "../../../pages/your-space"
 import gsap from "gsap"
+import { YourSpaceDataType } from "../../../pages/your-space"
 
 const YourSpaceContainer: FC<YourSpaceDataType> = ({
-  profileData: {
-    path,
-    ...profileData
-  },
-  baseData,
-  host
+  list,
+  host,
+  path,
+  username
 }) => {
   const tlCopiedRef = useRef<gsap.core.Timeline>(gsap.timeline({
     paused: true
@@ -47,10 +45,10 @@ const YourSpaceContainer: FC<YourSpaceDataType> = ({
   
   return (
     <YourSpace
-      {...profileData}
+      list={list}
       path={path}
-      yourWorkList={baseData}
-      handleCopy={handleCopy} />
+      handleCopy={handleCopy}
+      username={username} />
   )
 }
 

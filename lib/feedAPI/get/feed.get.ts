@@ -33,8 +33,6 @@ export const selectFeed = async (req: NextApiRequest, res: NextApiResponse) => {
     `)
     .order("created_at", { ascending: false })
 
-    console.log(data)
-
   /** Start Error Block */
   if(error) {
     return res.status(dataIssue.status).send({

@@ -70,7 +70,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   if(session) {
     return {
       redirect: {
-        destination: '/dashboard',
+        destination: '/',
         permanent: false
       }
     }
