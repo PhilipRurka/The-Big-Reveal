@@ -4,7 +4,7 @@ import PostDisplay from "../postDisplay";
 import { PostType } from "../post/Post";
 
 const Home: FC<PostType> = ({
-  author_username,
+  username,
   created_at,
   cleanBase,
   cleanDescription
@@ -12,7 +12,7 @@ const Home: FC<PostType> = ({
   return (
     <HomeWrapper>
       <PostDisplay
-        author_username={author_username}
+        username={username}
         created_at={created_at}
         cleanBase={cleanBase}
         cleanDescription={cleanDescription} />
