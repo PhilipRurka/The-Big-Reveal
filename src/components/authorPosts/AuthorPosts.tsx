@@ -4,13 +4,17 @@ import {
   Title,
 } from "./AuthorPosts.styled";
 import PostCardList from "../postCardList";
-import { FeedListPropsType } from "../feed/Feed";
+import { UserSpaceDataType } from "../../../pages/[...profile-path]";
 
-const AuthorPosts: FC<FeedListPropsType> = ({ list }) => {
+const AuthorPosts: FC<UserSpaceDataType> = ({
+  list,
+  username,
+  host
+}) => {
   return (
     <AuthorPostsWrapper>
       <Title>
-        {`${ list[0].author_username }'s collection`}
+        {`${ username }'s collection`}
       </Title>
       <PostCardList list={list} />
     </AuthorPostsWrapper>

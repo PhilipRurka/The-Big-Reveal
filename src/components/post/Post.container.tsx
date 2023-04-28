@@ -9,14 +9,18 @@ const PostContainer: FC<PostDataType> = ({
   },
   postDescription: {
     post_content: descriptionContent
-  }
+  },
+  username,
+  profilePath
 }) => {
 
   return (
     <Post
       {...postBaseProps}
       cleanBase={baseContent}
-      cleanDescription={descriptionContent} />
+      cleanDescription={descriptionContent}
+      username={username}
+      profilePath={profilePath} />
   )
 }
 

@@ -21,21 +21,21 @@ type PostDisplayType = PostType & {
 type DescriptionSectionRefType = HTMLDivElement
 
 const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
-  author_username,
+  username,
   created_at,
   cleanBase,
   cleanDescription,
   handleRevealDescription,
-  profile_path
+  profilePath
 }, descriptionRef) => {
   return (
     <PostDisplayWrapper>
       <BubbleLayout>
         <BaseSection>
           <BaseInformation>
-            {profile_path && (
-              <Author href={`/${profile_path}`}>
-                Author - { author_username }
+            {profilePath && (
+              <Author href={`/${profilePath}`}>
+                Author - { username }
               </Author>
             )}
             {created_at && (
