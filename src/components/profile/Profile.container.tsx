@@ -1,5 +1,5 @@
 import { FC, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { ProfilePageType } from "../../../pages/profile"
+import { ProfilePageType } from "../../pages/profile"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"

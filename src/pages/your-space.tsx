@@ -1,7 +1,7 @@
 import type { GetServerSidePropsContext } from 'next';
-import { authRequired } from '../lib/authRequired';
-import YourSpace from '../src/components/yourSpace/YourSpace.container';
-import { PostCardListType } from '../src/components/postCardList/PostCardList.container';
+import { authRequired } from '../../lib/authRequired';
+import YourSpace from '../components/yourSpace/YourSpace.container';
+import { PostCardListType } from '../components/postCardList/PostCardList.container';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)

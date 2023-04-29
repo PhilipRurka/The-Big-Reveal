@@ -1,6 +1,6 @@
 import { FC } from "react";
 import AuthorPosts from "./AuthorPosts";
-import { UserSpaceDataType } from "../../../pages/[...profile-path]";
+import { UserSpaceDataType } from "../../pages/[...profile-path]";
 
 const AuthorPostsContainer: FC<UserSpaceDataType> = ({
   list,

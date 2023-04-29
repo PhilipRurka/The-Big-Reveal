@@ -1,6 +1,6 @@
 import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../../lib/authRequired";
-import Following from "../../src/components/following/Following.container";
+import Feed from "../components/feed/Feed.container";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)
@@ -12,9 +12,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   return {props: {}}
 }
 
-function FollowingPage() {
+function FeedPage() {
   
-  return <Following />
+  return <Feed />
 }
 
-export default FollowingPage
+export default FeedPage

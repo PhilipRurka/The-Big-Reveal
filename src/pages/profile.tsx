@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from "next";
-import Profile from "../src/components/profile/Profile.container";
-import { authRequired } from "../lib/authRequired";
+import Profile from "../components/profile/Profile.container";
+import { authRequired } from "../../lib/authRequired";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)

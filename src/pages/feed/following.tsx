@@ -1,6 +1,6 @@
 import type { GetServerSidePropsContext } from "next";
-import { authRequired } from "../../lib/authRequired";
-import Exploration from "../../src/components/exploration/Exploration.container";
+import { authRequired } from "../../../lib/authRequired";
+import Following from "../../components/following/Following.container";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)
@@ -12,9 +12,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   return {props: {}}
 }
 
-function ExplorationPage() {
+function FollowingPage() {
   
-  return <Exploration />
+  return <Following />
 }
 
-export default ExplorationPage
+export default FollowingPage

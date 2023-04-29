@@ -1,5 +1,5 @@
-import { generalErrorMessages } from "../../lib/generalErrors";
-import { createPost } from "../../lib/postAPI/post/post.put";
+import { generalErrorMessages } from "../../../lib/generalErrors";
+import { createPost } from "../../../lib/postAPI/post/post.put";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function postAPI(
