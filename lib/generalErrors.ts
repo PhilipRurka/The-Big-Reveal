@@ -1,7 +1,7 @@
 type GeneralErrorMessagesType = {
   unrecognizedMethod:     ErrorContentType
   unauthorized:           ErrorContentType
-  dataIssue:              ErrorContentType
+  // dataIssue:              ErrorContentType
 }
 
 export type ErrorContentType = {
@@ -21,9 +21,9 @@ export const generalErrorMessages: GeneralErrorMessagesType = {
     message:    'Something went wrong. Refresh and try again!',
     status: 403
   },
-  dataIssue: {
-    logMessage: 'An error has occured on the request for data',
-    message:    'Something went wrong. Refresh and try again!',
-    status: 400
-  }
+  // dataIssue: {
+  //   logMessage: 'An error has occured on the request for data',
+  //   message:    'Something went wrong. Refresh and try again!',
+  //   status: 400
+  // }
 }
