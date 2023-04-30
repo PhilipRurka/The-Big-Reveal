@@ -29,6 +29,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         path
       )
     `)
+    .eq('user_id', session.user.id)
     .order("created_at", { ascending: false })
 
   if(error) {
@@ -41,14 +42,49 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
   }
 
-  const profile = data[0].profiles as ProfileType
+  let backupProfile: BackupProfileType
+
+  if(!data.length) {
+    const {
+      data,
+      error
+    } = await supabase
+      .from("profiles")
+      .select(`
+        path,
+        username
+      `)
+      .eq('id', session.user.id)
+      .single()
+
+    if(error) {
+      console.error(error)
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        }
+      }
+    }
+
+    backupProfile = data
+  }
+
+  console.log(backupProfile)
+
+  const profile = data[0]?.profiles as ProfileType
 
   return { props: {
     list: data,
-    username: profile?.username,
-    path: profile?.path,
+    username: profile?.username ?? backupProfile?.username,
+    path: profile?.path ?? backupProfile?.path,
     host: ctx.req.headers.host
   }}
+}
+
+type BackupProfileType = undefined | {
+  path: string | null;
+  username: string;
 }
 
 type ProfileType = {
