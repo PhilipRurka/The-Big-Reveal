@@ -1,7 +1,7 @@
 import { FC } from "react";
 import {
   FeedListContainer,
-  FeedWrapper,
+  FeedStyled,
   Title
 } from "./Feed.styled";
 import PostCardList from "../postCardList";
@@ -11,14 +11,14 @@ const Feed: FC<PostCardListPropsType> = ({
   list
 }) => {
   return (
-    <FeedWrapper>
+    <FeedStyled>
       <Title>
         Feed
       </Title>
       <FeedListContainer>
         <PostCardList list={list} />
       </FeedListContainer>
-    </FeedWrapper>
+    </FeedStyled>
   )
 }
 

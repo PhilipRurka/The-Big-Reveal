@@ -3,7 +3,7 @@ import { Colors } from '../../styled/colors-styled';
 import { default as LinkNext } from 'next/link'
 import { Button } from '../../styled/button';
 
-export const AuthWrapper = styled.div`
+export const AuthStyled = styled.div`
   max-width: 616px;
   margin: auto;
   padding: 50px;
@@ -23,7 +23,7 @@ export const Form = styled.form`
   margin-top: 15px;
 `;
 
-export const ToAuthLinkWrapper = styled.div`
+export const ToAuthLinkStyled = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;

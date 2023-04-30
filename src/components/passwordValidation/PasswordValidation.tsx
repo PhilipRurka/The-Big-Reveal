@@ -4,7 +4,7 @@ import {
   ConditionItem,
   ConditionList,
   ConditionsTitle,
-  PasswordValidationWrapper
+  PasswordValidationStyled
 } from "./PasswordValidation.styled";
 
 const PasswordValidation: FC<ValidationStatusesType> = ({
@@ -16,7 +16,7 @@ const PasswordValidation: FC<ValidationStatusesType> = ({
     hasSpecial = false
   } = {}
 }) => (
-  <PasswordValidationWrapper id='password-validation'>
+  <PasswordValidationStyled id='password-validation'>
     <ConditionsTitle>Must containe:</ConditionsTitle>
     <ConditionList>
       <ConditionItem isSuccess={hasLength} >
@@ -35,7 +35,7 @@ const PasswordValidation: FC<ValidationStatusesType> = ({
         atleast 1 special character
       </ConditionItem>
     </ConditionList>
-  </PasswordValidationWrapper>
+  </PasswordValidationStyled>
 )
 
 export default PasswordValidation

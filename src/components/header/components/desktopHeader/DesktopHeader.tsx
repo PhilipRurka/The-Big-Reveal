@@ -4,7 +4,7 @@ import { NextRouter } from "next/router"
 import { NavLink } from '../../../anchors';
 import { NewPostButton } from '../../../anchors/Anchors.styled';
 import {
-  DesktopHeaderWrapper,
+  DesktopHeaderStyled,
   PageItem,
   PageList
 } from './DesktopHeader.styled';
@@ -25,7 +25,7 @@ const DesktopNav: FC<DesktopHeaderType> = ({
   isXs
 }) => {
   return (
-    <DesktopHeaderWrapper>
+    <DesktopHeaderStyled>
       <BrandLogo />
       {!isXs ? (
         <PageList>
@@ -71,7 +71,7 @@ const DesktopNav: FC<DesktopHeaderType> = ({
       ): (
         <MobileBurger />
       )}
-    </DesktopHeaderWrapper>
+    </DesktopHeaderStyled>
   );
 };
 

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { BreakObj, Container } from '../../../../styled';
 
-export const DesktopHeaderWrapper = styled.div`
+export const DesktopHeaderStyled = styled.div`
   ${Container('xl')}
   display: flex;
   justify-content: space-between;

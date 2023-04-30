@@ -55,28 +55,6 @@ Once complete, you should be able to validate if it all worked by going to http:
 supabase link --project-ref weuircwaseaewsmvjnye
 ```
 
-<!-- At this point you should still have an empty local database. We can fix this by pulling in the latest from the Supabase Repository. You can check and see if you are up to date by running (Make sure you have pulled in the latest from the development Github granch)
-```
-supabase migration list
-```
-You should see some values in the REMOTE column. Example bellow
-
-![alt text](./public/readme-assets/remote-only.png)
-
-5. New lets update your local environment by running the following
-```
-supabase db remote commit
-```
-
-Now if you run `supabase migration list` again, then you will see that your local will be up to date. Example bellow
-
-![alt text](./public/readme-assets/remote-local.png)
-
-6. Last but not least run the folowing to reset your local development environment
-```
-supabase db reset
-``` -->
-
 You should be done. You should now be able to see the tables and other such goods on your local environment!
 
 &nbsp;
@@ -181,6 +159,7 @@ load-nvmrc() {
 ---
 &nbsp;
 ## Patterns and Structure
+### Components
 We are using the Container Pattern combined with other Patterns types.
 Essentially, the folder structures are comprised of 3 major file types, `container`, `styled` and `jsx`.
 
@@ -194,6 +173,32 @@ scr/components/header
   ├── Header.styled.tsx           Where all of the Styled Component are stored and managed
   └── Header.type.ts              Used to store types (Only used if there are many)
   ```
+
+---
+&nbsp;
+### Styles
+Every file that imports in styled components must start with a styled components that is suffixed with `Styled`.
+
+Example
+``` jsx
+/** src/components/someComponent.tsx */
+
+import {
+  SomeComponentStyled,
+  SomeComponentWrapper,
+  Text
+} from "./SomeComponent.styled"
+
+  export default const SomeComponent = () => {
+    return (
+      <SomeComponentStyled>
+        <SomeComponentWrapper>
+          <Text>button</Text>
+        </SomeComponentWrapper>
+      </SomeComponentStyled>
+    )
+  }
+```
 
 ---
 &nbsp;

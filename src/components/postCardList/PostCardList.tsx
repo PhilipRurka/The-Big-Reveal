@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { PostCardListWrapper } from "./PostCardList.styled";
+import { PostCardListStyled } from "./PostCardList.styled";
 import PostCard from "../postCard";
 import { PostCardListPropsType } from "./PostCardList.container";
 
 const PostCardList: FC<PostCardListPropsType> = ({ list }) => {
   return (
-    <PostCardListWrapper>
+    <PostCardListStyled>
       {list.map((card, i) => (
         <PostCard
           key={`PostCardList ${card.post_title} - ${i}`}
@@ -14,7 +14,7 @@ const PostCardList: FC<PostCardListPropsType> = ({ list }) => {
           username={card.profiles.username}
           title={card.post_title} />
       ))}
-    </PostCardListWrapper>
+    </PostCardListStyled>
   )
 }
 

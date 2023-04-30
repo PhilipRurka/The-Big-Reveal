@@ -1,6 +1,6 @@
 import { FC } from "react";
 import {
-  PostWrapper
+  PostStyled
 } from "./Post.styled";
 import PostDisplay from "../postDisplay";
 
@@ -19,14 +19,14 @@ const Post: FC<PostType> = ({
   cleanBase,
   cleanDescription
 }) => (
-  <PostWrapper>
+  <PostStyled>
     <PostDisplay
       profilePath={profilePath}
       username={username}
       created_at={created_at}
       cleanBase={cleanBase}
       cleanDescription={cleanDescription} />
-  </PostWrapper>
+  </PostStyled>
 )
 
 export default Post

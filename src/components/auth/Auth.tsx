@@ -1,9 +1,9 @@
 import { forwardRef } from "react";
 import {
-  AuthWrapper,
+  AuthStyled,
   AuthTitle,
   Form,
-  ToAuthLinkWrapper,
+  ToAuthLinkStyled,
   ToAuthLinkItem,
   SubmitButton,
   FieldContainer
@@ -46,7 +46,7 @@ const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
   usernameRef
 }: any) => {
   return (
-    <AuthWrapper>
+    <AuthStyled>
       <AuthTitle id={AuthTransitionIdsEnum.TITLE}>
         { title }
       </AuthTitle>
@@ -99,7 +99,7 @@ const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
         </SubmitButton>
       </Form>
       {toAuthLinks && (
-        <ToAuthLinkWrapper id={AuthTransitionIdsEnum.TO_AUTH_LINKS}>
+        <ToAuthLinkStyled id={AuthTransitionIdsEnum.TO_AUTH_LINKS}>
           {toAuthLinks.map(({
             href: toLinkHref,
             title: toLinkTitle
@@ -110,9 +110,9 @@ const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
               { toLinkTitle }
             </ToAuthLinkItem>
           ))}
-        </ToAuthLinkWrapper>
+        </ToAuthLinkStyled>
       )}
-    </AuthWrapper>
+    </AuthStyled>
   )
 })
 

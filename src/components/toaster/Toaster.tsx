@@ -1,5 +1,5 @@
 import { FC, forwardRef } from "react";
-import { AnchorContent, StaticContent, Subtitle, Title, ToasterWrapper } from "./Toaster.styled";
+import { AnchorContent, StaticContent, Subtitle, Title, ToasterStyled } from "./Toaster.styled";
 
 export type ToasterType = {
   title: string
@@ -18,7 +18,7 @@ const Toaster = forwardRef<HTMLDivElement, ToasterType>(({
   to
 }, ref) => {
   return (
-    <ToasterWrapper
+    <ToasterStyled
       id='toaster'
       ref={ref} >
       <ToasterContent to={to}>
@@ -29,7 +29,7 @@ const Toaster = forwardRef<HTMLDivElement, ToasterType>(({
           { subtitle }
         </Subtitle>
       </ToasterContent>
-    </ToasterWrapper>
+    </ToasterStyled>
   )
 })
 

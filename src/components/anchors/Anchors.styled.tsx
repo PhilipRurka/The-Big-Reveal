@@ -19,7 +19,7 @@ const sharedBasicLink = (isActive: boolean | undefined) => ({
   // }
 } as const)
 
-export const NavLinkWrapper = styled.div`
+export const NavLinkStyled = styled.div`
   display: flex;
   align-content: center;
   height: 100%;

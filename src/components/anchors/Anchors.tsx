@@ -1,6 +1,6 @@
 import { FC } from "react"
 import {
-  NavLinkWrapper,
+  NavLinkStyled,
   NavLinkAnchor,
   NavLinkButton
 } from "./Anchors.styled"
@@ -20,7 +20,7 @@ export const NavLink: FC<NavLinkType> = ({
 }) => {
 
   return (
-    <NavLinkWrapper>
+    <NavLinkStyled>
       {path ? (
         <NavLinkAnchor
           href={path}
@@ -34,6 +34,6 @@ export const NavLink: FC<NavLinkType> = ({
           {children}
         </NavLinkButton>
       )}
-    </NavLinkWrapper>
+    </NavLinkStyled>
   )
 }

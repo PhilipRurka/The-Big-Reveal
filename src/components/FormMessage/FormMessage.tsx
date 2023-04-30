@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import {
   FormMessageContent,
-  FormMessageWrapper
+  FormMessageStyled
 } from './FormMessage.styled'
 import { FormMessageContainerType, StatusMessageTypesEnum } from './FormMessage.container'
 
@@ -15,13 +15,13 @@ const FormMessage: FC<FormMessageType> = ({
   type
 }) => {
   return (
-    <FormMessageWrapper id='status-message-wrapper'>
+    <FormMessageStyled id='status-message-wrapper'>
       <FormMessageContent
         id='status-message'
         statusType={type} >
         { message }
       </FormMessageContent>
-    </FormMessageWrapper>
+    </FormMessageStyled>
   )
 }
 

@@ -3,7 +3,7 @@ import {
   Author,
   BaseInformation,
   Date,
-  PostDisplayWrapper,
+  PostDisplayStyled,
   Button,
   BaseSection,
   DescriptionSection,
@@ -29,7 +29,7 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
   profilePath
 }, descriptionRef) => {
   return (
-    <PostDisplayWrapper>
+    <PostDisplayStyled>
       <BubbleLayout>
         <BaseSection>
           <BaseInformation>
@@ -61,7 +61,7 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
           </DescriptionContent>
         </DescriptionSection>
       </NormalLayout>
-    </PostDisplayWrapper>
+    </PostDisplayStyled>
   )
 })
 

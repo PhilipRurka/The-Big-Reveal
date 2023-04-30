@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { TinyWrapper } from "./Tiny.styled";
+import { TinyStyled } from "./Tiny.styled";
 import { Editor as EditorReact } from "@tinymce/tinymce-react";
 import { Fonts } from "../../styled";
 import { Editor } from "tinymce";
@@ -16,7 +16,7 @@ const Tiny: FC<TinyType> = ({
   handleChange
 }) => {
   return (
-    <TinyWrapper>
+    <TinyStyled>
       <EditorReact
         id={tinyId}
         onInit={onInit}
@@ -50,7 +50,7 @@ const Tiny: FC<TinyType> = ({
           content_style: `body { ${Fonts.tiny} font-size:16px }`,
         }}
         onEditorChange={handleChange} />
-    </TinyWrapper>
+    </TinyStyled>
   )
 }
 

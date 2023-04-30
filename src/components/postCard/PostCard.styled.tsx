@@ -9,7 +9,7 @@ const sharedCardElementStyles = {
   'padding-left': '15px'
 }
 
-export const PostCardWrapper = styled(LinkNext)`
+export const PostCardStyled = styled(LinkNext)`
   border-left: 3px solid black;
   max-width: 400px;
   display: table;

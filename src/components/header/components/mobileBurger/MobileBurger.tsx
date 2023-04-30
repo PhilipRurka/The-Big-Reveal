@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import {
-  MobileBurgerWrapper,
+  MobileBurgerStyled,
 } from './MobileBurger.styled';
 
 type MobileBurgerType = {
@@ -14,13 +14,13 @@ const MobileBurger: FC<MobileBurgerType> = ({
 }) => {
 
   return (
-      <MobileBurgerWrapper
+      <MobileBurgerStyled
         className={isBurgerOpen ? 'opened' : ''}
         aria-label='Open Mobile Menu'
         onClick={handleBurgerClick} >
         <span aria-hidden />
         <span aria-hidden />
-      </MobileBurgerWrapper>
+      </MobileBurgerStyled>
   );
 };
 

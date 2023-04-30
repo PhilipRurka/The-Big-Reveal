@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Container } from '../../styled';
 
-export const AuthorPostsWrapper = styled.div`
+export const AuthorPostsStyled = styled.div`
   ${Container('lg')}
   margin-top: 50px;
 `;

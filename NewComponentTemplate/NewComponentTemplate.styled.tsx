@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
-export const NewComponentTemplateWrapper = styled.div`
+export const NewComponentTemplateStyled = styled.div`
 
 `;

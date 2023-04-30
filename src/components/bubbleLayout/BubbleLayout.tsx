@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { BubbleLayoutWrapper } from "./BubbleLayout.styled";
+import { BubbleLayoutStyled } from "./BubbleLayout.styled";
 import { BubbleLayoutContainerType } from "./BubbleLayout.container";
 
 type BubbleLayoutType = {
@@ -10,9 +10,9 @@ const BubbleLayout: FC<BubbleLayoutType> = ({
   children
 }) => {
   return (
-    <BubbleLayoutWrapper>
+    <BubbleLayoutStyled>
       { children }
-    </BubbleLayoutWrapper>
+    </BubbleLayoutStyled>
   )
 }
 

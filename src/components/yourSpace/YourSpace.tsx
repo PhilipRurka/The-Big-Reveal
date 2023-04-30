@@ -2,7 +2,7 @@ import { FC } from "react";
 import {
   ListStatsContainer,
   Title,
-  YourSpaceWrapper,
+  YourSpaceStyled,
   InformationStatsSection,
   YourWorkList,
   YourWorkSection,
@@ -34,7 +34,7 @@ const YourSpace: FC<YourSpaceType> = ({
   handleCopy
 }) => {
   return (
-    <YourSpaceWrapper>
+    <YourSpaceStyled>
       <Title>
         Welcome to your space {username}
       </Title>
@@ -77,7 +77,7 @@ const YourSpace: FC<YourSpaceType> = ({
           </InformationStatsContainer>
         </InformationStatsSection>
       </ListStatsContainer>
-    </YourSpaceWrapper>
+    </YourSpaceStyled>
   )
 }
 

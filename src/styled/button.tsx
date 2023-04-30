@@ -28,7 +28,7 @@ const buttonTypes = (type: keyof typeof buttonColors): string => {
   `
 }
 
-export const ButtonWrapper = styled.div`
+export const ButtonStyled = styled.div`
   display: flex;
   margin-top: 20px;
 

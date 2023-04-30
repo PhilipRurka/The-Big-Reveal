@@ -4,7 +4,7 @@ import brandLogo from '../../../../../public/assets/Philip_Rurka_Logo.png'
 import {
   BrandImg,
   BrandLogoAnchor,
-  BrandLogoWrapper
+  BrandLogoStyled
 } from "./BrandLogo.styled"
 
 const BrandLogo: FC = () => {
@@ -16,7 +16,7 @@ const BrandLogo: FC = () => {
   }, [router])
 
   return (
-    <BrandLogoWrapper>
+    <BrandLogoStyled>
       <BrandLogoAnchor
         ref={brandLogoRef}
         href='/'
@@ -28,7 +28,7 @@ const BrandLogo: FC = () => {
           height={30}
           priority />
       </BrandLogoAnchor>
-    </BrandLogoWrapper>
+    </BrandLogoStyled>
   )
 }
 
