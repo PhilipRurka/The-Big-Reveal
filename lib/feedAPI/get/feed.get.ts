@@ -4,10 +4,7 @@ import { Database } from "../../../src/types/supabase-types";
 import { generalErrorMessages } from "../../generalErrors";
 
 export const selectFeed = async (req: NextApiRequest, res: NextApiResponse) => {
-  const {
-    dataIssue,
-    unauthorized
-  } = generalErrorMessages
+  const { unauthorized } = generalErrorMessages
 
   const supabase = createServerSupabaseClient<Database>({req, res})
   const { data: { session } } = await supabase.auth.getSession()
@@ -34,12 +31,12 @@ export const selectFeed = async (req: NextApiRequest, res: NextApiResponse) => {
     .order("created_at", { ascending: false })
 
   /** Start Error Block */
-  if(error) {
-    return res.status(dataIssue.status).send({
-      ...dataIssue,
-      dataError: { error }
-    })
-  }
+  // if(error) {
+  //   return res.status(dataIssue.status).send({
+  //     ...dataIssue,
+  //     dataError: { error }
+  //   })
+  // }
   /** End Error Block */
 
   return res.status(200).send(data)

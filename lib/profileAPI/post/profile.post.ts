@@ -15,10 +15,7 @@ export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) 
     username
   } = req.body as UpdateProfileBodyType
 
-  const {
-    unauthorized,
-    dataIssue
-  } = generalErrorMessages
+  const { unauthorized } = generalErrorMessages
 
   const {
     missingUsername,
