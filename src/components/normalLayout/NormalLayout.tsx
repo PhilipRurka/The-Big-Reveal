@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { NormalLayoutWrapper } from "./NormalLayout.styled";
+import { NormalLayoutStyled } from "./NormalLayout.styled";
 
 type NormalLayoutType = {
   children: JSX.Element | JSX.Element[]
@@ -9,9 +9,9 @@ const NormalLayout: FC<NormalLayoutType> = ({
   children
 }) => {
   return (
-    <NormalLayoutWrapper>
+    <NormalLayoutStyled>
       { children }
-    </NormalLayoutWrapper>
+    </NormalLayoutStyled>
   )
 }
 

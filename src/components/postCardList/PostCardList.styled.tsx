@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
-export const PostCardListWrapper = styled.div`
+export const PostCardListStyled = styled.div`
 
 `;

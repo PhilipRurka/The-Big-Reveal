@@ -1,6 +1,6 @@
 import { ChangeEvent, forwardRef } from 'react';
 import {
-  InputWrapper
+  InputStyled
 } from './Input.styled';
 
 export type InputRefType = HTMLInputElement
@@ -24,7 +24,7 @@ const Input = forwardRef<InputRefType, InputType>(({
   defaultValue
 }, ref) => {
   return (
-    <InputWrapper
+    <InputStyled
       ref={ref}
       id={id}
       type={type}

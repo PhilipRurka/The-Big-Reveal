@@ -6,7 +6,7 @@ const sharedInformationItem = {
   color: Colors.eucalyptus
 }
 
-export const YourSpaceWrapper = styled.div`
+export const YourSpaceStyled = styled.div`
   ${Container('lg')}
   padding-top: 50px;
 `;

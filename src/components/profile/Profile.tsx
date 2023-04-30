@@ -6,13 +6,13 @@ import {
 import Input, { InputOnChangeType } from "../input/Input"
 import {
   Form,
-  ProfileWrapper,
+  ProfileStyled,
   Subtitle,
   Title
 } from "./Profile.styled"
 import { handleSaveResetType } from "./Profile.container"
 import {
-  ButtonWrapper,
+  ButtonStyled,
   Button
 } from "../../styled/button"
 import FormMessage from "../FormMessage"
@@ -42,7 +42,7 @@ const Profile: FC<ProfileType> = ({
     formMessageProps
   }) => {
   return (
-    <ProfileWrapper>
+    <ProfileStyled>
       <Title>Profile</Title>
       <Subtitle>{ subtitle }</Subtitle>
       <Form>
@@ -71,7 +71,7 @@ const Profile: FC<ProfileType> = ({
             handleChange={handleUserNameUpdate} />
         </Field>
 
-        <ButtonWrapper>
+        <ButtonStyled>
           <Button
             type='button'
             colorType="primary"
@@ -86,9 +86,9 @@ const Profile: FC<ProfileType> = ({
             disabled={!hasChangeOccured} >
             Reset
           </Button>
-        </ButtonWrapper>
+        </ButtonStyled>
       </Form>
-    </ProfileWrapper>
+    </ProfileStyled>
   )
 }
 

@@ -2,10 +2,10 @@ import { FC, FormEvent, MutableRefObject } from "react"
 import {
   Form,
   Label,
-  NewPostWrapper,
+  NewPostStyled,
   Title
 } from "./NewPost.styled"
-import { Button, ButtonWrapper } from "../../styled/button"
+import { Button, ButtonStyled } from "../../styled/button"
 import Tiny from "../tiny"
 import type { Editor } from "tinymce"
 import FormMessage from "../FormMessage"
@@ -27,7 +27,7 @@ const NewPost: FC<NewPostType> = ({
   formMessageProps
 }) => {
   return (
-    <NewPostWrapper>
+    <NewPostStyled>
       <Title>
         Wanna share something new?
       </Title>
@@ -48,16 +48,16 @@ const NewPost: FC<NewPostType> = ({
           <Tiny
             tinyId={'tiny-description'}
             tinyRef={descriptionRef} />
-          <ButtonWrapper>
+          <ButtonStyled>
             <Button
               colorType="primary"
               onClick={handleSubmit} >
               Post!
             </Button>
-          </ButtonWrapper>
+          </ButtonStyled>
         </NormalLayout>
       </Form>
-    </NewPostWrapper>
+    </NewPostStyled>
   )
 }
 

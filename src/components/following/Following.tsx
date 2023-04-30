@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { FollowingWrapper } from "./Following.styled";
+import { FollowingStyled } from "./Following.styled";
 
 const Following: FC = () => {
   return (
-    <FollowingWrapper>
+    <FollowingStyled>
       Following
-    </FollowingWrapper>
+    </FollowingStyled>
   )
 }
 

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { NavigationsType } from "../../../../utils/navigation";
 import {
   MobileHeaderContainer,
-  MobileHeaderWrapper,
+  MobileHeaderStyled,
   PageItem,
   PageList
 } from "./MobileHeader.styled";
@@ -21,7 +21,7 @@ const MobileHeader: FC<MobileHeaderType> = ({
   router
 }) => {
   return (
-    <MobileHeaderWrapper id='mobileMenu'>
+    <MobileHeaderStyled id='mobileMenu'>
       <MobileHeaderContainer>
         <PageList>
           {(navigationItems || []).map(({
@@ -30,7 +30,7 @@ const MobileHeader: FC<MobileHeaderType> = ({
           }) => {
             if(named === 'Logout') {
               return (
-                <PageItem key={`MobileHeaderWrapper_${named}`}>
+                <PageItem key={`MobileHeaderStyled_${named}`}>
                   <NavLink trigger={handleLogout} >
                     { named }
                   </NavLink>
@@ -39,7 +39,7 @@ const MobileHeader: FC<MobileHeaderType> = ({
 
             } else {
               return (
-                <PageItem key={`MobileHeaderWrapper_${named}`}>
+                <PageItem key={`MobileHeaderStyled_${named}`}>
                   <NavLink
                     path={path}
                     isActive={router.asPath === path} >
@@ -51,7 +51,7 @@ const MobileHeader: FC<MobileHeaderType> = ({
           })}
         </PageList>
       </MobileHeaderContainer>
-    </MobileHeaderWrapper>
+    </MobileHeaderStyled>
   )
 }
 

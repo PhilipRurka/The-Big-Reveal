@@ -1,6 +1,6 @@
 import { FC } from "react";
 import {
-  AuthorPostsWrapper,
+  AuthorPostsStyled,
   Title,
 } from "./AuthorPosts.styled";
 import PostCardList from "../postCardList";
@@ -12,12 +12,12 @@ const AuthorPosts: FC<UserSpaceDataType> = ({
   host
 }) => {
   return (
-    <AuthorPostsWrapper>
+    <AuthorPostsStyled>
       <Title>
         {`${ username }'s collection`}
       </Title>
       <PostCardList list={list} />
-    </AuthorPostsWrapper>
+    </AuthorPostsStyled>
   )
 }
 

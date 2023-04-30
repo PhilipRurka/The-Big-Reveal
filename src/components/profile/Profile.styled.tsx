@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Container } from '../../styled';
 
-export const ProfileWrapper = styled.div`
+export const ProfileStyled = styled.div`
   ${Container('lg')}
   margin-top: 50px;
 `;

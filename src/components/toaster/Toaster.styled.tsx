@@ -7,7 +7,7 @@ const sharedContent = {
   'padding': '14px'
 }
 
-export const ToasterWrapper = styled.div`
+export const ToasterStyled = styled.div`
   position: fixed;
   white-space: nowrap;
   z-index: 2;

@@ -1,6 +1,6 @@
 import { FC } from "react"
 import {
-  HeaderWrapper,
+  HeaderStyled,
 } from "./Header.styled"
 import { NavigationsType } from "../../utils/navigation"
 import {
@@ -20,7 +20,7 @@ const Header: FC<HeaderType> = ({
   isXs
 }) => {
   return (
-    <HeaderWrapper>
+    <HeaderStyled>
       <DesktopHeader
         navigationItems={navigationItems}
         handleLogout={handleLogout}
@@ -30,7 +30,7 @@ const Header: FC<HeaderType> = ({
           navigationItems={navigationItems}
           handleLogout={handleLogout} />
       )}
-    </HeaderWrapper>
+    </HeaderStyled>
   )
 }
 

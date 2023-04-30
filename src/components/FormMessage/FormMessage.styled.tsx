@@ -6,7 +6,7 @@ type FormMessageContentType = {
   statusType: StatusMessageTypesEnum | undefined
 }
 
-export const FormMessageWrapper = styled.div`
+export const FormMessageStyled = styled.div`
   height: 0;
   overflow: hidden;
 `;

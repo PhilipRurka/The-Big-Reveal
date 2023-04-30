@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { ExplorationWrapper } from "./Exploration.styled";
+import { ExplorationStyled } from "./Exploration.styled";
 
 const Exploration: FC = () => {
   return (
-    <ExplorationWrapper>
+    <ExplorationStyled>
       Exploration
-    </ExplorationWrapper>
+    </ExplorationStyled>
   )
 }
 

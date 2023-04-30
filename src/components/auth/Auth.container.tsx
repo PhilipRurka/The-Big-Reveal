@@ -14,7 +14,7 @@ import {
   ContentSwitchAnimationType,
   ResType,
   HandleNarrowAuthType,
-  HandleWrapperAuthType,
+  HandleStyledAuthType,
   RouterQueryEnum,
   TypePropsType,
 } from "./Auth.types"
@@ -225,7 +225,7 @@ const AuthContainer: FC<AuthPageType> = ({
   /* #endregion */
 
   /* #region UTILITIES */
-  const handleSubmit: HandleWrapperAuthType = useCallback((event) => {
+  const handleSubmit: HandleStyledAuthType = useCallback((event) => {
     event.preventDefault()
     if(typeProps.id === RouterQueryEnum.LOGIN) {
       handleLogin()

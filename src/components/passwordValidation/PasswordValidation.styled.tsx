@@ -5,7 +5,7 @@ type ConditionItemType = {
   isSuccess: boolean
 }
 
-export const PasswordValidationWrapper = styled.div`
+export const PasswordValidationStyled = styled.div`
   position: absolute;
   top: 0;
   right: -50px;

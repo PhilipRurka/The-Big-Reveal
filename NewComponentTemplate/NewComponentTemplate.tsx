@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { NewComponentTemplateWrapper } from "./NewComponentTemplate.styled";
+import { NewComponentTemplateStyled } from "./NewComponentTemplate.styled";
 
 type NewComponentTemplateType = {
   
@@ -7,9 +7,9 @@ type NewComponentTemplateType = {
 
 const NewComponentTemplate: FC<NewComponentTemplateType> = () => {
   return (
-    <NewComponentTemplateWrapper>
+    <NewComponentTemplateStyled>
       
-    </NewComponentTemplateWrapper>
+    </NewComponentTemplateStyled>
   )
 }
 

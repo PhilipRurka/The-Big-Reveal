@@ -2,7 +2,7 @@ import { FC } from "react";
 import {
   Author,
   Date,
-  PostCardWrapper,
+  PostCardStyled,
   Title
 } from "./PostCard.styled";
 import { PostCardType } from "./PostCard.container";
@@ -15,7 +15,7 @@ const PostCard: FC<PostCardType> = ({
   title,
 }) => {
   return (
-    <PostCardWrapper href={`/post/${id}`} >
+    <PostCardStyled href={`/post/${id}`} >
       <Title dangerouslySetInnerHTML={{ __html: `<span>${title}</span>` }} />
       <Author>
         { username }
@@ -23,7 +23,7 @@ const PostCard: FC<PostCardType> = ({
       <Date>
         { date }
       </Date>
-    </PostCardWrapper>
+    </PostCardStyled>
   )
 }
 

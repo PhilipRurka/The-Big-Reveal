@@ -18,7 +18,7 @@ export enum AuthTransitionIdsEnum {
   TO_AUTH_LINKS = 'auth-to-auth-links'
 }
 
-export type HandleWrapperAuthType = (event: FormEvent) => void
+export type HandleStyledAuthType = (event: FormEvent) => void
 export type HandleNarrowAuthType = () => Promise<void>
 
 export type ToAuthLinkType = {
@@ -68,7 +68,7 @@ export type RefsType = {
 }
 
 export type AuthType = AuthPropsType & TypePropsType & {
-  handleSubmit: HandleWrapperAuthType
+  handleSubmit: HandleStyledAuthType
   disableSubmit: boolean
   removeStatusMessage: () => void
 }

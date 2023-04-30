@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Container } from '../../../../styled'
 
-export const MobileHeaderWrapper = styled.div`
+export const MobileHeaderStyled = styled.div`
   height: 0;
   background-color: white;
   overflow: hidden;
