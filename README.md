@@ -40,7 +40,7 @@ Once you have this installed, you will have to run the following
 supabase login
 ```
 
-2. Make sure your Docker is running and your Docker Dashboard is open befoe moving forward
+2. Make sure your Docker is running and your Docker Dashboard is open before moving forward
 
 3. Run the following commands
 ```
@@ -90,7 +90,7 @@ in github.com/supabase/cli/internal/start.Run:33
 Try rerunning the command with --debug to troubleshoot the error.
 ```
 
-The solution is easy, open your `~/.zshrc` (Assuming you are using zsh!) file and add in the two lines (the first must be above the second). the first line may already be there, check first.
+The solution is easy, open your `~/.zshrc` (Assuming you are using zsh!) file and add in the two lines (the first must be above the second). The first line may already be there, check first.
 
 ```
 source /Users/eshlox/.docker/init-zsh.sh || true
@@ -144,6 +144,9 @@ That said we should never never never update any of the databases directly. They
 &nbsp;
 ## Package Scripts
 There are descriptions of each scripts at the bottom of the `package.json` file. You can have a list of the available scripts show up on your terminal with their description by globally installing and using [ntl](https://www.npmjs.com/package/ntl). I personally recomend it.
+
+Example of what this can look like
+![Example of using ntl in a project](https://github.com/PhilipRurka/The-Big-Reveal/readme-assets/ntl-example.png?raw=true)
 
 ---
 &nbsp;
@@ -205,9 +208,11 @@ They each have their utilities and meaning.
 ---
 &nbsp;
 ## Github Branch Structure
-We are using [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) as our workflow.
+~~We are using [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) as our workflow.~~
 
-If you are using a Git GUI likew me (GitKraken), you may want to look into how to perform the workflow on it. GitKraken has a Gitflow integration that makes it very easy to create, manage and delete branches. I assume other Git GUI also have such intergration.
+~~If you are using a Git GUI like me (GitKraken), you may want to look into how to perform the workflow on it. GitKraken has a Gitflow integration that makes it very easy to create, manage and delete branches. I assume other Git GUI also have such intergration.~~
+
+Although Gitflow is an accepted standard, it removes the use of Pull Requests imbetween stable branches. There are ways around this, however, it requires to step outside of the Gitflow convention. For that reason, we are moving away from it and jumping into the good old fasion, `main` - `staging` - `develop` branche architecture. Well, kinda. Considering this is a small scale project and there aren't many developers working on it, we will skip out on the Staging environment.
 
 ---
 &nbsp;
