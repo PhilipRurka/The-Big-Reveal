@@ -146,7 +146,7 @@ That said we should never never never update any of the databases directly. They
 There are descriptions of each scripts at the bottom of the `package.json` file. You can have a list of the available scripts show up on your terminal with their description by globally installing and using [ntl](https://www.npmjs.com/package/ntl). I personally recomend it.
 
 Example of what this can look like
-![Example of using ntl in a project](https://github.com/PhilipRurka/The-Big-Reveal/readme-assets/ntl-example.png?raw=true)
+![Example of using ntl in a project](https://github.com/PhilipRurka/The-Big-Reveal/blob/main/readme-assets/ntl-example.png?raw=true)
 
 ---
 &nbsp;
