@@ -16,61 +16,46 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = res
 
   const {
-    data: profileData,
-    error: profileError
-  } = await supabase
-    .from('profiles')
-    .select('username, path')
-    .eq('id', session.user.id)
-    .single()
-
-    if(profileError || !profileData) {
-      console.error(profileError)
-      return {
-        redirect: {
-          destination: '/auth',
-          permanent: false,
-        }
-      }
-    }
-
-  const {
-    data: baseData,
-    error: baseError
+    data,
+    error
   } = await supabase
     .from("post_base")
-    .select('id, created_at, post_title')
-    .eq('user_id', session.user.id)
-    .order("created_at")
+    .select(`
+      id,
+      created_at,
+      post_title,
+      profiles!post_base_user_id_fkey (
+        username,
+        path
+      )
+    `)
+    .order("created_at", { ascending: false })
 
-  if(baseError || !baseData) {
-    console.error(baseError)
+  if(error) {
+    console.error(error)
     return {
       redirect: {
-        destination: '/auth',
+        destination: '/',
         permanent: false,
       }
     }
   }
 
-  const list = []
+  console.log(data)
 
-  for (let i = 0; i < baseData.length; i++) {
-    const item = baseData[i];
-    list.push({
-      ...item,
-      profiles: {
-        username: profileData.username
-      }
-    })
-  }
+  const profile = data[0].profiles as ProfileType
 
   return { props: {
-    list,
-    username: profileData.username,
-    path: profileData.path,
+    list: data,
+    username: profile?.username,
+    path: profile?.path,
     host: ctx.req.headers.host
   }}
+}
+
+type ProfileType = {
+  username: string
+  path: string
 }
 
 export type YourSpaceDataType = {
