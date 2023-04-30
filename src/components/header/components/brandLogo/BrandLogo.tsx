@@ -23,7 +23,10 @@ const BrandLogo: FC = () => {
         aria-label='Home page' >
         <BrandImg
           src={brandLogo}
-          alt='Brand\s logo' />
+          alt='Brand\s logo'
+          width={30}
+          height={30}
+          priority />
       </BrandLogoAnchor>
     </BrandLogoWrapper>
   )

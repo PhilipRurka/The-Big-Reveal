@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useRef } from "react"
 import YourSpace from "./YourSpace"
 import gsap from "gsap"
-import { YourSpaceDataType } from "../../../pages/your-space"
+import { YourSpaceDataType } from "../../pages/your-space"
 
 const YourSpaceContainer: FC<YourSpaceDataType> = ({
   list,

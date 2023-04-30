@@ -1,4 +1,4 @@
-import ResetPassword from "../src/components/resetPassword/ResetPassword.container";
+import ResetPassword from "../components/resetPassword/ResetPassword.container";
 
 function ResetPasswordPage() {
   return <ResetPassword />

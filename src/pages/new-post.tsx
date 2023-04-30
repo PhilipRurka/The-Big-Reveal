@@ -1,6 +1,6 @@
 import type { GetServerSidePropsContext } from "next";
-import { authRequired } from "../lib/authRequired";
-import NewPost from "../src/components/newPost/NewPost.container";
+import { authRequired } from "../../lib/authRequired";
+import NewPost from "../components/newPost/NewPost.container";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)

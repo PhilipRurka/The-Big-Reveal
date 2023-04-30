@@ -2,7 +2,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
-import { AuthPageType, AUTH_TYPE_OPTIONS } from "../../../pages/auth"
+import { AuthPageType, AUTH_TYPE_OPTIONS } from "../../pages/auth"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"

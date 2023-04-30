@@ -80,7 +80,7 @@ export interface Database {
           id: string
           path: string | null
           updated_at: string | null
-          username: string | null
+          username: string
           website: string | null
         }
         Insert: {

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { updateProfile } from '../../lib/profileAPI/post/profile.post'
-import { generalErrorMessages } from '../../lib/generalErrors'
+import { updateProfile } from '../../../lib/profileAPI/post/profile.post'
+import { generalErrorMessages } from '../../../lib/generalErrors'
 
 export default async function ProfileAPI(
   req: NextApiRequest,

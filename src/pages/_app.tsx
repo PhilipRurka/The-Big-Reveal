@@ -3,17 +3,17 @@ import { SessionContextProvider, Session } from '@supabase/auth-helpers-react'
 import type { AppProps } from "next/app";
 import { useState } from "react";
 import { Provider } from 'react-redux';
-import Head from "../src/components/head";
-import Header from "../src/components/header";
-import { store } from '../src/redux/redux_store';
-import { Main } from "../src/styled";
-import { ResetStyles } from "../src/styled/base-styled";
-import InitGetSession from '../src/utils/InitGetSession';
-import Toaster from '../src/components/toaster';
+import Head from "../components/head";
+import Header from "../components/header";
+import { store } from '../redux/redux_store';
+import { Main } from "../styled";
+import { ResetStyles } from "../styled/base-styled";
+import InitGetSession from '../utils/InitGetSession';
+import Toaster from '../components/toaster';
 import {
   noto,
   roboto
-} from '../src/styled/typography-styled'
+} from '../styled/typography-styled'
 
 function MyApp({
   Component,

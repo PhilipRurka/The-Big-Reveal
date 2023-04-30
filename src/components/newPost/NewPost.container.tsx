@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container";
-import { NewPostPageType } from "../../../pages/new-post";
+import { NewPostPageType } from "../../pages/new-post";
 import axios from "axios"
 
 const NewPostContainer: FC<NewPostPageType> = ({
