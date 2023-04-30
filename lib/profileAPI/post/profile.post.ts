@@ -57,10 +57,10 @@ export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) 
       return res.status(usernameAlreadyExists.status).send(usernameAlreadyExists)
       
     } else if(profileError) {
-    return res.status(dataIssue.status).send({
-      ...dataIssue,
-      dataError: { profileError }
-    })
+    // return res.status(dataIssue.status).send({
+    //   ...dataIssue,
+    //   dataError: { profileError }
+    // })
   }
 
   return res.status(200).send({message: 'Your profile has been updated!'})
