@@ -82,7 +82,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
 type BackupProfileType = undefined | {
   path: string | null;
-  username: string;
+  username: string | null;
 }
 
 type ProfileType = {
