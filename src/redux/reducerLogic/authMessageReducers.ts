@@ -54,8 +54,11 @@ export const statusMessage = {
       } else if(type === StatusMessageTypesEnum.SUCCESS) {
         messagesObj.defaultMessage = 'A registration has been sent to ${}'
 
-      } else if(message?.includes('username_formating')) {
-        messagesObj.defaultMessage = profileErrorMessages.usernameIssue.message
+      } else if(message?.includes(profileErrorMessages.usernameLength.constraint as string)) {
+        messagesObj.defaultMessage = profileErrorMessages.usernameLength.message
+    
+      } else if(message?.includes(profileErrorMessages.usernameFormating.constraint as string)) {
+        messagesObj.defaultMessage = profileErrorMessages.usernameFormating.message
 
       } else if(message?.includes('profiles_path_key')) {
         messagesObj.defaultMessage = profileErrorMessages.usernameAlreadyExists.message

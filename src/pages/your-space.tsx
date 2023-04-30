@@ -70,8 +70,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     backupProfile = data
   }
 
-  console.log(backupProfile)
-
   const profile = data[0]?.profiles as ProfileType
 
   return { props: {
