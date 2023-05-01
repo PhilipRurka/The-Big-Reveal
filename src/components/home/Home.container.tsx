@@ -2,7 +2,7 @@ import { FC } from "react"
 import Home from "./Home"
 
 const staticHookCopy = {
-  cleanBase: `
+  baseContent: `
     <h1 style="text-align: center;">The Great Reveal!</h1>
     <p style="text-align: center;">
       We all know that two can not exist without one
@@ -14,7 +14,7 @@ const staticHookCopy = {
       Then, and only then, we can have, The Big Reveal
     </p>
   `,
-  cleanDescription: `
+  descriptionContent: `
     <h2 dir="ltr">Let&rsquo;s unfold what you just read</h2>
     <p dir="ltr">This poem simply states that for there to be a big reveal (objective definition), the item from which is subject to be revealed must first be consumed by someone. As a result a seed is planted and their curiosity grows.<br>&hellip; meaning<br>You can&rsquo;t share a poem&rsquo;s context until someone at the very least reads it and hungers for more.</p>
     <p dir="ltr">&nbsp;</p>
@@ -34,7 +34,10 @@ const staticHookCopy = {
     <li dir="ltr" role="presentation">Eventually I am gonna find a designer for this platform.</li>
     </ul>
     <p>&nbsp;</p>
-  `
+  `,
+  profilePath: '',
+  username: '',
+  created_at: ''
 }
 
 const HomeContainer: FC = () => {

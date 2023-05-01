@@ -80,7 +80,7 @@ export interface Database {
           id: string
           path: string | null
           updated_at: string | null
-          username: string
+          username: string | null
           website: string | null
         }
         Insert: {
@@ -119,7 +119,7 @@ export interface Database {
           base_content: string
           description_content: string
         }
-        Returns: undefined[]
+        Returns: string
       }
     }
     Enums: {

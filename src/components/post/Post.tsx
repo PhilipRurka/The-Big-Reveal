@@ -3,29 +3,22 @@ import {
   PostStyled
 } from "./Post.styled";
 import PostDisplay from "../postDisplay";
+import { PostDataType } from "../../pages/post/[...post-id]";
 
-export type PostType = {
-  profilePath?: string
-  username?: string | null
-  created_at?: string | null
-  cleanBase: string
-  cleanDescription: string
-}
-
-const Post: FC<PostType> = ({
-  profilePath,
+const Post: FC<PostDataType> = ({
   username,
-  created_at,
-  cleanBase,
-  cleanDescription
+    profilePath,
+    baseContent,
+    descriptionContent,
+    created_at
 }) => (
   <PostStyled>
     <PostDisplay
-      profilePath={profilePath}
       username={username}
-      created_at={created_at}
-      cleanBase={cleanBase}
-      cleanDescription={cleanDescription} />
+      profilePath={profilePath}
+      baseContent={baseContent}
+      descriptionContent={descriptionContent}
+      created_at={created_at} />
   </PostStyled>
 )
 

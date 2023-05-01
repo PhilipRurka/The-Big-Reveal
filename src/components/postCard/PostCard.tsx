@@ -6,7 +6,6 @@ import {
   Title
 } from "./PostCard.styled";
 import { PostCardType } from "./PostCard.container";
-import dayjs from "dayjs";
 
 const PostCard: FC<PostCardType> = ({
   id,

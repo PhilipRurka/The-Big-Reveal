@@ -1,21 +1,23 @@
 import { FC } from "react";
 import { HomeStyled } from "./Home.styled";
 import PostDisplay from "../postDisplay";
-import { PostType } from "../post/Post";
+import { PostDataType } from "../../pages/post/[...post-id]";
 
-const Home: FC<PostType> = ({
+const Home: FC<PostDataType> = ({
   username,
   created_at,
-  cleanBase,
-  cleanDescription
+  profilePath,
+  baseContent,
+  descriptionContent
 }) => {
   return (
     <HomeStyled>
       <PostDisplay
         username={username}
+        profilePath={profilePath}
         created_at={created_at}
-        cleanBase={cleanBase}
-        cleanDescription={cleanDescription} />
+        baseContent={baseContent}
+        descriptionContent={descriptionContent} />
     </HomeStyled>
   )
 }

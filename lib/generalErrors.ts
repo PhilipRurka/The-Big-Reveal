@@ -1,14 +1,19 @@
 type GeneralErrorMessagesType = {
   unrecognizedMethod:     ErrorContentType
   unauthorized:           ErrorContentType
-  // dataIssue:              ErrorContentType
+  ohShit:                 ErrorContentType
 }
 
 export type ErrorContentType = {
   logMessage: string
   message: string
   status: number
+  constraint?: string
+  dublicate?: string
+  nonNull?: string
 }
+
+export type HandleErrorType = (errorObject: any, message: string) => ErrorContentType
 
 export const generalErrorMessages: GeneralErrorMessagesType = {
   unrecognizedMethod: {
@@ -21,9 +26,30 @@ export const generalErrorMessages: GeneralErrorMessagesType = {
     message:    'Something went wrong. Refresh and try again!',
     status: 403
   },
-  // dataIssue: {
-  //   logMessage: 'An error has occured on the request for data',
-  //   message:    'Something went wrong. Refresh and try again!',
-  //   status: 400
-  // }
+  ohShit: {
+    logMessage: 'This error type isn\'t configured. Create a case for this in post.utils.ts',
+    message:    'Something is wrong. Please notify one of the admins',
+    status: 500
+  }
+}
+
+export const handleError: HandleErrorType = (errorObject, message) => {
+  let errorType: any | undefined
+  
+  for (let i = 0; i < Object.keys(errorObject).length; i++) {
+    const key = Object.keys(errorObject)[i]
+    const type = errorObject[key] as ErrorContentType
+    const check = type.constraint || type.dublicate || type.nonNull
+
+    if(!check) continue
+
+    if(message.includes(check)) {
+      errorType = key
+      break
+    }
+  }
+
+  const error = errorObject[errorType || 'default']
+
+  return error
 }

@@ -3,24 +3,20 @@ import { PostDataType } from "../../pages/post/[...post-id]";
 import Post from "./Post";
 
 const PostContainer: FC<PostDataType> = ({
-  postBase: {
-    post_content: baseContent,
-    ...postBaseProps
-  },
-  postDescription: {
-    post_content: descriptionContent
-  },
-  username,
-  profilePath
+    username,
+    profilePath,
+    baseContent,
+    descriptionContent,
+    created_at
 }) => {
 
   return (
     <Post
-      {...postBaseProps}
-      cleanBase={baseContent}
-      cleanDescription={descriptionContent}
       username={username}
-      profilePath={profilePath} />
+      profilePath={profilePath}
+      baseContent={baseContent}
+      descriptionContent={descriptionContent}
+      created_at={created_at} />
   )
 }
 
