@@ -1,17 +1,17 @@
 import { FC, useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
-import { PostType } from "../post/Post"
 import gsap from "gsap"
 import dayjs from "dayjs"
+import { PostDataType } from "../../pages/post/[...post-id]"
 
-type PostDisplayContainerType = PostType
+type PostDisplayContainerType = PostDataType
 
 const PostDisplayContainer: FC<PostDisplayContainerType> = ({
-  profilePath,
   username,
-  created_at: rawDate,
-  cleanBase,
-  cleanDescription
+  profilePath,
+  baseContent,
+  descriptionContent,
+  created_at: rawDate
 }) => {
   const descriptioncContentRef = useRef<HTMLDivElement>(null);
   const tlDescriptionRef = useRef<gsap.core.Timeline>(gsap.timeline({
@@ -64,10 +64,10 @@ const PostDisplayContainer: FC<PostDisplayContainerType> = ({
       ref={descriptioncContentRef}
       username={username}
       created_at={date}
-      cleanBase={cleanBase}
-      cleanDescription={cleanDescription}
-      handleRevealDescription={revealDescription}
-      profilePath={profilePath} />
+      baseContent={baseContent}
+      descriptionContent={descriptionContent}
+      profilePath={profilePath}
+      handleRevealDescription={revealDescription} />
   )
 }
 

@@ -77,27 +77,33 @@ export interface Database {
         Row: {
           avatar_url: string | null
           full_name: string | null
+          full_name: string | null
           id: string
           path: string | null
           updated_at: string | null
+          username: string | null
           username: string | null
           website: string | null
         }
         Insert: {
           avatar_url?: string | null
           full_name?: string | null
+          full_name?: string | null
           id: string
           path?: string | null
           updated_at?: string | null
+          username?: string | null
           username?: string | null
           website?: string | null
         }
         Update: {
           avatar_url?: string | null
           full_name?: string | null
+          full_name?: string | null
           id?: string
           path?: string | null
           updated_at?: string | null
+          username?: string | null
           username?: string | null
           website?: string | null
         }

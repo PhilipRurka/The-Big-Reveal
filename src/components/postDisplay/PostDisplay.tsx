@@ -10,12 +10,12 @@ import {
   DescriptionContent
 } from "./PostDisplay.styled";
 import BubbleLayout from "../bubbleLayout";
-import { PostType } from "../post/Post";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
 import dayjs from "dayjs";
+import { PostDataType } from "../../pages/post/[...post-id]";
 
-type PostDisplayType = PostType & {
+type PostDisplayType = PostDataType & {
   handleRevealDescription: () => void
 }
 type DescriptionSectionRefType = HTMLDivElement
@@ -23,8 +23,8 @@ type DescriptionSectionRefType = HTMLDivElement
 const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
   username,
   created_at,
-  cleanBase,
-  cleanDescription,
+  baseContent,
+  descriptionContent,
   handleRevealDescription,
   profilePath
 }, descriptionRef) => {
@@ -44,8 +44,8 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
               </Date>
             )}
           </BaseInformation>
-          <CleanContent content={cleanBase} />
-          {cleanDescription && (
+          <CleanContent content={baseContent} />
+          {descriptionContent && (
             <Button
               colorType="primary"
               onClick={handleRevealDescription} >
@@ -57,7 +57,7 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
       <NormalLayout>
         <DescriptionSection id='description-section'>
           <DescriptionContent ref={descriptionRef}>
-            <CleanContent content={cleanDescription} />
+            <CleanContent content={descriptionContent} />
           </DescriptionContent>
         </DescriptionSection>
       </NormalLayout>

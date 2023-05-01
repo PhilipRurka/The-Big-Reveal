@@ -14,49 +14,51 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const id = ctx.query['post-id']
 
   const {
-    data: postBaseData,
-    error: postBaseError
+    data,
+    error
   } = await supabase
-    .from("post_base")
-    .select('post_content, created_at, user_id')
+    .from('post_base')
+    .select(`
+      post_content,
+      created_at,
+      post_description!post_base_id_fkey (
+        post_content
+      ),
+      profiles!post_base_user_id_fkey (
+        username,
+        path,
+        id
+      )
+    `)
     .eq('id', id)
-    .order("created_at")
     .single()
 
-  const {
-    data: postDescriptionData,
-    error: postDescriptionError
-  } = await supabase
-    .from("post_description")
-    .select('post_content')
-    .eq('post_id', id)
-    .single()
-  
-  const {
-    data: profileData,
-    error: profileError
-  } = await supabase
-    .from("profiles")
-    .select('username, path')
-    .eq('id', postBaseData?.user_id)
-    .single()
-
-  if(postBaseError || postDescriptionError || !postBaseData || !postDescriptionData || !profileData || profileError) {
-    console.log({
-      postBaseError,
-      postDescriptionError,
-      profileError
-    })
-
-    return { props: {} }
+  if(error || !data) {
+    console.error(error)
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        }
+      }
   }
 
+  const profile = data.profiles as profileType
+  const description = data.post_description as PostDescriptionType
+
   return {props: {
-    username: profileData.username,
-    profilePath: profileData.path,
-    postBase: postBaseData,
-    postDescription: postDescriptionData || null
+    username: profile.username,
+    profilePath: profile.path,
+    baseContent: data.post_content,
+    descriptionContent: description.post_content,
+    created_at: data.created_at
   }}
+}
+
+type profileType = {
+  username: string | null;
+  path: string | null;
+  id: string;
 }
 
 export type PostBaseType = {
@@ -64,15 +66,16 @@ export type PostBaseType = {
   post_content: string;
 }
 
-export type PostDescriptionType = {
+type PostDescriptionType = {
   post_content: string
 }
 
 export type PostDataType = {
   username: string
   profilePath: string
-  postBase: PostBaseType
-  postDescription: PostDescriptionType
+  baseContent: string
+  descriptionContent: string
+  created_at: string
 }
 
 function PostPage(props: PostDataType) {
