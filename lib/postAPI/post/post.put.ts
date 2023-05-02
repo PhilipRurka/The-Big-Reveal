@@ -15,10 +15,10 @@ import {
 export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     base: {
-      post_content: postBaseContent
+      base_content: postBaseContent
     },
     description: {
-      post_content: postDescriptionContent,
+      description_content: postDescriptionContent,
     }
   } = req.body as UpdatePostBodyType
 

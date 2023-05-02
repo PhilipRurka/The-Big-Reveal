@@ -19,10 +19,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = await supabase
     .from('post_base')
     .select(`
-      post_content,
+      base_content,
       created_at,
       post_description (
-        post_content
+        description_content
       ),
       profiles (
         username,
@@ -49,8 +49,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   return {props: {
     username: profile.username,
     profilePath: profile.path,
-    baseContent: data.post_content,
-    descriptionContent: description.post_content,
+    baseContent: data.base_content,
+    descriptionContent: description.description_content,
     created_at: data.created_at
   }}
 }
@@ -63,11 +63,11 @@ type profileType = {
 
 export type PostBaseType = {
   created_at: string | null;
-  post_content: string;
+  base_content: string;
 }
 
 type PostDescriptionType = {
-  post_content: string
+  description_content: string
 }
 
 export type PostDataType = {

@@ -29,23 +29,24 @@ export const selectFeedUserId = async (
 
   const formatedData = []
 
-  for (let i = 0; i < data.length; i++) {
-    const {
-      base_id,
-      created_at,
-      post_title,
-      username
-    } = data[i];
-
-    formatedData.push({
-      base_id,
-      created_at,
-      post_title,
-      profiles: {
-        username  
-      }
-    })
-    
+  if(data) {
+    for (let i = 0; i < data.length; i++) {
+      const {
+        base_id,
+        created_at,
+        post_title,
+        username
+      } = data[i];
+  
+      formatedData.push({
+        base_id,
+        created_at,
+        post_title,
+        profiles: {
+          username  
+        }
+      })
+    }
   }
 
   return res.status(200).send(formatedData)
