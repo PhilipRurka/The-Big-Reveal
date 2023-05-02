@@ -10,72 +10,39 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return res
   }
 
-  const {
-    supabase,
-    session
-  } = res
+  const { supabase } = res
 
   const {
-    data: profileData,
-    error: profileError
+    data,
+    error
   } = await supabase
-    .from('profiles')
-    .select('username, id')
-    .eq('path', ctx.query['profile-path'])
+    .from('post_base')
+    .select(`
+      profiles!post_base_user_id_fkey (
+        username
+      )
+    `)
+    .eq('profiles.path', ctx.query['profile-path'])
+    .limit(1)
     .single()
 
-    if(profileError || !profileData) {
-      console.error(profileError)
-      return {
-        redirect: {
-          destination: '/auth',
-          permanent: false,
-        }
-      }
-    }
-
-  const {
-    data: baseData,
-    error: baseError
-  } = await supabase
-    .from("post_base")
-    .select('id, created_at, post_title')
-    .eq('user_id', profileData.id)
-    .order("created_at")
-
-  if(baseError || !baseData) {
-    console.error(baseError)
-    return {
-      redirect: {
-        destination: '/auth',
-        permanent: false,
-      }
-    }
-  }
-
-  const list = []
-
-  for (let i = 0; i < baseData.length; i++) {
-    const item = baseData[i];
-    list.push({
-      ...item,
-      profiles: {
-        username: profileData.username
-      }
-    })
-  }
+  const profile = data?.profiles as ProfileType
 
   return { props: {
-    list,
-    username: profileData.username,
+    username: profile.username,
+    profile_path: ctx.query['profile-path'],
     host: ctx.req.headers.host
   }}
 }
 
+type ProfileType = {
+  username: string
+}
+
 export type UserSpaceDataType = {
-  list: PostCardListType
   host: string
   username: string
+  profile_path: string
 }
 
 function AuthorPostsPage(props: UserSpaceDataType) {

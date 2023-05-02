@@ -5,8 +5,13 @@ import {
 } from "./AuthorPosts.styled";
 import PostCardList from "../postCardList";
 import { UserSpaceDataType } from "../../pages/[...profile-path]";
+import { PostCardListType } from "../postCardList/PostCardList.container";
 
-const AuthorPosts: FC<UserSpaceDataType> = ({
+type AuthorPosts = UserSpaceDataType & {
+  list: PostCardListType
+}
+
+const AuthorPosts: FC<AuthorPosts> = ({
   list,
   username,
   host

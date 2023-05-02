@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { HomeStyled } from "./Home.styled";
 import PostDisplay from "../postDisplay";
-import { PostDataType } from "../../pages/post/[...post-id]";
+import { PostDataType } from "../../pages/post/[post-id]";
 
 const Home: FC<PostDataType> = ({
   username,

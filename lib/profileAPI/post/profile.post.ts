@@ -38,7 +38,7 @@ export const updateProfile = async (req: NextApiRequest, res: NextApiResponse ) 
       username,
       path
     })
-    .eq('id', session.user.id)
+    .eq('profile_id', session.user.id)
     
     if(resError) {
       const error = handleError(profileErrorMessages, resError.message)

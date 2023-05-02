@@ -21,16 +21,16 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .select(`
       post_content,
       created_at,
-      post_description!post_base_id_fkey (
+      post_description (
         post_content
       ),
-      profiles!post_base_user_id_fkey (
+      profiles (
         username,
         path,
-        id
+        profile_id
       )
     `)
-    .eq('id', id)
+    .eq('base_id', id)
     .single()
 
   if(error || !data) {
@@ -58,7 +58,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 type profileType = {
   username: string | null;
   path: string | null;
-  id: string;
+  profile_id: string;
 }
 
 export type PostBaseType = {

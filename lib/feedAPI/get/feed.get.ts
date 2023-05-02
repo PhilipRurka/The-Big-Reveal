@@ -1,7 +1,12 @@
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
+import { PostCardListType } from "../../../src/components/postCardList/PostCardList.container";
 import { Database } from "../../../src/types/supabase-types";
 import { generalErrorMessages } from "../../generalErrors";
+
+export type GetDataType = {
+  data: PostCardListType
+}
 
 export const selectFeed = async (req: NextApiRequest, res: NextApiResponse) => {
   const { unauthorized } = generalErrorMessages
@@ -16,7 +21,7 @@ export const selectFeed = async (req: NextApiRequest, res: NextApiResponse) => {
   const { data } = await supabase
     .from("post_base")
     .select(`
-      id,
+      base_id,
       created_at,
       post_title,
       profiles!post_base_user_id_fkey (

@@ -13,7 +13,7 @@ import BubbleLayout from "../bubbleLayout";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
 import dayjs from "dayjs";
-import { PostDataType } from "../../pages/post/[...post-id]";
+import { PostDataType } from "../../pages/post/[post-id]";
 
 type PostDisplayType = PostDataType & {
   handleRevealDescription: () => void

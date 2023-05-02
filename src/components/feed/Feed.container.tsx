@@ -2,10 +2,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import Feed from "./Feed";
 import axios from "axios";
 import { PostCardListType } from "../postCardList/PostCardList.container";
-
-type GetDataType = {
-  data: PostCardListType
-}
+import { GetDataType } from "../../../lib/feedAPI/get/feed.get";
 
 const FeedContainer: FC = () => {
   const [feedList, setFeedList] = useState<PostCardListType>([])

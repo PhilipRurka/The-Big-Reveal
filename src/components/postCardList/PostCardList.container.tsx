@@ -2,7 +2,7 @@ import { FC } from "react"
 import PostCardList from "./PostCardList"
 
 export type PostCardListType = Array<{
-  id: string
+  base_id: string
   created_at: string | null
   post_title: string
   profiles: {

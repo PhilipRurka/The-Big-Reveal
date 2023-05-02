@@ -49,6 +49,8 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
     base_content: postBaseContent,
     description_content: postDescriptionContent || ''
   })
+  
+  console.log(resError)
 
   if(resError) {
     const error = handleError(postErrorMessages, resError.message)
