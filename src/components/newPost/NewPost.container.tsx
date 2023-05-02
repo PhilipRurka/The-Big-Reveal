@@ -39,11 +39,11 @@ const NewPostContainer: FC<NewPostPageType> = ({
     axios.put('/api/post', {
       base: {
         author_username: username,
-        post_content: postBaseContent,
+        base_content: postBaseContent,
         profile_path
       },
       description: {
-        post_content: postDescriptionContent
+        description_content: postDescriptionContent
       }
     })
     .then(({ data: { id }}) => {

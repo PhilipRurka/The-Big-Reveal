@@ -133,7 +133,7 @@ export interface Database {
     }
     CompositeTypes: {
       select_authors_posts_type: {
-        post_base_id: string
+        base_id: string
         created_at: string
         post_title: string
         username: string
