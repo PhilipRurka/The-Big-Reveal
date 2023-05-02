@@ -9,7 +9,7 @@ const PostCardList: FC<PostCardListPropsType> = ({ list }) => {
       {list.map((card, i) => (
         <PostCard
           key={`PostCardList ${card.post_title} - ${i}`}
-          id={card.id}
+          id={card.base_id}
           date={card.created_at}
           username={card.profiles.username}
           title={card.post_title} />

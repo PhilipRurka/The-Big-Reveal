@@ -29,7 +29,7 @@ export interface Database {
           created_at?: string
           enable_reveal?: boolean
           enable_reveal_date?: string
-          id?: string
+          id: string
           is_published?: boolean
           post_content: string
           post_title?: string
@@ -120,7 +120,8 @@ export interface Database {
           description_content: string
         }
         Returns: string
-      }
+      },
+      select_authors_posts: any
     }
     Enums: {
       [_ in never]: never

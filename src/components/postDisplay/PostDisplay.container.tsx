@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
 import dayjs from "dayjs"
-import { PostDataType } from "../../pages/post/[...post-id]"
+import { PostDataType } from "../../pages/post/[post-id]"
 
 type PostDisplayContainerType = PostDataType
 

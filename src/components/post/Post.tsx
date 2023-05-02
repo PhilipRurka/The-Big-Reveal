@@ -3,7 +3,7 @@ import {
   PostStyled
 } from "./Post.styled";
 import PostDisplay from "../postDisplay";
-import { PostDataType } from "../../pages/post/[...post-id]";
+import { PostDataType } from "../../pages/post/[post-id]";
 
 const Post: FC<PostDataType> = ({
   username,

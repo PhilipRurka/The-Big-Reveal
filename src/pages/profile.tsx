@@ -20,7 +20,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = await supabase
     .from('profiles')
     .select('username, full_name')
-    .eq('id', session.user.id)
+    .eq('profile_id', session.user.id)
     .single()
 
   if(error) {
