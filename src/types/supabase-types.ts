@@ -12,12 +12,12 @@ export interface Database {
       post_base: {
         Row: {
           allow_published_at: string
+          base_content: string
+          base_id: string
           created_at: string
           enable_reveal: boolean
           enable_reveal_date: string
-          id: string
           is_published: boolean
-          post_content: string
           post_title: string
           tags: string
           updated_at: string
@@ -26,12 +26,12 @@ export interface Database {
         }
         Insert: {
           allow_published_at?: string
+          base_content: string
+          base_id?: string
           created_at?: string
           enable_reveal?: boolean
           enable_reveal_date?: string
-          id: string
           is_published?: boolean
-          post_content: string
           post_title?: string
           tags?: string
           updated_at?: string
@@ -40,12 +40,12 @@ export interface Database {
         }
         Update: {
           allow_published_at?: string
+          base_content?: string
+          base_id?: string
           created_at?: string
           enable_reveal?: boolean
           enable_reveal_date?: string
-          id?: string
           is_published?: boolean
-          post_content?: string
           post_title?: string
           tags?: string
           updated_at?: string
@@ -55,20 +55,20 @@ export interface Database {
       }
       post_description: {
         Row: {
-          id: string
-          post_content: string
+          description_content: string
+          description_id: string
           post_id: string
           user_id: string
         }
         Insert: {
-          id?: string
-          post_content?: string
+          description_content?: string
+          description_id?: string
           post_id: string
           user_id?: string
         }
         Update: {
-          id?: string
-          post_content?: string
+          description_content?: string
+          description_id?: string
           post_id?: string
           user_id?: string
         }
@@ -77,8 +77,8 @@ export interface Database {
         Row: {
           avatar_url: string | null
           full_name: string | null
-          id: string
           path: string | null
+          profile_id: string
           updated_at: string | null
           username: string | null
           website: string | null
@@ -86,8 +86,8 @@ export interface Database {
         Insert: {
           avatar_url?: string | null
           full_name?: string | null
-          id: string
           path?: string | null
+          profile_id: string
           updated_at?: string | null
           username?: string | null
           website?: string | null
@@ -95,8 +95,8 @@ export interface Database {
         Update: {
           avatar_url?: string | null
           full_name?: string | null
-          id?: string
           path?: string | null
+          profile_id?: string
           updated_at?: string | null
           username?: string | null
           website?: string | null
@@ -120,14 +120,24 @@ export interface Database {
           description_content: string
         }
         Returns: string
-      },
-      select_authors_posts: any
+      }
+      select_authors_posts: {
+        Args: {
+          profile_path: string
+        }
+        Returns: Database["public"]["CompositeTypes"]["select_authors_posts_type"][]
+      }
     }
     Enums: {
       [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never
+      select_authors_posts_type: {
+        post_base_id: string
+        created_at: string
+        post_title: string
+        username: string
+      }
     }
   }
 }
