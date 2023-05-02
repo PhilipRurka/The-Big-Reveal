@@ -77,33 +77,27 @@ export interface Database {
         Row: {
           avatar_url: string | null
           full_name: string | null
-          full_name: string | null
           path: string | null
           profile_id: string
           updated_at: string | null
-          username: string | null
           username: string | null
           website: string | null
         }
         Insert: {
           avatar_url?: string | null
           full_name?: string | null
-          full_name?: string | null
           path?: string | null
           profile_id: string
           updated_at?: string | null
-          username?: string | null
           username?: string | null
           website?: string | null
         }
         Update: {
           avatar_url?: string | null
           full_name?: string | null
-          full_name?: string | null
           path?: string | null
           profile_id?: string
           updated_at?: string | null
-          username?: string | null
           username?: string | null
           website?: string | null
         }
@@ -139,7 +133,7 @@ export interface Database {
     }
     CompositeTypes: {
       select_authors_posts_type: {
-        post_base_id: string
+        base_id: string
         created_at: string
         post_title: string
         username: string
