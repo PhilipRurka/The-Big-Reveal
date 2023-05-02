@@ -52,7 +52,7 @@ INSERT INTO public.post_base (
   written_at,
   allow_published_at,
   post_title,
-  post_content
+  base_content
 ) VALUES (
   '4e9fce00-5b39-41b1-b164-902c95928580',
   '5899f99d-a449-4bfa-8769-19c097aaf1f5',
@@ -72,7 +72,7 @@ INSERT INTO public.post_description (
   description_id,
   post_id,
   user_id,
-  post_content
+  description_content
 ) VALUES (
   'aa55c5ec-aee3-4324-957b-dc92c6906aa6',
   '4e9fce00-5b39-41b1-b164-902c95928580',
@@ -95,7 +95,7 @@ INSERT INTO public.post_base (
   enable_reveal,
   written_at,
   allow_published_at,
-  post_content
+  base_content
 ) VALUES (
   'fc27e131-0b9a-4eae-a05d-27fc729de24e',
   '5899f99d-a449-4bfa-8769-19c097aaf1f5',
@@ -164,10 +164,10 @@ INSERT INTO public.post_base (
 );
 
 INSERT INTO public.post_description (
-description_id,
-post_id,
-user_id,
-post_content
+  description_id,
+  post_id,
+  user_id,
+  description_content
 )
 VALUES (
   '3ee847b9-862e-44b1-ae7b-248ae6b36a32',
