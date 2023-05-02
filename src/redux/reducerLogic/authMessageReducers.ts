@@ -45,7 +45,10 @@ export const statusMessage = {
       }
 
     } else if(source === RouterQueryEnum.REGISTRATION) {
-      if(status === 422) {
+      if(message === 'Signups not allowed for this instance') {
+        messagesObj.defaultMessage = `Account creations is disabled at this time`
+
+      } else if(status === 422) {
         messagesObj.defaultMessage = `Invalid Email Format`
 
       } else if(status === 429) {
