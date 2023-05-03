@@ -12,8 +12,9 @@ import FormMessage from "../FormMessage"
 import type { FormMessageContainerType } from "../FormMessage/FormMessage.container"
 import BubbleLayout from "../bubbleLayout"
 import NormalLayout from "../normalLayout"
+import { NewPostContainerType } from "./NewPost.container"
 
-type NewPostType = {
+export type NewPostType = NewPostContainerType & {
   handleSubmit: (event: FormEvent) => void
   baseRef: MutableRefObject<Editor>
   descriptionRef: MutableRefObject<Editor>
@@ -24,6 +25,8 @@ const NewPost: FC<NewPostType> = ({
   handleSubmit,
   baseRef,
   descriptionRef,
+  baseContent,
+  descriptionContent,
   formMessageProps
 }) => {
   return (
@@ -39,7 +42,8 @@ const NewPost: FC<NewPostType> = ({
           </Label>
           <Tiny
             tinyId={'tiny-base'}
-            tinyRef={baseRef} />
+            tinyRef={baseRef}
+            tinyInitValue={baseContent} />
         </BubbleLayout>
         <NormalLayout>
           <Label>
@@ -47,7 +51,8 @@ const NewPost: FC<NewPostType> = ({
           </Label>
           <Tiny
             tinyId={'tiny-description'}
-            tinyRef={descriptionRef} />
+            tinyRef={descriptionRef}
+            tinyInitValue={descriptionContent} />
           <ButtonStyled>
             <Button
               colorType="primary"

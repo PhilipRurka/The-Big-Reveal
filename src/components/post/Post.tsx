@@ -3,14 +3,24 @@ import {
   PostStyled
 } from "./Post.styled";
 import PostDisplay from "../postDisplay";
-import { PostDataType } from "../../pages/post/[post-id]";
+import EditPost from "../editPost/EditPost.container";
+import { PostType } from "../../pages/post/[post-id]";
 
-const Post: FC<PostDataType> = ({
+type PostPropsType = PostType & {
+  isEditView: boolean
+  isAuthor?: boolean
+  handleTriggerEditView: () => void
+}
+
+const Post: FC<PostPropsType> = ({
   username,
-    profilePath,
-    baseContent,
-    descriptionContent,
-    created_at
+  profilePath,
+  baseContent,
+  descriptionContent,
+  created_at,
+  isEditView,
+  isAuthor,
+  handleTriggerEditView
 }) => (
   <PostStyled>
     <PostDisplay
@@ -18,7 +28,15 @@ const Post: FC<PostDataType> = ({
       profilePath={profilePath}
       baseContent={baseContent}
       descriptionContent={descriptionContent}
-      created_at={created_at} />
+      created_at={created_at}
+      isAuthor={isAuthor}
+      handleTriggerEditView={handleTriggerEditView} />
+    {isEditView && (
+      <EditPost
+        baseContent={baseContent}
+        descriptionContent={descriptionContent}
+        handleTriggerEditView={handleTriggerEditView} />
+    )}
   </PostStyled>
 )
 

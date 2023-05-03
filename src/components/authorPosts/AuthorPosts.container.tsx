@@ -1,7 +1,7 @@
 import axios from "axios";
 import { FC, useCallback, useEffect, useState } from "react";
 import { GetDataType } from "../../../lib/feedAPI/get/feed.get";
-import { UserSpaceDataType } from "../../pages/[...profile-path]";
+import { UserSpaceDataType } from "../../pages/[profile-path]";
 import { PostCardListType } from "../postCardList/PostCardList.container";
 import AuthorPosts from "./AuthorPosts";
 

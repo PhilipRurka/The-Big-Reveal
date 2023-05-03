@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useCallback, useState } from "react";
 import { PostDataType } from "../../pages/post/[post-id]";
 import Post from "./Post";
 
@@ -7,8 +7,14 @@ const PostContainer: FC<PostDataType> = ({
     profilePath,
     baseContent,
     descriptionContent,
-    created_at
+    created_at,
+    isAuthor
 }) => {
+  const [isEditView, setIsEditView] = useState(false)
+
+  const handleTriggerEditView = useCallback(() => {
+    setIsEditView(!isEditView)
+  }, [isEditView])
 
   return (
     <Post
@@ -16,7 +22,10 @@ const PostContainer: FC<PostDataType> = ({
       profilePath={profilePath}
       baseContent={baseContent}
       descriptionContent={descriptionContent}
-      created_at={created_at} />
+      created_at={created_at}
+      isEditView={isEditView}
+      isAuthor={isAuthor}
+      handleTriggerEditView={handleTriggerEditView} />
   )
 }
 

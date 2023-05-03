@@ -4,12 +4,16 @@ import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container";
-import { NewPostPageType } from "../../pages/new-post";
 import axios from "axios"
 
-const NewPostContainer: FC<NewPostPageType> = ({
-  username,
-  profile_path
+export type NewPostContainerType = {
+  baseContent?: string
+  descriptionContent?: string
+}
+
+const NewPostContainer: FC<NewPostContainerType> = ({
+  baseContent,
+  descriptionContent
 }) => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
@@ -38,9 +42,7 @@ const NewPostContainer: FC<NewPostPageType> = ({
 
     axios.put('/api/post', {
       base: {
-        author_username: username,
         base_content: postBaseContent,
-        profile_path
       },
       description: {
         description_content: postDescriptionContent
@@ -67,7 +69,7 @@ const NewPostContainer: FC<NewPostPageType> = ({
     setTimeout(() => {
       setErrorMessage('')
     }, 300)
-  }, [username, profile_path, dispatch])
+  }, [dispatch])
 
   useEffect(() => {
     return () => {
@@ -79,6 +81,8 @@ const NewPostContainer: FC<NewPostPageType> = ({
     <NewPost
       baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}
+      baseContent={baseContent}
+      descriptionContent={descriptionContent}
       handleSubmit={handleSubmit}
       formMessageProps={{
         message: errorMessage,

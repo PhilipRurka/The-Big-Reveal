@@ -9,7 +9,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return res
   }
 
-  const { supabase } = res
+  const {
+    supabase,
+    session
+  } = res
 
   const id = ctx.query['post-id']
 
@@ -25,6 +28,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         description_content
       ),
       profiles (
+        profile_id,
         username,
         path,
         profile_id
@@ -34,13 +38,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .single()
 
   if(error || !data) {
-    console.error(error)
-      return {
-        redirect: {
-          destination: '/',
-          permanent: false,
-        }
-      }
+    return {
+      notFound: true
+    }
   }
 
   const profile = data.profiles as profileType
@@ -51,7 +51,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     profilePath: profile.path,
     baseContent: data.base_content,
     descriptionContent: description.description_content,
-    created_at: data.created_at
+    created_at: data.created_at,
+    isAuthor: profile.profile_id === session.user.id
   }}
 }
 
@@ -70,12 +71,16 @@ type PostDescriptionType = {
   description_content: string
 }
 
-export type PostDataType = {
+export type PostType = {
   username: string
   profilePath: string
   baseContent: string
   descriptionContent: string
   created_at: string
+}
+
+export type PostDataType = PostType & {
+  isAuthor: boolean
 }
 
 function PostPage(props: PostDataType) {

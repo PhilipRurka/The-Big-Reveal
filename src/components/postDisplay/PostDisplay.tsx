@@ -7,16 +7,19 @@ import {
   Button,
   BaseSection,
   DescriptionSection,
-  DescriptionContent
+  DescriptionContent,
+  ButtonWrapper
 } from "./PostDisplay.styled";
 import BubbleLayout from "../bubbleLayout";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
 import dayjs from "dayjs";
-import { PostDataType } from "../../pages/post/[post-id]";
+import { PostType } from "../../pages/post/[post-id]";
 
-type PostDisplayType = PostDataType & {
+type PostDisplayType = PostType & {
   handleRevealDescription: () => void
+  isAuthor?: boolean
+  handleTriggerEditView?: () => void
 }
 type DescriptionSectionRefType = HTMLDivElement
 
@@ -26,7 +29,9 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
   baseContent,
   descriptionContent,
   handleRevealDescription,
-  profilePath
+  profilePath,
+  isAuthor,
+  handleTriggerEditView
 }, descriptionRef) => {
   return (
     <PostDisplayStyled>
@@ -45,12 +50,23 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
             )}
           </BaseInformation>
           <CleanContent content={baseContent} />
-          {descriptionContent && (
-            <Button
-              colorType="primary"
-              onClick={handleRevealDescription} >
-              The Big Reveal!
-            </Button>
+          {(descriptionContent || isAuthor) && (
+            <ButtonWrapper>
+              {descriptionContent && (
+                <Button
+                  colorType="primary"
+                  onClick={handleRevealDescription} >
+                  The Big Reveal!
+                </Button>
+              )}
+              {isAuthor && (
+                <Button
+                  colorType="primary"
+                  onClick={handleTriggerEditView} >
+                  Edit
+                </Button>
+              )}
+            </ButtonWrapper>
           )}
         </BaseSection>
       </BubbleLayout>

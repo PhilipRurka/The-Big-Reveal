@@ -4,7 +4,7 @@ import {
   Title,
 } from "./AuthorPosts.styled";
 import PostCardList from "../postCardList";
-import { UserSpaceDataType } from "../../pages/[...profile-path]";
+import { UserSpaceDataType } from "../../pages/[profile-path]";
 import { PostCardListType } from "../postCardList/PostCardList.container";
 
 type AuthorPosts = UserSpaceDataType & {
