@@ -1,29 +1,37 @@
 import { FC } from "react";
-import NewPostContainer from "../newPost/NewPost.container";
+import NewPost, { NewPostType } from "../newPost/NewPost";
 import {
   AboluteEdit,
   EditPostStyled,
   Overlay
 } from "./EditPost.styled";
 
-type EditPostType = {
+type EditPostType = NewPostType & {
   baseContent: string
   descriptionContent: string
   handleTriggerEditView: () => void
 }
 
 const EditPost: FC<EditPostType> = ({
+  baseRef,
+  descriptionRef,
   baseContent,
   descriptionContent,
+  formMessageProps,
+  handleSubmit,
   handleTriggerEditView
 }) => {
   return (
     <EditPostStyled>
       <Overlay onClick={handleTriggerEditView} />
       <AboluteEdit>
-        <NewPostContainer
+        <NewPost
+          baseRef={baseRef}
+          descriptionRef={descriptionRef}
           baseContent={baseContent}
-          descriptionContent={descriptionContent} />
+          descriptionContent={descriptionContent}
+          handleSubmit={handleSubmit}
+          formMessageProps={formMessageProps} />
       </AboluteEdit>
     </EditPostStyled>
   )

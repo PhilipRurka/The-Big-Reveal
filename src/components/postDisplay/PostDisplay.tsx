@@ -14,9 +14,13 @@ import BubbleLayout from "../bubbleLayout";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
 import dayjs from "dayjs";
-import { PostType } from "../../pages/post/[post-id]";
 
-type PostDisplayType = PostType & {
+type PostDisplayType = {
+  username: string
+  profilePath: string
+  baseContent: string
+  descriptionContent: string
+  created_at: string
   handleRevealDescription: () => void
   isAuthor?: boolean
   handleTriggerEditView?: () => void

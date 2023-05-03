@@ -11,10 +11,7 @@ export type NewPostContainerType = {
   descriptionContent?: string
 }
 
-const NewPostContainer: FC<NewPostContainerType> = ({
-  baseContent,
-  descriptionContent
-}) => {
+const NewPostContainer: FC<NewPostContainerType> = () => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()
@@ -60,15 +57,14 @@ const NewPostContainer: FC<NewPostContainerType> = ({
       baseRef.current?.setContent('')
       descriptionRef.current?.setContent('')
 
+      setShowMessage(false)
+      setTimeout(() => {
+        setErrorMessage('')
+      }, 300)
     })
     .catch(({ response: { data: { message }}}) => {
       triggerErrorMessage(message)
-    })    
-    
-    setShowMessage(false)
-    setTimeout(() => {
-      setErrorMessage('')
-    }, 300)
+    })
   }, [dispatch])
 
   useEffect(() => {
@@ -81,8 +77,6 @@ const NewPostContainer: FC<NewPostContainerType> = ({
     <NewPost
       baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}
-      baseContent={baseContent}
-      descriptionContent={descriptionContent}
       handleSubmit={handleSubmit}
       formMessageProps={{
         message: errorMessage,

@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { HomeStyled } from "./Home.styled";
 import PostDisplay from "../postDisplay";
-import { PostDataType } from "../../pages/post/[post-id]";
+import { StaticHookCopyType } from "./Home.container";
 
-const Home: FC<PostDataType> = ({
+const Home: FC<StaticHookCopyType> = ({
   username,
   created_at,
   profilePath,

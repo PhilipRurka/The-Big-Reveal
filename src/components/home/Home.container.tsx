@@ -1,6 +1,8 @@
 import { FC } from "react"
 import Home from "./Home"
 
+export type StaticHookCopyType = typeof staticHookCopy
+
 const staticHookCopy = {
   baseContent: `
     <h1 style="text-align: center;">The Great Reveal!</h1>

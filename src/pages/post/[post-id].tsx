@@ -52,7 +52,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     baseContent: data.base_content,
     descriptionContent: description.description_content,
     created_at: data.created_at,
-    isAuthor: profile.profile_id === session.user.id
+    isAuthor: profile.profile_id === session.user.id,
+    postId: id
   }}
 }
 
@@ -62,28 +63,21 @@ type profileType = {
   profile_id: string;
 }
 
-export type PostBaseType = {
-  created_at: string | null;
-  base_content: string;
-}
-
 type PostDescriptionType = {
   description_content: string
 }
 
-export type PostType = {
+export type PostPageType = {
   username: string
   profilePath: string
   baseContent: string
   descriptionContent: string
   created_at: string
-}
-
-export type PostDataType = PostType & {
   isAuthor: boolean
+  postId: string
 }
 
-function PostPage(props: PostDataType) {
+function PostPage(props: PostPageType) {
   
   return <Post {...props} />
 }

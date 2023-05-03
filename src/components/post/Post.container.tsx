@@ -1,19 +1,21 @@
 import { FC, useCallback, useState } from "react";
-import { PostDataType } from "../../pages/post/[post-id]";
+import { PostPageType } from "../../pages/post/[post-id]";
 import Post from "./Post";
 
-const PostContainer: FC<PostDataType> = ({
+const PostContainer: FC<PostPageType> = ({
     username,
     profilePath,
     baseContent,
     descriptionContent,
     created_at,
-    isAuthor
+    isAuthor,
+    postId
 }) => {
   const [isEditView, setIsEditView] = useState(false)
 
   const handleTriggerEditView = useCallback(() => {
     setIsEditView(!isEditView)
+    // Get version of edited post
   }, [isEditView])
 
   return (
@@ -25,7 +27,8 @@ const PostContainer: FC<PostDataType> = ({
       created_at={created_at}
       isEditView={isEditView}
       isAuthor={isAuthor}
-      handleTriggerEditView={handleTriggerEditView} />
+      handleTriggerEditView={handleTriggerEditView}
+      postId={postId} />
   )
 }
 

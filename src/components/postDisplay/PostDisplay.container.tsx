@@ -2,14 +2,18 @@ import { FC, useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
 import dayjs from "dayjs"
-import { PostType } from "../../pages/post/[post-id]"
 
-type PostDisplayContainerType = PostType & {
+export type PostDisplayType = {
+  username: string
+  profilePath: string
+  baseContent: string
+  descriptionContent: string
+  created_at: string
   isAuthor?: boolean
   handleTriggerEditView?: () => void
 }
 
-const PostDisplayContainer: FC<PostDisplayContainerType> = ({
+const PostDisplayContainer: FC<PostDisplayType> = ({
   username,
   profilePath,
   baseContent,
