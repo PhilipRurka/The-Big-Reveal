@@ -61,7 +61,7 @@
       "start": "Serve the build directory as localhost",
       "lint": "Run esLint",
       "build": "Build for production",
-      "update-types": "Generates the src/types/supabase-types.ts file from the database",
+      "update-types": "Generates the src/types/supabase-types.ts file from your local database",
       "post-tiny-install": "Copy TinyMCE to the public directory"
     }
   }
