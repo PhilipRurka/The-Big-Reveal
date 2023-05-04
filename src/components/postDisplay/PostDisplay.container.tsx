@@ -2,16 +2,24 @@ import { FC, useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
 import dayjs from "dayjs"
-import { PostDataType } from "../../pages/post/[post-id]"
+import { ContentsType } from "../../pages/post/[post-id]"
 
-type PostDisplayContainerType = PostDataType
+export type PostDisplayType = {
+  username: string
+  profilePath: string
+  post: ContentsType
+  created_at: string
+  isAuthor?: boolean
+  handleTriggerEditView?: () => void
+}
 
-const PostDisplayContainer: FC<PostDisplayContainerType> = ({
+const PostDisplayContainer: FC<PostDisplayType> = ({
   username,
   profilePath,
-  baseContent,
-  descriptionContent,
-  created_at: rawDate
+  post,
+  created_at: rawDate,
+  isAuthor,
+  handleTriggerEditView
 }) => {
   const descriptioncContentRef = useRef<HTMLDivElement>(null);
   const tlDescriptionRef = useRef<gsap.core.Timeline>(gsap.timeline({
@@ -64,10 +72,11 @@ const PostDisplayContainer: FC<PostDisplayContainerType> = ({
       ref={descriptioncContentRef}
       username={username}
       created_at={date}
-      baseContent={baseContent}
-      descriptionContent={descriptionContent}
+      post={post}
       profilePath={profilePath}
-      handleRevealDescription={revealDescription} />
+      handleRevealDescription={revealDescription}
+      isAuthor={isAuthor}
+      handleTriggerEditView={handleTriggerEditView} />
   )
 }
 

@@ -5,26 +5,34 @@ import {
   NewPostStyled,
   Title
 } from "./NewPost.styled"
-import { Button, ButtonStyled } from "../../styled/button"
+import {
+  Button,
+  ButtonWrapper
+} from "../../styled/button"
 import Tiny from "../tiny"
 import type { Editor } from "tinymce"
 import FormMessage from "../FormMessage"
 import type { FormMessageContainerType } from "../FormMessage/FormMessage.container"
 import BubbleLayout from "../bubbleLayout"
 import NormalLayout from "../normalLayout"
+import { ContentsType } from "../../pages/post/[post-id]"
 
-type NewPostType = {
+export type NewPostType = {
   handleSubmit: (event: FormEvent) => void
   baseRef: MutableRefObject<Editor>
   descriptionRef: MutableRefObject<Editor>
   formMessageProps: FormMessageContainerType
+  isEdit?: boolean
+  post?: ContentsType
 }
 
 const NewPost: FC<NewPostType> = ({
   handleSubmit,
   baseRef,
   descriptionRef,
-  formMessageProps
+  post,
+  formMessageProps,
+  isEdit
 }) => {
   return (
     <NewPostStyled>
@@ -39,7 +47,8 @@ const NewPost: FC<NewPostType> = ({
           </Label>
           <Tiny
             tinyId={'tiny-base'}
-            tinyRef={baseRef} />
+            tinyRef={baseRef}
+            tinyInitValue={post?.baseContent} />
         </BubbleLayout>
         <NormalLayout>
           <Label>
@@ -47,14 +56,15 @@ const NewPost: FC<NewPostType> = ({
           </Label>
           <Tiny
             tinyId={'tiny-description'}
-            tinyRef={descriptionRef} />
-          <ButtonStyled>
+            tinyRef={descriptionRef}
+            tinyInitValue={post?.descriptionContent} />
+          <ButtonWrapper>
             <Button
               colorType="primary"
               onClick={handleSubmit} >
-              Post!
+              {isEdit ? 'Update!' : 'Post!'}
             </Button>
-          </ButtonStyled>
+          </ButtonWrapper>
         </NormalLayout>
       </Form>
     </NewPostStyled>

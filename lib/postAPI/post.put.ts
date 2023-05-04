@@ -1,25 +1,21 @@
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Database } from '../../../src/types/supabase-types'
+import { Database } from '../../src/types/supabase-types'
 import {
   UpdatePostBodyType,
   formatTitle,
   postErrorMessages
-} from './post.utils'
+} from './utils'
 import dayjs from 'dayjs';
 import {
   generalErrorMessages,
   handleError
-} from '../../generalErrors';
+} from '../generalErrors';
 
 export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
   const {
-    base: {
-      base_content: postBaseContent
-    },
-    description: {
-      description_content: postDescriptionContent,
-    }
+    baseContent,
+    descriptionContent
   } = req.body as UpdatePostBodyType
 
   const { unauthorized } = generalErrorMessages
@@ -31,7 +27,7 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(unauthorized.status).send(unauthorized)
   }
   
-  let title = formatTitle(postBaseContent)
+  let title = formatTitle(baseContent)
 
   const now = dayjs().toISOString()
 
@@ -46,11 +42,9 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
     enable_reveal_date: now,
     allow_published_at: now,
     written_at: now,
-    base_content: postBaseContent,
-    description_content: postDescriptionContent || ''
+    base_content: baseContent,
+    description_content: descriptionContent || ''
   })
-  
-  console.log(resError)
 
   if(resError) {
     const error = handleError(postErrorMessages, resError.message)

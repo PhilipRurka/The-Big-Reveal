@@ -5,11 +5,13 @@ import { Editor } from "tinymce"
 type TinyType = {
   tinyRef: MutableRefObject<Editor>
   tinyId: string
+  tinyInitValue?: string
 }
 
 const TinyContainer: FC<TinyType> = ({
   tinyRef,
-  tinyId
+  tinyId,
+  tinyInitValue
 }) => {
   const onInit = (_: unknown, editor: Editor) => { tinyRef.current = editor }
 
@@ -21,6 +23,7 @@ const TinyContainer: FC<TinyType> = ({
     <Tiny
       onInit={onInit}
       tinyId={tinyId}
+      tinyInitValue={tinyInitValue}
       handleChange={handleChange} />
   )
 }

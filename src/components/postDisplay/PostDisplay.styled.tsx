@@ -160,3 +160,16 @@ export const Button = styled(styledButton)`
 export const DescriptionContent = styled.div`
   
 `;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  margin-top: 20px;
+
+  & > button {
+    margin-left: 20px;
+    
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+`;

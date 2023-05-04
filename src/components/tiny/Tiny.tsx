@@ -7,12 +7,14 @@ import { Editor } from "tinymce";
 type TinyType = {
   onInit: (_: unknown, editor: Editor) => void
   tinyId: string,
+  tinyInitValue?: string
   handleChange: (value: string) => void
 }
 
 const Tiny: FC<TinyType> = ({
   onInit,
   tinyId,
+  tinyInitValue = '',
   handleChange
 }) => {
   return (
@@ -21,7 +23,7 @@ const Tiny: FC<TinyType> = ({
         id={tinyId}
         onInit={onInit}
         tinymceScriptSrc={`/tinymce/tinymce.min.js`}
-        initialValue=''
+        initialValue={tinyInitValue}
         init={{
           height: 500,
           menubar: false,

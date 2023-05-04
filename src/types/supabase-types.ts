@@ -45,7 +45,6 @@ export interface Database {
           is_published: boolean
           post_title: string
           tags: string
-          "Test Column": number | null
           updated_at: string
           user_id: string
           written_at: string
@@ -60,7 +59,6 @@ export interface Database {
           is_published?: boolean
           post_title?: string
           tags?: string
-          "Test Column"?: number | null
           updated_at?: string
           user_id?: string
           written_at?: string
@@ -75,7 +73,6 @@ export interface Database {
           is_published?: boolean
           post_title?: string
           tags?: string
-          "Test Column"?: number | null
           updated_at?: string
           user_id?: string
           written_at?: string
@@ -155,6 +152,15 @@ export interface Database {
         }
         Returns: Database["public"]["CompositeTypes"]["select_authors_posts_type"][]
       }
+      update_base_and_description: {
+        Args: {
+          post_id_val: string
+          post_title_val: string
+          base_content_val: string
+          description_content_val: string
+        }
+        Returns: Database["public"]["CompositeTypes"]["update_post_return_type"][]
+      }
     }
     Enums: {
       [_ in never]: never
@@ -165,6 +171,10 @@ export interface Database {
         created_at: string
         post_title: string
         username: string
+      }
+      update_post_return_type: {
+        base_content: string
+        description_content: string
       }
     }
   }

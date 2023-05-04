@@ -1,6 +1,7 @@
 import { generalErrorMessages } from "../../../lib/generalErrors";
-import { createPost } from "../../../lib/postAPI/post/post.put";
+import { createPost } from "../../../lib/postAPI/post.put";
 import { NextApiRequest, NextApiResponse } from "next";
+import { updatePost } from "../../../lib/postAPI/post.post";
 
 export default async function postAPI(
   req: NextApiRequest,
@@ -13,8 +14,8 @@ export default async function postAPI(
     case 'PUT':
       return createPost(req, res)
 
-    // case 'POST':
-    //   return updatePost(req, res)
+    case 'POST':
+      return updatePost(req, res)
 
     default:
       return res.status(generalErrorMessages.unrecognizedMethod.status)
