@@ -12,6 +12,7 @@ export const Overlay = styled.div`
   left: 0;
   background-color: rgba(0, 0, 0, 0.7);
   opacity: 0;
+  cursor: pointer;
 `;
 
 export const AboluteEdit = styled.div`

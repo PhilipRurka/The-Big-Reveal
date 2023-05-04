@@ -1,5 +1,5 @@
 import axios from "axios"
-import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
+import { FC, FormEvent, MutableRefObject, RefObject, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { Editor } from "tinymce"
 import { ContentsType } from "../../pages/post/[post-id]"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
@@ -29,44 +29,57 @@ const EditPostContainer: FC<EditPostType> = ({
   const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()
   const initialAnimationRef = useRef<gsap.core.Timeline>(gsap.timeline())
+  const hoverAnimationRef = useRef<gsap.core.Timeline>(gsap.timeline({
+    paused: true
+  }))
+  const overlayRef = useRef<HTMLDivElement>()
+  const absoluteRef = useRef<HTMLDivElement>()
+  const hoverTimeoutRef = useRef<NodeJS.Timeout>()
+  const blurTimeoutRef = useRef<NodeJS.Timeout>()
 
   const [errorMessage, setErrorMessage] = useState('')
   const [showMessage, setShowMessage] = useState(false)
 
   const initialAnimation = useCallback(() => {
-    return gsap.timeline().fromTo('#edit-overlay', {
+    return gsap.timeline().fromTo(overlayRef.current as HTMLDivElement, {
       alpha: 0
     }, {
       alpha: 1,
       duration: 0.5,
       ease: "power1.inOut"
     })
-    .fromTo('#edit-absolute', {
+    .fromTo(absoluteRef.current as HTMLDivElement, {
       x: (_, element: HTMLDivElement) => element.getBoundingClientRect().width
     }, {
       x: 0,
       duration: 0.5,
-      ease: "power1.out"
+      ease: "power1.inOut"
     }, "-=50%")
   }, [])
 
-  useEffect(() => {
-    initialAnimationRef.current = initialAnimation()
+  const handleOverlayHover = useCallback(() => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      /** Prevents the case where both are triggered at the same time */
+      clearTimeout(blurTimeoutRef.current)
 
-    return () => {
-      initialAnimationRef?.current?.kill()
-    }
-  }, [initialAnimation])
+      /** Starting from the end of the animation */
+      const from = initialAnimationRef.current.duration()
+      /** 75% from the end of the animation */
+      const to = from * 0.75
 
-  useEffect(() => {
-    mountedRef.current = true
-    const body = document.querySelector('body') as HTMLBodyElement
-    body.style.overflow = 'hidden'
+      initialAnimationRef.current.tweenFromTo(from, to)
+    }, 400)
+  }, [])
 
-    return () => {
-      mountedRef.current = false
-      body.style.overflow = 'unset'
-    }
+  const handleOverlayBlur = useCallback(() => {
+    /** Prevents the case where both are triggered at the same time */
+    clearTimeout(hoverTimeoutRef.current)
+
+    blurTimeoutRef.current = setTimeout(() => {
+      /** Start from anywhere, to the end of the animation */
+      const to = initialAnimationRef.current.duration()
+      initialAnimationRef.current.tweenTo(to)
+    }, 400)
   }, [])
 
   const handleCloseEdit = useCallback(() => {
@@ -74,7 +87,7 @@ const EditPostContainer: FC<EditPostType> = ({
     setTimeout(() => {
       handleTriggerEditView()
     }, 750)
-  }, [])
+  }, [handleTriggerEditView])
 
   const triggerErrorMessage = useCallback((message: string) => {
     setErrorMessage(message)
@@ -110,6 +123,34 @@ const EditPostContainer: FC<EditPostType> = ({
     })
   }, [postId, handleTriggerEditView, updateOriginalPost, triggerErrorMessage])
 
+  useEffect(() => {
+    initialAnimationRef.current = initialAnimation()
+
+    return () => {
+      initialAnimationRef?.current?.kill()
+      hoverAnimationRef.current?.kill()
+    }
+  }, [initialAnimation])
+
+  useEffect(() => {
+    mountedRef.current = true
+
+    const body = document.querySelector('body') as HTMLBodyElement
+    body.style.overflow = 'hidden'
+
+    setTimeout(() => {
+      overlayRef.current?.addEventListener('mouseover', handleOverlayHover)
+      overlayRef.current?.addEventListener('mouseleave', handleOverlayBlur)
+    }, 750)
+
+    return () => {
+      mountedRef.current = false
+      body.style.overflow = 'unset'
+      overlayRef.current?.removeEventListener('mouseover', handleOverlayHover)
+      overlayRef.current?.removeEventListener('mouseleave', handleOverlayBlur)
+    }
+  }, [])
+
   return (
     <EditPost
       handleCloseEdit={handleCloseEdit}
@@ -121,7 +162,9 @@ const EditPostContainer: FC<EditPostType> = ({
         message: errorMessage,
         showMessage,
         type: StatusMessageTypesEnum.ERROR
-      }} />
+      }}
+      overlayRef={overlayRef as RefObject<HTMLDivElement>}
+      absoluteRef={absoluteRef as RefObject<HTMLDivElement>} />
   )
 }
 
