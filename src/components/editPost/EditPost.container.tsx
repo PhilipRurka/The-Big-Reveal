@@ -1,10 +1,11 @@
 import axios from "axios"
-import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useRef, useState } from "react"
+import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { Editor } from "tinymce"
 import { ContentsType } from "../../pages/post/[post-id]"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
 import { UpdateOriginalPostFunctionType } from "../post/Post.container"
 import EditPost from "./EditPost"
+import gsap from'gsap'
 
 type EditPostType = {
   postId: string
@@ -27,11 +28,38 @@ const EditPostContainer: FC<EditPostType> = ({
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()
+  const initialAnimationRef = useRef<gsap.core.Timeline>(gsap.timeline())
 
   const [errorMessage, setErrorMessage] = useState('')
   const [showMessage, setShowMessage] = useState(false)
 
+  const initialAnimation = useCallback(() => {
+    return gsap.timeline().fromTo('#edit-overlay', {
+      alpha: 0
+    }, {
+      alpha: 1,
+      duration: 0.5,
+      ease: "power1.inOut"
+    })
+    .fromTo('#edit-absolute', {
+      x: (_, element: HTMLDivElement) => element.getBoundingClientRect().width
+    }, {
+      x: 0,
+      duration: 0.5,
+      ease: "power1.out"
+    }, "-=50%")
+  }, [])
+
   useEffect(() => {
+    initialAnimationRef.current = initialAnimation()
+
+    return () => {
+      initialAnimationRef?.current?.kill()
+    }
+  }, [initialAnimation])
+
+  useEffect(() => {
+    mountedRef.current = true
     const body = document.querySelector('body') as HTMLBodyElement
     body.style.overflow = 'hidden'
 
@@ -41,10 +69,17 @@ const EditPostContainer: FC<EditPostType> = ({
     }
   }, [])
 
-  const triggerErrorMessage = (message: string) => {
+  const handleCloseEdit = useCallback(() => {
+    initialAnimationRef.current.reverse()
+    setTimeout(() => {
+      handleTriggerEditView()
+    }, 750)
+  }, [])
+
+  const triggerErrorMessage = useCallback((message: string) => {
     setErrorMessage(message)
     setShowMessage(true)
-  }
+  }, [])
 
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
@@ -66,18 +101,18 @@ const EditPostContainer: FC<EditPostType> = ({
       if(!mountedRef.current) return
 
       updateOriginalPost(data as UpdateOriginalPostType)
-      handleTriggerEditView()
+      handleCloseEdit()
     })
     .catch(({ response: { data: { message }}}) => {
       if(!mountedRef.current) return
 
       triggerErrorMessage(message)
     })
-  }, [postId, handleTriggerEditView, updateOriginalPost])
+  }, [postId, handleTriggerEditView, updateOriginalPost, triggerErrorMessage])
 
   return (
     <EditPost
-      handleTriggerEditView={handleTriggerEditView}
+      handleCloseEdit={handleCloseEdit}
       baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}
       post={post}

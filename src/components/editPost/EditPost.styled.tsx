@@ -11,6 +11,7 @@ export const Overlay = styled.div`
   bottom: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
 `;
 
 export const AboluteEdit = styled.div`
@@ -21,4 +22,5 @@ export const AboluteEdit = styled.div`
   left: 100px;
   background-color: white;
   overflow-y: scroll;
+  transform: translateX(100%);
 `;

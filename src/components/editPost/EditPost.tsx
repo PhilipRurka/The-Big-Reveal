@@ -9,7 +9,7 @@ import {
 
 type EditPostType = NewPostType & {
   post: ContentsType
-  handleTriggerEditView: () => void
+  handleCloseEdit: () => void
 }
 
 const EditPost: FC<EditPostType> = ({
@@ -18,12 +18,14 @@ const EditPost: FC<EditPostType> = ({
   post,
   formMessageProps,
   handleSubmit,
-  handleTriggerEditView
+  handleCloseEdit
 }) => {
   return (
     <EditPostStyled>
-      <Overlay onClick={handleTriggerEditView} />
-      <AboluteEdit>
+      <Overlay
+        id='edit-overlay'
+        onClick={handleCloseEdit} />
+      <AboluteEdit id='edit-absolute' >
         <NewPost
           baseRef={baseRef}
           descriptionRef={descriptionRef}

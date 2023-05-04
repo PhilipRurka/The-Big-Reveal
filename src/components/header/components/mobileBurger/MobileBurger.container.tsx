@@ -21,8 +21,6 @@ const MobileBurgerContainer: FC = () => {
   }, [dispatch]);
 
   const initGsap = useCallback((): void => {
-    if(window === undefined) return
-
     mobileNavTlRef.current = gsap.fromTo('#mobileMenu', {
       height: 0
     } ,{
