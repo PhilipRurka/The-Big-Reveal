@@ -42,7 +42,7 @@ const NewPostContainer: FC<NewPostContainerType> = () => {
       descriptionContent
     })
     .then(({ data: { id }}) => {
-      if(!mountedRef) return
+      if(!mountedRef.current) return
 
       dispatch(update_toaster({
         title: 'New post',
@@ -64,6 +64,8 @@ const NewPostContainer: FC<NewPostContainerType> = () => {
   }, [dispatch])
 
   useEffect(() => {
+    mountedRef.current = true
+    
     return () => {
       mountedRef.current = false
     }

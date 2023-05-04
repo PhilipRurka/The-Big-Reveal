@@ -78,7 +78,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
       username
     })
     .then(({ data: { message }}) => {
-      if(!mountedRef) return
+      if(!mountedRef.current) return
       setOriginalInputs({
         fullName,
         username
@@ -108,6 +108,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   }, [originalInputs, username, fullName])
 
   useEffect(() => {
+    mountedRef.current = true
     return () => {
       mountedRef.current = false
     }

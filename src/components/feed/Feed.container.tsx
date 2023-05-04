@@ -22,8 +22,9 @@ const FeedContainer: FC = () => {
   }, [])
 
   useEffect(() => {
+    mountedRef.current = true
     getinitialData()
-
+    
     return () => {
       mountedRef.current = false
     }

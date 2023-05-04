@@ -10,6 +10,7 @@ const AuthorPostsContainer: FC<UserSpaceDataType> = ({
   profile_path,
   username
 }) => {
+
   const mountedRef = useRef(true)
 
   const [feedList, setFeedList] = useState<PostCardListType>([])
@@ -27,6 +28,7 @@ const AuthorPostsContainer: FC<UserSpaceDataType> = ({
   }, [profile_path])
 
   useEffect(() => {
+    mountedRef.current = true
     updatePostList()
 
     return () => {
