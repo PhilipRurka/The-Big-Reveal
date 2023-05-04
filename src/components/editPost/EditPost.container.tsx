@@ -1,17 +1,29 @@
-import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useRef, useState } from "react"
-import NewPost from "./NewPost"
-import { useAppDispatch } from "../../redux/redux_hooks"
-import { update_toaster } from "../../redux/slices/toasterSlice"
-import { Editor } from "tinymce"
-import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container";
 import axios from "axios"
+import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useRef, useState } from "react"
+import { Editor } from "tinymce"
+import { ContentsType } from "../../pages/post/[post-id]"
+import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
+import { UpdateOriginalPostFunctionType } from "../post/Post.container"
+import EditPost from "./EditPost"
 
-export type NewPostContainerType = {
-  baseContent?: string
-  descriptionContent?: string
+type EditPostType = {
+  postId: string
+  post: ContentsType
+  handleTriggerEditView: () => void
+  updateOriginalPost: UpdateOriginalPostFunctionType
 }
 
-const NewPostContainer: FC<NewPostContainerType> = () => {
+export type UpdateOriginalPostType = {
+  baseContent: string
+  descriptionContent: string
+}
+
+const EditPostContainer: FC<EditPostType> = ({
+  postId,
+  handleTriggerEditView,
+  updateOriginalPost,
+  post
+}) => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()
@@ -19,7 +31,15 @@ const NewPostContainer: FC<NewPostContainerType> = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [showMessage, setShowMessage] = useState(false)
 
-  const dispatch = useAppDispatch()
+  useEffect(() => {
+    const body = document.querySelector('body') as HTMLBodyElement
+    body.style.overflow = 'hidden'
+
+    return () => {
+      mountedRef.current = false
+      body.style.overflow = 'unset'
+    }
+  }, [])
 
   const triggerErrorMessage = (message: string) => {
     setErrorMessage(message)
@@ -37,42 +57,30 @@ const NewPostContainer: FC<NewPostContainerType> = () => {
     const baseContent = baseRef.current.getContent()
     const descriptionContent = descriptionRef.current?.getContent() || null
 
-    axios.put('/api/post', {
+    axios.post('/api/post', {
+      postId,
       baseContent,
       descriptionContent
     })
-    .then(({ data: { id }}) => {
-      if(!mountedRef) return
+    .then(({ data }) => {
+      if(!mountedRef.current) return
 
-      dispatch(update_toaster({
-        title: 'New post',
-        subtitle: 'Click here to view it.',
-        to: `/post/${id}`
-      }))
-
-      baseRef.current?.setContent('')
-      descriptionRef.current?.setContent('')
-
-      setShowMessage(false)
-      setTimeout(() => {
-        setErrorMessage('')
-      }, 300)
+      updateOriginalPost(data as UpdateOriginalPostType)
+      handleTriggerEditView()
     })
     .catch(({ response: { data: { message }}}) => {
+      if(!mountedRef.current) return
+
       triggerErrorMessage(message)
     })
-  }, [dispatch])
-
-  useEffect(() => {
-    return () => {
-      mountedRef.current = false
-    }
-  }, [])
+  }, [postId, handleTriggerEditView, updateOriginalPost])
 
   return (
-    <NewPost
+    <EditPost
+      handleTriggerEditView={handleTriggerEditView}
       baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}
+      post={post}
       handleSubmit={handleSubmit}
       formMessageProps={{
         message: errorMessage,
@@ -82,4 +90,4 @@ const NewPostContainer: FC<NewPostContainerType> = () => {
   )
 }
 
-export default NewPostContainer
+export default EditPostContainer

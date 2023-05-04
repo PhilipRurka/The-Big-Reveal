@@ -2,23 +2,43 @@ import { FC } from "react";
 import {
   PostStyled
 } from "./Post.styled";
-import PostDisplay from "../postDisplay";
-import { PostDataType } from "../../pages/post/[post-id]";
+import PostDisplayContainer from "../postDisplay";
+import EditPost from "../editPost/EditPost.container";
+import { PostPageType } from "../../pages/post/[post-id]";
+import { UpdateOriginalPostFunctionType } from "./Post.container";
 
-const Post: FC<PostDataType> = ({
+type PostType = PostPageType & {
+  isEditView: boolean
+  updateOriginalPost: UpdateOriginalPostFunctionType
+  handleTriggerEditView: () => void
+}
+
+const Post: FC<PostType> = ({
   username,
-    profilePath,
-    baseContent,
-    descriptionContent,
-    created_at
+  profilePath,
+  post,
+  created_at,
+  isAuthor,
+  handleTriggerEditView,
+  isEditView,
+  updateOriginalPost,
+  postId
 }) => (
   <PostStyled>
-    <PostDisplay
+    <PostDisplayContainer
       username={username}
       profilePath={profilePath}
-      baseContent={baseContent}
-      descriptionContent={descriptionContent}
-      created_at={created_at} />
+      post={post}
+      created_at={created_at}
+      isAuthor={isAuthor}
+      handleTriggerEditView={handleTriggerEditView} />
+    {isEditView && (
+      <EditPost
+        post={post}
+        handleTriggerEditView={handleTriggerEditView}
+        updateOriginalPost={updateOriginalPost}
+        postId={postId} />
+    )}
   </PostStyled>
 )
 

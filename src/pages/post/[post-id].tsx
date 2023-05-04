@@ -1,6 +1,6 @@
 import type { GetServerSidePropsContext } from "next";
 import { authRequired } from "../../../lib/authRequired";
-import Post from "../../components/post/Post.container";
+import PostContainer from "../../components/post/Post.container";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)
@@ -9,7 +9,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return res
   }
 
-  const { supabase } = res
+  const {
+    supabase,
+    session
+  } = res
 
   const id = ctx.query['post-id']
 
@@ -25,6 +28,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         description_content
       ),
       profiles (
+        profile_id,
         username,
         path,
         profile_id
@@ -34,13 +38,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     .single()
 
   if(error || !data) {
-    console.error(error)
-      return {
-        redirect: {
-          destination: '/',
-          permanent: false,
-        }
-      }
+    return {
+      notFound: true
+    }
   }
 
   const profile = data.profiles as profileType
@@ -49,9 +49,13 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   return {props: {
     username: profile.username,
     profilePath: profile.path,
-    baseContent: data.base_content,
-    descriptionContent: description.description_content,
-    created_at: data.created_at
+    post: {
+      baseContent: data.base_content,
+      descriptionContent: description.description_content,
+    },
+    created_at: data.created_at,
+    isAuthor: profile.profile_id === session.user.id,
+    postId: id
   }}
 }
 
@@ -61,26 +65,27 @@ type profileType = {
   profile_id: string;
 }
 
-export type PostBaseType = {
-  created_at: string | null;
-  base_content: string;
-}
-
 type PostDescriptionType = {
   description_content: string
 }
 
-export type PostDataType = {
-  username: string
-  profilePath: string
+export type ContentsType = {
   baseContent: string
   descriptionContent: string
-  created_at: string
 }
 
-function PostPage(props: PostDataType) {
+export type PostPageType = {
+  username: string
+  profilePath: string
+  created_at: string
+  isAuthor: boolean
+  postId: string
+  post: ContentsType
+}
+
+function PostPage(props: PostPageType) {
   
-  return <Post {...props} />
+  return <PostContainer {...props} />
 }
 
 export default PostPage

@@ -1,8 +1,8 @@
-import { Database } from "../../../src/types/supabase-types"
+import { Database } from "../../src/types/supabase-types"
 import {
   ErrorContentType,
   generalErrorMessages
-} from "../../generalErrors"
+} from "../generalErrors"
 
 type PostErrorMessagesType = {
   missingHeading1:        ErrorContentType
@@ -13,8 +13,9 @@ type PostErrorMessagesType = {
 }
 
 export type UpdatePostBodyType = {
-  base: Database['public']['Tables']['post_base']['Row']
-  description: Database['public']['Tables']['post_description']['Row']
+  postId: string
+  baseContent: string
+  descriptionContent: string
 }
 
 export const postErrorMessages: PostErrorMessagesType = {
