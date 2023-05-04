@@ -34,16 +34,12 @@ const NewPostContainer: FC<NewPostContainerType> = () => {
       return
     }
 
-    const postBaseContent = baseRef.current.getContent()
-    const postDescriptionContent = descriptionRef.current?.getContent() || null
+    const baseContent = baseRef.current.getContent()
+    const descriptionContent = descriptionRef.current?.getContent() || null
 
     axios.put('/api/post', {
-      base: {
-        base_content: postBaseContent,
-      },
-      description: {
-        description_content: postDescriptionContent
-      }
+      baseContent,
+      descriptionContent
     })
     .then(({ data: { id }}) => {
       if(!mountedRef) return

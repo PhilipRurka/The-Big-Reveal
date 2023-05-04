@@ -1,21 +1,28 @@
 import axios from "axios"
 import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useRef, useState } from "react"
 import { Editor } from "tinymce"
+import { ContentsType } from "../../pages/post/[post-id]"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
+import { UpdateOriginalPostFunctionType } from "../post/Post.container"
 import EditPost from "./EditPost"
 
 type EditPostType = {
   postId: string
+  post: ContentsType
+  handleTriggerEditView: () => void
+  updateOriginalPost: UpdateOriginalPostFunctionType
+}
+
+export type UpdateOriginalPostType = {
   baseContent: string
   descriptionContent: string
-  handleTriggerEditView: () => void
 }
 
 const EditPostContainer: FC<EditPostType> = ({
   postId,
-  baseContent,
-  descriptionContent,
-  handleTriggerEditView
+  handleTriggerEditView,
+  updateOriginalPost,
+  post
 }) => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
@@ -47,32 +54,33 @@ const EditPostContainer: FC<EditPostType> = ({
       return
     }
 
-    const postBaseContent = baseRef.current.getContent()
-    const postDescriptionContent = descriptionRef.current?.getContent() || null
+    const baseContent = baseRef.current.getContent()
+    const descriptionContent = descriptionRef.current?.getContent() || null
 
-    // axios.put('/api/post', {
-    //   base: {
-    //     base_content: postBaseContent,
-    //   },
-    //   description: {
-    //     description_content: postDescriptionContent
-    //   }
-    // })
-    // .then(() => {
-    //   handleTriggerEditView()
-    // })
-    // .catch(({ response: { data: { message }}}) => {
-    //   triggerErrorMessage(message)
-    // })
-  }, [])
+    axios.post('/api/post', {
+      postId,
+      baseContent,
+      descriptionContent
+    })
+    .then(({ data }) => {
+      if(!mountedRef.current) return
+
+      updateOriginalPost(data as UpdateOriginalPostType)
+      handleTriggerEditView()
+    })
+    .catch(({ response: { data: { message }}}) => {
+      if(!mountedRef.current) return
+
+      triggerErrorMessage(message)
+    })
+  }, [postId, handleTriggerEditView, updateOriginalPost])
 
   return (
     <EditPost
       handleTriggerEditView={handleTriggerEditView}
       baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}
-      baseContent={baseContent}
-      descriptionContent={descriptionContent}
+      post={post}
       handleSubmit={handleSubmit}
       formMessageProps={{
         message: errorMessage,

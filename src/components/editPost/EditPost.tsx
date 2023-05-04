@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { ContentsType } from "../../pages/post/[post-id]";
 import NewPost, { NewPostType } from "../newPost/NewPost";
 import {
   AboluteEdit,
@@ -7,16 +8,14 @@ import {
 } from "./EditPost.styled";
 
 type EditPostType = NewPostType & {
-  baseContent: string
-  descriptionContent: string
+  post: ContentsType
   handleTriggerEditView: () => void
 }
 
 const EditPost: FC<EditPostType> = ({
   baseRef,
   descriptionRef,
-  baseContent,
-  descriptionContent,
+  post,
   formMessageProps,
   handleSubmit,
   handleTriggerEditView
@@ -28,10 +27,10 @@ const EditPost: FC<EditPostType> = ({
         <NewPost
           baseRef={baseRef}
           descriptionRef={descriptionRef}
-          baseContent={baseContent}
-          descriptionContent={descriptionContent}
+          post={post}
           handleSubmit={handleSubmit}
-          formMessageProps={formMessageProps} />
+          formMessageProps={formMessageProps}
+          isEdit />
       </AboluteEdit>
     </EditPostStyled>
   )

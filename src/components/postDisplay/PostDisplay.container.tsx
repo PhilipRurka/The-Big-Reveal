@@ -2,12 +2,12 @@ import { FC, useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
 import dayjs from "dayjs"
+import { ContentsType } from "../../pages/post/[post-id]"
 
 export type PostDisplayType = {
   username: string
   profilePath: string
-  baseContent: string
-  descriptionContent: string
+  post: ContentsType
   created_at: string
   isAuthor?: boolean
   handleTriggerEditView?: () => void
@@ -16,8 +16,7 @@ export type PostDisplayType = {
 const PostDisplayContainer: FC<PostDisplayType> = ({
   username,
   profilePath,
-  baseContent,
-  descriptionContent,
+  post,
   created_at: rawDate,
   isAuthor,
   handleTriggerEditView
@@ -73,8 +72,7 @@ const PostDisplayContainer: FC<PostDisplayType> = ({
       ref={descriptioncContentRef}
       username={username}
       created_at={date}
-      baseContent={baseContent}
-      descriptionContent={descriptionContent}
+      post={post}
       profilePath={profilePath}
       handleRevealDescription={revealDescription}
       isAuthor={isAuthor}

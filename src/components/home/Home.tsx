@@ -7,8 +7,7 @@ const Home: FC<StaticHookCopyType> = ({
   username,
   created_at,
   profilePath,
-  baseContent,
-  descriptionContent
+  post
 }) => {
   return (
     <HomeStyled>
@@ -16,8 +15,7 @@ const Home: FC<StaticHookCopyType> = ({
         username={username}
         profilePath={profilePath}
         created_at={created_at}
-        baseContent={baseContent}
-        descriptionContent={descriptionContent} />
+        post={post} />
     </HomeStyled>
   )
 }

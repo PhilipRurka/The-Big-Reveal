@@ -14,12 +14,12 @@ import BubbleLayout from "../bubbleLayout";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
 import dayjs from "dayjs";
+import { ContentsType } from "../../pages/post/[post-id]";
 
 type PostDisplayType = {
   username: string
   profilePath: string
-  baseContent: string
-  descriptionContent: string
+  post: ContentsType
   created_at: string
   handleRevealDescription: () => void
   isAuthor?: boolean
@@ -30,8 +30,10 @@ type DescriptionSectionRefType = HTMLDivElement
 const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
   username,
   created_at,
-  baseContent,
-  descriptionContent,
+  post: {
+    baseContent,
+    descriptionContent
+  },
   handleRevealDescription,
   profilePath,
   isAuthor,

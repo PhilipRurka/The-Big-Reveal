@@ -77,10 +77,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
       full_name: fullName,
       username
     })
-    .then(({ data: {
-      message
-    }
-    }) => {
+    .then(({ data: { message }}) => {
       if(!mountedRef) return
       setOriginalInputs({
         fullName,
