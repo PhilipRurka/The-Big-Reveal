@@ -8,13 +8,16 @@ import {
   BaseSection,
   DescriptionSection,
   DescriptionContent,
-  ButtonWrapper
+  ButtonWrapper,
+  PostDisplayContent
 } from "./PostDisplay.styled";
 import BubbleLayout from "../bubbleLayout";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
 import dayjs from "dayjs";
 import { ContentsType } from "../../pages/post/[post-id]";
+import FormMessageContainer from "../formMessage";
+import { FormMessageContainerType } from "../formMessage/FormMessage.container";
 
 type PostDisplayType = {
   username: string
@@ -24,6 +27,7 @@ type PostDisplayType = {
   handleRevealDescription: () => void
   isAuthor?: boolean
   handleTriggerEditView?: () => void
+  formMessage: FormMessageContainerType
 }
 type DescriptionSectionRefType = HTMLDivElement
 
@@ -37,7 +41,8 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
   handleRevealDescription,
   profilePath,
   isAuthor,
-  handleTriggerEditView
+  handleTriggerEditView,
+  formMessage
 }, descriptionRef) => {
   return (
     <PostDisplayStyled>
@@ -55,7 +60,13 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
               </Date>
             )}
           </BaseInformation>
-          <CleanContent content={baseContent} />
+          <FormMessageContainer
+            message={formMessage.message}
+            type={formMessage.type}
+            showMessage={formMessage.showMessage} />
+          <PostDisplayContent>
+            <CleanContent content={baseContent} />
+          </PostDisplayContent>
           {(descriptionContent || isAuthor) && (
             <ButtonWrapper>
               {descriptionContent && (
@@ -79,7 +90,9 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
       <NormalLayout>
         <DescriptionSection id='description-section'>
           <DescriptionContent ref={descriptionRef}>
-            <CleanContent content={descriptionContent} />
+            <PostDisplayContent>
+              <CleanContent content={descriptionContent} />
+            </PostDisplayContent>
           </DescriptionContent>
         </DescriptionSection>
       </NormalLayout>

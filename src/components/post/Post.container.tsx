@@ -1,6 +1,7 @@
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useRef, useState } from "react";
 import { PostPageType } from "../../pages/post/[post-id]";
 import { UpdateOriginalPostType } from "../editPost/EditPost.container";
+import { FormMessageContainerType, StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
 import Post from "./Post";
 
 export type UpdateOriginalPostFunctionType = (updatedData: UpdateOriginalPostType) => void
@@ -18,17 +19,36 @@ const PostContainer: FC<PostPageType> = ({
     isAuthor,
     postId
 }) => {
+  const { current: isWindowDefined } = useRef(typeof window !== undefined)
+
   const [post, setPost] = useState<PostStateType>(postProp)
   const [isEditView, setIsEditView] = useState<boolean>(false)
+  const [formMessage, setFormMessage] = useState<FormMessageContainerType>({
+    message: '',
+    showMessage: false,
+    type: undefined
+  })
 
   const handleTriggerEditView = useCallback(() => {
     setIsEditView(!isEditView)
-    // Get version of edited post
   }, [isEditView])
 
   const updateOriginalPost: UpdateOriginalPostFunctionType = useCallback((updatedData) => {
-    console.log(updatedData)
     setPost(updatedData)
+
+    setFormMessage({
+      message:'You have updated this post!',
+      type: StatusMessageTypesEnum.SUCCESS,
+      showMessage: true
+    })
+
+    if(!isWindowDefined) return
+    const body = document.querySelector('body') as HTMLBodyElement
+    body.style.overflow = 'unset'
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
   }, [])
 
   return (
@@ -41,7 +61,8 @@ const PostContainer: FC<PostPageType> = ({
       isAuthor={isAuthor}
       handleTriggerEditView={handleTriggerEditView}
       updateOriginalPost={updateOriginalPost}
-      postId={postId} />
+      postId={postId}
+      formMessage={formMessage} />
   )
 }
 
