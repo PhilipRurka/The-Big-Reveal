@@ -17,8 +17,8 @@ import {
 import { Field, Label } from "../../styled";
 import PasswordField from "../passwordField";
 import ConfirmedPasswordField from "../confirmedPasswordField";
-import { FormMessageContainerType } from "../formMessage1/FormMessage.container";
-import FormMessage from "../formMessage1"
+import { FormMessageContainerType } from "../formMessage/FormMessage.container";
+import FormMessage from "../formMessage"
 
 type FormMessagePropsType ={
   formMessageProps: FormMessageContainerType

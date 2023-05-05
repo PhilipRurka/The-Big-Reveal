@@ -1,7 +1,7 @@
 import { FC, useCallback, useRef, useState } from "react";
 import { PostPageType } from "../../pages/post/[post-id]";
 import { UpdateOriginalPostType } from "../editPost/EditPost.container";
-import { FormMessageContainerType, StatusMessageTypesEnum } from "../formMessage1/FormMessage.container";
+import { FormMessageContainerType, StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
 import Post from "./Post";
 
 export type UpdateOriginalPostFunctionType = (updatedData: UpdateOriginalPostType) => void

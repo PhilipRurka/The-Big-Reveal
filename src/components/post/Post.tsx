@@ -6,7 +6,7 @@ import PostDisplayContainer from "../postDisplay";
 import EditPost from "../editPost/EditPost.container";
 import { PostPageType } from "../../pages/post/[post-id]";
 import { UpdateOriginalPostFunctionType } from "./Post.container";
-import { FormMessageContainerType } from "../formMessage1/FormMessage.container";
+import { FormMessageContainerType } from "../formMessage/FormMessage.container";
 
 type PostType = PostPageType & {
   isEditView: boolean

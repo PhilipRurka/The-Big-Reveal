@@ -8,7 +8,7 @@ import {
   UpdateFormattedMessageType,
   DefinedStatusMessageStateType,
 } from "../types/authMessageRedux.type"
-import { StatusMessageTypesEnum } from "../../components/formMessage1/FormMessage.container"
+import { StatusMessageTypesEnum } from "../../components/formMessage/FormMessage.container"
 import { profileErrorMessages } from "../../../lib/profileAPI/post/profile.utils"
 
 export const statusMessage = {

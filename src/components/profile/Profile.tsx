@@ -15,8 +15,8 @@ import {
   ButtonWrapper,
   Button
 } from "../../styled/button"
-import FormMessage from "../formMessage1"
-import type { FormMessageContainerType } from "../formMessage1/FormMessage.container";
+import FormMessage from "../formMessage"
+import type { FormMessageContainerType } from "../formMessage/FormMessage.container";
 
 type ProfileType = {
   subtitle: string

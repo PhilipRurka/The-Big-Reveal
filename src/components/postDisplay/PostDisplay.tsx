@@ -16,8 +16,8 @@ import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
 import dayjs from "dayjs";
 import { ContentsType } from "../../pages/post/[post-id]";
-import FormMessageContainer from "../formMessage1";
-import { FormMessageContainerType } from "../formMessage1/FormMessage.container";
+import FormMessageContainer from "../formMessage";
+import { FormMessageContainerType } from "../formMessage/FormMessage.container";
 
 type PostDisplayType = {
   username: string
