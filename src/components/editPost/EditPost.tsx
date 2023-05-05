@@ -2,7 +2,7 @@ import { FC, RefObject } from "react";
 import { ContentsType } from "../../pages/post/[post-id]";
 import NewPost, { NewPostType } from "../newPost/NewPost";
 import {
-  AboluteEdit,
+  AbsoluteEdit,
   EditPostStyled,
   Overlay
 } from "./EditPost.styled";
@@ -29,7 +29,7 @@ const EditPost: FC<EditPostType> = ({
       <Overlay
         ref={overlayRef}
         onClick={handleCloseEdit} />
-      <AboluteEdit ref={absoluteRef} >
+      <AbsoluteEdit ref={absoluteRef} >
         <NewPost
           baseRef={baseRef}
           descriptionRef={descriptionRef}
@@ -37,7 +37,7 @@ const EditPost: FC<EditPostType> = ({
           handleSubmit={handleSubmit}
           formMessageProps={formMessageProps}
           isEdit />
-      </AboluteEdit>
+      </AbsoluteEdit>
     </EditPostStyled>
   )
 }

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { FC, FormEvent, MutableRefObject, RefObject, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react"
+import { FC, FormEvent, MutableRefObject, RefObject, useCallback, useEffect, useRef, useState } from "react"
 import { Editor } from "tinymce"
 import { ContentsType } from "../../pages/post/[post-id]"
 import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
@@ -18,6 +18,15 @@ export type UpdateOriginalPostType = {
   baseContent: string
   descriptionContent: string
 }
+
+const durationGsapOverlay = 0.3
+const durationGsapSlide = 0.5
+const hoverBlurBuffer = 0.4
+
+const delayGsapSlide = durationGsapOverlay / 2
+
+const overlayHoverTo = 0.47
+
 
 const EditPostContainer: FC<EditPostType> = ({
   postId,
@@ -39,26 +48,26 @@ const EditPostContainer: FC<EditPostType> = ({
   const [errorMessage, setErrorMessage] = useState('')
   const [showMessage, setShowMessage] = useState(false)
   
-  const ltInitOverlay = useCallback(() => {
+  const initOverlay = useCallback(() => {
     return gsap.timeline()
       .fromTo(overlayRef.current as HTMLDivElement, {
         alpha: 0
       }, {
         alpha: 1,
-        duration: 0.5,
-        ease: "power1.inOut"
+        duration: durationGsapOverlay,
+        ease: "power0"
       })
   }, [])
   
-  const ltInitSlide = useCallback(() => {
+  const initSlide = useCallback(() => {
     return gsap.timeline()
       .fromTo(absoluteRef.current as HTMLDivElement, {
         x: (_, element: HTMLDivElement) => element.getBoundingClientRect().width
       }, {
         x: 0,
-        duration: 0.5,
-        delay: 0.25,
-        ease: "power1.inOut"
+        duration: durationGsapSlide,
+        delay: delayGsapSlide,
+        ease: "power3.inOut"
       })
   }, [])
 
@@ -70,17 +79,16 @@ const EditPostContainer: FC<EditPostType> = ({
   const handleOverlayHover = useCallback(() => {
     incrementInstanceIds()
     const currentInstanceId = hoverInstanceIdRef.current
+    
 
     setTimeout(() => {
       if(lockHoverBlurRef.current || hoverInstanceIdRef.current !== currentInstanceId) return
-    
-      /** Shift animation __% to the right */
-      const leftShiftPercent = 20
-      const to = ltInitSlideRef.current.duration() * ((100 - leftShiftPercent) / 100)
 
-      ltInitSlideRef.current.tweenTo(to)
-    }, 400)
-  }, [])
+      ltInitOverlayRef.current.reverse()
+
+      ltInitSlideRef.current.tweenTo(overlayHoverTo)
+    }, hoverBlurBuffer * 1000)
+  }, [incrementInstanceIds])
 
   const handleOverlayBlur = useCallback(() => {
     incrementInstanceIds()
@@ -89,24 +97,25 @@ const EditPostContainer: FC<EditPostType> = ({
     setTimeout(() => {
       if(lockHoverBlurRef.current || blurInstanceIdRef.current !== currentInstanceId) return
 
+      ltInitOverlayRef.current.play()
+
       /** Start from anywhere, to the end of the animation */
       const to = ltInitSlideRef.current.duration()
       ltInitSlideRef.current.tweenTo(to)
-    }, 400)
-  }, [])
+    }, hoverBlurBuffer * 1000)
+  }, [incrementInstanceIds])
 
   const handleCloseEdit = useCallback(() => {
     ltInitSlideRef.current.reverse()
-
     lockHoverBlurRef.current = true
 
     setTimeout(() => {
       ltInitOverlayRef.current.reverse()
-    }, 250)
+    }, delayGsapSlide * 1000)
 
     setTimeout(() => {
       handleTriggerEditView()
-    }, 750)
+    }, durationGsapSlide * 1000)
   }, [handleTriggerEditView])
 
   const triggerErrorMessage = useCallback((message: string) => {
@@ -144,14 +153,14 @@ const EditPostContainer: FC<EditPostType> = ({
   }, [postId, handleTriggerEditView, updateOriginalPost, triggerErrorMessage])
 
   useEffect(() => {
-    ltInitSlideRef.current = ltInitSlide()
-    ltInitOverlayRef.current = ltInitOverlay()
+    ltInitSlideRef.current = initSlide()
+    ltInitOverlayRef.current = initOverlay()
 
     return () => {
       ltInitSlideRef.current.kill()
       ltInitOverlayRef.current.kill()
     }
-  }, [ltInitSlide])
+  }, [initSlide, initOverlay])
 
   useEffect(() => {
     mountedRef.current = true

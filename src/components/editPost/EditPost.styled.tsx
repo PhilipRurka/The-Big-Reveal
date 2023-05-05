@@ -15,7 +15,7 @@ export const Overlay = styled.div`
   cursor: pointer;
 `;
 
-export const AboluteEdit = styled.div`
+export const AbsoluteEdit = styled.div`
   position: fixed;
   top: 73px;
   right: 0;
@@ -24,4 +24,5 @@ export const AboluteEdit = styled.div`
   background-color: white;
   overflow-y: scroll;
   transform: translateX(100%);
+  box-shadow: 0 0 30px -4px black;
 `;
