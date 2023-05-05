@@ -2,7 +2,7 @@ import { FC, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from
 import { ProfilePageType } from "../../pages/profile"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
-import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container"
+import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
 import axios from "axios"
 
 export type handleSaveResetType = (event: FormEvent) => void
@@ -78,7 +78,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
       username
     })
     .then(({ data: { message }}) => {
-      if(!mountedRef) return
+      if(!mountedRef.current) return
       setOriginalInputs({
         fullName,
         username
@@ -108,6 +108,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
   }, [originalInputs, username, fullName])
 
   useEffect(() => {
+    mountedRef.current = true
     return () => {
       mountedRef.current = false
     }

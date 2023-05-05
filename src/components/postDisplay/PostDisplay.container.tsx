@@ -3,6 +3,7 @@ import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
 import dayjs from "dayjs"
 import { ContentsType } from "../../pages/post/[post-id]"
+import { FormMessageContainerType } from "../formMessage/FormMessage.container"
 
 export type PostDisplayType = {
   username: string
@@ -11,6 +12,7 @@ export type PostDisplayType = {
   created_at: string
   isAuthor?: boolean
   handleTriggerEditView?: () => void
+  formMessage?: FormMessageContainerType
 }
 
 const PostDisplayContainer: FC<PostDisplayType> = ({
@@ -19,7 +21,8 @@ const PostDisplayContainer: FC<PostDisplayType> = ({
   post,
   created_at: rawDate,
   isAuthor,
-  handleTriggerEditView
+  handleTriggerEditView,
+  formMessage
 }) => {
   const descriptioncContentRef = useRef<HTMLDivElement>(null);
   const tlDescriptionRef = useRef<gsap.core.Timeline>(gsap.timeline({
@@ -76,7 +79,8 @@ const PostDisplayContainer: FC<PostDisplayType> = ({
       profilePath={profilePath}
       handleRevealDescription={revealDescription}
       isAuthor={isAuthor}
-      handleTriggerEditView={handleTriggerEditView} />
+      handleTriggerEditView={handleTriggerEditView}
+      formMessage={formMessage} />
   )
 }
 

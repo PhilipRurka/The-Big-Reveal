@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { StatusMessageColors } from "../../styled";
 import { StatusMessageTypesEnum } from "./FormMessage.container";
 
-type FormMessageContentType = {
+type FormMessageWrapperType = {
   statusType: StatusMessageTypesEnum | undefined
 }
 
@@ -11,7 +11,7 @@ export const FormMessageStyled = styled.div`
   overflow: hidden;
 `;
 
-export const FormMessageContent = styled.p<FormMessageContentType>(({ statusType }) => {
+export const FormMessageWrapper = styled.p<FormMessageWrapperType>(({ statusType }) => {
   const statusTypsColors = statusType ? StatusMessageColors[statusType] : ''
 
   return css`

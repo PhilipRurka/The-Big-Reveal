@@ -1,15 +1,17 @@
-import { FC } from "react";
+import { FC, RefObject } from "react";
 import { ContentsType } from "../../pages/post/[post-id]";
 import NewPost, { NewPostType } from "../newPost/NewPost";
 import {
-  AboluteEdit,
+  AbsoluteEdit,
   EditPostStyled,
   Overlay
 } from "./EditPost.styled";
 
 type EditPostType = NewPostType & {
   post: ContentsType
-  handleTriggerEditView: () => void
+  handleCloseEdit: () => void
+  overlayRef: RefObject<HTMLDivElement>
+  absoluteRef: RefObject<HTMLDivElement>
 }
 
 const EditPost: FC<EditPostType> = ({
@@ -18,12 +20,16 @@ const EditPost: FC<EditPostType> = ({
   post,
   formMessageProps,
   handleSubmit,
-  handleTriggerEditView
+  handleCloseEdit,
+  overlayRef,
+  absoluteRef
 }) => {
   return (
     <EditPostStyled>
-      <Overlay onClick={handleTriggerEditView} />
-      <AboluteEdit>
+      <Overlay
+        ref={overlayRef}
+        onClick={handleCloseEdit} />
+      <AbsoluteEdit ref={absoluteRef} >
         <NewPost
           baseRef={baseRef}
           descriptionRef={descriptionRef}
@@ -31,7 +37,7 @@ const EditPost: FC<EditPostType> = ({
           handleSubmit={handleSubmit}
           formMessageProps={formMessageProps}
           isEdit />
-      </AboluteEdit>
+      </AbsoluteEdit>
     </EditPostStyled>
   )
 }

@@ -3,7 +3,9 @@ import { Button as styledButton } from "../../styled/button";
 import { default as LinkNext } from 'next/link'
 import { Colors } from '../../styled';
 
-export const PostDisplayStyled = styled.div`
+export const PostDisplayStyled = styled.div``;
+
+export const PostDisplayContent = styled.div`
   line-height: 1.4;
   font-size: 16px;
 

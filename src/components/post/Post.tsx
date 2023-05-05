@@ -6,11 +6,13 @@ import PostDisplayContainer from "../postDisplay";
 import EditPost from "../editPost/EditPost.container";
 import { PostPageType } from "../../pages/post/[post-id]";
 import { UpdateOriginalPostFunctionType } from "./Post.container";
+import { FormMessageContainerType } from "../formMessage/FormMessage.container";
 
 type PostType = PostPageType & {
   isEditView: boolean
   updateOriginalPost: UpdateOriginalPostFunctionType
   handleTriggerEditView: () => void
+  formMessage?: FormMessageContainerType
 }
 
 const Post: FC<PostType> = ({
@@ -22,7 +24,8 @@ const Post: FC<PostType> = ({
   handleTriggerEditView,
   isEditView,
   updateOriginalPost,
-  postId
+  postId,
+  formMessage
 }) => (
   <PostStyled>
     <PostDisplayContainer
@@ -31,7 +34,8 @@ const Post: FC<PostType> = ({
       post={post}
       created_at={created_at}
       isAuthor={isAuthor}
-      handleTriggerEditView={handleTriggerEditView} />
+      handleTriggerEditView={handleTriggerEditView}
+      formMessage={formMessage} />
     {isEditView && (
       <EditPost
         post={post}

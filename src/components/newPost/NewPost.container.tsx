@@ -3,7 +3,7 @@ import NewPost from "./NewPost"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
-import { StatusMessageTypesEnum } from "../FormMessage/FormMessage.container";
+import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
 import axios from "axios"
 
 export type NewPostContainerType = {
@@ -42,7 +42,7 @@ const NewPostContainer: FC<NewPostContainerType> = () => {
       descriptionContent
     })
     .then(({ data: { id }}) => {
-      if(!mountedRef) return
+      if(!mountedRef.current) return
 
       dispatch(update_toaster({
         title: 'New post',
@@ -64,6 +64,8 @@ const NewPostContainer: FC<NewPostContainerType> = () => {
   }, [dispatch])
 
   useEffect(() => {
+    mountedRef.current = true
+    
     return () => {
       mountedRef.current = false
     }
