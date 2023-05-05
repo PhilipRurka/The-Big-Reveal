@@ -2,7 +2,7 @@ import { FC, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from
 import { ProfilePageType } from "../../pages/profile"
 import { InputOnChangeType } from "../input/Input"
 import Profile from "./Profile"
-import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
+import { StatusMessageTypesEnum } from "../formMessage1/FormMessage.container"
 import axios from "axios"
 
 export type handleSaveResetType = (event: FormEvent) => void

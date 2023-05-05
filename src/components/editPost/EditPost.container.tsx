@@ -2,7 +2,7 @@ import axios from "axios"
 import { FC, FormEvent, MutableRefObject, RefObject, useCallback, useEffect, useRef, useState } from "react"
 import { Editor } from "tinymce"
 import { ContentsType } from "../../pages/post/[post-id]"
-import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
+import { StatusMessageTypesEnum } from "../formMessage1/FormMessage.container"
 import { UpdateOriginalPostFunctionType } from "../post/Post.container"
 import EditPost from "./EditPost"
 import gsap from'gsap'

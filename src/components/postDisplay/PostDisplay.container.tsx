@@ -3,7 +3,7 @@ import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
 import dayjs from "dayjs"
 import { ContentsType } from "../../pages/post/[post-id]"
-import { FormMessageContainerType } from "../formMessage/FormMessage.container"
+import { FormMessageContainerType } from "../formMessage1/FormMessage.container"
 
 export type PostDisplayType = {
   username: string

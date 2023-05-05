@@ -3,7 +3,7 @@ import NewPost from "./NewPost"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
-import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
+import { StatusMessageTypesEnum } from "../formMessage1/FormMessage.container";
 import axios from "axios"
 
 export type NewPostContainerType = {
