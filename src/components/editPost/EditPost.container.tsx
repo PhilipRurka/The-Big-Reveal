@@ -28,62 +28,82 @@ const EditPostContainer: FC<EditPostType> = ({
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()
-  const initialAnimationRef = useRef<gsap.core.Timeline>(gsap.timeline())
-  const hoverAnimationRef = useRef<gsap.core.Timeline>(gsap.timeline({
-    paused: true
-  }))
+  const ltInitSlideRef = useRef<gsap.core.Timeline>(gsap.timeline())
+  const ltInitOverlayRef = useRef<gsap.core.Timeline>(gsap.timeline())
   const overlayRef = useRef<HTMLDivElement>()
   const absoluteRef = useRef<HTMLDivElement>()
-  const hoverTimeoutRef = useRef<NodeJS.Timeout>()
-  const blurTimeoutRef = useRef<NodeJS.Timeout>()
+  const hoverInstanceIdRef = useRef<number>(0)
+  const blurInstanceIdRef = useRef<number>(0)
+  const lockHoverBlurRef = useRef<boolean>(false)
 
   const [errorMessage, setErrorMessage] = useState('')
   const [showMessage, setShowMessage] = useState(false)
+  
+  const ltInitOverlay = useCallback(() => {
+    return gsap.timeline()
+      .fromTo(overlayRef.current as HTMLDivElement, {
+        alpha: 0
+      }, {
+        alpha: 1,
+        duration: 0.5,
+        ease: "power1.inOut"
+      })
+  }, [])
+  
+  const ltInitSlide = useCallback(() => {
+    return gsap.timeline()
+      .fromTo(absoluteRef.current as HTMLDivElement, {
+        x: (_, element: HTMLDivElement) => element.getBoundingClientRect().width
+      }, {
+        x: 0,
+        duration: 0.5,
+        delay: 0.25,
+        ease: "power1.inOut"
+      })
+  }, [])
 
-  const initialAnimation = useCallback(() => {
-    return gsap.timeline().fromTo(overlayRef.current as HTMLDivElement, {
-      alpha: 0
-    }, {
-      alpha: 1,
-      duration: 0.5,
-      ease: "power1.inOut"
-    })
-    .fromTo(absoluteRef.current as HTMLDivElement, {
-      x: (_, element: HTMLDivElement) => element.getBoundingClientRect().width
-    }, {
-      x: 0,
-      duration: 0.5,
-      ease: "power1.inOut"
-    }, "-=50%")
+  const incrementInstanceIds = useCallback(() => {
+    hoverInstanceIdRef.current++
+    blurInstanceIdRef.current++
   }, [])
 
   const handleOverlayHover = useCallback(() => {
-    hoverTimeoutRef.current = setTimeout(() => {
-      /** Prevents the case where both are triggered at the same time */
-      clearTimeout(blurTimeoutRef.current)
+    incrementInstanceIds()
+    const currentInstanceId = hoverInstanceIdRef.current
 
-      /** Starting from the end of the animation */
-      const from = initialAnimationRef.current.duration()
-      /** 75% from the end of the animation */
-      const to = from * 0.75
+    setTimeout(() => {
+      if(lockHoverBlurRef.current || hoverInstanceIdRef.current !== currentInstanceId) return
+    
+      /** Shift animation __% to the right */
+      const leftShiftPercent = 20
+      const to = ltInitSlideRef.current.duration() * ((100 - leftShiftPercent) / 100)
 
-      initialAnimationRef.current.tweenFromTo(from, to)
+      ltInitSlideRef.current.tweenTo(to)
     }, 400)
   }, [])
 
   const handleOverlayBlur = useCallback(() => {
-    /** Prevents the case where both are triggered at the same time */
-    clearTimeout(hoverTimeoutRef.current)
+    incrementInstanceIds()
+    const currentInstanceId = blurInstanceIdRef.current
 
-    blurTimeoutRef.current = setTimeout(() => {
+    setTimeout(() => {
+      if(lockHoverBlurRef.current || blurInstanceIdRef.current !== currentInstanceId) return
+
       /** Start from anywhere, to the end of the animation */
-      const to = initialAnimationRef.current.duration()
-      initialAnimationRef.current.tweenTo(to)
+      const to = ltInitSlideRef.current.duration()
+      ltInitSlideRef.current.tweenTo(to)
     }, 400)
   }, [])
 
   const handleCloseEdit = useCallback(() => {
-    initialAnimationRef.current.reverse()
+    ltInitSlideRef.current.reverse()
+
+    lockHoverBlurRef.current = true
+
+    setTimeout(() => {
+      ltInitOverlayRef.current.reverse()
+    }, 250)
+
     setTimeout(() => {
       handleTriggerEditView()
     }, 750)
@@ -124,13 +144,14 @@ const EditPostContainer: FC<EditPostType> = ({
   }, [postId, handleTriggerEditView, updateOriginalPost, triggerErrorMessage])
 
   useEffect(() => {
-    initialAnimationRef.current = initialAnimation()
+    ltInitSlideRef.current = ltInitSlide()
+    ltInitOverlayRef.current = ltInitOverlay()
 
     return () => {
-      initialAnimationRef?.current?.kill()
-      hoverAnimationRef.current?.kill()
+      ltInitSlideRef.current.kill()
+      ltInitOverlayRef.current.kill()
     }
-  }, [initialAnimation])
+  }, [ltInitSlide])
 
   useEffect(() => {
     mountedRef.current = true
