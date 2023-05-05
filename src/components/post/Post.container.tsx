@@ -49,7 +49,7 @@ const PostContainer: FC<PostPageType> = ({
       top: 0,
       behavior: 'smooth'
     })
-  }, [])
+  }, [isWindowDefined])
 
   return (
     <Post

@@ -27,7 +27,7 @@ type PostDisplayType = {
   handleRevealDescription: () => void
   isAuthor?: boolean
   handleTriggerEditView?: () => void
-  formMessage: FormMessageContainerType
+  formMessage?: FormMessageContainerType
 }
 type DescriptionSectionRefType = HTMLDivElement
 
@@ -60,10 +60,12 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
               </Date>
             )}
           </BaseInformation>
-          <FormMessageContainer
-            message={formMessage.message}
-            type={formMessage.type}
-            showMessage={formMessage.showMessage} />
+          {formMessage?.showMessage && (
+            <FormMessageContainer
+              message={formMessage.message}
+              type={formMessage.type}
+              showMessage={formMessage.showMessage} />
+          )}
           <PostDisplayContent>
             <CleanContent content={baseContent} />
           </PostDisplayContent>

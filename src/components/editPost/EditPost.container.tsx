@@ -150,7 +150,12 @@ const EditPostContainer: FC<EditPostType> = ({
 
       triggerErrorMessage(message)
     })
-  }, [postId, handleTriggerEditView, updateOriginalPost, triggerErrorMessage])
+  }, [
+    postId,
+    updateOriginalPost,
+    triggerErrorMessage,
+    handleCloseEdit
+  ])
 
   useEffect(() => {
     ltInitSlideRef.current = initSlide()
@@ -168,18 +173,21 @@ const EditPostContainer: FC<EditPostType> = ({
     const body = document.querySelector('body') as HTMLBodyElement
     body.style.overflow = 'hidden'
 
-    setTimeout(() => {
-      overlayRef.current?.addEventListener('mouseover', handleOverlayHover)
-      overlayRef.current?.addEventListener('mouseleave', handleOverlayBlur)
+    const overlayRefInstance = overlayRef.current
+
+    const eventTimeoutInstance = setTimeout(() => {
+      overlayRefInstance?.addEventListener('mouseover', handleOverlayHover)
+      overlayRefInstance?.addEventListener('mouseleave', handleOverlayBlur)
     }, 750)
 
     return () => {
       mountedRef.current = false
       body.style.overflow = 'unset'
-      overlayRef.current?.removeEventListener('mouseover', handleOverlayHover)
-      overlayRef.current?.removeEventListener('mouseleave', handleOverlayBlur)
+      clearTimeout(eventTimeoutInstance)
+      overlayRefInstance?.removeEventListener('mouseover', handleOverlayHover)
+      overlayRefInstance?.removeEventListener('mouseleave', handleOverlayBlur)
     }
-  }, [])
+  }, [handleOverlayBlur, handleOverlayHover])
 
   return (
     <EditPost

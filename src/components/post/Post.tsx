@@ -12,7 +12,7 @@ type PostType = PostPageType & {
   isEditView: boolean
   updateOriginalPost: UpdateOriginalPostFunctionType
   handleTriggerEditView: () => void
-  formMessage: FormMessageContainerType
+  formMessage?: FormMessageContainerType
 }
 
 const Post: FC<PostType> = ({

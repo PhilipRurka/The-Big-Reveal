@@ -12,7 +12,7 @@ export type PostDisplayType = {
   created_at: string
   isAuthor?: boolean
   handleTriggerEditView?: () => void
-  formMessage: FormMessageContainerType
+  formMessage?: FormMessageContainerType
 }
 
 const PostDisplayContainer: FC<PostDisplayType> = ({
