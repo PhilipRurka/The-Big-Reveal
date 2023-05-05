@@ -19,12 +19,10 @@ const FormMessageContainer: FC<FormMessageContainerType> = ({
   message,
   type
 }) => {
-  const tlStatusMessageRef = useRef<gsap.core.Timeline>(gsap.timeline({
-    paused: true
-  }))
+  const tlStatusMessageRef = useRef<gsap.core.Timeline>()
 
   const initGsap = useCallback(() => {
-    tlStatusMessageRef.current.fromTo('#status-message-wrapper', {
+    return gsap.timeline().fromTo('#status-message-wrapper', {
       height: 0,
     }, {
       duration: AUTH_TRANSITION_TIME / 1000,
@@ -41,7 +39,7 @@ const FormMessageContainer: FC<FormMessageContainerType> = ({
   }, [])
 
   useEffect(() => {
-    initGsap()
+    tlStatusMessageRef.current = initGsap()
 
     let tlStatusMessageScoped = tlStatusMessageRef?.current
 
@@ -52,10 +50,10 @@ const FormMessageContainer: FC<FormMessageContainerType> = ({
 
   useEffect(() => {
     if(showMessage) {
-      tlStatusMessageRef.current.play()
+      tlStatusMessageRef.current?.play()
       
     } else {
-      tlStatusMessageRef.current.reverse()
+      tlStatusMessageRef.current?.reverse()
     }
   }, [showMessage])
   
