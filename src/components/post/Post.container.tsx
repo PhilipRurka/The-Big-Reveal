@@ -40,7 +40,7 @@ const PostContainer: FC<PostPageType> = ({
     .catch(() => {
       
     })
-  }, [])
+  }, [postId])
 
   const handleTriggerEditView = useCallback(() => {
     setIsEditView(!isEditView)
