@@ -1,3 +1,5 @@
+import axios from "axios";
+import Router from "next/router";
 import { FC, useCallback, useRef, useState } from "react";
 import { PostPageType } from "../../pages/post/[post-id]";
 import { UpdateOriginalPostType } from "../editPost/EditPost.container";
@@ -28,6 +30,17 @@ const PostContainer: FC<PostPageType> = ({
     showMessage: false,
     type: undefined
   })
+  
+  const handleDeletePost = useCallback(() => {
+    console.log('Triggered!')
+    axios.delete(`/api/post/${postId}`)
+    .then(() => {
+      Router.push('/your-space')
+    })
+    .catch(() => {
+      
+    })
+  }, [])
 
   const handleTriggerEditView = useCallback(() => {
     setIsEditView(!isEditView)
@@ -62,6 +75,7 @@ const PostContainer: FC<PostPageType> = ({
       handleTriggerEditView={handleTriggerEditView}
       updateOriginalPost={updateOriginalPost}
       postId={postId}
+      handleDeletePost={handleDeletePost}
       formMessage={formMessage} />
   )
 }

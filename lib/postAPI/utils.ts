@@ -1,4 +1,3 @@
-import { Database } from "../../src/types/supabase-types"
 import {
   ErrorContentType,
   generalErrorMessages
@@ -16,6 +15,10 @@ export type UpdatePostBodyType = {
   postId: string
   baseContent: string
   descriptionContent: string
+}
+
+export type QueryType = {
+  'post-id': string
 }
 
 export const postErrorMessages: PostErrorMessagesType = {

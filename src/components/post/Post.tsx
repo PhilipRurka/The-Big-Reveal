@@ -1,7 +1,5 @@
 import { FC } from "react";
-import {
-  PostStyled
-} from "./Post.styled";
+import { PostStyled } from "./Post.styled";
 import PostDisplayContainer from "../postDisplay";
 import EditPost from "../editPost/EditPost.container";
 import { PostPageType } from "../../pages/post/[post-id]";
@@ -12,6 +10,7 @@ type PostType = PostPageType & {
   isEditView: boolean
   updateOriginalPost: UpdateOriginalPostFunctionType
   handleTriggerEditView: () => void
+  handleDeletePost?: () => void
   formMessage?: FormMessageContainerType
 }
 
@@ -25,6 +24,7 @@ const Post: FC<PostType> = ({
   isEditView,
   updateOriginalPost,
   postId,
+  handleDeletePost,
   formMessage
 }) => (
   <PostStyled>
@@ -35,6 +35,7 @@ const Post: FC<PostType> = ({
       created_at={created_at}
       isAuthor={isAuthor}
       handleTriggerEditView={handleTriggerEditView}
+      handleDeletePost={handleDeletePost}
       formMessage={formMessage} />
     {isEditView && (
       <EditPost

@@ -12,6 +12,7 @@ export type PostDisplayType = {
   created_at: string
   isAuthor?: boolean
   handleTriggerEditView?: () => void
+  handleDeletePost?: () => void
   formMessage?: FormMessageContainerType
 }
 
@@ -22,6 +23,7 @@ const PostDisplayContainer: FC<PostDisplayType> = ({
   created_at: rawDate,
   isAuthor,
   handleTriggerEditView,
+  handleDeletePost,
   formMessage
 }) => {
   const descriptioncContentRef = useRef<HTMLDivElement>(null);
@@ -80,6 +82,7 @@ const PostDisplayContainer: FC<PostDisplayType> = ({
       handleRevealDescription={revealDescription}
       isAuthor={isAuthor}
       handleTriggerEditView={handleTriggerEditView}
+      handleDeletePost={handleDeletePost}
       formMessage={formMessage} />
   )
 }

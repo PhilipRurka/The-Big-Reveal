@@ -2,20 +2,12 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from '../../src/types/supabase-types'
 import {
-  UpdatePostBodyType,
-  formatTitle,
-  postErrorMessages
-} from './utils'
-import {
   generalErrorMessages,
   handleError
 } from '../generalErrors';
+import { postErrorMessages } from './utils';
 
-export const updatePost = async (id: string, req: NextApiRequest, res: NextApiResponse) => {
-  const {
-    baseContent,
-    descriptionContent
-  } = req.body as UpdatePostBodyType
+export const deletePost = async (id: string, req: NextApiRequest, res: NextApiResponse) => {
 
   const { unauthorized } = generalErrorMessages
 
@@ -25,18 +17,10 @@ export const updatePost = async (id: string, req: NextApiRequest, res: NextApiRe
   if(!supabase || !session) {
     return res.status(unauthorized.status).send(unauthorized)
   }
-  
-  let postTitle = formatTitle(baseContent) as string
 
   const {
-    data,
     error: resError
-  } = await supabase.rpc('update_base_and_description', {
-    post_id_val: id,
-    post_title_val: postTitle,
-    base_content_val: baseContent,
-    description_content_val: descriptionContent || ''
-  })
+  } = await supabase.rpc('delete_base_and_description', { post_id_val: id })
 
   if(resError) {
     const error = handleError(postErrorMessages, resError.message)
@@ -47,8 +31,5 @@ export const updatePost = async (id: string, req: NextApiRequest, res: NextApiRe
     })
   }
 
-  return res.status(200).send({
-    baseContent: data[0].base_content,
-    descriptionContent: data[0].description_content
-  })
+  return res.status(200).send({})
 }

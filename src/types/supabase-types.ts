@@ -132,6 +132,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      delete_base_and_description: {
+        Args: {
+          post_id_val: string
+        }
+        Returns: undefined[]
+      }
       insert_base_and_description: {
         Args: {
           post_title: string

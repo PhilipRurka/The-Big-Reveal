@@ -27,6 +27,7 @@ type PostDisplayType = {
   handleRevealDescription: () => void
   isAuthor?: boolean
   handleTriggerEditView?: () => void
+  handleDeletePost?: () => void
   formMessage?: FormMessageContainerType
 }
 type DescriptionSectionRefType = HTMLDivElement
@@ -42,6 +43,7 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
   profilePath,
   isAuthor,
   handleTriggerEditView,
+  handleDeletePost,
   formMessage
 }, descriptionRef) => {
   return (
@@ -79,11 +81,18 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
                 </Button>
               )}
               {isAuthor && (
-                <Button
-                  colorType="primary"
-                  onClick={handleTriggerEditView} >
-                  Edit
-                </Button>
+                <>
+                  <Button
+                    colorType="primary"
+                    onClick={handleTriggerEditView} >
+                    Edit
+                  </Button>
+                  <Button
+                    colorType="primary"
+                    onClick={handleDeletePost} >
+                    Delete
+                  </Button>
+                </>
               )}
             </ButtonWrapper>
           )}

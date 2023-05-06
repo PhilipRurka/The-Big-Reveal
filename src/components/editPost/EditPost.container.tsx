@@ -41,6 +41,7 @@ const EditPostContainer: FC<EditPostType> = ({
   const ltInitOverlayRef = useRef<gsap.core.Timeline>(gsap.timeline())
   const overlayRef = useRef<HTMLDivElement>()
   const absoluteRef = useRef<HTMLDivElement>()
+  // FRONTEND: hoverInstanceIdRef & blurInstanceIdRef could be contained onto one object
   const hoverInstanceIdRef = useRef<number>(0)
   const blurInstanceIdRef = useRef<number>(0)
   const lockHoverBlurRef = useRef<boolean>(false)
@@ -134,8 +135,7 @@ const EditPostContainer: FC<EditPostType> = ({
     const baseContent = baseRef.current.getContent()
     const descriptionContent = descriptionRef.current?.getContent() || null
 
-    axios.post('/api/post', {
-      postId,
+    axios.post(`/api/post/${postId}`, {
       baseContent,
       descriptionContent
     })
