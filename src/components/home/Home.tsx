@@ -4,18 +4,11 @@ import PostDisplay from "../postDisplay";
 import { StaticHookCopyType } from "./Home.container";
 
 const Home: FC<StaticHookCopyType> = ({
-  username,
-  createdAt,
-  profilePath,
-  post
+  ...args
 }) => {
   return (
     <HomeStyled>
-      <PostDisplay
-        username={username}
-        profilePath={profilePath}
-        createdAt={createdAt}
-        post={post} />
+      <PostDisplay {...args} />
     </HomeStyled>
   )
 }

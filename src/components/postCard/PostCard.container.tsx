@@ -10,10 +10,8 @@ export type PostCardType = {
 }
 
 const PostCardContainer: FC<PostCardType> = ({
-  id,
   date: rawDate,
-  username,
-  title
+  ...args
 }) => {
   const [date, setDate] = useState('')
 
@@ -23,10 +21,8 @@ const PostCardContainer: FC<PostCardType> = ({
 
   return (
     <PostCard
-      id={id}
-      date={date}
-      username={username}
-      title={title} />
+      {...args}
+      date={date} />
   )
 }
 

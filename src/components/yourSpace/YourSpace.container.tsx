@@ -4,10 +4,9 @@ import gsap from "gsap"
 import { YourSpaceDataType } from "../../pages/your-space"
 
 const YourSpaceContainer: FC<YourSpaceDataType> = ({
-  list,
   host,
   path,
-  username
+  ...args
 }) => {
   const tlCopiedRef = useRef<gsap.core.Timeline>(gsap.timeline({
     paused: true
@@ -45,10 +44,9 @@ const YourSpaceContainer: FC<YourSpaceDataType> = ({
   
   return (
     <YourSpace
-      list={list}
+      {...args}
       path={path}
-      handleCopy={handleCopy}
-      username={username} />
+      handleCopy={handleCopy} />
   )
 }
 

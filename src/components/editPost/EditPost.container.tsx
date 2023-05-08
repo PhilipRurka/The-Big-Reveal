@@ -29,7 +29,7 @@ const EditPostContainer: FC<EditPostType> = ({
   postId,
   handleTriggerEditView,
   updateOriginalPost,
-  post
+  ...args
 }) => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
@@ -188,10 +188,10 @@ const EditPostContainer: FC<EditPostType> = ({
 
   return (
     <EditPost
+      {...args}
       handleCloseEdit={handleCloseEdit}
       baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}
-      post={post}
       handleSubmit={handleSubmit}
       formMessageProps={{
         message: errorMessage,

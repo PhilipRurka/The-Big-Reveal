@@ -1,5 +1,3 @@
-import axios from "axios";
-import Router from "next/router";
 import { FC, useCallback, useRef, useState } from "react";
 import { PostPageType } from "../../pages/post/[post-id]";
 import { UpdateOriginalPostType } from "../editPost/EditPost.container";
@@ -14,13 +12,8 @@ export type PostStateType = {
 }
 
 const PostContainer: FC<PostPageType> = ({
-    username,
-    profilePath,
-    postTitle,
     post: postProp,
-    createdAt,
-    isAuthor,
-    postId
+    ...args
 }) => {
   const { current: isWindowDefined } = useRef(typeof window !== undefined)
 
@@ -61,18 +54,13 @@ const PostContainer: FC<PostPageType> = ({
 
   return (
     <Post
-      username={username}
-      profilePath={profilePath}
+      {...args}
       post={post}
-      createdAt={createdAt}
       isEditView={isEditView}
       isDeleteView={isDeleteView}
-      isAuthor={isAuthor}
       handleTriggerEditView={handleTriggerEditView}
       updateOriginalPost={updateOriginalPost}
-      postId={postId}
       handleTriggerDeleteView={handleTriggerDeleteView}
-      postTitle={postTitle}
       formMessage={formMessage} />
   )
 }
