@@ -1,10 +1,10 @@
 import { FC, RefObject } from "react";
 import { ContentsType } from "../../pages/post/[post-id]";
+import { Overlay } from "../../styled/animation";
 import NewPost, { NewPostType } from "../newPost/NewPost";
 import {
   AbsoluteEdit,
-  EditPostStyled,
-  Overlay
+  EditPostStyled
 } from "./EditPost.styled";
 
 type EditPostType = NewPostType & {

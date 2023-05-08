@@ -19,14 +19,11 @@ export type UpdateOriginalPostType = {
   descriptionContent: string
 }
 
-const durationGsapOverlay = 0.3
-const durationGsapSlide = 0.5
-const hoverBlurBuffer = 0.4
-
-const delayGsapSlide = durationGsapOverlay / 2
-
-const overlayHoverTo = 0.47
-
+const DURATION_OVERLAY = 0.3
+const DURATION_SLIDE = 0.5
+const BLUR_BUFFER = 0.4
+const OVERLAY_HOVER_TO = 0.47
+const DELAY_SLIDE = DURATION_OVERLAY / 2
 
 const EditPostContainer: FC<EditPostType> = ({
   postId,
@@ -55,7 +52,7 @@ const EditPostContainer: FC<EditPostType> = ({
         alpha: 0
       }, {
         alpha: 1,
-        duration: durationGsapOverlay,
+        duration: DURATION_OVERLAY,
         ease: "power0"
       })
   }, [])
@@ -66,8 +63,8 @@ const EditPostContainer: FC<EditPostType> = ({
         x: (_, element: HTMLDivElement) => element.getBoundingClientRect().width
       }, {
         x: 0,
-        duration: durationGsapSlide,
-        delay: delayGsapSlide,
+        duration: DURATION_SLIDE,
+        delay: DELAY_SLIDE,
         ease: "power3.inOut"
       })
   }, [])
@@ -87,8 +84,8 @@ const EditPostContainer: FC<EditPostType> = ({
 
       ltInitOverlayRef.current.reverse()
 
-      ltInitSlideRef.current.tweenTo(overlayHoverTo)
-    }, hoverBlurBuffer * 1000)
+      ltInitSlideRef.current.tweenTo(OVERLAY_HOVER_TO)
+    }, BLUR_BUFFER * 1000)
   }, [incrementInstanceIds])
 
   const handleOverlayBlur = useCallback(() => {
@@ -103,7 +100,7 @@ const EditPostContainer: FC<EditPostType> = ({
       /** Start from anywhere, to the end of the animation */
       const to = ltInitSlideRef.current.duration()
       ltInitSlideRef.current.tweenTo(to)
-    }, hoverBlurBuffer * 1000)
+    }, BLUR_BUFFER * 1000)
   }, [incrementInstanceIds])
 
   const handleCloseEdit = useCallback(() => {
@@ -112,11 +109,11 @@ const EditPostContainer: FC<EditPostType> = ({
 
     setTimeout(() => {
       ltInitOverlayRef.current.reverse()
-    }, delayGsapSlide * 1000)
+    }, DELAY_SLIDE * 1000)
 
     setTimeout(() => {
       handleTriggerEditView()
-    }, durationGsapSlide * 1000)
+    }, DURATION_SLIDE * 1000)
   }, [handleTriggerEditView])
 
   const triggerErrorMessage = useCallback((message: string) => {

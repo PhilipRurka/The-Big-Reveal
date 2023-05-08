@@ -41,7 +41,7 @@ const staticHookCopy = {
   },
   profilePath: '',
   username: '',
-  created_at: ''
+  createdAt: ''
 }
 
 const HomeContainer: FC = () => {

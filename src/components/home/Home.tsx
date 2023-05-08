@@ -5,7 +5,7 @@ import { StaticHookCopyType } from "./Home.container";
 
 const Home: FC<StaticHookCopyType> = ({
   username,
-  created_at,
+  createdAt,
   profilePath,
   post
 }) => {
@@ -14,7 +14,7 @@ const Home: FC<StaticHookCopyType> = ({
       <PostDisplay
         username={username}
         profilePath={profilePath}
-        created_at={created_at}
+        createdAt={createdAt}
         post={post} />
     </HomeStyled>
   )
