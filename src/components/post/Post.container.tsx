@@ -16,8 +16,9 @@ export type PostStateType = {
 const PostContainer: FC<PostPageType> = ({
     username,
     profilePath,
+    postTitle,
     post: postProp,
-    created_at,
+    createdAt,
     isAuthor,
     postId
 }) => {
@@ -25,23 +26,17 @@ const PostContainer: FC<PostPageType> = ({
 
   const [post, setPost] = useState<PostStateType>(postProp)
   const [isEditView, setIsEditView] = useState<boolean>(false)
+  const [isDeleteView, setIsDeleteView] = useState<boolean>(false)
   const [formMessage, setFormMessage] = useState<FormMessageContainerType>({
     message: '',
     showMessage: false,
     type: undefined
   })
-  
-  const handleDeletePost = useCallback(() => {
-    console.log('Triggered!')
-    axios.delete(`/api/post/${postId}`)
-    .then(() => {
-      Router.push('/your-space')
-    })
-    .catch(() => {
-      
-    })
-  }, [postId])
 
+  const handleTriggerDeleteView = useCallback(() => {
+    setIsDeleteView(!isDeleteView)
+  }, [isDeleteView])
+  
   const handleTriggerEditView = useCallback(() => {
     setIsEditView(!isEditView)
   }, [isEditView])
@@ -69,13 +64,15 @@ const PostContainer: FC<PostPageType> = ({
       username={username}
       profilePath={profilePath}
       post={post}
-      created_at={created_at}
+      createdAt={createdAt}
       isEditView={isEditView}
+      isDeleteView={isDeleteView}
       isAuthor={isAuthor}
       handleTriggerEditView={handleTriggerEditView}
       updateOriginalPost={updateOriginalPost}
       postId={postId}
-      handleDeletePost={handleDeletePost}
+      handleTriggerDeleteView={handleTriggerDeleteView}
+      postTitle={postTitle}
       formMessage={formMessage} />
   )
 }
