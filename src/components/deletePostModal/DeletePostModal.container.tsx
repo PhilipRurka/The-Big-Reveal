@@ -48,7 +48,7 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
     .catch(() => {
       
     })
-  }, [])
+  }, [postId])
 
   const handleCloseDelete = useCallback(() => {
     tlAnimationRef.current.reverse()
