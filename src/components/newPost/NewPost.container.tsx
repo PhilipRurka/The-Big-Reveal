@@ -6,12 +6,7 @@ import { Editor } from "tinymce"
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
 import axios from "axios"
 
-export type NewPostContainerType = {
-  baseContent?: string
-  descriptionContent?: string
-}
-
-const NewPostContainer: FC<NewPostContainerType> = () => {
+const NewPostContainer: FC = () => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()

@@ -17,14 +17,8 @@ export type PostDisplayType = {
 }
 
 const PostDisplayContainer: FC<PostDisplayType> = ({
-  username,
-  profilePath,
-  post,
   createdAt: rawDate,
-  isAuthor,
-  handleTriggerEditView,
-  handleTriggerDeleteView,
-  formMessage
+  ...args
 }) => {
   const descriptioncContentRef = useRef<HTMLDivElement>(null);
   const tlDescriptionRef = useRef<gsap.core.Timeline>(gsap.timeline({
@@ -74,16 +68,10 @@ const PostDisplayContainer: FC<PostDisplayType> = ({
 
   return (
     <PostDisplay
+      {...args}
       ref={descriptioncContentRef}
-      username={username}
       created_at={date}
-      post={post}
-      profilePath={profilePath}
-      handleRevealDescription={revealDescription}
-      isAuthor={isAuthor}
-      handleTriggerEditView={handleTriggerEditView}
-      handleTriggerDeleteView={handleTriggerDeleteView}
-      formMessage={formMessage} />
+      handleRevealDescription={revealDescription} />
   )
 }
 
