@@ -219,6 +219,12 @@ They each have their utilities and meaning.
 
 Although Gitflow is an accepted standard, it removes the use of Pull Requests imbetween stable branches. There are ways around this, however, it requires to step outside of the Gitflow convention. For that reason, we are moving away from it and jumping into the good old fasion, `main` - `staging` - `develop` branche architecture. Well, kinda. Considering this is a small scale project and there aren't many developers working on it, we will skip out on the Staging environment.
 
+We are also going to use [this](https://dev.to/varbsan/a-simplified-convention-for-naming-branches-and-commits-in-git-il4) github branch and commit standard.
+
+Read the post from the link above before continuing c:
+In regards to the `reference` in `category/reference/description-in-kebab-case`, we are using the card number. This can be located [here](https://drive.google.com/file/d/1Te5GkydVw76FULEOqWDYHUwPqYPKTOJI/view?usp=sharing).
+An example branch name for this example (in video): `feature/issue-45/delete-modal`
+
 ---
 &nbsp;
 ## NewComponentTemplate ... whats this?
