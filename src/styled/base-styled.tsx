@@ -5,7 +5,7 @@ export const Fonts = {
   primary:   'font-family: var(--font-noto), sans-serif;',
   secondary:   'font-family: var(--font-roboto), sans-serif;',
   tiny: 'font-family: Helvetica,Arial,sans-serif;'
-};
+} as const;
 
 export const ResetStyles = createGlobalStyle`
   ${reset}
