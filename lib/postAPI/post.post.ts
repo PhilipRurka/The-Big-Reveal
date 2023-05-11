@@ -1,6 +1,6 @@
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Database } from '../../src/types/supabase-types'
+import { Database } from '../../src/types/supabase.type'
 import {
   UpdatePostBodyType,
   formatTitle,

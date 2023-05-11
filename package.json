@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "update-types": "npx supabase gen types typescript --local > ./src/types/supabase-types.ts",
+    "update-types": "npx supabase gen types typescript --local > ./src/types/supabase.type.ts",
     "post-tiny-install": "node ./post-tiny-install.js"
   },
   "dependencies": {

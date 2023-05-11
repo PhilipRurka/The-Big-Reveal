@@ -1,4 +1,4 @@
-import { Database } from "../../../src/types/supabase-types"
+import { Database } from "../../../src/types/supabase.type"
 import {
   ErrorContentType,
   generalErrorMessages
