@@ -5,7 +5,7 @@ import {
   UpdatePostBodyType,
   formatTitle,
   postErrorMessages
-} from './utils'
+} from './post.utils'
 import dayjs from 'dayjs';
 import {
   generalErrorMessages,

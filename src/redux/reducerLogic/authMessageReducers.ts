@@ -10,6 +10,7 @@ import type {
   UpdateFormattedMessage,
   DefinedStatusMessageState,
 } from "../types/authMessageRedux.type"
+import { ConstraintErrorContent } from "../../../lib/generalErrors"
 
 export const statusMessage = {
   reducer(state: StatusMessageState, action: PayloadAction<StatusMessageState>) {
@@ -60,10 +61,10 @@ export const statusMessage = {
       } else if(type === StatusMessageTypesEnum.SUCCESS) {
         messagesObj.defaultMessage = 'A registration has been sent to ${}'
 
-      } else if(message?.includes(profileErrorMessages.usernameLength.constraint as string)) {
+      } else if(message?.includes((profileErrorMessages.usernameLength as ConstraintErrorContent).constraint)) {
         messagesObj.defaultMessage = profileErrorMessages.usernameLength.message
     
-      } else if(message?.includes(profileErrorMessages.usernameFormating.constraint as string)) {
+      } else if(message?.includes((profileErrorMessages.usernameFormating as ConstraintErrorContent).constraint)) {
         messagesObj.defaultMessage = profileErrorMessages.usernameFormating.message
 
       } else if(message?.includes('profiles_path_key')) {

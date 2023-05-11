@@ -1,14 +1,14 @@
 import {
-  ErrorContentType,
+  ErrorContent,
   generalErrorMessages
 } from "../generalErrors"
 
 type PostErrorMessagesType = {
-  missingHeading1:        ErrorContentType
-  baseContentTooLong:     ErrorContentType
-  baseTitleTooLong:       ErrorContentType
-  descriptionTooLong:     ErrorContentType
-  default:                ErrorContentType
+  missingHeading1:        ErrorContent
+  baseContentTooLong:     ErrorContent
+  baseTitleTooLong:       ErrorContent
+  descriptionTooLong:     ErrorContent
+  default:                ErrorContent
 }
 
 export type UpdatePostBodyType = {
