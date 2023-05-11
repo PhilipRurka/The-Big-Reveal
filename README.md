@@ -225,6 +225,26 @@ Read the post from the link above before continuing c:
 In regards to the `reference` in `category/reference/description-in-kebab-case`, we are using the card number. This can be located [here](https://drive.google.com/file/d/1Te5GkydVw76FULEOqWDYHUwPqYPKTOJI/view?usp=sharing).
 An example branch name for this example (in video): `feature/issue-45/delete-modal`
 
+&nbsp;
+### For Reference - Branch Name Category`
+
+A git branch should start with a category. Pick one of these: `feature`, `bugfix`, `hotfix`, or `test`.
+
+- `feature` is for adding, refactoring or removing a feature
+- `bugfix` is for fixing a bug
+- `hotfix` is for changing code with a temporary solution and/or without following the usual process (usually because of an emergency)
+- `test` is for experimenting outside of an issue/ticket
+
+&nbsp;
+### For Reference - Branch Name Category`
+A commit message should start with a category of change. You can pretty much use the following 4 categories for everything: `feat`, `fix`, `refactor`, and `chore`.
+
+- `feat` is for adding a new feature
+- `fix` is for fixing a bug
+- `refactor` is for changing code for peformance or convenience purpose (e.g. readibility)
+- `chore` is for everything else (writing documentation, formatting, adding tests, cleaning useless code etc.)
+
+
 ---
 &nbsp;
 ## NewComponentTemplate ... whats this?
