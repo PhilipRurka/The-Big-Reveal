@@ -17,7 +17,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = await supabase
     .from('profiles')
     .select('username')
-    .eq('path', ctx.query['profile-path'])
+    .eq('path', ctx.query['collection'])
     .single()
 
   const username = data?.username
@@ -30,7 +30,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   return { props: {
     username,
-    profile_path: ctx.query['profile-path'],
+    profile_path: ctx.query['collection'],
     host: ctx.req.headers.host
   }}
 }

@@ -1,5 +1,5 @@
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs"
-import { Database } from "../src/types/supabase-types"
+import { Database } from "../src/types/supabase.type"
 
 export const authRequired = async (ctx: any) => {
   const supabase = createServerSupabaseClient<Database>(ctx)

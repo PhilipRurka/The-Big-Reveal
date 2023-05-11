@@ -4,7 +4,7 @@ import {
   profileErrorMessages,
   UpdateProfileBodyType,
 } from './profile.utils'
-import { Database } from '../../../src/types/supabase-types'
+import { Database } from '../../../src/types/supabase.type'
 import {
   generalErrorMessages,
   handleError
