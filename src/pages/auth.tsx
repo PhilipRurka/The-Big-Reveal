@@ -1,61 +1,15 @@
-import { GetServerSidePropsContext } from "next";
 import AuthContainer from "../components/auth/Auth.container";
-import { RouterQueryEnum } from "../components/auth/Auth.types";
-import { isKeyOfObject } from "../types/global.type";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { RouterQueryEnum } from "../components/auth/Auth.enum";
+import { isKeyOfObject } from "../types/global.type";
+import { AUTH_TYPE_OPTIONS } from "../components/auth/Auth.constant";
 
-type AuthTypeType = keyof typeof AUTH_TYPE_OPTIONS
-
-type AuthTypeOptionsType = typeof AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
-
-export type AuthPageType = AuthTypeOptionsType & {
-  initRouterAuthType: AuthTypeType
-}
-
-export const AUTH_TYPE_OPTIONS = {
-  [RouterQueryEnum.REGISTRATION]: {
-    id: RouterQueryEnum.REGISTRATION,
-    hasEmail: true,
-    hasPassword: true,
-    hasConfirmedPassword: false,
-    hasUsername: true,
-    hasPasswordValidation: true,
-    title: 'Registration',
-    toAuthLinks: [{
-      href: '/auth',
-      title: 'Have an account?'
-    }]
-  },
-  [RouterQueryEnum.FORGOT_PASSWORD]: {
-    id: RouterQueryEnum.FORGOT_PASSWORD,
-    hasEmail: true,
-    hasPassword: false,
-    hasConfirmedPassword: false,
-    hasUsername: false,
-    hasPasswordValidation: false,
-    title: 'Forgot Password',
-    toAuthLinks: [{
-      href: '/auth',
-      title: 'Remember your password?'
-    }]
-  },
-  [RouterQueryEnum.LOGIN]: {
-    id: RouterQueryEnum.LOGIN,
-    hasEmail: true,
-    hasPassword: true,
-    hasConfirmedPassword: false,
-    hasUsername: false,
-    hasPasswordValidation: false,
-    title: 'Login',
-    toAuthLinks: [{
-      href: `/auth?type=${RouterQueryEnum.REGISTRATION}`,
-      title: 'Don\'t have an account?'
-    },{
-      href: `/auth?type=${RouterQueryEnum.FORGOT_PASSWORD}`,
-      title: 'Forgot your password?'
-    }]
-  }
-}
+import type { GetServerSidePropsContext } from "next";
+import type {
+  AuthPageData,
+  AuthTypeOptionsType,
+  RouterAuthOptions
+} from "../components/auth/Auth.type";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
@@ -75,7 +29,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   let initialValues: AuthTypeOptionsType
-  let initRouterAuthType: AuthTypeType
+  let initRouterAuthType: RouterAuthOptions
   const newAuthTypeOptions: typeof AUTH_TYPE_OPTIONS = {...AUTH_TYPE_OPTIONS}
 
   const type = ctx.query.type as string
@@ -97,7 +51,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
  };
 }
 
-function AuthPage(props: AuthPageType) {
+function AuthPage(props: AuthPageData) {
   return <AuthContainer {...props} />
 }
 

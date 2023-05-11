@@ -1,22 +1,11 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
-import { AuthPageType, AUTH_TYPE_OPTIONS } from "../../pages/auth"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
 import Auth from "./Auth"
-import {
-  AuthPropsType,
-  AuthTransitionIdsEnum,
-  ContentSwitchAnimationType,
-  ResType,
-  HandleNarrowAuthType,
-  HandleStyledAuthType,
-  RouterQueryEnum,
-  TypePropsType,
-} from "./Auth.types"
 import {
   hide_message,
   selectAuthMessage,
@@ -24,13 +13,30 @@ import {
   update_dynamic_message
 } from "../../redux/slices/authMessageSlice"
 import useRigidCountdown from "../../hooks/useRigidCountdown"
-import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
 import { StatusMessageTypesEnum } from '../formMessage/FormMessage.container'
+import {
+  AuthTransitionIdsEnum,
+  RouterQueryEnum
+} from './Auth.enum'
+import {
+  AUTH_TRANSITION_TIME,
+  AUTH_TYPE_OPTIONS
+} from './Auth.constant'
+
+import type { FC } from 'react'
+import type {
+  AuthPropsType,
+  ContentSwitchAnimationType,
+  ResType,
+  HandleNarrowAuthType,
+  HandleStyledAuthType,
+  CurrentOption,
+  AuthContainerProps,
+} from "./Auth.type"
+import type { DefinedStatusMessageState } from "../../redux/types/authMessageRedux.type"
 import type { InputOnChange } from '../input/Input.type'
 
-export const AUTH_TRANSITION_TIME = 300
-
-const AuthContainer: FC<AuthPageType> = ({
+const AuthContainer: FC<AuthContainerProps> = ({
   id,
   hasEmail,
   hasPassword,
@@ -48,7 +54,7 @@ const AuthContainer: FC<AuthPageType> = ({
   const [password, setPassword] = useState('')
   const [resStatus, setResStatus] = useState<number | undefined>()
   const [routerAuthType, setRouterAuthType] = useState(initRouterAuthType)
-  const [typeProps, setTypeProps] = useState<TypePropsType>({
+  const [currentOption, setCurrentOption] = useState<CurrentOption>({
     id,
     hasEmail,
     hasPassword,
@@ -60,7 +66,7 @@ const AuthContainer: FC<AuthPageType> = ({
   })
 
   const supabaseClient = useSupabaseClient()
-  const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
+  const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageState
   const router = useRouter()
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
@@ -227,16 +233,16 @@ const AuthContainer: FC<AuthPageType> = ({
   /* #region UTILITIES */
   const handleSubmit: HandleStyledAuthType = useCallback((event) => {
     event.preventDefault()
-    if(typeProps.id === RouterQueryEnum.LOGIN) {
+    if(currentOption.id === RouterQueryEnum.LOGIN) {
       handleLogin()
 
-    } else if(typeProps.id === RouterQueryEnum.REGISTRATION) {
+    } else if(currentOption.id === RouterQueryEnum.REGISTRATION) {
       handleRegistration()
 
-    } else if(typeProps.id === RouterQueryEnum.FORGOT_PASSWORD) {
+    } else if(currentOption.id === RouterQueryEnum.FORGOT_PASSWORD) {
       handleForgotPassword()
     }
-  }, [typeProps, handleLogin, handleRegistration, handleForgotPassword])
+  }, [currentOption, handleLogin, handleRegistration, handleForgotPassword])
 
   const removeStatusMessage = useCallback(() => {
     dispatch(hide_message())
@@ -254,7 +260,7 @@ const AuthContainer: FC<AuthPageType> = ({
 
   const authProps: AuthPropsType = useMemo(() => {
     let finalObject: AuthPropsType = {}
-    if(typeProps.hasPassword) {
+    if(currentOption.hasPassword) {
       finalObject = {
         password,
         validationStatuses,
@@ -263,12 +269,12 @@ const AuthContainer: FC<AuthPageType> = ({
     }
 
     return finalObject
-  }, [typeProps, password, validationStatuses, handlePasswordUpdate])
+  }, [currentOption, password, validationStatuses, handlePasswordUpdate])
 
   const disableSubmit = useMemo(() => {
     if(routerAuthType === RouterQueryEnum.FORGOT_PASSWORD) return false
 
-    if(typeProps.hasPassword && typeProps.hasPasswordValidation) {
+    if(currentOption.hasPassword && currentOption.hasPasswordValidation) {
       if(!validationStatuses?.isSuccess) {
         return true
       }
@@ -279,7 +285,7 @@ const AuthContainer: FC<AuthPageType> = ({
     }
 
     return false
-  }, [validationStatuses, typeProps, routerAuthType, authMessage])
+  }, [validationStatuses, currentOption, routerAuthType, authMessage])
 
   /* #endregion */
 
@@ -315,7 +321,7 @@ const AuthContainer: FC<AuthPageType> = ({
   useEffect(() => {
     removeStatusMessage()
 
-    let newTypeProps: TypePropsType
+    let newTypeProps: CurrentOption
 
     if(routerAuthType === RouterQueryEnum.REGISTRATION || routerAuthType === RouterQueryEnum.FORGOT_PASSWORD) {
       newTypeProps = AUTH_TYPE_OPTIONS[routerAuthType]
@@ -324,10 +330,10 @@ const AuthContainer: FC<AuthPageType> = ({
       newTypeProps = AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
     }
 
-    const timeoutTime = typeProps.title ? AUTH_TRANSITION_TIME : 0
+    const timeoutTime = currentOption.title ? AUTH_TRANSITION_TIME : 0
 
     setTimeout(() => {
-      setTypeProps(newTypeProps)
+      setCurrentOption(newTypeProps)
     }, timeoutTime)
 
     const transitionObject = {
@@ -338,23 +344,23 @@ const AuthContainer: FC<AuthPageType> = ({
       toAuthLinks: AuthTransitionIdsEnum.TO_AUTH_LINKS
     }
 
-    if(typeProps.title && newTypeProps) {
+    if(currentOption.title && newTypeProps) {
       for (let i = 0; i < Object.keys(transitionObject).length; i++) {
         const keys = Object.keys(transitionObject) as Array<keyof typeof transitionObject>;
         const key = keys[i];
 
-        if(JSON.stringify(typeProps[key]) !== JSON.stringify(newTypeProps[key])) {
+        if(JSON.stringify(currentOption[key]) !== JSON.stringify(newTypeProps[key])) {
           let shrinkHeight: null | 'add' | 'remove' = null
 
           if(key === 'hasEmail' || key === 'hasPassword' || key === 'hasUsername') {
-            shrinkHeight = typeProps[key] ? 'remove' : 'add'
+            shrinkHeight = currentOption[key] ? 'remove' : 'add'
           }
 
           contentSwitchAnimation(`#${transitionObject[key]}`, shrinkHeight)
         }
       }
     }
-  }, [router, typeProps, removeStatusMessage, routerAuthType])
+  }, [router, currentOption, removeStatusMessage, routerAuthType])
 
   /* #endregion */
 
@@ -363,7 +369,7 @@ const AuthContainer: FC<AuthPageType> = ({
   return (
     <Auth
       {...authProps}
-      {...typeProps}
+      {...currentOption}
       ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}

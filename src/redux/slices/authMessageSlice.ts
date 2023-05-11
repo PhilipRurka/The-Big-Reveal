@@ -1,26 +1,33 @@
 import {
   createSlice,
-  PayloadAction
 } from '@reduxjs/toolkit';
-import type { RootState } from '../redux_store';
-import { statusMessage, updateFormattedMessage } from '../reducerLogic/authMessageReducers'
-import { StatusMessageRequestType, StatusMessageStateType } from '../types/authMessageRedux.type';
+import {
+  statusMessage,
+  updateFormattedMessage
+} from '../reducerLogic/authMessageReducers'
 
-const initialState: StatusMessageStateType = {}
+import type { RootState } from '../redux_store';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type {
+  StatusMessageRequest,
+  StatusMessageState
+} from '../types/authMessageRedux.type';
+
+const initialState: StatusMessageState = {}
 
 const authMessageSlice = createSlice({
   name: 'authMessage',
   initialState,
   reducers: {
     status_message: {
-      reducer(state: StatusMessageStateType, action: PayloadAction<StatusMessageStateType>) {
+      reducer(state: StatusMessageState, action: PayloadAction<StatusMessageState>) {
         return statusMessage.reducer(state, action)
       },
-      prepare(authMessageObj: StatusMessageRequestType) {
+      prepare(authMessageObj: StatusMessageRequest) {
         return statusMessage.prepare(authMessageObj)
       }
     },
-    update_dynamic_message: (state: StatusMessageStateType, action) => {
+    update_dynamic_message: (state: StatusMessageState, action) => {
       return updateFormattedMessage(state, action)
     },
 

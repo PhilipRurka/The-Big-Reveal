@@ -1,17 +1,24 @@
 import Router from 'next/router'
-import { FormEvent, useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import usePasswordValidation from '../../hooks/usePasswordValidation'
 import { useAppDispatch, useAppSelector } from '../../redux/redux_hooks'
-import { hide_message, selectAuthMessage, status_message } from '../../redux/slices/authMessageSlice'
+import {
+  hide_message,
+  selectAuthMessage,
+  status_message
+} from '../../redux/slices/authMessageSlice'
 import Auth from '../auth/Auth'
-import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
-import { ResType, RouterQueryEnum } from '../auth/Auth.types'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { StatusMessageTypesEnum } from '../formMessage/FormMessage.container'
-import { DefinedStatusMessageStateType } from '../../redux/types/authMessageRedux.type'
-import { InputOnChange } from '../input/Input.type'
+import { AUTH_TRANSITION_TIME } from '../auth/Auth.constant'
+import { RouterQueryEnum } from '../auth/Auth.enum'
 
-const ResetPasswordContainer = () => {
+import type { FC, FormEvent } from 'react'
+import type { DefinedStatusMessageState } from '../../redux/types/authMessageRedux.type'
+import type { InputOnChange } from '../input/Input.type'
+import type { ResType } from '../auth/Auth.type'
+
+const ResetPasswordContainer: FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null)
 
   const [password, setPassword] = useState('')
@@ -20,7 +27,7 @@ const ResetPasswordContainer = () => {
   const dispatch = useAppDispatch()
   const validationStatuses = usePasswordValidation(password)
   const supabaseClient = useSupabaseClient()
-  const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageStateType
+  const authMessage = useAppSelector(selectAuthMessage) as DefinedStatusMessageState
 
   const handleSubmit = useCallback( async(event: FormEvent): Promise<void> => {
     event.preventDefault()

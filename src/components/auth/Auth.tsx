@@ -10,15 +10,15 @@ import {
 } from "./Auth.styled";
 import Input from "../input";
 import {
-  AuthTransitionIdsEnum,
   AuthType,
   RefsType,
-} from "./Auth.types";
+} from "./Auth.type";
 import { Field, Label } from "../../styled";
 import PasswordField from "../passwordField";
 import ConfirmedPasswordField from "../confirmedPasswordField";
 import { FormMessageContainerType } from "../formMessage/FormMessage.container";
 import FormMessage from "../formMessage"
+import { AuthTransitionIdsEnum } from "./Auth.enum";
 
 type FormMessagePropsType ={
   formMessageProps: FormMessageContainerType

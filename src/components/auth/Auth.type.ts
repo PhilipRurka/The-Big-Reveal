@@ -1,25 +1,23 @@
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
+import { RouterQueryEnum } from "./Auth.enum"
+import { AUTH_TYPE_OPTIONS } from "./Auth.constant"
 
 import type { FormEvent } from "react"
 import type { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import type { InputOnChange } from "../input/Input.type"
 
-export enum RouterQueryEnum {
-  REGISTRATION    = 'registration',
-  FORGOT_PASSWORD = 'forgot-password',
-  LOGIN           = 'login',
-  RESET_PASSWORD  = 'reset-password'
-}
+export type AuthPageData = AuthContainerProps
 
-export enum AuthTransitionIdsEnum {
-  TITLE         = 'auth-title',
-  EMAIL         = 'auth-email',
-  PASSWORD      = 'auth-password',
-  USERNAME      = 'auth-username',
-  TO_AUTH_LINKS = 'auth-to-auth-links'
+export type RouterAuthOptions = keyof typeof AUTH_TYPE_OPTIONS
+
+export type AuthTypeOptionsType = typeof AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
+
+export type AuthContainerProps = AuthTypeOptionsType & {
+  initRouterAuthType: RouterAuthOptions
 }
 
 export type HandleStyledAuthType = (event: FormEvent) => void
+
 export type HandleNarrowAuthType = () => Promise<void>
 
 export type ToAuthLinkType = {
@@ -43,7 +41,7 @@ export type PasswordPropsType = {
 
 export type AuthPropsType = PasswordPropsType | undefined
 
-export type TypePropsType = {
+export type CurrentOption = {
   id:                       undefined | string
   hasEmail:                 undefined | boolean
   hasPassword:              undefined | boolean
@@ -68,7 +66,7 @@ export type RefsType = {
   hasUsername?: HTMLInputElement
 }
 
-export type AuthType = AuthPropsType & TypePropsType & {
+export type AuthType = AuthPropsType & CurrentOption & {
   handleSubmit: HandleStyledAuthType
   disableSubmit: boolean
   removeStatusMessage: () => void
