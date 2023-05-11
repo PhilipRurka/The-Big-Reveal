@@ -1,7 +1,8 @@
-import { FormEvent } from "react"
-import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
-import { InputOnChangeType } from "../input/Input"
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
+
+import type { FormEvent } from "react"
+import type { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
+import type { InputOnChange } from "../input/Input.type"
 
 export enum RouterQueryEnum {
   REGISTRATION    = 'registration',
@@ -35,8 +36,8 @@ export type ResType = null | {
 export type PasswordPropsType = {
   password?: string;
   confirmedPassword?: string;
-  handlePasswordUpdate?: (event: InputOnChangeType) => void;
-  handleConfirmedPasswordUpdate?: (event: InputOnChangeType) => void;
+  handlePasswordUpdate?: (event: InputOnChange) => void;
+  handleConfirmedPasswordUpdate?: (event: InputOnChange) => void;
   validationStatuses?: ItemsSuccessStatesType
 }
 

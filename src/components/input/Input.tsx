@@ -1,37 +1,20 @@
-import { ChangeEvent, forwardRef } from 'react';
-import {
-  InputStyled
-} from './Input.styled';
+import { forwardRef } from 'react';
+import { InputStyled } from './Input.styled';
 
-export type InputRefType = HTMLInputElement
-export type InputOnChangeType = ChangeEvent<HTMLInputElement>
-
-export type InputType = {
-  id: string
-  type: string
-  value?: string | number
-  tabIndex?: number
-  handleChange?: (event: InputOnChangeType) => void
-  defaultValue?: string | number
-}
+import type {
+  InputRefType,
+  InputType
+} from './Input.type';
 
 const Input = forwardRef<InputRefType, InputType>(({
-  id,
-  type,
-  value,
   tabIndex = 0,
-  handleChange,
-  defaultValue
+  ...rest
 }, ref) => {
   return (
     <InputStyled
+      {...rest}
       ref={ref}
-      id={id}
-      type={type}
-      value={value}
-      onChange={handleChange}
-      tabIndex={tabIndex}
-      defaultValue={defaultValue} />
+      tabIndex={tabIndex} />
   );
 });
 

@@ -6,7 +6,6 @@ import { AuthPageType, AUTH_TYPE_OPTIONS } from "../../pages/auth"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
 import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
-import { InputOnChangeType } from "../input/Input"
 import Auth from "./Auth"
 import {
   AuthPropsType,
@@ -27,6 +26,7 @@ import {
 import useRigidCountdown from "../../hooks/useRigidCountdown"
 import { DefinedStatusMessageStateType } from "../../redux/types/authMessageRedux.type"
 import { StatusMessageTypesEnum } from '../formMessage/FormMessage.container'
+import type { InputOnChange } from '../input/Input.type'
 
 export const AUTH_TRANSITION_TIME = 300
 
@@ -247,7 +247,7 @@ const AuthContainer: FC<AuthPageType> = ({
     }, AUTH_TRANSITION_TIME * 2)
   }, [dispatch, resetCooldownTimeLeft])
 
-  const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {
+  const handlePasswordUpdate = useCallback((event: InputOnChange): void => {
     removeStatusMessage()
     setPassword(event.currentTarget.value)
   }, [removeStatusMessage])

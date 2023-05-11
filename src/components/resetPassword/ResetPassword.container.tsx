@@ -6,10 +6,10 @@ import { hide_message, selectAuthMessage, status_message } from '../../redux/sli
 import Auth from '../auth/Auth'
 import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
 import { ResType, RouterQueryEnum } from '../auth/Auth.types'
-import { InputOnChangeType } from '../input/Input'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { StatusMessageTypesEnum } from '../formMessage/FormMessage.container'
 import { DefinedStatusMessageStateType } from '../../redux/types/authMessageRedux.type'
+import { InputOnChange } from '../input/Input.type'
 
 const ResetPasswordContainer = () => {
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -53,12 +53,12 @@ const ResetPasswordContainer = () => {
     }, AUTH_TRANSITION_TIME * 2)
   }, [dispatch])
 
-  const handlePasswordUpdate = useCallback((event: InputOnChangeType): void => {``
+  const handlePasswordUpdate = useCallback((event: InputOnChange): void => {``
     removeStatusMessage()
     setPassword(event.currentTarget.value)
   }, [removeStatusMessage])
 
-  const handleConfirmedPasswordUpdate = useCallback((event: InputOnChangeType): void => {
+  const handleConfirmedPasswordUpdate = useCallback((event: InputOnChange): void => {
     removeStatusMessage()
     setConfirmedPassword(event.currentTarget.value)
   }, [removeStatusMessage])
