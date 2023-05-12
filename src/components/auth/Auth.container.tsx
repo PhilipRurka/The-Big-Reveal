@@ -25,11 +25,11 @@ import {
 
 import type { FC } from 'react'
 import type {
-  AuthPropsType,
-  ContentSwitchAnimationType,
-  ResType,
-  HandleNarrowAuthType,
-  HandleStyledAuthType,
+  AuthAddedProps,
+  ContentSwitchAnimation,
+  Res,
+  HandleNarrowAuthFunction,
+  HandleAuthSubmit,
   CurrentOption,
   AuthContainerProps,
 } from "./Auth.type"
@@ -77,7 +77,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
   } = useRigidCountdown()
 
   /* #region LOGIN */
-  const handleLogin: HandleNarrowAuthType = useCallback(async () => {
+  const handleLogin: HandleNarrowAuthFunction = useCallback(async () => {
     if(!passwordRef?.current || !emailRef.current) return
 
     const {
@@ -88,7 +88,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
       password: passwordRef.current.value,
     })
 
-    const error = resError as ResType
+    const error = resError as Res
 
     let errorStatus = error ? error.status : 200
     setResStatus(errorStatus)
@@ -117,7 +117,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
   /* #endregion */
 
   /* #region REGISTRATION */
-  const handleRegistration: HandleNarrowAuthType = useCallback(async () => {
+  const handleRegistration: HandleNarrowAuthFunction = useCallback(async () => {
     if(!passwordRef?.current || !emailRef.current || !usernameRef.current) return
 
     let path = usernameRef.current.value.toLowerCase()
@@ -137,7 +137,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
       }
     })
 
-    const error = resError as ResType
+    const error = resError as Res
 
     if(error?.status === 429) {
       const bufferFormat = [
@@ -169,7 +169,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
 
   /* #region FORGOT PASSWORD */
 
-  const handleForgotPassword: HandleNarrowAuthType = useCallback(async () => {
+  const handleForgotPassword: HandleNarrowAuthFunction = useCallback(async () => {
     if(!emailRef.current) return
 
     const {
@@ -179,7 +179,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
       redirectTo: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/${RouterQueryEnum.RESET_PASSWORD}/`
     })
 
-    const error = resError as ResType
+    const error = resError as Res
 
     let errorStatus = error ? error.status : 200
     setResStatus(errorStatus)
@@ -196,7 +196,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
   /* #endregion */
 
   /* #region ANIMATION */
-  const contentSwitchAnimation: ContentSwitchAnimationType = (id, shrinkHeight) => {
+  const contentSwitchAnimation: ContentSwitchAnimation = (id, shrinkHeight) => {
     const shrinkHeightProperties = shrinkHeight ? {
       remove: {
         height: shrinkHeight === 'remove' ? '0' : '43',
@@ -231,7 +231,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
   /* #endregion */
 
   /* #region UTILITIES */
-  const handleSubmit: HandleStyledAuthType = useCallback((event) => {
+  const handleSubmit: HandleAuthSubmit = useCallback((event) => {
     event.preventDefault()
     if(currentOption.id === RouterQueryEnum.LOGIN) {
       handleLogin()
@@ -258,8 +258,8 @@ const AuthContainer: FC<AuthContainerProps> = ({
     setPassword(event.currentTarget.value)
   }, [removeStatusMessage])
 
-  const authProps: AuthPropsType = useMemo(() => {
-    let finalObject: AuthPropsType = {}
+  const authAddedProps: AuthAddedProps = useMemo(() => {
+    let finalObject: AuthAddedProps = {}
     if(currentOption.hasPassword) {
       finalObject = {
         password,
@@ -292,7 +292,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
   /* #region USE_EFFECT */
 
   useEffect(() => {
-    let timeout: ReturnType<typeof setInterval>
+    let timeout: NodeJS.Timer
     
     if(resStatus === 429) {
       if(countdownTimeLeft === 0) {
@@ -321,19 +321,19 @@ const AuthContainer: FC<AuthContainerProps> = ({
   useEffect(() => {
     removeStatusMessage()
 
-    let newTypeProps: CurrentOption
+    let authTypeOption: CurrentOption
 
     if(routerAuthType === RouterQueryEnum.REGISTRATION || routerAuthType === RouterQueryEnum.FORGOT_PASSWORD) {
-      newTypeProps = AUTH_TYPE_OPTIONS[routerAuthType]
+      authTypeOption = AUTH_TYPE_OPTIONS[routerAuthType]
 
     } else {
-      newTypeProps = AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
+      authTypeOption = AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
     }
 
     const timeoutTime = currentOption.title ? AUTH_TRANSITION_TIME : 0
 
     setTimeout(() => {
-      setCurrentOption(newTypeProps)
+      setCurrentOption(authTypeOption)
     }, timeoutTime)
 
     const transitionObject = {
@@ -344,12 +344,12 @@ const AuthContainer: FC<AuthContainerProps> = ({
       toAuthLinks: AuthTransitionIdsEnum.TO_AUTH_LINKS
     }
 
-    if(currentOption.title && newTypeProps) {
+    if(currentOption.title && authTypeOption) {
       for (let i = 0; i < Object.keys(transitionObject).length; i++) {
         const keys = Object.keys(transitionObject) as Array<keyof typeof transitionObject>;
         const key = keys[i];
 
-        if(JSON.stringify(currentOption[key]) !== JSON.stringify(newTypeProps[key])) {
+        if(JSON.stringify(currentOption[key]) !== JSON.stringify(authTypeOption[key])) {
           let shrinkHeight: null | 'add' | 'remove' = null
 
           if(key === 'hasEmail' || key === 'hasPassword' || key === 'hasUsername') {
@@ -368,7 +368,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
 
   return (
     <Auth
-      {...authProps}
+      {...authAddedProps}
       {...currentOption}
       ref={refs as any}
       handleSubmit={handleSubmit}

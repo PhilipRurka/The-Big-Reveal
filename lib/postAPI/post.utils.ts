@@ -1,7 +1,6 @@
-import {
-  ErrorContent,
-  generalErrorMessages
-} from "../generalErrors"
+import { generalErrorMessages } from "../generalErrors"
+
+import type { ErrorContent } from "../generalErrors"
 
 type PostErrorMessagesType = {
   missingHeading1:        ErrorContent
@@ -11,8 +10,7 @@ type PostErrorMessagesType = {
   default:                ErrorContent
 }
 
-export type UpdatePostBodyType = {
-  postId: string
+export type ReqPostBody = {
   baseContent: string
   descriptionContent: string
 }

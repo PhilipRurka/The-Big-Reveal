@@ -2,7 +2,7 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from '../../src/types/supabase.type'
 import {
-  UpdatePostBodyType,
+  ReqPostBody,
   formatTitle,
   postErrorMessages
 } from './post.utils'
@@ -15,7 +15,7 @@ export const updatePost = async (id: string, req: NextApiRequest, res: NextApiRe
   const {
     baseContent,
     descriptionContent
-  } = req.body as UpdatePostBodyType
+  } = req.body as ReqPostBody
 
   const { unauthorized } = generalErrorMessages
 

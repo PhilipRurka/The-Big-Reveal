@@ -10,7 +10,6 @@ const AuthorPostsContainer: FC<UserSpaceDataType> = ({
   profile_path,
   username
 }) => {
-
   const mountedRef = useRef(true)
 
   const [feedList, setFeedList] = useState<PostCardListType>([])

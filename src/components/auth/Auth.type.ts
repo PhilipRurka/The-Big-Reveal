@@ -5,6 +5,7 @@ import { AUTH_TYPE_OPTIONS } from "./Auth.constant"
 import type { FormEvent } from "react"
 import type { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import type { InputOnChange } from "../input/Input.type"
+import type { FormMessageContainerType } from "../formMessage/FormMessage.container"
 
 export type AuthPageData = AuthContainerProps
 
@@ -16,16 +17,16 @@ export type AuthContainerProps = AuthTypeOptionsType & {
   initRouterAuthType: RouterAuthOptions
 }
 
-export type HandleStyledAuthType = (event: FormEvent) => void
+export type HandleAuthSubmit = (event: FormEvent) => void
 
-export type HandleNarrowAuthType = () => Promise<void>
+export type HandleNarrowAuthFunction = () => Promise<void>
 
 export type ToAuthLinkType = {
   href: string
   title: string
 }
 
-export type ResType = null | {
+export type Res = null | {
   name: string
   status: number
   message: string
@@ -39,7 +40,7 @@ export type PasswordPropsType = {
   validationStatuses?: ItemsSuccessStatesType
 }
 
-export type AuthPropsType = PasswordPropsType | undefined
+export type AuthAddedProps = PasswordPropsType | undefined
 
 export type CurrentOption = {
   id:                       undefined | string
@@ -60,19 +61,20 @@ export type StatusMessageType = null | {
   message?: string
 }
 
-export type RefsType = {
+export type Refs = {
   emailRef?:    HTMLInputElement
   passwordRef?: HTMLInputElement
   hasUsername?: HTMLInputElement
 }
 
-export type AuthType = AuthPropsType & CurrentOption & {
-  handleSubmit: HandleStyledAuthType
+export type AuthProps = AuthAddedProps & CurrentOption & {
+  handleSubmit: HandleAuthSubmit
   disableSubmit: boolean
   removeStatusMessage: () => void
+  formMessageProps: FormMessageContainerType
 }
 
-export type ContentSwitchAnimationType = (
+export type ContentSwitchAnimation = (
   id: string,
   shrinkHeight: null | 'add' | 'remove'
 ) => void

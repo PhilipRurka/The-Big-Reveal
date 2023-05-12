@@ -16,7 +16,7 @@ import { RouterQueryEnum } from '../auth/Auth.enum'
 import type { FC, FormEvent } from 'react'
 import type { DefinedStatusMessageState } from '../../redux/types/authMessageRedux.type'
 import type { InputOnChange } from '../input/Input.type'
-import type { ResType } from '../auth/Auth.type'
+import type { Res } from '../auth/Auth.type'
 
 const ResetPasswordContainer: FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -37,7 +37,7 @@ const ResetPasswordContainer: FC = () => {
       error: resError
     } = await supabaseClient.auth.updateUser({ password: passwordRef.current.value })
 
-    const error = resError as ResType
+    const error = resError as Res
 
     let errorStatus = error ? error.status : 200
 
