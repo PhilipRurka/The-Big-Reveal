@@ -3,10 +3,11 @@ import {
   Field,
   Label
 } from "../../styled"
-import { AuthTransitionIdsEnum } from "../auth/Auth.types"
 import PasswordValidation from "../passwordValidation"
-import { PasswordFieldType } from "./PasswordField.container"
 import { PasswordInput } from "./PasswordField.styled"
+import { AuthTransitionIdsEnum } from "../auth/Auth.enum"
+
+import type { PasswordFieldType } from "./PasswordField.container"
 
 const PasswordField = forwardRef<HTMLInputElement, PasswordFieldType>(({
   handlePasswordUpdate,

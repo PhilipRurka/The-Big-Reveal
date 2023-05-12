@@ -5,7 +5,7 @@ import {
   generalErrorMessages,
   handleError
 } from '../generalErrors';
-import { postErrorMessages } from './utils';
+import { postErrorMessages } from './post.utils';
 
 export const deletePost = async (id: string, req: NextApiRequest, res: NextApiResponse) => {
 

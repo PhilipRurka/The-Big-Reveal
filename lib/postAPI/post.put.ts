@@ -2,10 +2,10 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from '../../src/types/supabase.type'
 import {
-  UpdatePostBodyType,
+  ReqPostBody,
   formatTitle,
   postErrorMessages
-} from './utils'
+} from './post.utils'
 import dayjs from 'dayjs';
 import {
   generalErrorMessages,
@@ -16,7 +16,7 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
   const {
     baseContent,
     descriptionContent
-  } = req.body as UpdatePostBodyType
+  } = req.body as ReqPostBody
 
   const { unauthorized } = generalErrorMessages
 
@@ -27,7 +27,7 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(unauthorized.status).send(unauthorized)
   }
   
-  let title = formatTitle(baseContent)
+  let postTitle = formatTitle(baseContent)
 
   const now = dayjs().toISOString()
 
@@ -35,7 +35,7 @@ export const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
     data,
     error: resError
   } = await supabase.rpc('insert_base_and_description', {
-    post_title: title as string,
+    post_title: postTitle,
     enable_reveal: true,
     is_published: true,
     tags: '',

@@ -1,7 +1,9 @@
-import { FC, useCallback, useEffect, useRef } from 'react'
-import { AUTH_TRANSITION_TIME } from '../auth/Auth.container'
+import { useCallback, useEffect, useRef } from 'react'
 import FormMessage from './FormMessage'
 import gsap from "gsap"
+import { AUTH_TRANSITION_TIME } from '../auth/Auth.constant'
+
+import type { FC } from 'react'
 
 export enum StatusMessageTypesEnum {
   SUCCESS = 'success',

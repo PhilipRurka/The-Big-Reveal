@@ -1,36 +1,24 @@
-import { FC } from "react"
 import {
   Field,
   Label
 } from "../../styled"
-import Input, { InputOnChangeType } from "../input/Input"
+import Input from "../input/Input"
 import {
   Form,
   ProfileStyled,
   Subtitle,
   Title
 } from "./Profile.styled"
-import { handleSaveResetType } from "./Profile.container"
 import {
   ButtonWrapper,
   Button
 } from "../../styled/button"
 import FormMessage from "../formMessage"
-import type { FormMessageContainerType } from "../formMessage/FormMessage.container";
 
-type ProfileType = {
-  subtitle: string
-  fullName: null | string
-  username: null | string
-  handleFullNameUpdate: (event: InputOnChangeType) => void
-  handleUserNameUpdate: (event: InputOnChangeType) => void
-  handleSave: handleSaveResetType
-  handleReset: handleSaveResetType
-  hasChangeOccured:boolean
-  formMessageProps: FormMessageContainerType
-}
+import type { FC } from "react"
+import type { ProfileProps } from "./Profile.type"
 
-const Profile: FC<ProfileType> = ({
+const Profile: FC<ProfileProps> = ({
     subtitle,
     fullName,
     username,

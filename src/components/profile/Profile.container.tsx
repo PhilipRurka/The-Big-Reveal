@@ -1,17 +1,17 @@
-import { FC, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { ProfilePageType } from "../../pages/profile"
-import { InputOnChangeType } from "../input/Input"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Profile from "./Profile"
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
 import axios from "axios"
 
-export type handleSaveResetType = (event: FormEvent) => void
-type ShowFormMessageType = {
-  message: string
-  type: undefined | StatusMessageTypesEnum
-}
+import type { FC } from 'react'
+import type {
+  HandleSaveReset,
+  ProfileContainerProps,
+  ShowFormMessageType
+} from './Profile.type'
+import type { InputOnChange } from "../input/Input.type"
 
-const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
+const ProfileContainer: FC<ProfileContainerProps> = ({ profileData }) => {
   const mountedRef = useRef(true)
 
   const [fullName, setFullName] = useState(profileData.full_name || '')
@@ -53,24 +53,24 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
     return `Welcome ${originalInputs.username || 'back'}`
   }, [originalInputs])
 
-  const handleFullNameUpdate = useCallback((event: InputOnChangeType) => {
+  const handleFullNameUpdate = useCallback((event: InputOnChange) => {
     setFullName(event.currentTarget.value)
     triggerRemoveFormMessage()
   }, [triggerRemoveFormMessage])
 
-  const handleUserNameUpdate = useCallback((event: InputOnChangeType) => {
+  const handleUserNameUpdate = useCallback((event: InputOnChange) => {
     setUsername(event.currentTarget.value)
     triggerRemoveFormMessage()
   }, [triggerRemoveFormMessage])
 
-  const handleReset: handleSaveResetType = useCallback((event) => {
+  const handleReset: HandleSaveReset = useCallback((event) => {
     event.preventDefault()
 
     setFullName(originalInputs.fullName)
     setUsername(originalInputs.username)
   }, [originalInputs])
 
-  const handleSave: handleSaveResetType = useCallback(async event => {
+  const handleSave: HandleSaveReset = useCallback(async event => {
     event.preventDefault()
 
     axios.post('/api/profile', {

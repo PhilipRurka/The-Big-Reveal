@@ -1,18 +1,13 @@
-import { FC } from "react"
 import {
   NavLinkStyled,
   NavLinkAnchor,
   NavLinkButton
 } from "./Anchors.styled"
 
-type NavLinkType = {
-  children: string;
-  path?: string;
-  trigger?: (props: any) => Promise<void>
-  isActive?: boolean;
-}
+import type { FC } from "react"
+import type { NavLinkProps } from "./Anchor.type"
 
-export const NavLink: FC<NavLinkType> = ({
+export const NavLink: FC<NavLinkProps> = ({
   children,
   path,
   trigger,
