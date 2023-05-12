@@ -26,7 +26,7 @@ export const updatePost = async (id: string, req: NextApiRequest, res: NextApiRe
     return res.status(unauthorized.status).send(unauthorized)
   }
   
-  let postTitle = formatTitle(baseContent) as string
+  let postTitle = formatTitle(baseContent)
 
   const {
     data,

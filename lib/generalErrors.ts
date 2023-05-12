@@ -67,7 +67,7 @@ export const handleError: HandleErrorType = (errorObject, message) => {
   let errorType: string | undefined
   
   for (let i = 0; i < Object.keys(errorObject).length; i++) {
-    const key = Object.keys(errorObject)[i] as string
+    const key = Object.keys(errorObject)[i]
     const type = errorObject[key] as ErrorContent
     let check: string | undefined
 

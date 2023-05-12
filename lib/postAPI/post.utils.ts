@@ -25,7 +25,7 @@ export const postErrorMessages: PostErrorMessagesType = {
   missingHeading1: {
     logMessage: 'The post is missing a heading 1',
     message:    'Your poem requires a "Heading 1"',
-    nonNull:    'null value in column "post_title"',
+    constraint: 'base_title_non_empty',
     status: 400
   },
   baseContentTooLong: {
@@ -49,11 +49,11 @@ export const postErrorMessages: PostErrorMessagesType = {
   default: generalErrorMessages.ohShit
 }
 
-export const formatTitle = (rawBaseContent: string): string | null => {
+export const formatTitle = (rawBaseContent: string): string => {
   const titleArrayLength: number = rawBaseContent.split('<h1').length
 
   if(titleArrayLength === 1 ) {
-    return null
+    return ''
   }
 
   let title = rawBaseContent.split('</h1>')[0]
