@@ -8,12 +8,14 @@ import type {
 
 const Input = forwardRef<InputRefType, InputType>(({
   tabIndex = 0,
+  handleChange,
   ...rest
 }, ref) => {
   return (
     <InputStyled
       {...rest}
       ref={ref}
+      onChange={handleChange}
       tabIndex={tabIndex} />
   );
 });
