@@ -4,21 +4,24 @@ import gsap from 'gsap'
 import { decode } from 'html-entities';
 import axios from "axios";
 import Router from "next/router";
+import { selectPost } from "../../redux/slices/postSlice";
+import { useAppSelector } from "../../redux/redux_hooks";
 
 type DeletePostModule = {
-  postTitle: string
-  postId: string
   handleTriggerDeleteView: () => void
 }
 
 const DeletePostModalContainer: FC<DeletePostModule> = ({
-  postTitle,
-  postId,
   handleTriggerDeleteView
 }) => {
   const overlayRef = useRef<HTMLDivElement>()
   const absoluteRef = useRef<HTMLDivElement>()
   const tlAnimationRef = useRef<gsap.core.Timeline>(gsap.timeline())
+
+  const {
+    postTitle,
+    postId,
+  } = useAppSelector(selectPost)
 
   const initAnimation = useCallback(() => {
     return gsap.timeline()

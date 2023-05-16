@@ -1,23 +1,17 @@
-import { FC, useCallback, useRef, useState } from "react";
-import { PostPageType } from "../../pages/post/[post-id]";
-import { UpdateOriginalPostType } from "../editPost/EditPost.container";
-import { FormMessageContainerType, StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
 import Post from "./Post";
+import { init_post } from "../../redux/slices/postSlice";
+import { useAppDispatch } from "../../redux/redux_hooks";
 
-export type UpdateOriginalPostFunctionType = (updatedData: UpdateOriginalPostType) => void
+import type { FC } from 'react'
+import type { FormMessageContainerType } from "../formMessage/FormMessage.container";
+import type {
+  PostContainerProps,
+  UpdateOriginalPostFunction
+} from "./Post.type";
 
-export type PostStateType = {
-  baseContent: string
-  descriptionContent: string
-}
-
-const PostContainer: FC<PostPageType> = ({
-    post: postProp,
-    ...args
-}) => {
-  const { current: isWindowDefined } = useRef(typeof window !== undefined)
-
-  const [post, setPost] = useState<PostStateType>(postProp)
+const PostContainer: FC<PostContainerProps> = (props) => {
   const [isEditView, setIsEditView] = useState<boolean>(false)
   const [isDeleteView, setIsDeleteView] = useState<boolean>(false)
   const [formMessage, setFormMessage] = useState<FormMessageContainerType>({
@@ -25,6 +19,8 @@ const PostContainer: FC<PostPageType> = ({
     showMessage: false,
     type: undefined
   })
+
+  const dispatch = useAppDispatch()
 
   const handleTriggerDeleteView = useCallback(() => {
     setIsDeleteView(!isDeleteView)
@@ -34,28 +30,20 @@ const PostContainer: FC<PostPageType> = ({
     setIsEditView(!isEditView)
   }, [isEditView])
 
-  const updateOriginalPost: UpdateOriginalPostFunctionType = useCallback((updatedData) => {
-    setPost(updatedData)
-
+  const updateOriginalPost: UpdateOriginalPostFunction = useCallback((updatedData) => {
     setFormMessage({
       message:'You have updated this post!',
       type: StatusMessageTypesEnum.SUCCESS,
       showMessage: true
     })
+  }, [])
 
-    if(!isWindowDefined) return
-    const body = document.querySelector('body') as HTMLBodyElement
-    body.style.overflow = 'unset'
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }, [isWindowDefined])
+  useEffect(() => {
+    dispatch(init_post(props))
+  }, [dispatch, props])
 
   return (
     <Post
-      {...args}
-      post={post}
       isEditView={isEditView}
       isDeleteView={isDeleteView}
       handleTriggerEditView={handleTriggerEditView}

@@ -14,18 +14,19 @@ import {
 import BubbleLayout from "../bubbleLayout";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
-import dayjs from "dayjs";
-import { ContentsType } from "../../pages/post/[post-id]";
 import FormMessageContainer from "../formMessage";
 import { FormMessageContainerType } from "../formMessage/FormMessage.container";
+import { Contents } from "../post/Post.type";
 
 type PostDisplayType = {
-  username: string
-  profilePath: string
-  post: ContentsType
-  created_at: string
+  post: {
+    username: string
+    collectionPath: string
+    post: Contents
+    createdAt: string
+    isAuthor?: boolean
+  }
   handleRevealDescription: () => void
-  isAuthor?: boolean
   handleTriggerEditView?: () => void
   handleTriggerDeleteView?: () => void
   formMessage?: FormMessageContainerType
@@ -33,15 +34,17 @@ type PostDisplayType = {
 type DescriptionSectionRefType = HTMLDivElement
 
 const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
-  username,
-  created_at,
   post: {
-    baseContent,
-    descriptionContent
+    username,
+    createdAt,
+    collectionPath,
+    isAuthor,
+    post: {
+      baseContent,
+      descriptionContent
+    }
   },
   handleRevealDescription,
-  profilePath,
-  isAuthor,
   handleTriggerEditView,
   handleTriggerDeleteView,
   formMessage
@@ -51,14 +54,14 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
       <BubbleLayout>
         <BaseSection>
           <BaseInformation>
-            {profilePath && (
-              <Author href={`/${profilePath}`}>
+            {collectionPath && (
+              <Author href={`/${collectionPath}`}>
                 Author - { username }
               </Author>
             )}
-            {created_at && (
+            {createdAt && (
               <Date>
-                { dayjs(created_at).format('D MMM YYYY, h:ss a') } - Uploaded
+                createdAt - Uploaded
               </Date>
             )}
           </BaseInformation>

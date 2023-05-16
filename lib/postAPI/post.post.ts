@@ -48,7 +48,10 @@ export const updatePost = async (id: string, req: NextApiRequest, res: NextApiRe
   }
 
   return res.status(200).send({
-    baseContent: data[0].base_content,
-    descriptionContent: data[0].description_content
+    postTitle,
+    post: {
+      baseContent: data[0].base_content,
+      descriptionContent: data[0].description_content
+    }
   })
 }

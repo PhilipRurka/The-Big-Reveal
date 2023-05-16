@@ -1,22 +1,28 @@
 import axios from "axios"
 import { FC, FormEvent, MutableRefObject, RefObject, useCallback, useEffect, useRef, useState } from "react"
 import { Editor } from "tinymce"
-import { ContentsType } from "../../pages/post/[post-id]"
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
-import { UpdateOriginalPostFunctionType } from "../post/Post.container"
+import type { UpdateOriginalPostFunction } from "../post/Post.type"
 import EditPost from "./EditPost"
 import gsap from'gsap'
+import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
+import { selectPost, update_post } from "../../redux/slices/postSlice"
 
 type EditPostType = {
-  postId: string
-  post: ContentsType
   handleTriggerEditView: () => void
-  updateOriginalPost: UpdateOriginalPostFunctionType
+  updateOriginalPost: UpdateOriginalPostFunction
 }
 
 export type UpdateOriginalPostType = {
-  baseContent: string
-  descriptionContent: string
+  postTitle: string
+  post: {
+    baseContent: string
+    descriptionContent: string
+  }
+}
+
+type Res = {
+  data: UpdateOriginalPostType
 }
 
 const DURATION_OVERLAY = 0.3
@@ -25,12 +31,7 @@ const BLUR_BUFFER = 0.4
 const OVERLAY_HOVER_TO = 0.47
 const DELAY_SLIDE = DURATION_OVERLAY / 2
 
-const EditPostContainer: FC<EditPostType> = ({
-  postId,
-  handleTriggerEditView,
-  updateOriginalPost,
-  ...args
-}) => {
+const EditPostContainer: FC<EditPostType> = ({ handleTriggerEditView }) => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()
@@ -45,6 +46,13 @@ const EditPostContainer: FC<EditPostType> = ({
 
   const [errorMessage, setErrorMessage] = useState('')
   const [showMessage, setShowMessage] = useState(false)
+
+  const dispatch = useAppDispatch()
+
+  const {
+    postId,
+    post
+  } = useAppSelector(selectPost)
   
   const initOverlay = useCallback(() => {
     return gsap.timeline()
@@ -136,10 +144,10 @@ const EditPostContainer: FC<EditPostType> = ({
       baseContent,
       descriptionContent
     })
-    .then(({ data }) => {
+    .then(({ data }: Res) => {
       if(!mountedRef.current) return
 
-      updateOriginalPost(data as UpdateOriginalPostType)
+      dispatch(update_post({ ...data }))
       handleCloseEdit()
     })
     .catch(({ response: { data: { message }}}) => {
@@ -148,8 +156,8 @@ const EditPostContainer: FC<EditPostType> = ({
       triggerErrorMessage(message)
     })
   }, [
+    dispatch,
     postId,
-    updateOriginalPost,
     triggerErrorMessage,
     handleCloseEdit
   ])
@@ -166,12 +174,7 @@ const EditPostContainer: FC<EditPostType> = ({
 
   useEffect(() => {
     mountedRef.current = true
-
-    const body = document.querySelector('body') as HTMLBodyElement
-    body.style.overflow = 'hidden'
-
     const overlayRefInstance = overlayRef.current
-
     const eventTimeoutInstance = setTimeout(() => {
       overlayRefInstance?.addEventListener('mouseover', handleOverlayHover)
       overlayRefInstance?.addEventListener('mouseleave', handleOverlayBlur)
@@ -179,16 +182,25 @@ const EditPostContainer: FC<EditPostType> = ({
 
     return () => {
       mountedRef.current = false
-      body.style.overflow = 'unset'
       clearTimeout(eventTimeoutInstance)
       overlayRefInstance?.removeEventListener('mouseover', handleOverlayHover)
       overlayRefInstance?.removeEventListener('mouseleave', handleOverlayBlur)
     }
   }, [handleOverlayBlur, handleOverlayHover])
 
+  useEffect(() => {
+    const body = document.querySelector('body') as HTMLBodyElement
+    body.style.overflow = 'hidden'
+
+    return () => {
+      const body = document.querySelector('body') as HTMLBodyElement
+      body.style.overflow = 'unset'
+    }
+  }, [])
+
   return (
     <EditPost
-      {...args}
+      post={post}
       handleCloseEdit={handleCloseEdit}
       baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}

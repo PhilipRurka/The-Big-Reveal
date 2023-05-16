@@ -15,7 +15,7 @@ import FormMessage from "../formMessage"
 import type { FormMessageContainerType } from "../formMessage/FormMessage.container"
 import BubbleLayout from "../bubbleLayout"
 import NormalLayout from "../normalLayout"
-import { ContentsType } from "../../pages/post/[post-id]"
+import { Contents } from "../post/Post.type"
 
 export type NewPostType = {
   handleSubmit: (event: FormEvent) => void
@@ -23,7 +23,7 @@ export type NewPostType = {
   descriptionRef: MutableRefObject<Editor>
   formMessageProps: FormMessageContainerType
   isEdit?: boolean
-  post?: ContentsType
+  post?: Contents
 }
 
 const NewPost: FC<NewPostType> = ({

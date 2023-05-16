@@ -10,7 +10,7 @@ const ToasterContainer: FC = () => {
     paused: true
   }))
 
-  const content = useAppSelector(selectToast) as ToasterType
+  const content = useAppSelector(selectToast)
 
   const playGsap = useCallback(() => {
     if(!toasterRef.current) return

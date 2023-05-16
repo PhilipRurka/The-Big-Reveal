@@ -1,14 +1,14 @@
 import { FC, RefObject } from "react";
-import { ContentsType } from "../../pages/post/[post-id]";
 import { Overlay } from "../../styled/animation";
 import NewPost, { NewPostType } from "../newPost/NewPost";
+import { Contents } from "../post/Post.type";
 import {
   AbsoluteEdit,
   EditPostStyled
 } from "./EditPost.styled";
 
 type EditPostType = NewPostType & {
-  post: ContentsType
+  post: Contents
   handleCloseEdit: () => void
   overlayRef: RefObject<HTMLDivElement>
   absoluteRef: RefObject<HTMLDivElement>
