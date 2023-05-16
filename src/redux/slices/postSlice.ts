@@ -73,25 +73,25 @@ const postSlice = createSlice({
         top: 0,
         behavior: 'smooth'
       })
-      
+
       return {
         ...state,
         ...action.payload
       }
     },
     // FRONTEND: Is the this required?
-    update_target_view: (state: PostState, action: PayloadAction<PostState>) => {
-      return {
-        ...state,
-        ...action.payload
-      }
-    }
+    // update_target_view: (state: PostState, action: PayloadAction<PostState>) => {
+    //   return {
+    //     ...state,
+    //     ...action.payload
+    //   }
+    // }
   }
 });
 
 export const {
   update_post,
-  update_target_view,
+  // update_target_view,
   init_post
 } = postSlice.actions;
 

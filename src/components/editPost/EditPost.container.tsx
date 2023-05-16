@@ -46,14 +46,13 @@ const EditPostContainer: FC<EditPostType> = ({ handleTriggerEditView }) => {
 
   const [errorMessage, setErrorMessage] = useState('')
   const [showMessage, setShowMessage] = useState(false)
-
   const dispatch = useAppDispatch()
-
   const {
     postId,
     post
   } = useAppSelector(selectPost)
   
+  /* #region Animation */
   const initOverlay = useCallback(() => {
     return gsap.timeline()
       .fromTo(overlayRef.current as HTMLDivElement, {
@@ -124,6 +123,31 @@ const EditPostContainer: FC<EditPostType> = ({ handleTriggerEditView }) => {
     }, DURATION_SLIDE * 1000)
   }, [handleTriggerEditView])
 
+  useEffect(() => {
+    ltInitSlideRef.current = initSlide()
+    ltInitOverlayRef.current = initOverlay()
+
+    return () => {
+      ltInitSlideRef.current.kill()
+      ltInitOverlayRef.current.kill()
+    }
+  }, [initSlide, initOverlay])
+
+  useEffect(() => {
+    const overlayRefInstance = overlayRef.current
+    const eventTimeoutInstance = setTimeout(() => {
+      overlayRefInstance?.addEventListener('mouseover', handleOverlayHover)
+      overlayRefInstance?.addEventListener('mouseleave', handleOverlayBlur)
+    }, 750)
+
+    return () => {
+      clearTimeout(eventTimeoutInstance)
+      overlayRefInstance?.removeEventListener('mouseover', handleOverlayHover)
+      overlayRefInstance?.removeEventListener('mouseleave', handleOverlayBlur)
+    }
+  }, [handleOverlayBlur, handleOverlayHover])
+  /* #endregion */
+
   const triggerErrorMessage = useCallback((message: string) => {
     setErrorMessage(message)
     setShowMessage(true)
@@ -163,36 +187,12 @@ const EditPostContainer: FC<EditPostType> = ({ handleTriggerEditView }) => {
   ])
 
   useEffect(() => {
-    ltInitSlideRef.current = initSlide()
-    ltInitOverlayRef.current = initOverlay()
-
-    return () => {
-      ltInitSlideRef.current.kill()
-      ltInitOverlayRef.current.kill()
-    }
-  }, [initSlide, initOverlay])
-
-  useEffect(() => {
     mountedRef.current = true
-    const overlayRefInstance = overlayRef.current
-    const eventTimeoutInstance = setTimeout(() => {
-      overlayRefInstance?.addEventListener('mouseover', handleOverlayHover)
-      overlayRefInstance?.addEventListener('mouseleave', handleOverlayBlur)
-    }, 750)
-
-    return () => {
-      mountedRef.current = false
-      clearTimeout(eventTimeoutInstance)
-      overlayRefInstance?.removeEventListener('mouseover', handleOverlayHover)
-      overlayRefInstance?.removeEventListener('mouseleave', handleOverlayBlur)
-    }
-  }, [handleOverlayBlur, handleOverlayHover])
-
-  useEffect(() => {
     const body = document.querySelector('body') as HTMLBodyElement
     body.style.overflow = 'hidden'
 
     return () => {
+      mountedRef.current = false
       const body = document.querySelector('body') as HTMLBodyElement
       body.style.overflow = 'unset'
     }
