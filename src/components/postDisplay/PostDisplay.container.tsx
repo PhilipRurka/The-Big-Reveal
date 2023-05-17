@@ -29,7 +29,7 @@ const PostDisplayContainer: FC<PostDisplayType> = ({ ...args }) => {
       ease: 'power1.inOut',
       height: descriptioncContentRef.current?.clientHeight,
     }, 0)
-  }, [post])
+  }, [])
 
   const revealDescription = () => {
     setIsDescriptionRevlealed(true)
