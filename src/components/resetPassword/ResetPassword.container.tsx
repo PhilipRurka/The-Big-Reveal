@@ -17,7 +17,7 @@ import type { FC, FormEvent } from 'react'
 import type { DefinedStatusMessageState } from '../../redux/types/authMessageRedux.type'
 import type { InputOnChange } from '../input/Input.type'
 import type { Res } from '../auth/Auth.type'
-import { update_formMessage } from '../../redux/slices/formMessageSlice'
+import { close_formMessage, update_formMessage } from '../../redux/slices/formMessageSlice'
 
 const ResetPasswordContainer: FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -81,6 +81,10 @@ const ResetPasswordContainer: FC = () => {
         id: 'authFormMessage',
         message: authMessage.formattedMessage,
         type: authMessage.type,
+      }))
+    } else {
+      dispatch(close_formMessage({
+        id: 'authFormMessage'
       }))
     }
   }, [authMessage, dispatch])

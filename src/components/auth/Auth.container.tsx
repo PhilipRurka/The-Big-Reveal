@@ -35,7 +35,7 @@ import type {
 } from "./Auth.type"
 import type { DefinedStatusMessageState } from "../../redux/types/authMessageRedux.type"
 import type { InputOnChange } from '../input/Input.type'
-import { update_formMessage } from '../../redux/slices/formMessageSlice'
+import { close_formMessage, update_formMessage } from '../../redux/slices/formMessageSlice'
 
 const AuthContainer: FC<AuthContainerProps> = ({
   id,
@@ -369,6 +369,11 @@ const AuthContainer: FC<AuthContainerProps> = ({
         id: 'authFormMessage',
         message: authMessage.formattedMessage,
         type: authMessage.type,
+      }))
+
+    } else {
+      dispatch(close_formMessage({
+        id: 'authFormMessage'
       }))
     }
   }, [authMessage, dispatch])

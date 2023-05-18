@@ -49,7 +49,10 @@ export const statusMessage = {
       }
 
     } else if(source === RouterQueryEnum.REGISTRATION) {
-      if(message === 'Signups not allowed for this instance') {
+      if(message === 'User already registered') {
+        messagesObj.defaultMessage = `This email is already registered`  
+
+      } else if(message === 'Signups not allowed for this instance') {
         messagesObj.defaultMessage = `Account creations is disabled at this time`
 
       } else if(status === 422) {
