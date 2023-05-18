@@ -1,11 +1,15 @@
-import {
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
 import type { RootState } from '../redux_store';
-import { ToasterType } from '../../components/toaster/Toaster';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: ToasterType = {
+import { createSlice } from '@reduxjs/toolkit';
+
+export type ToasterState = {
+  title: string
+  subtitle: string
+  to?: string
+}
+
+const initialState: ToasterState = {
   title: '',
   subtitle: '',
 };
@@ -14,7 +18,7 @@ const toasterSlice = createSlice({
   name: 'toaster',
   initialState,
   reducers: {
-    update_toaster: (state: ToasterType, action: PayloadAction<ToasterType>) => {
+    update_toaster: (state: ToasterState, action: PayloadAction<ToasterState>) => {
       return {
         ...state,
         ...action.payload

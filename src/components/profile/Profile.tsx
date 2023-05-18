@@ -13,7 +13,7 @@ import {
   ButtonWrapper,
   Button
 } from "../../styled/button"
-import FormMessage from "../formMessage"
+import FormMessageContainer from "../formMessage"
 
 import type { FC } from "react"
 import type { ProfileProps } from "./Profile.type"
@@ -26,18 +26,14 @@ const Profile: FC<ProfileProps> = ({
     handleUserNameUpdate,
     handleSave,
     handleReset,
-    hasChangeOccured,
-    formMessageProps
+    hasChangeOccured
   }) => {
   return (
     <ProfileStyled>
       <Title>Profile</Title>
       <Subtitle>{ subtitle }</Subtitle>
       <Form>
-        <FormMessage
-          message={formMessageProps.message}
-          type={formMessageProps.type}
-          showMessage={formMessageProps.showMessage} />
+        <FormMessageContainer id='profileFormMessage' />
         <Field>
           <Label htmlFor='full-name'>
             Full Name

@@ -1,5 +1,9 @@
-import { FC } from "react"
+import { FC } from 'react'
+
+import { useEffect } from "react"
 import Home from "./Home"
+import { useAppDispatch } from "../../redux/redux_hooks";
+import { init_post } from "../../redux/slices/postSlice";
 
 export type StaticHookCopyType = typeof staticHookCopy
 
@@ -39,12 +43,21 @@ const staticHookCopy = {
       <p>&nbsp;</p>
     `,
   },
-  profilePath: '',
+  collectionPath: '',
   username: '',
-  createdAt: ''
+  createdAt: '',
+  postId: '123',
+  postTitle: '',
+  isAuthor: false
 }
 
 const HomeContainer: FC = () => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(init_post(staticHookCopy))
+  }, [dispatch])
+  
   return (
     <Home {...staticHookCopy} />
   )

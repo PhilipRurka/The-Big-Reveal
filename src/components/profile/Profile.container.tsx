@@ -1,8 +1,3 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import Profile from "./Profile"
-import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
-import axios from "axios"
-
 import type { FC } from 'react'
 import type {
   HandleSaveReset,
@@ -10,6 +5,13 @@ import type {
   ShowFormMessageType
 } from './Profile.type'
 import type { InputOnChange } from "../input/Input.type"
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import Profile from "./Profile"
+import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
+import axios from "axios"
+import { useAppDispatch } from "../../redux/redux_hooks"
+import { close_formMessage, update_formMessage } from "../../redux/slices/formMessageSlice"
 
 const ProfileContainer: FC<ProfileContainerProps> = ({ profileData }) => {
   const mountedRef = useRef(true)
@@ -20,34 +22,24 @@ const ProfileContainer: FC<ProfileContainerProps> = ({ profileData }) => {
     fullName: profileData.full_name || '',
     username: profileData.username || ''
   })
-
-  const [formMessageContent, setFormMessageContent] = useState<ShowFormMessageType>({
-    message: '',
-    type: undefined
-  })
-  const [showFormMessage, setShowMessage] = useState(false)
+  const dispatch = useAppDispatch()
 
   const triggerFormMessage = useCallback(({
     message,
     type
   }: ShowFormMessageType) => {
-    setFormMessageContent({
+    dispatch(update_formMessage({
+      id: 'profileFormMessage',
       message,
       type
-    })
-
-    setShowMessage(true)
-  }, [])
+    }))
+  }, [dispatch])
 
   const triggerRemoveFormMessage = useCallback(() => {
-    setShowMessage(false)
-    setTimeout(() => {
-      setFormMessageContent({
-        message: '',
-        type: undefined
-      })
-    }, 300)
-  }, [])
+    dispatch(close_formMessage({
+      id: 'profileFormMessage'
+    }))
+  }, [dispatch])
   
   const subtitleFormated = useMemo(() => {
     return `Welcome ${originalInputs.username || 'back'}`
@@ -123,12 +115,7 @@ const ProfileContainer: FC<ProfileContainerProps> = ({ profileData }) => {
       handleUserNameUpdate={handleUserNameUpdate}
       handleReset={handleReset}
       handleSave={handleSave}
-      hasChangeOccured={hasChangeOccured}
-      formMessageProps={{
-        type: formMessageContent.type,
-        message: formMessageContent.message,
-        showMessage: showFormMessage
-      }} />
+      hasChangeOccured={hasChangeOccured} />
   )
 }
 

@@ -1,7 +1,3 @@
-import { RouterQueryEnum } from "../../components/auth/Auth.enum"
-import { StatusMessageTypesEnum } from "../../components/formMessage/FormMessage.container"
-import { profileErrorMessages } from "../../../lib/profileAPI/post/profile.utils"
-
 import type { PayloadAction } from "@reduxjs/toolkit"
 import type {
   StatusMessageState,
@@ -10,11 +6,15 @@ import type {
   UpdateFormattedMessage,
   DefinedStatusMessageState,
 } from "../types/authMessageRedux.type"
-import { ConstraintErrorContent } from "../../../lib/generalErrors"
+import type { ConstraintErrorContent } from "../../../lib/generalErrors"
+
+import { RouterQueryEnum } from "../../components/auth/Auth.enum"
+import { StatusMessageTypesEnum } from "../../components/formMessage/FormMessage.container"
+import { profileErrorMessages } from "../../../lib/profileAPI/post/profile.utils"
 
 export const statusMessage = {
   reducer(state: StatusMessageState, action: PayloadAction<StatusMessageState>) {
-    if(!Object.keys(action.payload).length) return { payload: {} }
+    if(!Object.keys(action.payload).length) return {}
 
     return {
       ...state,
@@ -49,7 +49,10 @@ export const statusMessage = {
       }
 
     } else if(source === RouterQueryEnum.REGISTRATION) {
-      if(message === 'Signups not allowed for this instance') {
+      if(message === 'User already registered') {
+        messagesObj.defaultMessage = `This email is already registered`  
+
+      } else if(message === 'Signups not allowed for this instance') {
         messagesObj.defaultMessage = `Account creations is disabled at this time`
 
       } else if(status === 422) {

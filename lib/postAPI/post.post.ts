@@ -1,8 +1,9 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+import type { Database } from '../../src/types/supabase.type'
+import type { ReqPostBody } from './post.utils'
+
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { Database } from '../../src/types/supabase.type'
 import {
-  ReqPostBody,
   formatTitle,
   postErrorMessages
 } from './post.utils'
@@ -48,7 +49,10 @@ export const updatePost = async (id: string, req: NextApiRequest, res: NextApiRe
   }
 
   return res.status(200).send({
-    baseContent: data[0].base_content,
-    descriptionContent: data[0].description_content
+    postTitle,
+    post: {
+      baseContent: data[0].base_content,
+      descriptionContent: data[0].description_content
+    }
   })
 }

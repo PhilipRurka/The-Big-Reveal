@@ -1,32 +1,24 @@
-import { FC, useCallback, useEffect, useRef, useState } from "react"
+import { FC } from 'react'
+
+import { useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
-import dayjs from "dayjs"
-import { ContentsType } from "../../pages/post/[post-id]"
-import { FormMessageContainerType } from "../formMessage/FormMessage.container"
+import { useAppSelector } from "../../redux/redux_hooks"
+import { selectPost } from "../../redux/slices/postSlice"
 
 export type PostDisplayType = {
-  username: string
-  profilePath: string
-  post: ContentsType
-  createdAt: string
-  isAuthor?: boolean
   handleTriggerEditView?: () => void
   handleTriggerDeleteView?: () => void
-  formMessage?: FormMessageContainerType
 }
 
-const PostDisplayContainer: FC<PostDisplayType> = ({
-  createdAt: rawDate,
-  ...args
-}) => {
+const PostDisplayContainer: FC<PostDisplayType> = ({ ...args }) => {
   const descriptioncContentRef = useRef<HTMLDivElement>(null);
   const tlDescriptionRef = useRef<gsap.core.Timeline>(gsap.timeline({
     paused: true
   }))
 
-  const [date, setDate] = useState('')
   const [isDescriptionRevlealed, setIsDescriptionRevlealed] = useState(false)
+  const post = useAppSelector(selectPost)
 
   const initGsap = useCallback(() => {
     tlDescriptionRef.current.fromTo('#description-section', {
@@ -61,16 +53,11 @@ const PostDisplayContainer: FC<PostDisplayType> = ({
     }
   }, [initGsap])
 
-  useEffect(() => {
-    if(!rawDate) return
-    setDate(dayjs(rawDate).format('D MMM YYYY, h:ss a'))
-  }, [rawDate])
-
   return (
     <PostDisplay
       {...args}
+      post={post}
       ref={descriptioncContentRef}
-      created_at={date}
       handleRevealDescription={revealDescription} />
   )
 }
