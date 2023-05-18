@@ -1,10 +1,10 @@
+import type { FC } from 'react'
+import type { PostContainerProps } from "./Post.type";
+
 import { useCallback, useEffect, useState } from "react";
 import Post from "./Post";
 import { init_post } from "../../redux/slices/postSlice";
 import { useAppDispatch } from "../../redux/redux_hooks";
-
-import type { FC } from 'react'
-import type { PostContainerProps } from "./Post.type";
 
 const PostContainer: FC<PostContainerProps> = (props) => {
   const [isEditView, setIsEditView] = useState<boolean>(false)

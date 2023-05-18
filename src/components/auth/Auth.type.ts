@@ -1,10 +1,10 @@
-import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
-import { RouterQueryEnum } from "./Auth.enum"
-import { AUTH_TYPE_OPTIONS } from "./Auth.constant"
-
 import type { FormEvent } from "react"
 import type { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import type { InputOnChange } from "../input/Input.type"
+
+import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
+import { RouterQueryEnum } from "./Auth.enum"
+import { AUTH_TYPE_OPTIONS } from "./Auth.constant"
 
 export type AuthPageData = AuthContainerProps
 

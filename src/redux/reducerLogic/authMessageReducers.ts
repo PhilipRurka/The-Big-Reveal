@@ -1,7 +1,3 @@
-import { RouterQueryEnum } from "../../components/auth/Auth.enum"
-import { StatusMessageTypesEnum } from "../../components/formMessage/FormMessage.container"
-import { profileErrorMessages } from "../../../lib/profileAPI/post/profile.utils"
-
 import type { PayloadAction } from "@reduxjs/toolkit"
 import type {
   StatusMessageState,
@@ -10,7 +6,11 @@ import type {
   UpdateFormattedMessage,
   DefinedStatusMessageState,
 } from "../types/authMessageRedux.type"
-import { ConstraintErrorContent } from "../../../lib/generalErrors"
+import type { ConstraintErrorContent } from "../../../lib/generalErrors"
+
+import { RouterQueryEnum } from "../../components/auth/Auth.enum"
+import { StatusMessageTypesEnum } from "../../components/formMessage/FormMessage.container"
+import { profileErrorMessages } from "../../../lib/profileAPI/post/profile.utils"
 
 export const statusMessage = {
   reducer(state: StatusMessageState, action: PayloadAction<StatusMessageState>) {

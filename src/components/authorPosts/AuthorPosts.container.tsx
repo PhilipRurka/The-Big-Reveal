@@ -38,8 +38,8 @@ const AuthorPostsContainer: FC<UserSpaceDataType> = ({
   return (
     <AuthorPosts
       list={feedList}
-      username={username}
       profile_path={profile_path}
+      username={username}
       host={host} />
   )
 }

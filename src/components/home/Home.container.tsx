@@ -1,4 +1,6 @@
-import { FC, useEffect } from "react"
+import { FC } from 'react'
+
+import { useEffect } from "react"
 import Home from "./Home"
 import { useAppDispatch } from "../../redux/redux_hooks";
 import { init_post } from "../../redux/slices/postSlice";

@@ -1,11 +1,16 @@
-import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useRef } from "react"
+import { FC, FormEvent, MutableRefObject } from 'react'
+import type { Editor } from "tinymce"
+
+import { useCallback, useEffect, useRef } from "react"
 import NewPost from "./NewPost"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
-import { Editor } from "tinymce"
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
 import axios from "axios"
-import { close_formMessage, update_formMessage } from "../../redux/slices/formMessageSlice"
+import {
+  close_formMessage,
+  update_formMessage
+} from "../../redux/slices/formMessageSlice"
 
 const NewPostContainer: FC = () => {
   const mountedRef = useRef(true)

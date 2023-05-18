@@ -1,6 +1,8 @@
+import type { FC, FormEvent, MutableRefObject, RefObject } from 'react'
+import type { Editor } from "tinymce"
+
 import axios from "axios"
-import { FC, FormEvent, MutableRefObject, RefObject, useCallback, useEffect, useRef, useState } from "react"
-import { Editor } from "tinymce"
+import { useCallback, useEffect, useRef } from "react"
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
 import EditPost from "./EditPost"
 import gsap from'gsap'

@@ -1,3 +1,5 @@
+import type { Contents } from "../post/Post.type";
+
 import { forwardRef } from "react";
 import {
   Author,
@@ -15,9 +17,8 @@ import BubbleLayout from "../bubbleLayout";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
 import FormMessageContainer from "../formMessage";
-import { Contents } from "../post/Post.type";
 
-type PostDisplayType = {
+type PostDisplayProps = {
   post: {
     username: string
     collectionPath: string
@@ -31,7 +32,7 @@ type PostDisplayType = {
 }
 type DescriptionSectionRefType = HTMLDivElement
 
-const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
+const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayProps>(({
   post: {
     username,
     createdAt,

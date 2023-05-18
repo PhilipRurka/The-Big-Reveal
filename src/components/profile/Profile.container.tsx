@@ -1,8 +1,3 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import Profile from "./Profile"
-import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
-import axios from "axios"
-
 import type { FC } from 'react'
 import type {
   HandleSaveReset,
@@ -10,6 +5,11 @@ import type {
   ShowFormMessageType
 } from './Profile.type'
 import type { InputOnChange } from "../input/Input.type"
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import Profile from "./Profile"
+import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
+import axios from "axios"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { close_formMessage, update_formMessage } from "../../redux/slices/formMessageSlice"
 

@@ -1,11 +1,12 @@
-import {
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
-import dayjs from 'dayjs';
-
-import type { Contents, PostPageData } from '../../components/post/Post.type'
+import type {
+  Contents,
+  PostPageData
+} from '../../components/post/Post.type'
 import type { RootState } from '../redux_store';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { createSlice } from '@reduxjs/toolkit';
+import dayjs from 'dayjs';
 
 type PostState = PostPageData
 
@@ -68,20 +69,12 @@ const postSlice = createSlice({
         ...state,
         ...action.payload
       }
-    },
-    // FRONTEND: Is the this required?
-    // update_target_view: (state: PostState, action: PayloadAction<PostState>) => {
-    //   return {
-    //     ...state,
-    //     ...action.payload
-    //   }
-    // }
+    }
   }
 });
 
 export const {
   update_post,
-  // update_target_view,
   init_post
 } = postSlice.actions;
 

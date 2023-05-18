@@ -1,11 +1,13 @@
-import { FC, RefObject, useCallback, useEffect, useMemo, useRef } from "react"
+import type { FC, RefObject } from 'react'
+
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import DeletePostModal from "./DeletePostModal"
 import gsap from 'gsap'
 import { decode } from 'html-entities';
 import axios from "axios";
 import Router from "next/router";
 import { selectPost } from "../../redux/slices/postSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks";
+import { useAppSelector } from "../../redux/redux_hooks";
 
 type DeletePostModule = {
   handleTriggerDeleteView: () => void
@@ -24,14 +26,14 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
 
   const initAnimation = useCallback(() => {
     return gsap.timeline()
-      .fromTo(overlayRef.current as HTMLDivElement, {
+      .fromTo(overlayRef?.current || '', {
         alpha: 0
       }, {
         alpha: 1,
         duration: 0.3,
         ease: 'power0'
       }, 0)
-      .fromTo(absoluteRef.current as HTMLDivElement, {
+      .fromTo(absoluteRef?.current || '', {
         alpha: 0,
         y: (_, element: HTMLDivElement) => -(element.getBoundingClientRect().width - 100)
       }, {

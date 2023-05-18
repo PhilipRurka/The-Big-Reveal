@@ -1,8 +1,9 @@
-import {
+import type {
   Action,
-  configureStore,
-  ThunkAction,
+  ThunkAction
 } from '@reduxjs/toolkit';
+
+import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './slices/userSlice'
 import authMessageReducer from './slices/authMessageSlice'
 import toasterReducer from './slices/toasterSlice'

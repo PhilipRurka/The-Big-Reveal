@@ -1,3 +1,16 @@
+import type { FC } from 'react'
+import type {
+  AuthAddedProps,
+  ContentSwitchAnimation,
+  Res,
+  HandleNarrowAuthFunction,
+  HandleAuthSubmit,
+  CurrentOption,
+  AuthContainerProps,
+} from "./Auth.type"
+import type { DefinedStatusMessageState } from "../../redux/types/authMessageRedux.type"
+import type { InputOnChange } from '../input/Input.type'
+
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import gsap from "gsap"
@@ -22,19 +35,6 @@ import {
   AUTH_TRANSITION_TIME,
   AUTH_TYPE_OPTIONS
 } from './Auth.constant'
-
-import type { FC } from 'react'
-import type {
-  AuthAddedProps,
-  ContentSwitchAnimation,
-  Res,
-  HandleNarrowAuthFunction,
-  HandleAuthSubmit,
-  CurrentOption,
-  AuthContainerProps,
-} from "./Auth.type"
-import type { DefinedStatusMessageState } from "../../redux/types/authMessageRedux.type"
-import type { InputOnChange } from '../input/Input.type'
 import { close_formMessage, update_formMessage } from '../../redux/slices/formMessageSlice'
 
 const AuthContainer: FC<AuthContainerProps> = ({

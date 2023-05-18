@@ -1,5 +1,7 @@
-import { FC, useCallback, useEffect, useRef } from "react";
-import Toaster, { ToasterType } from "./Toaster";
+import { FC } from "react";
+
+import { useCallback, useEffect, useRef } from "react";
+import Toaster from "./Toaster";
 import { useAppSelector } from "../../redux/redux_hooks";
 import { selectToast } from "../../redux/slices/toasterSlice";
 import gsap from "gsap"

@@ -1,12 +1,12 @@
 import type { FC } from 'react'
+import type { FormMessageIdOptions } from '../../redux/slices/formMessageSlice'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import FormMessage from './FormMessage'
 import gsap from "gsap"
 import { AUTH_TRANSITION_TIME } from '../auth/Auth.constant'
 import { useAppSelector } from '../../redux/redux_hooks'
-import { FormMessageIdOptions, selectFormMessage } from '../../redux/slices/formMessageSlice'
-import { v4 as uuidv4 } from 'uuid';
+import { selectFormMessage } from '../../redux/slices/formMessageSlice'
 
 export enum StatusMessageTypesEnum {
   SUCCESS = 'success',

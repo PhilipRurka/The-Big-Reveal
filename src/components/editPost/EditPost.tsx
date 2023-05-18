@@ -1,7 +1,9 @@
-import { FC, RefObject } from "react";
+import type { FC, RefObject } from "react";
+import type { NewPostType } from "../newPost/NewPost";
+import type { Contents } from "../post/Post.type";
+
 import { Overlay } from "../../styled/animation";
-import NewPost, { NewPostType } from "../newPost/NewPost";
-import { Contents } from "../post/Post.type";
+import NewPost from "../newPost/NewPost";
 import {
   AbsoluteEdit,
   EditPostStyled

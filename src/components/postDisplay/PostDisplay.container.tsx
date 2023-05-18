@@ -1,4 +1,6 @@
-import { FC, useCallback, useEffect, useRef, useState } from "react"
+import { FC } from 'react'
+
+import { useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
 import { useAppSelector } from "../../redux/redux_hooks"

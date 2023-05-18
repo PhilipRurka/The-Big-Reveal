@@ -1,3 +1,8 @@
+import type {
+  AuthProps,
+  Refs,
+} from "./Auth.type";
+
 import { forwardRef } from "react";
 import {
   AuthStyled,
@@ -14,11 +19,6 @@ import PasswordField from "../passwordField";
 import ConfirmedPasswordField from "../confirmedPasswordField";
 import FormMessageContainer from "../formMessage"
 import { AuthTransitionIdsEnum } from "./Auth.enum";
-
-import type {
-  AuthProps,
-  Refs,
-} from "./Auth.type";
 
 const Auth = forwardRef<Refs, AuthProps>(({
   hasEmail,

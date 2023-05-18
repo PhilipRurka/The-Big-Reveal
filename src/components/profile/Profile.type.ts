@@ -1,8 +1,8 @@
-import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
-
 import type { FormEvent } from "react"
 import type { ProfilePageData } from "../../pages/profile"
 import type { InputOnChange } from "../input/Input.type"
+
+import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
 
 export type HandleSaveReset = (event: FormEvent) => void
 
