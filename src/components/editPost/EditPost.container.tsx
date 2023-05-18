@@ -2,15 +2,14 @@ import axios from "axios"
 import { FC, FormEvent, MutableRefObject, RefObject, useCallback, useEffect, useRef, useState } from "react"
 import { Editor } from "tinymce"
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
-import type { UpdateOriginalPostFunction } from "../post/Post.type"
 import EditPost from "./EditPost"
 import gsap from'gsap'
 import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
 import { selectPost, update_post } from "../../redux/slices/postSlice"
+import { update_formMessage } from "../../redux/slices/formMessageSlice"
 
 type EditPostType = {
   handleTriggerEditView: () => void
-  updateOriginalPost: UpdateOriginalPostFunction
 }
 
 export type UpdateOriginalPostType = {
@@ -44,8 +43,6 @@ const EditPostContainer: FC<EditPostType> = ({ handleTriggerEditView }) => {
   const blurInstanceIdRef = useRef<number>(0)
   const lockHoverBlurRef = useRef<boolean>(false)
 
-  const [errorMessage, setErrorMessage] = useState('')
-  const [showMessage, setShowMessage] = useState(false)
   const dispatch = useAppDispatch()
   const {
     postId,
@@ -149,9 +146,12 @@ const EditPostContainer: FC<EditPostType> = ({ handleTriggerEditView }) => {
   /* #endregion */
 
   const triggerErrorMessage = useCallback((message: string) => {
-    setErrorMessage(message)
-    setShowMessage(true)
-  }, [])
+    dispatch(update_formMessage({
+      id: "newPostFormMessage",
+      message,
+      type: StatusMessageTypesEnum.ERROR
+    }))
+  }, [dispatch])
 
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
@@ -172,6 +172,11 @@ const EditPostContainer: FC<EditPostType> = ({ handleTriggerEditView }) => {
       if(!mountedRef.current) return
 
       dispatch(update_post({ ...data }))
+      dispatch(update_formMessage({
+        id: "displayPostFormMessage",
+        message: 'You have updated this post!',
+        type: StatusMessageTypesEnum.SUCCESS
+      }))
       handleCloseEdit()
     })
     .catch(({ response: { data: { message }}}) => {
@@ -205,11 +210,6 @@ const EditPostContainer: FC<EditPostType> = ({ handleTriggerEditView }) => {
       baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}
       handleSubmit={handleSubmit}
-      formMessageProps={{
-        message: errorMessage,
-        showMessage,
-        type: StatusMessageTypesEnum.ERROR
-      }}
       overlayRef={overlayRef as RefObject<HTMLDivElement>}
       absoluteRef={absoluteRef as RefObject<HTMLDivElement>} />
   )

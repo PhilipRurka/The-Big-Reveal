@@ -1,14 +1,12 @@
 import { FC, useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
-import { FormMessageContainerType } from "../formMessage/FormMessage.container"
 import { useAppSelector } from "../../redux/redux_hooks"
 import { selectPost } from "../../redux/slices/postSlice"
 
 export type PostDisplayType = {
   handleTriggerEditView?: () => void
   handleTriggerDeleteView?: () => void
-  formMessage?: FormMessageContainerType
 }
 
 const PostDisplayContainer: FC<PostDisplayType> = ({ ...args }) => {
@@ -18,7 +16,6 @@ const PostDisplayContainer: FC<PostDisplayType> = ({ ...args }) => {
   }))
 
   const [isDescriptionRevlealed, setIsDescriptionRevlealed] = useState(false)
-
   const post = useAppSelector(selectPost)
 
   const initGsap = useCallback(() => {

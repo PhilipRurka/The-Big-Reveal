@@ -14,7 +14,7 @@ import { ConstraintErrorContent } from "../../../lib/generalErrors"
 
 export const statusMessage = {
   reducer(state: StatusMessageState, action: PayloadAction<StatusMessageState>) {
-    if(!Object.keys(action.payload).length) return { payload: {} }
+    if(!Object.keys(action.payload).length) return {}
 
     return {
       ...state,

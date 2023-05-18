@@ -7,7 +7,7 @@ import { StatusMessageTypesEnum } from './FormMessage.container'
 
 export type FormMessageType = {
   message: string
-  type: StatusMessageTypesEnum | undefined
+  type: StatusMessageTypesEnum | null
 }
 
 const FormMessage: FC<FormMessageType> = ({

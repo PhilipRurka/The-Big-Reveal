@@ -11,8 +11,7 @@ import {
 } from "../../styled/button"
 import Tiny from "../tiny"
 import type { Editor } from "tinymce"
-import FormMessage from "../formMessage"
-import type { FormMessageContainerType } from "../formMessage/FormMessage.container"
+import FormMessageContainer from "../formMessage"
 import BubbleLayout from "../bubbleLayout"
 import NormalLayout from "../normalLayout"
 import { Contents } from "../post/Post.type"
@@ -21,7 +20,6 @@ export type NewPostType = {
   handleSubmit: (event: FormEvent) => void
   baseRef: MutableRefObject<Editor>
   descriptionRef: MutableRefObject<Editor>
-  formMessageProps: FormMessageContainerType
   isEdit?: boolean
   post?: Contents
 }
@@ -31,7 +29,6 @@ const NewPost: FC<NewPostType> = ({
   baseRef,
   descriptionRef,
   post,
-  formMessageProps,
   isEdit
 }) => {
   return (
@@ -41,7 +38,7 @@ const NewPost: FC<NewPostType> = ({
       </Title>
       <Form>
         <BubbleLayout>
-          <FormMessage {...formMessageProps} />
+          <FormMessageContainer id='newPostFormMessage' />
           <Label>
             Drop that poem
           </Label>

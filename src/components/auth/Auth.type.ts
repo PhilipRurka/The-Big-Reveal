@@ -5,7 +5,6 @@ import { AUTH_TYPE_OPTIONS } from "./Auth.constant"
 import type { FormEvent } from "react"
 import type { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
 import type { InputOnChange } from "../input/Input.type"
-import type { FormMessageContainerType } from "../formMessage/FormMessage.container"
 
 export type AuthPageData = AuthContainerProps
 
@@ -71,7 +70,6 @@ export type AuthProps = AuthAddedProps & CurrentOption & {
   handleSubmit: HandleAuthSubmit
   disableSubmit: boolean
   removeStatusMessage: () => void
-  formMessageProps: FormMessageContainerType
 }
 
 export type ContentSwitchAnimation = (

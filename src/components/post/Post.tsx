@@ -10,19 +10,14 @@ const Post: FC<PostProps> = ({
   handleTriggerEditView,
   isEditView,
   isDeleteView,
-  updateOriginalPost,
-  formMessage,
   handleTriggerDeleteView
 }) => (
   <PostStyled>
     <PostDisplayContainer
       handleTriggerEditView={handleTriggerEditView}
-      handleTriggerDeleteView={handleTriggerDeleteView}
-      formMessage={formMessage} />
+      handleTriggerDeleteView={handleTriggerDeleteView} />
     {isEditView && (
-      <EditPost
-        handleTriggerEditView={handleTriggerEditView}
-        updateOriginalPost={updateOriginalPost} />
+      <EditPost handleTriggerEditView={handleTriggerEditView} />
     )}
     {isDeleteView && (
       <DeletePostModalContainer handleTriggerDeleteView={handleTriggerDeleteView} />

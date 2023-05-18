@@ -18,7 +18,6 @@ const EditPost: FC<EditPostType> = ({
   baseRef,
   descriptionRef,
   post,
-  formMessageProps,
   handleSubmit,
   handleCloseEdit,
   overlayRef,
@@ -35,7 +34,6 @@ const EditPost: FC<EditPostType> = ({
           descriptionRef={descriptionRef}
           post={post}
           handleSubmit={handleSubmit}
-          formMessageProps={formMessageProps}
           isEdit />
       </AbsoluteEdit>
     </EditPostStyled>

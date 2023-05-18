@@ -1,5 +1,5 @@
 import Router from 'next/router'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import usePasswordValidation from '../../hooks/usePasswordValidation'
 import { useAppDispatch, useAppSelector } from '../../redux/redux_hooks'
 import {
@@ -17,6 +17,7 @@ import type { FC, FormEvent } from 'react'
 import type { DefinedStatusMessageState } from '../../redux/types/authMessageRedux.type'
 import type { InputOnChange } from '../input/Input.type'
 import type { Res } from '../auth/Auth.type'
+import { update_formMessage } from '../../redux/slices/formMessageSlice'
 
 const ResetPasswordContainer: FC = () => {
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -74,6 +75,16 @@ const ResetPasswordContainer: FC = () => {
     return !validationStatuses?.isSuccess || password !== confirmedPassword
   }, [validationStatuses, password, confirmedPassword])
 
+  useEffect(() => {
+    if(authMessage.showMessage) {
+      dispatch(update_formMessage({
+        id: 'authFormMessage',
+        message: authMessage.formattedMessage,
+        type: authMessage.type,
+      }))
+    }
+  }, [authMessage, dispatch])
+
   const typeProps = {
     id: RouterQueryEnum.REGISTRATION,
     hasEmail: false,
@@ -96,12 +107,7 @@ const ResetPasswordContainer: FC = () => {
       handleConfirmedPasswordUpdate={handleConfirmedPasswordUpdate}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
-      removeStatusMessage={removeStatusMessage}
-      formMessageProps={{
-        type: authMessage.type,
-        message: authMessage.formattedMessage,
-        showMessage: authMessage.showMessage
-      }} />
+      removeStatusMessage={removeStatusMessage} />
   )
 }
 

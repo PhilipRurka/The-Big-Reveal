@@ -1,6 +1,3 @@
-import type { UpdateOriginalPostType } from "../editPost/EditPost.container";
-import type { FormMessageContainerType } from "../formMessage/FormMessage.container";
-
 export type ProfileData = {
   username: string | null
   path: string | null
@@ -26,15 +23,11 @@ export type PostPageData = {
   post: Contents
 }
 
-export type UpdateOriginalPostFunction = (updatedData: UpdateOriginalPostType) => void
-
 export type PostContainerProps = PostPageData
 
 export type PostProps = {
   isEditView: boolean
   isDeleteView: boolean
-  updateOriginalPost: UpdateOriginalPostFunction
   handleTriggerEditView: () => void
-  formMessage?: FormMessageContainerType
   handleTriggerDeleteView: () => void
 }

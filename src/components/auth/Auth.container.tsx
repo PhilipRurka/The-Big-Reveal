@@ -35,6 +35,7 @@ import type {
 } from "./Auth.type"
 import type { DefinedStatusMessageState } from "../../redux/types/authMessageRedux.type"
 import type { InputOnChange } from '../input/Input.type'
+import { update_formMessage } from '../../redux/slices/formMessageSlice'
 
 const AuthContainer: FC<AuthContainerProps> = ({
   id,
@@ -362,6 +363,16 @@ const AuthContainer: FC<AuthContainerProps> = ({
     }
   }, [router, currentOption, removeStatusMessage, routerAuthType])
 
+  useEffect(() => {
+    if(authMessage.showMessage) {
+      dispatch(update_formMessage({
+        id: 'authFormMessage',
+        message: authMessage.formattedMessage,
+        type: authMessage.type,
+      }))
+    }
+  }, [authMessage, dispatch])
+
   /* #endregion */
 
   const refs = { emailRef, passwordRef, usernameRef }
@@ -373,12 +384,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
       ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
-      removeStatusMessage={() => removeStatusMessage()}
-      formMessageProps={{
-        type: authMessage.type,
-        message: authMessage.formattedMessage,
-        showMessage: authMessage.showMessage
-      }} />
+      removeStatusMessage={() => removeStatusMessage()} />
   )
 }
 

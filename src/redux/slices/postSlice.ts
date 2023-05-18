@@ -7,15 +7,7 @@ import dayjs from 'dayjs';
 import type { Contents, PostPageData } from '../../components/post/Post.type'
 import type { RootState } from '../redux_store';
 
-enum TargetViewEnum {
-  default,
-  edit,
-  delete
-}
-
-type PostState = PostPageData & {
-  targetView: TargetViewEnum
-}
+type PostState = PostPageData
 
 type InitPostPayload = {
   postId: string
@@ -29,7 +21,6 @@ type InitPostPayload = {
 
 type UpdatePostPayload = {
   post: Contents
-  targetView?: TargetViewEnum
 }
 
 const initialState: PostState = {
@@ -42,8 +33,7 @@ const initialState: PostState = {
     descriptionContent: '',
   },
   createdAt: '',
-  isAuthor: false,
-  targetView: TargetViewEnum.default,
+  isAuthor: false
 };
 
 const postSlice = createSlice({

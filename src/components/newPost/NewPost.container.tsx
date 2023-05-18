@@ -1,25 +1,26 @@
-import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useRef, useState } from "react"
+import { FC, FormEvent, MutableRefObject, useCallback, useEffect, useRef } from "react"
 import NewPost from "./NewPost"
 import { useAppDispatch } from "../../redux/redux_hooks"
 import { update_toaster } from "../../redux/slices/toasterSlice"
 import { Editor } from "tinymce"
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
 import axios from "axios"
+import { close_formMessage, update_formMessage } from "../../redux/slices/formMessageSlice"
 
 const NewPostContainer: FC = () => {
   const mountedRef = useRef(true)
   const baseRef = useRef<Editor>()
   const descriptionRef = useRef<Editor>()
 
-  const [errorMessage, setErrorMessage] = useState('')
-  const [showMessage, setShowMessage] = useState(false)
-
   const dispatch = useAppDispatch()
 
-  const triggerErrorMessage = (message: string) => {
-    setErrorMessage(message)
-    setShowMessage(true)
-  }
+  const triggerErrorMessage = useCallback((message: string) => {
+    dispatch(update_formMessage({
+      id: 'newPostFormMessage',
+      message,
+      type: StatusMessageTypesEnum.ERROR
+    }))
+  }, [dispatch])
 
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
@@ -48,15 +49,14 @@ const NewPostContainer: FC = () => {
       baseRef.current?.setContent('')
       descriptionRef.current?.setContent('')
 
-      setShowMessage(false)
-      setTimeout(() => {
-        setErrorMessage('')
-      }, 300)
+      dispatch(close_formMessage({
+        id: 'newPostFormMessage'
+      }))
     })
     .catch(({ response: { data: { message }}}) => {
       triggerErrorMessage(message)
     })
-  }, [dispatch])
+  }, [dispatch, triggerErrorMessage])
 
   useEffect(() => {
     mountedRef.current = true
@@ -70,12 +70,7 @@ const NewPostContainer: FC = () => {
     <NewPost
       baseRef={baseRef as MutableRefObject<Editor>}
       descriptionRef={descriptionRef as MutableRefObject<Editor>}
-      handleSubmit={handleSubmit}
-      formMessageProps={{
-        message: errorMessage,
-        showMessage,
-        type: StatusMessageTypesEnum.ERROR
-      }} />
+      handleSubmit={handleSubmit} />
   )
 }
 

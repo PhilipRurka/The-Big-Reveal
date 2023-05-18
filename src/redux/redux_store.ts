@@ -8,6 +8,7 @@ import authMessageReducer from './slices/authMessageSlice'
 import toasterReducer from './slices/toasterSlice'
 import burgerNavReducer from './slices/burgerNavSlice'
 import postReducer from './slices/postSlice'
+import formMessageReducer from './slices/formMessageSlice'
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     authMessage: authMessageReducer,
     toaster: toasterReducer,
     burgerNav: burgerNavReducer,
-    post: postReducer
+    post: postReducer,
+    formMessage: formMessageReducer,
   }
 });
 

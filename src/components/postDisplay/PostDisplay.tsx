@@ -15,7 +15,6 @@ import BubbleLayout from "../bubbleLayout";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
 import FormMessageContainer from "../formMessage";
-import { FormMessageContainerType } from "../formMessage/FormMessage.container";
 import { Contents } from "../post/Post.type";
 
 type PostDisplayType = {
@@ -29,7 +28,6 @@ type PostDisplayType = {
   handleRevealDescription: () => void
   handleTriggerEditView?: () => void
   handleTriggerDeleteView?: () => void
-  formMessage?: FormMessageContainerType
 }
 type DescriptionSectionRefType = HTMLDivElement
 
@@ -46,8 +44,7 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
   },
   handleRevealDescription,
   handleTriggerEditView,
-  handleTriggerDeleteView,
-  formMessage
+  handleTriggerDeleteView
 }, descriptionRef) => {
   return (
     <PostDisplayStyled>
@@ -65,12 +62,7 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
               </Date>
             )}
           </BaseInformation>
-          {formMessage?.showMessage && (
-            <FormMessageContainer
-              message={formMessage.message}
-              type={formMessage.type}
-              showMessage={formMessage.showMessage} />
-          )}
+          <FormMessageContainer id='displayPostFormMessage' />
           <PostDisplayContent>
             <CleanContent content={baseContent} />
           </PostDisplayContent>

@@ -1,24 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
+import { useCallback, useEffect, useState } from "react";
 import Post from "./Post";
 import { init_post } from "../../redux/slices/postSlice";
 import { useAppDispatch } from "../../redux/redux_hooks";
 
 import type { FC } from 'react'
-import type { FormMessageContainerType } from "../formMessage/FormMessage.container";
-import type {
-  PostContainerProps,
-  UpdateOriginalPostFunction
-} from "./Post.type";
+import type { PostContainerProps } from "./Post.type";
 
 const PostContainer: FC<PostContainerProps> = (props) => {
   const [isEditView, setIsEditView] = useState<boolean>(false)
   const [isDeleteView, setIsDeleteView] = useState<boolean>(false)
-  const [formMessage, setFormMessage] = useState<FormMessageContainerType>({
-    message: '',
-    showMessage: false,
-    type: undefined
-  })
 
   const dispatch = useAppDispatch()
 
@@ -30,14 +20,6 @@ const PostContainer: FC<PostContainerProps> = (props) => {
     setIsEditView(!isEditView)
   }, [isEditView])
 
-  const updateOriginalPost: UpdateOriginalPostFunction = useCallback((updatedData) => {
-    setFormMessage({
-      message:'You have updated this post!',
-      type: StatusMessageTypesEnum.SUCCESS,
-      showMessage: true
-    })
-  }, [])
-
   useEffect(() => {
     dispatch(init_post(props))
   }, [dispatch, props])
@@ -47,9 +29,7 @@ const PostContainer: FC<PostContainerProps> = (props) => {
       isEditView={isEditView}
       isDeleteView={isDeleteView}
       handleTriggerEditView={handleTriggerEditView}
-      updateOriginalPost={updateOriginalPost}
-      handleTriggerDeleteView={handleTriggerDeleteView}
-      formMessage={formMessage} />
+      handleTriggerDeleteView={handleTriggerDeleteView} />
   )
 }
 
