@@ -3,7 +3,7 @@ import { StatusMessageColors } from "../../styled";
 import { StatusMessageTypesEnum } from "./FormMessage.container";
 
 type FormMessageWrapperType = {
-  statusType: StatusMessageTypesEnum | undefined
+  statusType: StatusMessageTypesEnum | null
 }
 
 export const FormMessageStyled = styled.div`

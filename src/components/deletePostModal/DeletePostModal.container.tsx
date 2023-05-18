@@ -1,35 +1,39 @@
-import { FC, RefObject, useCallback, useEffect, useMemo, useRef } from "react"
+import type { FC, RefObject } from 'react'
+
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import DeletePostModal from "./DeletePostModal"
 import gsap from 'gsap'
 import { decode } from 'html-entities';
 import axios from "axios";
 import Router from "next/router";
+import { selectPost } from "../../redux/slices/postSlice";
+import { useAppSelector } from "../../redux/redux_hooks";
 
 type DeletePostModule = {
-  postTitle: string
-  postId: string
   handleTriggerDeleteView: () => void
 }
 
 const DeletePostModalContainer: FC<DeletePostModule> = ({
-  postTitle,
-  postId,
   handleTriggerDeleteView
 }) => {
   const overlayRef = useRef<HTMLDivElement>()
   const absoluteRef = useRef<HTMLDivElement>()
   const tlAnimationRef = useRef<gsap.core.Timeline>(gsap.timeline())
+  const {
+    postTitle,
+    postId,
+  } = useAppSelector(selectPost)
 
   const initAnimation = useCallback(() => {
     return gsap.timeline()
-      .fromTo(overlayRef.current as HTMLDivElement, {
+      .fromTo(overlayRef?.current || '', {
         alpha: 0
       }, {
         alpha: 1,
         duration: 0.3,
         ease: 'power0'
       }, 0)
-      .fromTo(absoluteRef.current as HTMLDivElement, {
+      .fromTo(absoluteRef?.current || '', {
         alpha: 0,
         y: (_, element: HTMLDivElement) => -(element.getBoundingClientRect().width - 100)
       }, {

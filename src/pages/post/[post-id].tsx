@@ -1,4 +1,10 @@
 import type { GetServerSidePropsContext } from "next";
+import type {
+  DescriptionData,
+  PostPageData,
+  ProfileData
+} from "../../components/post/Post.type";
+
 import { authRequired } from "../../../lib/authRequired";
 import PostContainer from "../../components/post/Post.container";
 
@@ -44,12 +50,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
   }
 
-  const profile = data.profiles as profileType
-  const description = data.post_description as PostDescriptionType
+  const profile = data.profiles as ProfileData
+  const description = data.post_description as DescriptionData
 
   return {props: {
     username: profile.username,
-    profilePath: profile.path,
+    collectionPath: profile.path,
     postTitle: data.post_title,
     post: {
       baseContent: data.base_content,
@@ -61,32 +67,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }}
 }
 
-type profileType = {
-  username: string | null;
-  path: string | null;
-  profile_id: string;
-}
-
-type PostDescriptionType = {
-  description_content: string
-}
-
-export type ContentsType = {
-  baseContent: string
-  descriptionContent: string
-}
-
-export type PostPageType = {
-  username: string
-  profilePath: string
-  postTitle: string
-  createdAt: string
-  isAuthor: boolean
-  postId: string
-  post: ContentsType
-}
-
-function PostPage(props: PostPageType) {
+function PostPage(props: PostPageData) {
   
   return <PostContainer {...props} />
 }

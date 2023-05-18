@@ -1,4 +1,5 @@
-import { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
+
 import Profile from "../components/profile/Profile.container";
 import { authRequired } from "../../lib/authRequired";
 

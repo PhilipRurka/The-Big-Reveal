@@ -1,4 +1,5 @@
-import { FC } from 'react'
+import type { FC } from 'react'
+
 import {
   FormMessageWrapper,
   FormMessageStyled
@@ -7,7 +8,7 @@ import { StatusMessageTypesEnum } from './FormMessage.container'
 
 export type FormMessageType = {
   message: string
-  type: StatusMessageTypesEnum | undefined
+  type: StatusMessageTypesEnum | null
 }
 
 const FormMessage: FC<FormMessageType> = ({

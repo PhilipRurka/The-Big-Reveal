@@ -1,3 +1,16 @@
+import type { FC } from 'react'
+import type {
+  AuthAddedProps,
+  ContentSwitchAnimation,
+  Res,
+  HandleNarrowAuthFunction,
+  HandleAuthSubmit,
+  CurrentOption,
+  AuthContainerProps,
+} from "./Auth.type"
+import type { DefinedStatusMessageState } from "../../redux/types/authMessageRedux.type"
+import type { InputOnChange } from '../input/Input.type'
+
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import gsap from "gsap"
@@ -22,19 +35,7 @@ import {
   AUTH_TRANSITION_TIME,
   AUTH_TYPE_OPTIONS
 } from './Auth.constant'
-
-import type { FC } from 'react'
-import type {
-  AuthAddedProps,
-  ContentSwitchAnimation,
-  Res,
-  HandleNarrowAuthFunction,
-  HandleAuthSubmit,
-  CurrentOption,
-  AuthContainerProps,
-} from "./Auth.type"
-import type { DefinedStatusMessageState } from "../../redux/types/authMessageRedux.type"
-import type { InputOnChange } from '../input/Input.type'
+import { close_formMessage, update_formMessage } from '../../redux/slices/formMessageSlice'
 
 const AuthContainer: FC<AuthContainerProps> = ({
   id,
@@ -362,6 +363,21 @@ const AuthContainer: FC<AuthContainerProps> = ({
     }
   }, [router, currentOption, removeStatusMessage, routerAuthType])
 
+  useEffect(() => {
+    if(authMessage.showMessage) {
+      dispatch(update_formMessage({
+        id: 'authFormMessage',
+        message: authMessage.formattedMessage,
+        type: authMessage.type,
+      }))
+
+    } else {
+      dispatch(close_formMessage({
+        id: 'authFormMessage'
+      }))
+    }
+  }, [authMessage, dispatch])
+
   /* #endregion */
 
   const refs = { emailRef, passwordRef, usernameRef }
@@ -373,12 +389,7 @@ const AuthContainer: FC<AuthContainerProps> = ({
       ref={refs as any}
       handleSubmit={handleSubmit}
       disableSubmit={disableSubmit}
-      removeStatusMessage={() => removeStatusMessage()}
-      formMessageProps={{
-        type: authMessage.type,
-        message: authMessage.formattedMessage,
-        showMessage: authMessage.showMessage
-      }} />
+      removeStatusMessage={() => removeStatusMessage()} />
   )
 }
 
