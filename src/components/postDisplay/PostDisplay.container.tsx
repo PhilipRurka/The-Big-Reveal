@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"

@@ -55,7 +55,7 @@ const postSlice = createSlice({
 
         return { payload: {
           ...rest,
-          createdAt: dayjs(createdAt).format('D MMM YYYY, h:ss a')
+          createdAt: createdAt ? dayjs(createdAt).format('D MMM YYYY, h:ss a') : ''
         }}
       }
     },

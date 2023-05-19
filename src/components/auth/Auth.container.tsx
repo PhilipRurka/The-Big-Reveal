@@ -16,7 +16,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import gsap from "gsap"
 import Router, { useRouter } from "next/router"
 import usePasswordValidation from "../../hooks/usePasswordValidation"
-import { useAppDispatch, useAppSelector } from "../../redux/redux_hooks"
+import {
+  useAppDispatch,
+  useAppSelector
+} from "../../redux/redux_hooks"
 import { update_userData } from "../../redux/slices/userSlice"
 import Auth from "./Auth"
 import {
@@ -35,7 +38,10 @@ import {
   AUTH_TRANSITION_TIME,
   AUTH_TYPE_OPTIONS
 } from './Auth.constant'
-import { close_formMessage, update_formMessage } from '../../redux/slices/formMessageSlice'
+import {
+  close_formMessage,
+  update_formMessage
+} from '../../redux/slices/formMessageSlice'
 
 const AuthContainer: FC<AuthContainerProps> = ({
   id,
