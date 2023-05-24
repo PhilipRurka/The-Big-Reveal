@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { TinyStyled } from "./Tiny.styled";
+import { tinyContentStyles, TinyStyled } from "./Tiny.styled";
 import { Editor as EditorReact } from "@tinymce/tinymce-react";
-import { Fonts } from "../../styled";
+import { Colors, Fonts } from "../../styled";
 import { Editor } from "tinymce";
 
 type TinyType = {
@@ -45,11 +45,16 @@ const Tiny: FC<TinyType> = ({
             'preview',
             'help'
           ],
-          toolbar: 'undo redo | blocks | ' +
-            'bold italic forecolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | help',
-          content_style: `body { ${Fonts.tiny} font-size:16px }`,
+          toolbar: `
+            undo redo |
+            blocks |
+            bold italic forecolor |
+            alignleft aligncenter alignright alignjustify | 
+            bullist numlist outdent indent |
+            removeformat |
+            help
+          `,
+          content_style: tinyContentStyles,
         }}
         onEditorChange={handleChange} />
     </TinyStyled>

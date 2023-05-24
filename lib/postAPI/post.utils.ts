@@ -1,28 +1,29 @@
-import { Database } from "../../src/types/supabase-types"
-import {
-  ErrorContentType,
-  generalErrorMessages
-} from "../generalErrors"
+import { generalErrorMessages } from "../generalErrors"
+
+import type { ErrorContent } from "../generalErrors"
 
 type PostErrorMessagesType = {
-  missingHeading1:        ErrorContentType
-  baseContentTooLong:     ErrorContentType
-  baseTitleTooLong:       ErrorContentType
-  descriptionTooLong:     ErrorContentType
-  default:                ErrorContentType
+  missingHeading1:        ErrorContent
+  baseContentTooLong:     ErrorContent
+  baseTitleTooLong:       ErrorContent
+  descriptionTooLong:     ErrorContent
+  default:                ErrorContent
 }
 
-export type UpdatePostBodyType = {
-  postId: string
+export type ReqPostBody = {
   baseContent: string
   descriptionContent: string
+}
+
+export type QueryType = {
+  'post-id': string
 }
 
 export const postErrorMessages: PostErrorMessagesType = {
   missingHeading1: {
     logMessage: 'The post is missing a heading 1',
     message:    'Your poem requires a "Heading 1"',
-    nonNull:    'null value in column "post_title"',
+    constraint: 'base_title_non_empty',
     status: 400
   },
   baseContentTooLong: {
@@ -46,11 +47,11 @@ export const postErrorMessages: PostErrorMessagesType = {
   default: generalErrorMessages.ohShit
 }
 
-export const formatTitle = (rawBaseContent: string): string | null => {
+export const formatTitle = (rawBaseContent: string): string => {
   const titleArrayLength: number = rawBaseContent.split('<h1').length
 
   if(titleArrayLength === 1 ) {
-    return null
+    return ''
   }
 
   let title = rawBaseContent.split('</h1>')[0]

@@ -1,36 +1,38 @@
-import { CaseReducer, PayloadAction } from "@reduxjs/toolkit"
-import { RouterQueryEnum } from "../../components/auth/Auth.types"
-import { StatusMessageTypesEnum } from "../../components/formMessage/FormMessage.container"
+import { RouterQueryEnum } from "../../components/auth/Auth.enum"
 
-export type DefinedStatusMessageRequestType = {
+import type {
+  CaseReducer,
+  PayloadAction
+} from "@reduxjs/toolkit"
+import type { StatusMessageTypesEnum } from "../../components/formMessage/FormMessage.container"
+
+type DefinedStatusMessageShared = {
   source: RouterQueryEnum
   status: number | undefined
-  message?: string
   type: StatusMessageTypesEnum
+}
+
+type DynamicValueAction = {
+  dynamicValue: string | number
+}
+
+type CaseReducerBuilder<T> = CaseReducer<StatusMessageState, PayloadAction<T>>
+
+type DefinedStatusMessageRequest = DefinedStatusMessageShared & {
+  message?: string
   dynamicValue?: string | number
 }
 
-export type DefinedStatusMessageStateType = {
+export type DefinedStatusMessageState = MessageObj & DefinedStatusMessageShared & {
   showMessage: boolean
-  source: RouterQueryEnum
-  status: number | undefined
-  type: StatusMessageTypesEnum
+}
+
+export type StatusMessageRequest = null | DefinedStatusMessageRequest
+export type StatusMessageState = {} | DefinedStatusMessageState
+
+export type MessageObj = {
   defaultMessage: string
   formattedMessage: string
 }
 
-export type StatusMessageRequestType = null | DefinedStatusMessageRequestType
-export type StatusMessageStateType = {} | DefinedStatusMessageStateType
-
-export type MessageObjType = {
-  defaultMessage?: string
-  formattedMessage?: string
-}
-
-export type DynamicValueActionType = {
-  dynamicValue: string | number
-}
-
-export type CaseReducerBuilderType<T> = CaseReducer<StatusMessageStateType, PayloadAction<T>>
-
-export type UpdateFormattedMessageType = CaseReducerBuilderType<DynamicValueActionType['dynamicValue']>
+export type UpdateFormattedMessage = CaseReducerBuilder<DynamicValueAction['dynamicValue']>

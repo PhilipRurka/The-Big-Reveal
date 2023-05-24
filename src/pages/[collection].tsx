@@ -15,27 +15,22 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     data,
     error
   } = await supabase
-    .from('post_base')
-    .select(`
-      profiles!post_base_user_id_fkey (
-        username
-      )
-    `)
-    .eq('profiles.path', ctx.query['profile-path'])
-    .limit(1)
+    .from('profiles')
+    .select('username')
+    .eq('path', ctx.query['collection'])
     .single()
 
-  const profile = data?.profiles as ProfileType
+  const username = data?.username
 
-  if(!profile) {
+  if(!username) {
     return {
       notFound: true
     }
   }
 
   return { props: {
-    username: profile.username,
-    profile_path: ctx.query['profile-path'],
+    username,
+    profile_path: ctx.query['collection'],
     host: ctx.req.headers.host
   }}
 }

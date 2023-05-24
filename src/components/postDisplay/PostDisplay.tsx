@@ -1,3 +1,5 @@
+import type { Contents } from "../post/Post.type";
+
 import { forwardRef } from "react";
 import {
   Author,
@@ -14,58 +16,54 @@ import {
 import BubbleLayout from "../bubbleLayout";
 import CleanContent from "../cleanContent";
 import NormalLayout from "../normalLayout";
-import dayjs from "dayjs";
-import { ContentsType } from "../../pages/post/[post-id]";
 import FormMessageContainer from "../formMessage";
-import { FormMessageContainerType } from "../formMessage/FormMessage.container";
 
-type PostDisplayType = {
-  username: string
-  profilePath: string
-  post: ContentsType
-  created_at: string
+type PostDisplayProps = {
+  post: {
+    username: string
+    collectionPath: string
+    post: Contents
+    createdAt: string
+    isAuthor?: boolean
+  }
   handleRevealDescription: () => void
-  isAuthor?: boolean
   handleTriggerEditView?: () => void
-  formMessage?: FormMessageContainerType
+  handleTriggerDeleteView?: () => void
 }
 type DescriptionSectionRefType = HTMLDivElement
 
-const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
-  username,
-  created_at,
+const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayProps>(({
   post: {
-    baseContent,
-    descriptionContent
+    username,
+    createdAt,
+    collectionPath,
+    isAuthor,
+    post: {
+      baseContent,
+      descriptionContent
+    }
   },
   handleRevealDescription,
-  profilePath,
-  isAuthor,
   handleTriggerEditView,
-  formMessage
+  handleTriggerDeleteView
 }, descriptionRef) => {
   return (
     <PostDisplayStyled>
       <BubbleLayout>
         <BaseSection>
           <BaseInformation>
-            {profilePath && (
-              <Author href={`/${profilePath}`}>
+            {collectionPath && (
+              <Author href={`/${collectionPath}`}>
                 Author - { username }
               </Author>
             )}
-            {created_at && (
+            {createdAt && (
               <Date>
-                { dayjs(created_at).format('D MMM YYYY, h:ss a') } - Uploaded
+                { createdAt } - Uploaded
               </Date>
             )}
           </BaseInformation>
-          {formMessage?.showMessage && (
-            <FormMessageContainer
-              message={formMessage.message}
-              type={formMessage.type}
-              showMessage={formMessage.showMessage} />
-          )}
+          <FormMessageContainer id='displayPostFormMessage' />
           <PostDisplayContent>
             <CleanContent content={baseContent} />
           </PostDisplayContent>
@@ -79,11 +77,18 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayType>(({
                 </Button>
               )}
               {isAuthor && (
-                <Button
-                  colorType="primary"
-                  onClick={handleTriggerEditView} >
-                  Edit
-                </Button>
+                <>
+                  <Button
+                    colorType="primary"
+                    onClick={handleTriggerEditView} >
+                    Edit
+                  </Button>
+                  <Button
+                    colorType="primary"
+                    onClick={handleTriggerDeleteView} >
+                    Delete
+                  </Button>
+                </>
               )}
             </ButtonWrapper>
           )}

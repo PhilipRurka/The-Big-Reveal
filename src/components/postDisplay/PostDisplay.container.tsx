@@ -1,36 +1,24 @@
-import { FC, useCallback, useEffect, useRef, useState } from "react"
+import type { FC } from 'react'
+
+import { useCallback, useEffect, useRef, useState } from "react"
 import PostDisplay from "./PostDisplay"
 import gsap from "gsap"
-import dayjs from "dayjs"
-import { ContentsType } from "../../pages/post/[post-id]"
-import { FormMessageContainerType } from "../formMessage/FormMessage.container"
+import { useAppSelector } from "../../redux/redux_hooks"
+import { selectPost } from "../../redux/slices/postSlice"
 
 export type PostDisplayType = {
-  username: string
-  profilePath: string
-  post: ContentsType
-  created_at: string
-  isAuthor?: boolean
   handleTriggerEditView?: () => void
-  formMessage?: FormMessageContainerType
+  handleTriggerDeleteView?: () => void
 }
 
-const PostDisplayContainer: FC<PostDisplayType> = ({
-  username,
-  profilePath,
-  post,
-  created_at: rawDate,
-  isAuthor,
-  handleTriggerEditView,
-  formMessage
-}) => {
+const PostDisplayContainer: FC<PostDisplayType> = ({ ...args }) => {
   const descriptioncContentRef = useRef<HTMLDivElement>(null);
   const tlDescriptionRef = useRef<gsap.core.Timeline>(gsap.timeline({
     paused: true
   }))
 
-  const [date, setDate] = useState('')
   const [isDescriptionRevlealed, setIsDescriptionRevlealed] = useState(false)
+  const post = useAppSelector(selectPost)
 
   const initGsap = useCallback(() => {
     tlDescriptionRef.current.fromTo('#description-section', {
@@ -40,11 +28,11 @@ const PostDisplayContainer: FC<PostDisplayType> = ({
       ease: 'power1.inOut',
       height: descriptioncContentRef.current?.clientHeight,
     }, 0)
-  }, [])
+  }, [descriptioncContentRef.current])
 
-  const revealDescription = () => {
+  const revealDescription = useCallback(() => {
     setIsDescriptionRevlealed(true)
-  }
+  }, [])
 
   useEffect(() => {
     if(isDescriptionRevlealed) {
@@ -65,22 +53,12 @@ const PostDisplayContainer: FC<PostDisplayType> = ({
     }
   }, [initGsap])
 
-  useEffect(() => {
-    if(!rawDate) return
-    setDate(dayjs(rawDate).format('D MMM YYYY, h:ss a'))
-  }, [rawDate])
-
   return (
     <PostDisplay
-      ref={descriptioncContentRef}
-      username={username}
-      created_at={date}
+      {...args}
       post={post}
-      profilePath={profilePath}
-      handleRevealDescription={revealDescription}
-      isAuthor={isAuthor}
-      handleTriggerEditView={handleTriggerEditView}
-      formMessage={formMessage} />
+      ref={descriptioncContentRef}
+      handleRevealDescription={revealDescription} />
   )
 }
 

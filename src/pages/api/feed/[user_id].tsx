@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { selectFeedUserId } from "../../../../lib/feed/userIdAPI/get/feed-userId.get";
+import { selectFeedUserId } from "../../../../lib/collectionAPI/feedUserIdAPI/get/feed-userId.get";
 import { generalErrorMessages } from "../../../../lib/generalErrors";
 
 export default async function feedAPI(

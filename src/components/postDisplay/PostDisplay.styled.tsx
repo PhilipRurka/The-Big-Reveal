@@ -2,10 +2,12 @@ import styled from 'styled-components';
 import { Button as styledButton } from "../../styled/button";
 import { default as LinkNext } from 'next/link'
 import { Colors } from '../../styled';
+import { tinyContentStyles } from '../tiny/Tiny.styled';
 
 export const PostDisplayStyled = styled.div``;
 
 export const PostDisplayContent = styled.div`
+  ${tinyContentStyles};
   line-height: 1.4;
   font-size: 16px;
 
@@ -129,6 +131,15 @@ export const PostDisplayContent = styled.div`
       text-align-last: start !important;
     }
   }
+
+  a {
+    display: inline;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: ${Colors.dodger};
+    }
+  }
 `;
 
 export const BaseSection = styled.div`
@@ -146,6 +157,11 @@ export const Date = styled.span`
 
 export const Author = styled(LinkNext)`
   color: ${Colors.eucalyptus};
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: ${Colors.dodger};
+  }
 `;
 
 export const BaseInformation = styled.div`

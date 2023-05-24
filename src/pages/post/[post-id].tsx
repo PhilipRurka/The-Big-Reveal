@@ -1,4 +1,10 @@
 import type { GetServerSidePropsContext } from "next";
+import type {
+  DescriptionData,
+  PostPageData,
+  ProfileData
+} from "../../components/post/Post.type";
+
 import { authRequired } from "../../../lib/authRequired";
 import PostContainer from "../../components/post/Post.container";
 
@@ -22,6 +28,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   } = await supabase
     .from('post_base')
     .select(`
+      post_title,
       base_content,
       created_at,
       post_description (
@@ -43,47 +50,24 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
   }
 
-  const profile = data.profiles as profileType
-  const description = data.post_description as PostDescriptionType
+  const profile = data.profiles as ProfileData
+  const description = data.post_description as DescriptionData
 
   return {props: {
     username: profile.username,
-    profilePath: profile.path,
+    collectionPath: profile.path,
+    postTitle: data.post_title,
     post: {
       baseContent: data.base_content,
       descriptionContent: description.description_content,
     },
-    created_at: data.created_at,
+    createdAt: data.created_at,
     isAuthor: profile.profile_id === session.user.id,
     postId: id
   }}
 }
 
-type profileType = {
-  username: string | null;
-  path: string | null;
-  profile_id: string;
-}
-
-type PostDescriptionType = {
-  description_content: string
-}
-
-export type ContentsType = {
-  baseContent: string
-  descriptionContent: string
-}
-
-export type PostPageType = {
-  username: string
-  profilePath: string
-  created_at: string
-  isAuthor: boolean
-  postId: string
-  post: ContentsType
-}
-
-function PostPage(props: PostPageType) {
+function PostPage(props: PostPageData) {
   
   return <PostContainer {...props} />
 }

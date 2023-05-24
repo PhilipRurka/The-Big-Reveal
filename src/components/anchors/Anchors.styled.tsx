@@ -2,9 +2,7 @@ import styled, { css } from "styled-components";
 import { default as LinkNext } from 'next/link'
 import { Colors, Fonts } from "../../styled";
 
-type NavLinkType = {
-  $isActive?: boolean
-}
+import type { NavLinkElement } from "./Anchor.type";
 
 const sharedBasicLink = (isActive: boolean | undefined) => ({
   color: isActive ? Colors.eucalyptus : 'initial',
@@ -12,11 +10,7 @@ const sharedBasicLink = (isActive: boolean | undefined) => ({
 
   '&:hover': {
     color: Colors.persimmon
-  },
-
-  // '&:active': {
-  //   color: Colors.dodger
-  // }
+  }
 } as const)
 
 export const NavLinkStyled = styled.div`
@@ -34,20 +28,20 @@ export const NavLinkStyled = styled.div`
   }
 `;
 
-export const NavLinkAnchor = styled(LinkNext)<NavLinkType>(({ $isActive }) => {
+export const NavLinkAnchor = styled(LinkNext)<NavLinkElement>(({ $isActive }) => {
   return css`
     ${sharedBasicLink($isActive)}
   `
 })
 
-export const NavLinkButton = styled.button<NavLinkType>(({ $isActive }) => {
+export const NavLinkButton = styled.button<NavLinkElement>(({ $isActive }) => {
   return css`
     ${sharedBasicLink($isActive)}
     cursor: pointer;
   `
 })
 
-export const NewPostButton = styled(LinkNext)<NavLinkType>`
+export const NewPostButton = styled(LinkNext)<NavLinkElement>`
   position: relative;
   padding: 8px 30px 8px 12px;
   border-radius: 5px;

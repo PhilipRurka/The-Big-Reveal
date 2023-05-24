@@ -1,47 +1,26 @@
-import { FC } from "react";
-import {
-  PostStyled
-} from "./Post.styled";
+import type { FC } from "react";
+import type { PostProps } from "./Post.type";
+
+import { PostStyled } from "./Post.styled";
 import PostDisplayContainer from "../postDisplay";
 import EditPost from "../editPost/EditPost.container";
-import { PostPageType } from "../../pages/post/[post-id]";
-import { UpdateOriginalPostFunctionType } from "./Post.container";
-import { FormMessageContainerType } from "../formMessage/FormMessage.container";
+import DeletePostModalContainer from '../deletePostModal'
 
-type PostType = PostPageType & {
-  isEditView: boolean
-  updateOriginalPost: UpdateOriginalPostFunctionType
-  handleTriggerEditView: () => void
-  formMessage?: FormMessageContainerType
-}
-
-const Post: FC<PostType> = ({
-  username,
-  profilePath,
-  post,
-  created_at,
-  isAuthor,
+const Post: FC<PostProps> = ({
   handleTriggerEditView,
   isEditView,
-  updateOriginalPost,
-  postId,
-  formMessage
+  isDeleteView,
+  handleTriggerDeleteView
 }) => (
   <PostStyled>
     <PostDisplayContainer
-      username={username}
-      profilePath={profilePath}
-      post={post}
-      created_at={created_at}
-      isAuthor={isAuthor}
       handleTriggerEditView={handleTriggerEditView}
-      formMessage={formMessage} />
+      handleTriggerDeleteView={handleTriggerDeleteView} />
     {isEditView && (
-      <EditPost
-        post={post}
-        handleTriggerEditView={handleTriggerEditView}
-        updateOriginalPost={updateOriginalPost}
-        postId={postId} />
+      <EditPost handleTriggerEditView={handleTriggerEditView} />
+    )}
+    {isDeleteView && (
+      <DeletePostModalContainer handleTriggerDeleteView={handleTriggerDeleteView} />
     )}
   </PostStyled>
 )

@@ -1,17 +1,17 @@
-import { Database } from "../../../src/types/supabase-types"
+import { Database } from "../../../src/types/supabase.type"
 import {
-  ErrorContentType,
+  ErrorContent,
   generalErrorMessages
 } from "../../generalErrors"
 
 type ProfileErrorMessagesType = {
-  missingUsername:        ErrorContentType
-  usernameAlreadyExists:  ErrorContentType
-  fullNameLength:         ErrorContentType
-  fullNameFormating:      ErrorContentType
-  usernameFormating:      ErrorContentType
-  usernameLength:         ErrorContentType
-  default:                ErrorContentType
+  missingUsername:        ErrorContent
+  usernameAlreadyExists:  ErrorContent
+  fullNameLength:         ErrorContent
+  fullNameFormating:      ErrorContent
+  usernameFormating:      ErrorContent
+  usernameLength:         ErrorContent
+  default:                ErrorContent
 }
 
 export type UpdateProfileBodyType = Database['public']['Tables']['profiles']['Row']

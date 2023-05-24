@@ -1,9 +1,10 @@
 import { FC } from "react"
-import { InputOnChangeType } from "../input/Input";
 import ConfirmedPasswordField from "./ConfirmedPasswordField"
 
+import type { InputOnChange } from "../input/Input.type";
+
 export type ConfirmedPasswordFieldType = {
-  handleUpdate: (event: InputOnChangeType) => void | undefined;
+  handleUpdate: (event: InputOnChange) => void | undefined;
 }
 
 const ConfirmedPasswordFieldContainer:FC<ConfirmedPasswordFieldType> = ({ handleUpdate }) => {

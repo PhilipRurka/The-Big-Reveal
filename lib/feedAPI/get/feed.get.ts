@@ -1,7 +1,7 @@
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { PostCardListType } from "../../../src/components/postCardList/PostCardList.container";
-import { Database } from "../../../src/types/supabase-types";
+import { Database } from "../../../src/types/supabase.type";
 import { generalErrorMessages } from "../../generalErrors";
 
 export type GetDataType = {

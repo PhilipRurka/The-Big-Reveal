@@ -1,4 +1,5 @@
-import { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
+
 import Profile from "../components/profile/Profile.container";
 import { authRequired } from "../../lib/authRequired";
 
@@ -35,14 +36,14 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   }}
 }
 
-export type ProfilePageType = {
+export type ProfilePageData = {
   profileData: {
     username: string
     full_name: string
   }
 }
 
-function ProfilePage({ profileData }: ProfilePageType) {
+function ProfilePage({ profileData }: ProfilePageData) {
   return <Profile profileData={profileData} />
 }
 

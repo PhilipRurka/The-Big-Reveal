@@ -1,68 +1,35 @@
-import { FC, useCallback, useRef, useState } from "react";
-import { PostPageType } from "../../pages/post/[post-id]";
-import { UpdateOriginalPostType } from "../editPost/EditPost.container";
-import { FormMessageContainerType, StatusMessageTypesEnum } from "../formMessage/FormMessage.container";
+import type { FC } from 'react'
+import type { PostContainerProps } from "./Post.type";
+
+import { useCallback, useEffect, useState } from "react";
 import Post from "./Post";
+import { init_post } from "../../redux/slices/postSlice";
+import { useAppDispatch } from "../../redux/redux_hooks";
 
-export type UpdateOriginalPostFunctionType = (updatedData: UpdateOriginalPostType) => void
-
-export type PostStateType = {
-  baseContent: string
-  descriptionContent: string
-}
-
-const PostContainer: FC<PostPageType> = ({
-    username,
-    profilePath,
-    post: postProp,
-    created_at,
-    isAuthor,
-    postId
-}) => {
-  const { current: isWindowDefined } = useRef(typeof window !== undefined)
-
-  const [post, setPost] = useState<PostStateType>(postProp)
+const PostContainer: FC<PostContainerProps> = (props) => {
   const [isEditView, setIsEditView] = useState<boolean>(false)
-  const [formMessage, setFormMessage] = useState<FormMessageContainerType>({
-    message: '',
-    showMessage: false,
-    type: undefined
-  })
+  const [isDeleteView, setIsDeleteView] = useState<boolean>(false)
 
+  const dispatch = useAppDispatch()
+
+  const handleTriggerDeleteView = useCallback(() => {
+    setIsDeleteView(!isDeleteView)
+  }, [isDeleteView])
+  
   const handleTriggerEditView = useCallback(() => {
     setIsEditView(!isEditView)
   }, [isEditView])
 
-  const updateOriginalPost: UpdateOriginalPostFunctionType = useCallback((updatedData) => {
-    setPost(updatedData)
-
-    setFormMessage({
-      message:'You have updated this post!',
-      type: StatusMessageTypesEnum.SUCCESS,
-      showMessage: true
-    })
-
-    if(!isWindowDefined) return
-    const body = document.querySelector('body') as HTMLBodyElement
-    body.style.overflow = 'unset'
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }, [isWindowDefined])
+  useEffect(() => {
+    dispatch(init_post(props))
+  }, [dispatch, props])
 
   return (
     <Post
-      username={username}
-      profilePath={profilePath}
-      post={post}
-      created_at={created_at}
       isEditView={isEditView}
-      isAuthor={isAuthor}
+      isDeleteView={isDeleteView}
       handleTriggerEditView={handleTriggerEditView}
-      updateOriginalPost={updateOriginalPost}
-      postId={postId}
-      formMessage={formMessage} />
+      handleTriggerDeleteView={handleTriggerDeleteView} />
   )
 }
 

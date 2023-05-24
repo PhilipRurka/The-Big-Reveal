@@ -1,19 +1,49 @@
 type GeneralErrorMessagesType = {
-  unrecognizedMethod:     ErrorContentType
-  unauthorized:           ErrorContentType
-  ohShit:                 ErrorContentType
+  unrecognizedMethod:     ErrorContent
+  unauthorized:           ErrorContent
+  ohShit:                 ErrorContent
 }
 
-export type ErrorContentType = {
+type BasicErrorContent = {
   logMessage: string
   message: string
   status: number
-  constraint?: string
-  dublicate?: string
-  nonNull?: string
 }
 
-export type HandleErrorType = (errorObject: any, message: string) => ErrorContentType
+type ErrorObject = {
+  [key: string]: ErrorContent
+}
+
+export type ConstraintErrorContent = BasicErrorContent & {
+  constraint: string
+}
+
+export type DublicateErrorContent = BasicErrorContent & {
+  dublicate: string
+}
+
+export type NonNullErrorContent = BasicErrorContent & {
+  nonNull: string
+}
+
+export type ErrorContent = BasicErrorContent | ConstraintErrorContent | DublicateErrorContent | NonNullErrorContent
+
+export type HandleErrorType = (errorObject: ErrorObject, message: string) => ErrorContent
+
+export const hasConstraint = (obj: ErrorContent): obj is ConstraintErrorContent => {
+  const key: keyof ConstraintErrorContent = 'constraint'
+  return key in obj
+}
+
+export const hasDublicate = (obj: ErrorContent): obj is DublicateErrorContent => {
+  const key: keyof DublicateErrorContent = 'dublicate'
+  return key in obj
+}
+
+export const hasNonNull = (obj: ErrorContent): obj is NonNullErrorContent => {
+  const key: keyof NonNullErrorContent = 'nonNull'
+  return key in obj
+}
 
 export const generalErrorMessages: GeneralErrorMessagesType = {
   unrecognizedMethod: {
@@ -34,14 +64,25 @@ export const generalErrorMessages: GeneralErrorMessagesType = {
 }
 
 export const handleError: HandleErrorType = (errorObject, message) => {
-  let errorType: any | undefined
+  let errorType: string | undefined
   
   for (let i = 0; i < Object.keys(errorObject).length; i++) {
     const key = Object.keys(errorObject)[i]
-    const type = errorObject[key] as ErrorContentType
-    const check = type.constraint || type.dublicate || type.nonNull
+    const type = errorObject[key] as ErrorContent
+    let check: string | undefined
 
-    if(!check) continue
+    if(hasConstraint(type)) {
+      check = type.constraint
+
+    } else if(hasDublicate(type)) {
+      check = type.dublicate
+
+    } else if(hasNonNull(type)) {
+      check = type.nonNull
+
+    } else {
+      continue
+    }
 
     if(message.includes(check)) {
       errorType = key

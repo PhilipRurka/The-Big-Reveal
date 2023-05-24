@@ -1,26 +1,27 @@
-import { PayloadAction } from "@reduxjs/toolkit"
-import { RouterQueryEnum } from "../../components/auth/Auth.types"
-import {
-  DefinedStatusMessageRequestType,
-  StatusMessageStateType,
-  MessageObjType,
-  StatusMessageRequestType,
-  UpdateFormattedMessageType,
-  DefinedStatusMessageStateType,
+import type { PayloadAction } from "@reduxjs/toolkit"
+import type {
+  StatusMessageState,
+  MessageObj,
+  StatusMessageRequest,
+  UpdateFormattedMessage,
+  DefinedStatusMessageState,
 } from "../types/authMessageRedux.type"
+import type { ConstraintErrorContent } from "../../../lib/generalErrors"
+
+import { RouterQueryEnum } from "../../components/auth/Auth.enum"
 import { StatusMessageTypesEnum } from "../../components/formMessage/FormMessage.container"
 import { profileErrorMessages } from "../../../lib/profileAPI/post/profile.utils"
 
 export const statusMessage = {
-  reducer(state: StatusMessageStateType, action: PayloadAction<StatusMessageStateType>) {
-    if(!Object.keys(action.payload).length) return { payload: {} }
+  reducer(state: StatusMessageState, action: PayloadAction<StatusMessageState>) {
+    if(!Object.keys(action.payload).length) return {}
 
     return {
       ...state,
       ...action.payload
     }
   },
-  prepare(authMessageObj: StatusMessageRequestType) {
+  prepare(authMessageObj: StatusMessageRequest) {
     if(!authMessageObj) return { payload: {} }
 
     const {
@@ -29,9 +30,12 @@ export const statusMessage = {
       message,
       type,
       dynamicValue
-    } = authMessageObj as DefinedStatusMessageRequestType
+    } = authMessageObj
 
-    const messagesObj: MessageObjType = {}
+    const messagesObj: MessageObj = {
+      defaultMessage: '',
+      formattedMessage: ''
+    }
 
     if(message === 'Email rate limit exceeded') {
       messagesObj.defaultMessage = message
@@ -45,7 +49,10 @@ export const statusMessage = {
       }
 
     } else if(source === RouterQueryEnum.REGISTRATION) {
-      if(message === 'Signups not allowed for this instance') {
+      if(message === 'User already registered') {
+        messagesObj.defaultMessage = `This email is already registered`  
+
+      } else if(message === 'Signups not allowed for this instance') {
         messagesObj.defaultMessage = `Account creations is disabled at this time`
 
       } else if(status === 422) {
@@ -57,10 +64,10 @@ export const statusMessage = {
       } else if(type === StatusMessageTypesEnum.SUCCESS) {
         messagesObj.defaultMessage = 'A registration has been sent to ${}'
 
-      } else if(message?.includes(profileErrorMessages.usernameLength.constraint as string)) {
+      } else if(message?.includes((profileErrorMessages.usernameLength as ConstraintErrorContent).constraint)) {
         messagesObj.defaultMessage = profileErrorMessages.usernameLength.message
     
-      } else if(message?.includes(profileErrorMessages.usernameFormating.constraint as string)) {
+      } else if(message?.includes((profileErrorMessages.usernameFormating as ConstraintErrorContent).constraint)) {
         messagesObj.defaultMessage = profileErrorMessages.usernameFormating.message
 
       } else if(message?.includes('profiles_path_key')) {
@@ -98,18 +105,17 @@ export const statusMessage = {
     }
 
     return { payload: {
+      ...messagesObj,
       showMessage: true,
       source,
       status,
       type,
-      defaultMessage: messagesObj.defaultMessage,
-      formattedMessage: messagesObj.formattedMessage
     }}
   }
 }
 
-export const updateFormattedMessage: UpdateFormattedMessageType = (state, { payload }) => {
-  const definedState = { ...state as DefinedStatusMessageStateType }
+export const updateFormattedMessage: UpdateFormattedMessage = (state, { payload }) => {
+  const definedState = { ...state as DefinedStatusMessageState }
 
   if(!definedState.defaultMessage || !payload) return
 

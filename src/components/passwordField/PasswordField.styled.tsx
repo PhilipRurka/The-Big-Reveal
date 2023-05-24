@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { InputStyled } from '../input/Input.styled';
-import { InputType } from '../input/Input';
+import type { InputType } from '../input/Input.type';
 
 type PasswordInputType = InputType
 

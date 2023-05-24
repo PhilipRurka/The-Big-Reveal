@@ -1,7 +1,7 @@
 import gsap from "gsap"
 import { forwardRef, RefObject, useCallback, useEffect, useRef } from "react"
 import useIsInputFocused from "../../hooks/useIsInputFocused"
-import type { PasswordPropsType } from "../auth/Auth.types"
+import type { PasswordPropsType } from "../auth/Auth.type"
 import PasswordField from "./PasswordField"
 
 export type PasswordFieldType = PasswordPropsType & {

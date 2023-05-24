@@ -1,32 +1,31 @@
-import { FormEvent } from "react"
-import { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
-import { InputOnChangeType } from "../input/Input"
+import type { FormEvent } from "react"
+import type { ItemsSuccessStatesType } from "../../hooks/usePasswordValidation"
+import type { InputOnChange } from "../input/Input.type"
+
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
+import { RouterQueryEnum } from "./Auth.enum"
+import { AUTH_TYPE_OPTIONS } from "./Auth.constant"
 
-export enum RouterQueryEnum {
-  REGISTRATION    = 'registration',
-  FORGOT_PASSWORD = 'forgot-password',
-  LOGIN           = 'login',
-  RESET_PASSWORD  = 'reset-password'
+export type AuthPageData = AuthContainerProps
+
+export type RouterAuthOptions = keyof typeof AUTH_TYPE_OPTIONS
+
+export type AuthTypeOptionsType = typeof AUTH_TYPE_OPTIONS[RouterQueryEnum.LOGIN]
+
+export type AuthContainerProps = AuthTypeOptionsType & {
+  initRouterAuthType: RouterAuthOptions
 }
 
-export enum AuthTransitionIdsEnum {
-  TITLE         = 'auth-title',
-  EMAIL         = 'auth-email',
-  PASSWORD      = 'auth-password',
-  USERNAME      = 'auth-username',
-  TO_AUTH_LINKS = 'auth-to-auth-links'
-}
+export type HandleAuthSubmit = (event: FormEvent) => void
 
-export type HandleStyledAuthType = (event: FormEvent) => void
-export type HandleNarrowAuthType = () => Promise<void>
+export type HandleNarrowAuthFunction = () => Promise<void>
 
 export type ToAuthLinkType = {
   href: string
   title: string
 }
 
-export type ResType = null | {
+export type Res = null | {
   name: string
   status: number
   message: string
@@ -35,14 +34,14 @@ export type ResType = null | {
 export type PasswordPropsType = {
   password?: string;
   confirmedPassword?: string;
-  handlePasswordUpdate?: (event: InputOnChangeType) => void;
-  handleConfirmedPasswordUpdate?: (event: InputOnChangeType) => void;
+  handlePasswordUpdate?: (event: InputOnChange) => void;
+  handleConfirmedPasswordUpdate?: (event: InputOnChange) => void;
   validationStatuses?: ItemsSuccessStatesType
 }
 
-export type AuthPropsType = PasswordPropsType | undefined
+export type AuthAddedProps = PasswordPropsType | undefined
 
-export type TypePropsType = {
+export type CurrentOption = {
   id:                       undefined | string
   hasEmail:                 undefined | boolean
   hasPassword:              undefined | boolean
@@ -61,19 +60,19 @@ export type StatusMessageType = null | {
   message?: string
 }
 
-export type RefsType = {
+export type Refs = {
   emailRef?:    HTMLInputElement
   passwordRef?: HTMLInputElement
   hasUsername?: HTMLInputElement
 }
 
-export type AuthType = AuthPropsType & TypePropsType & {
-  handleSubmit: HandleStyledAuthType
+export type AuthProps = AuthAddedProps & CurrentOption & {
+  handleSubmit: HandleAuthSubmit
   disableSubmit: boolean
   removeStatusMessage: () => void
 }
 
-export type ContentSwitchAnimationType = (
+export type ContentSwitchAnimation = (
   id: string,
   shrinkHeight: null | 'add' | 'remove'
 ) => void

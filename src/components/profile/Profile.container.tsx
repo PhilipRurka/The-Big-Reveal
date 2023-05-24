@@ -1,17 +1,19 @@
-import { FC, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { ProfilePageType } from "../../pages/profile"
-import { InputOnChangeType } from "../input/Input"
+import type { FC } from 'react'
+import type {
+  HandleSaveReset,
+  ProfileContainerProps,
+  ShowFormMessageType
+} from './Profile.type'
+import type { InputOnChange } from "../input/Input.type"
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Profile from "./Profile"
 import { StatusMessageTypesEnum } from "../formMessage/FormMessage.container"
 import axios from "axios"
+import { useAppDispatch } from "../../redux/redux_hooks"
+import { close_formMessage, update_formMessage } from "../../redux/slices/formMessageSlice"
 
-export type handleSaveResetType = (event: FormEvent) => void
-type ShowFormMessageType = {
-  message: string
-  type: undefined | StatusMessageTypesEnum
-}
-
-const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
+const ProfileContainer: FC<ProfileContainerProps> = ({ profileData }) => {
   const mountedRef = useRef(true)
 
   const [fullName, setFullName] = useState(profileData.full_name || '')
@@ -20,57 +22,47 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
     fullName: profileData.full_name || '',
     username: profileData.username || ''
   })
-
-  const [formMessageContent, setFormMessageContent] = useState<ShowFormMessageType>({
-    message: '',
-    type: undefined
-  })
-  const [showFormMessage, setShowMessage] = useState(false)
+  const dispatch = useAppDispatch()
 
   const triggerFormMessage = useCallback(({
     message,
     type
   }: ShowFormMessageType) => {
-    setFormMessageContent({
+    dispatch(update_formMessage({
+      id: 'profileFormMessage',
       message,
       type
-    })
-
-    setShowMessage(true)
-  }, [])
+    }))
+  }, [dispatch])
 
   const triggerRemoveFormMessage = useCallback(() => {
-    setShowMessage(false)
-    setTimeout(() => {
-      setFormMessageContent({
-        message: '',
-        type: undefined
-      })
-    }, 300)
-  }, [])
+    dispatch(close_formMessage({
+      id: 'profileFormMessage'
+    }))
+  }, [dispatch])
   
   const subtitleFormated = useMemo(() => {
     return `Welcome ${originalInputs.username || 'back'}`
   }, [originalInputs])
 
-  const handleFullNameUpdate = useCallback((event: InputOnChangeType) => {
+  const handleFullNameUpdate = useCallback((event: InputOnChange) => {
     setFullName(event.currentTarget.value)
     triggerRemoveFormMessage()
   }, [triggerRemoveFormMessage])
 
-  const handleUserNameUpdate = useCallback((event: InputOnChangeType) => {
+  const handleUserNameUpdate = useCallback((event: InputOnChange) => {
     setUsername(event.currentTarget.value)
     triggerRemoveFormMessage()
   }, [triggerRemoveFormMessage])
 
-  const handleReset: handleSaveResetType = useCallback((event) => {
+  const handleReset: HandleSaveReset = useCallback((event) => {
     event.preventDefault()
 
     setFullName(originalInputs.fullName)
     setUsername(originalInputs.username)
   }, [originalInputs])
 
-  const handleSave: handleSaveResetType = useCallback(async event => {
+  const handleSave: HandleSaveReset = useCallback(async event => {
     event.preventDefault()
 
     axios.post('/api/profile', {
@@ -123,12 +115,7 @@ const ProfileContainer: FC<ProfilePageType> = ({ profileData }) => {
       handleUserNameUpdate={handleUserNameUpdate}
       handleReset={handleReset}
       handleSave={handleSave}
-      hasChangeOccured={hasChangeOccured}
-      formMessageProps={{
-        type: formMessageContent.type,
-        message: formMessageContent.message,
-        showMessage: showFormMessage
-      }} />
+      hasChangeOccured={hasChangeOccured} />
   )
 }
 

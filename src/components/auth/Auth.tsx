@@ -1,3 +1,8 @@
+import type {
+  AuthProps,
+  Refs,
+} from "./Auth.type";
+
 import { forwardRef } from "react";
 import {
   AuthStyled,
@@ -9,22 +14,13 @@ import {
   FieldContainer
 } from "./Auth.styled";
 import Input from "../input";
-import {
-  AuthTransitionIdsEnum,
-  AuthType,
-  RefsType,
-} from "./Auth.types";
 import { Field, Label } from "../../styled";
 import PasswordField from "../passwordField";
 import ConfirmedPasswordField from "../confirmedPasswordField";
-import { FormMessageContainerType } from "../formMessage/FormMessage.container";
-import FormMessage from "../formMessage"
+import FormMessageContainer from "../formMessage"
+import { AuthTransitionIdsEnum } from "./Auth.enum";
 
-type FormMessagePropsType ={
-  formMessageProps: FormMessageContainerType
-}
-
-const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
+const Auth = forwardRef<Refs, AuthProps>(({
   hasEmail,
   hasPassword,
   hasUsername,
@@ -38,8 +34,7 @@ const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
   disableSubmit,
   removeStatusMessage,
   hasPasswordValidation,
-  hasConfirmedPassword,
-  formMessageProps
+  hasConfirmedPassword
 }, {
   emailRef,
   passwordRef,
@@ -51,7 +46,7 @@ const Auth = forwardRef<RefsType, AuthType & FormMessagePropsType>(({
         { title }
       </AuthTitle>
       <Form>
-        <FormMessage {...formMessageProps} />
+        <FormMessageContainer id='authFormMessage' />
         <FieldContainer id={AuthTransitionIdsEnum.USERNAME}>
           {hasUsername && (
             <Field>
