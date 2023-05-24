@@ -15,9 +15,9 @@ export const setCookie: SetCookie = (cname, value, exDays) => {
 }
 
 export const getCookie: GetCookies = (cname) => {
-  let name = `${cname}=`
-  let decodedCookie = decodeURIComponent(document.cookie)
-  let items = decodedCookie.split(';')
+  const name = `${cname}=`
+  const decodedCookie = decodeURIComponent(document.cookie)
+  const items = decodedCookie.split(';')
   for (let i = 0; i < items.length; i++) {
     let item = items[i]
     while(item.charAt(0) === ' ') {
