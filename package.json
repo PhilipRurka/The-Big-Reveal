@@ -52,7 +52,7 @@
     "@types/tinymce": "^4.6.5",
     "@types/uuid": "^9.0.1",
     "fs-extra": "^11.1.1",
-    "supabase": "^1.50.8",
+    "supabase": "^1.62.3",
     "tinymce": "^6.4.1"
   },
   "ntl": {
