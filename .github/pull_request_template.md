@@ -8,6 +8,7 @@ Delete this section before creating your PR. Use this as a checklist to make not
 4. If there are any migration files in your PR, make sure you do the following
   a. Run `supabase db reset` to see if the migration file was created well.
   b. Run `yarn update-types` to generate any new database types.
+Revisit adjusted files in VScode and check for any unused imports, function and variables.
 
 ## After
 1. Make sure that the `develop` branch successfully deployed after your PR was merged in via Vercel (If you have access to the Vercel project).
