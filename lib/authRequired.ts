@@ -1,16 +1,19 @@
-import { createServerSupabaseClient, Session, SupabaseClient } from "@supabase/auth-helpers-nextjs"
-import { Database } from "../src/types/supabase.type"
+import type { Session, SupabaseClient } from "@supabase/auth-helpers-nextjs"
+import type { GetServerSidePropsContext } from "next"
+import type { Database } from "../src/types/supabase.type"
+
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs"
 
 type Supabase = SupabaseClient<Database>
 
 type GetSessionFromSupabase = (supabase: Supabase) => Promise<Session | null>
 
-type GetRefreshToken = (ctx: any) => null | string
+type GetRefreshToken = (ctx: GetServerSidePropsContext) => null | string
 
 type GetNewSession = (supabase: Supabase, refreshToken: string) => Promise<Session | null>
 
 const getRefreshToken: GetRefreshToken = (ctx) => {  
-  let supabaseAuthToken: string = ctx.req.cookies['supabase-auth-token']
+  let supabaseAuthToken = ctx.req.cookies['supabase-auth-token']
 
   if(!supabaseAuthToken) return null
 
@@ -39,7 +42,7 @@ const getSessionFromSupabase: GetSessionFromSupabase = async (supabase) => {
   return session
 }
 
-export const authRequired = async (ctx: any) => {
+export const authRequired = async (ctx: GetServerSidePropsContext) => {
   const supabase = createServerSupabaseClient<Database>(ctx)
   let session = await getSessionFromSupabase(supabase)
 
