@@ -1,14 +1,13 @@
-import { FC } from "react";
+import type { FC } from "react";
+import type { StaticHookCopyType } from "./Home.container";
+
 import { HomeStyled } from "./Home.styled";
 import PostDisplay from "../postDisplay";
-import { StaticHookCopyType } from "./Home.container";
 
-const Home: FC<StaticHookCopyType> = ({
-  ...args
-}) => {
+const Home: FC<StaticHookCopyType> = () => {
   return (
     <HomeStyled>
-      <PostDisplay {...args} />
+      <PostDisplay />
     </HomeStyled>
   )
 }

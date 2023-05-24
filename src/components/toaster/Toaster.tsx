@@ -1,18 +1,17 @@
-import { FC, forwardRef } from "react";
+import {FC } from "react";
+import type { ToasterState } from "../../redux/slices/toasterSlice";
+
+import { forwardRef } from "react";
 import { AnchorContent, StaticContent, Subtitle, Title, ToasterStyled } from "./Toaster.styled";
 
-export type ToasterType = {
-  title: string
-  subtitle: string
-  to?: string
-}
+type ToasterProps = ToasterState
 
-type ToasterContentType = {
+type ToasterContentProps = {
   children: JSX.Element[]
   to?: string
 }
 
-const Toaster = forwardRef<HTMLDivElement, ToasterType>(({
+const Toaster = forwardRef<HTMLDivElement, ToasterProps>(({
   title,
   subtitle,
   to
@@ -33,7 +32,7 @@ const Toaster = forwardRef<HTMLDivElement, ToasterType>(({
   )
 })
 
-const ToasterContent: FC<ToasterContentType> = ({
+const ToasterContent: FC<ToasterContentProps> = ({
   children,
   to
 }) => {

@@ -1,19 +1,24 @@
-import {
+import type {
   Action,
-  configureStore,
-  ThunkAction,
+  ThunkAction
 } from '@reduxjs/toolkit';
+
+import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './slices/userSlice'
 import authMessageReducer from './slices/authMessageSlice'
 import toasterReducer from './slices/toasterSlice'
 import burgerNavReducer from './slices/burgerNavSlice'
+import postReducer from './slices/postSlice'
+import formMessageReducer from './slices/formMessageSlice'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     authMessage: authMessageReducer,
     toaster: toasterReducer,
-    burgerNav: burgerNavReducer
+    burgerNav: burgerNavReducer,
+    post: postReducer,
+    formMessage: formMessageReducer,
   }
 });
 
