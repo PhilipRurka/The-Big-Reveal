@@ -9,7 +9,7 @@ const FeedContainer: FC = () => {
 
   const [feedList, setFeedList] = useState<PostCardListType>([])
 
-  const getinitialData = useCallback(async () => {
+  const updatePostList = useCallback(async () => {
     axios.get('/api/feed')
     .then(({ data }: GetDataType) => {
       if(!mountedRef.current) return
@@ -23,12 +23,18 @@ const FeedContainer: FC = () => {
 
   useEffect(() => {
     mountedRef.current = true
-    getinitialData()
+    updatePostList()
+
+    const timer = setInterval(() => {
+      updatePostList()
+    }, 60000)
+
     
     return () => {
       mountedRef.current = false
+      clearInterval(timer)
     }
-  }, [getinitialData])
+  }, [updatePostList])
 
   return (
     <Feed list={feedList} />
