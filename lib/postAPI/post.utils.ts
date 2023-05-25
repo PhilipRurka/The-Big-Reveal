@@ -50,9 +50,7 @@ export const postErrorMessages: PostErrorMessagesType = {
 export const formatTitle = (rawBaseContent: string): string => {
   const titleArrayLength: number = rawBaseContent.split('<h1').length
 
-  if(titleArrayLength === 1 ) {
-    return ''
-  }
+  if(titleArrayLength === 1 ) return ''
 
   let title = rawBaseContent.split('</h1>')[0]
   title = title.replace('>', '')
@@ -61,5 +59,8 @@ export const formatTitle = (rawBaseContent: string): string => {
   title = title.replaceAll(/<span [A-Za-z0-9]+="[^"]*">/g, '').replaceAll('</span>', '')
   title = title.replaceAll('<strong>', '').replaceAll('</strong>', '')
   title = title.replaceAll('<em>', '').replaceAll('</em>', '')
+
+  if(title === '&nbsp;') return ''
+
   return title
 }
