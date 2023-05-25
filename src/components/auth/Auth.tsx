@@ -19,7 +19,7 @@ import PasswordField from "../passwordField";
 import ConfirmedPasswordField from "../confirmedPasswordField";
 import EasyLogin from "../easyLogin";
 import { AuthTransitionIdsEnum } from "./Auth.enum";
-import FormMessageContainer from "../formMessage/FormMessage.container";
+import FormMessageContainer from "../formMessage";
 
 const Auth = forwardRef<Refs, AuthProps>(({
   hasEmail,
