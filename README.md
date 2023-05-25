@@ -302,6 +302,49 @@ When you have decided and are ready to configure the TODO Highlight, then open `
 ```
 
 The idea is that if it lights up then it shouldn't be there or at the very least, attention should be drawn to it.
+<br>
+Here is what highlight will look like
+![Example of the highlighted items](https://github.com/PhilipRurka/The-Big-Reveal/blob/main/readme-assets/highlight-example.png?raw=true)
+
+---
+&nbsp;
+## Server side debugging
+VScode offers a great way to handle server side debugging. Here is an example [video](https://drive.google.com/file/d/13AhOEk_TRDzFDBpQjLBtM6Mn12kl31T_/view?usp=sharing) of such this feature (no sound).
+
+Using the debugger tool will essentially spin up your project on localhost:3000. This means you will need to make your project isn't already running, therefor, rendering port 3000 unavailable.
+
+To allow this debugging feature to work we must configure it.
+Simply create a `.vscode` folder at the root of your project (If it doesn't already exists). Then create a `launch.json` and copy past the following in it.
+``` json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Next.js: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev"
+    },
+    {
+      "name": "Next.js: debug client-side",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "Next.js: debug full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev",
+      "serverReadyAction": {
+        "pattern": "started server on .+, url: (https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
+    }
+  ]
+}
+```
 
 ---
 &nbsp;
