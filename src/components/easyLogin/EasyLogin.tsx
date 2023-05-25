@@ -1,7 +1,16 @@
-// FC function component
-// we must return a JSX
-import { ChangeEvent, FC, Ref, RefObject } from "react";
-import { EasyLoginStyled } from "./EasyLogin.styled";
+/**
+ * FC function component
+ * we must return a JSX
+ * import react types in one line 
+ * import our content in multiline
+*/
+import type { ChangeEvent, FC, RefObject } from "react";
+
+import { 
+  EasyLoginStyled,
+  EasyLoginSelect,
+  EasyLoginOption
+ } from "./EasyLogin.styled";
 
 type EasyLoginProps = {
   emailRef: RefObject<HTMLInputElement>,
@@ -13,8 +22,8 @@ const EasyLogin: FC<EasyLoginProps> = ({
   passwordRef
 }) => {
   
-  // set an interface object to specify our object types
-  interface User {
+  /* set an type object to specify our object types */
+  type User = {
     label: number;
     value: number
   }
@@ -27,23 +36,28 @@ const EasyLogin: FC<EasyLoginProps> = ({
   let handleUserChange = (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
-    // this represents the input value of email input  
+    /* this represents the input value of email input */ 
     if (emailRef.current && passwordRef.current) {
       emailRef.current.value = `person${event.target.value}@supabase.com`;
       passwordRef.current.value = 'Def22333!'
     }
   };
 
+  /** add a prefix to this items keys  */
   return (
     <EasyLoginStyled>
-      <select onChange={handleUserChange}>
-        <option value="Select a user">Select a user</option>
+      <EasyLoginSelect onChange={handleUserChange}>
+        <EasyLoginOption value="Select a user">
+          Select a user
+        </EasyLoginOption>
         {users.map((user) => (
-          <option key={user.label} value={user.value}>
-            {`person ${user.label}`}
-          </option>
+          <EasyLoginOption
+            key={`EasyLogin-users-${user.label}`} 
+            value={user.value} >
+            { `person ${user.label}` }
+          </EasyLoginOption>
         ))}
-      </select>
+      </EasyLoginSelect>
     </EasyLoginStyled>
   );
 }

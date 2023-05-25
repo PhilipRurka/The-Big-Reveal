@@ -44,17 +44,17 @@ const Auth = forwardRef<Refs, AuthProps>(({
   return (
     <AuthStyled>
       <AuthTitle id={AuthTransitionIdsEnum.TITLE}>
-        {title}
+        { title }
       </AuthTitle>
       <Form>
         <FormMessageContainer id='authFormMessage' />
         <FieldContainer id={AuthTransitionIdsEnum.USERNAME}>
           {hasUsername && (
             <Field>
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor='username'>Username</Label>
               <Input
-                id="username"
-                type="text"
+                id='username'
+                type='text'
                 handleChange={removeStatusMessage}
                 ref={usernameRef}
               />
@@ -64,12 +64,12 @@ const Auth = forwardRef<Refs, AuthProps>(({
         <FieldContainer id={AuthTransitionIdsEnum.EMAIL}>
           {hasEmail && (
             <Field>
-              <Label htmlFor="emailAddress">
+              <Label htmlFor='emailAddress'>
                 Email
               </Label>
               <Input
-                id="emailAddress"
-                type="text"
+                id='emailAddress'
+                type='text'
                 handleChange={removeStatusMessage}
                 ref={emailRef} />
             </Field>
@@ -93,8 +93,8 @@ const Auth = forwardRef<Refs, AuthProps>(({
           />
         )}
         <SubmitButton
-          type="submit"
-          colorType="primary"
+          type='submit'
+          colorType='primary'
           onClick={handleSubmit}
           disabled={disableSubmit} >
           Submit
@@ -108,7 +108,7 @@ const Auth = forwardRef<Refs, AuthProps>(({
           }) => (
             <ToAuthLinkItem 
               key={toLinkTitle} 
-              href={toLinkHref}>
+              href={toLinkHref} >
               { toLinkTitle }
             </ToAuthLinkItem>
           ))}
@@ -118,6 +118,6 @@ const Auth = forwardRef<Refs, AuthProps>(({
   )
 })
 
-Auth.displayName = "Auth";
+Auth.displayName = 'Auth'
 
 export default Auth
