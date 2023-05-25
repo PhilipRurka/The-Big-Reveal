@@ -59,7 +59,7 @@ const PostDisplay = forwardRef<DescriptionSectionRefType, PostDisplayProps>(({
             )}
             {createdAt && (
               <Date>
-                createdAt - Uploaded
+                { createdAt } - Uploaded
               </Date>
             )}
           </BaseInformation>
