@@ -12,7 +12,7 @@ export const SendGrid = () => {
   }
   
   client.send(message).then(() => {
-      console.log('Email sent')
+      console.dir('Email sent')
     })
     .catch((error: any) => {
       console.error(error)
