@@ -3,7 +3,7 @@ Delete this section before creating your PR. Use this as a checklist to make not
 
 ## Before
 1. Make sure your Develop branch is up to date. If it isn't, pull in the changes and update your branch.
-2. Remove any comments, console.logs or debuggers that shouldn't be there?
+2. Remove any // comments, console.dir, console.table or debugger that shouldn't be there?
 3. `yarn build` and resolve any warnings or errors
 4. If there are any migration files in your PR, make sure you do the following
   a. Run `supabase db reset` to see if the migration file was created well.

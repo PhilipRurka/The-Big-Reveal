@@ -212,6 +212,16 @@ They each have their utilities and meaning.
 
 ---
 &nbsp;
+## Console Logging
+If you want to log values in a console, there are a few options. In this porject we reserve `console.table()` and `console.dir()` as temporary. Meaning before you merge your work into develop, make sure there are no `console.table()` or `console.dir()`. This leaves console.log as out permanent loging method.
+
+---
+&nbsp;
+## Inline Todo
+A popular industry standard for adding inline Todo's is to use `// TODO:`, however, because this is standard it can be found everywhere. When its time for some good oldfashion code debt removal, if we have brought in some libraries locally (local files), sometimes their developers will have `// TODO:` imbedded within it. This can make it frustrating to search for our inline todos. For that reason I had adopted a homegrown version of the `// TODO:`. My homegrown version is using `// FRONTEND:` That way if we globally search this, we are garenteed to see relevant items.
+
+---
+&nbsp;
 ## Github Branch Structure
 ~~We are using [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) as our workflow.~~
 
@@ -244,6 +254,54 @@ A commit message should start with a category of change. You can pretty much use
 - `refactor` is for changing code for peformance or convenience purpose (e.g. readibility)
 - `chore` is for everything else (writing documentation, formatting, adding tests, cleaning useless code etc.)
 
+---
+&nbsp;
+## Helpful Highlight Extention
+Considering we have stricked rules in regards to the way we handle logs and comments, you can install this tool to help spot these temporary methods.
+
+Install [TODO Highlight](https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight)
+<br>
+Once complete, open up your VScode's settings and from there you can decide if these epcial highlights will be shared across all projects or if the are to only live on this one project. You will be capable to do this.
+When you have decided and are ready to configure the TODO Highlight, then open `settings.json`. In here, add the following property
+``` json
+"todohighlight.keywords": [
+  {
+    "text": "// ",
+    "color": "#7efece",
+    "backgroundColor": "rgba(0,0,0,0)",
+  },
+  {
+    "text": "debugger",
+    "color": "red",
+    "border": "1px solid red",
+    "borderRadius": "2px",
+    "backgroundColor": "rgba(0,0,0,.2)",
+  },
+  {
+    "text": "FRONTEND",
+    "color": "#E36414",
+    "border": "1px solid #E36414",
+    "borderRadius": "2px",
+    "backgroundColor": "rgba(0,0,0,.2)",
+  },
+  {
+    "text": "console.table",
+    "color": "#F7B32B",
+    "border": "1px solid #F7B32B",
+    "borderRadius": "2px",
+    "backgroundColor": "#2D1E2F",
+  },
+  {
+    "text": "console.dir",
+    "color": "#F7B32B",
+    "border": "1px solid #F7B32B",
+    "borderRadius": "2px",
+    "backgroundColor": "#2D1E2F",
+  },
+]
+```
+
+The idea is that if it lights up then it shouldn't be there or at the very least, attention should be drawn to it.
 
 ---
 &nbsp;
@@ -253,7 +311,7 @@ This is a folder you can find at the root level of this project. It is used as a
 ---
 &nbsp;
 ## Trello
-We have a, ask for an invite and jump in, assign yourself to a task and walk it through to victory (Done & Live).
+We have a, ask for an invite and jump in, assign yourself to a task and walk it through to victory (In Production).
 
 ---
 &nbsp;
