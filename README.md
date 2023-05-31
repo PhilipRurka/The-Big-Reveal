@@ -227,7 +227,7 @@ A popular industry standard for adding inline Todo's is to use `// TODO:`, howev
 
 ~~If you are using a Git GUI like me (GitKraken), you may want to look into how to perform the workflow on it. GitKraken has a Gitflow integration that makes it very easy to create, manage and delete branches. I assume other Git GUI also have such intergration.~~
 
-Although Gitflow is an accepted standard, it removes the use of Pull Requests imbetween stable branches. There are ways around this, however, it requires to step outside of the Gitflow convention. For that reason, we are moving away from it and jumping into the good old fasion, `main` - `staging` - `develop` branche architecture. Well, kinda. Considering this is a small scale project and there aren't many developers working on it, we will skip out on the Staging environment.
+Although Gitflow is an accepted standard, it removes the use of Pull Requests imbetween stable branches. There are ways around this, however, it requires to step outside of the Gitflow convention. For that reason, we are moving away from it and jumping into the good old fasion, `main` - `staging` - `develop` branche architecture.
 
 We are also going to use [this](https://dev.to/varbsan/a-simplified-convention-for-naming-branches-and-commits-in-git-il4) github branch and commit standard.
 
