@@ -340,4 +340,4 @@ alter table public.profiles
 ```
 `public.profiles` being the name of the table
 
-`full_name_length` being the name of the constraint
+`full_name_length` being the name of the constraint 
