@@ -86,12 +86,12 @@ const Auth = forwardRef<Refs, AuthProps>(({
           <ConfirmedPasswordField
             handleUpdate={handleConfirmedPasswordUpdate} />
         )}
-        {process.env.NODE_ENV === 'development' && (
+        {/* {process.env.NODE_ENV === 'development' && ( */}
           <EasyLogin 
             emailRef={emailRef} 
             passwordRef={passwordRef} 
           />
-        )}
+        {/* )} */}
         <SubmitButton
           type='submit'
           colorType='primary'

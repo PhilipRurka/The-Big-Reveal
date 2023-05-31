@@ -30,8 +30,13 @@ const AuthorPostsContainer: FC<UserSpaceDataType> = ({
     mountedRef.current = true
     updatePostList()
 
+    const timer = setInterval(() => {
+      updatePostList()
+    }, 60000)
+
     return () => {
       mountedRef.current = false
+      clearInterval(timer)
     }
   }, [updatePostList])
 

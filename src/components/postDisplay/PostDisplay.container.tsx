@@ -20,7 +20,7 @@ const PostDisplayContainer: FC<PostDisplayType> = ({ ...args }) => {
   const [isDescriptionRevlealed, setIsDescriptionRevlealed] = useState(false)
   const post = useAppSelector(selectPost)
 
-  const initGsap = useCallback(() => {
+  const initGsap = () => {
     tlDescriptionRef.current.fromTo('#description-section', {
       height: 0
     }, {
@@ -28,7 +28,7 @@ const PostDisplayContainer: FC<PostDisplayType> = ({ ...args }) => {
       ease: 'power1.inOut',
       height: descriptioncContentRef.current?.clientHeight,
     }, 0)
-  }, [descriptioncContentRef.current])
+  }
 
   const revealDescription = useCallback(() => {
     setIsDescriptionRevlealed(true)
