@@ -62,7 +62,9 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
     }, 450)
   }, [handleTriggerDeleteView])
 
-  const decodedTitle = useMemo(() => decode(postTitle), [postTitle])
+  const decodedTitle = useMemo(() => {
+    return postTitle.replaceAll(/&nbsp;/g, ' ')
+  }, [postTitle])
 
   useEffect(() => {
     tlAnimationRef.current = initAnimation()
