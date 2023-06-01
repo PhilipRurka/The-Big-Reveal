@@ -8,7 +8,6 @@ import Header from "../components/header";
 import { store } from '../redux/redux_store';
 import { Main } from "../styled";
 import { ResetStyles } from "../styled/base-styled";
-import InitGetSession from '../utils/InitGetSession';
 import Toaster from '../components/toaster';
 import {
   noto,
@@ -30,7 +29,6 @@ function MyApp({
         initialSession={pageProps.initialSession} >
         <div className={`${noto.variable} ${roboto.variable}`}>
           <ResetStyles />
-          <InitGetSession />
           <Head />
           <Header />
           <Main>
