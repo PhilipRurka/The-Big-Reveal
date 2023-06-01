@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import Xcircle from '../../svgs/X-Circle';
+
 export const DeletePostModalStyled = styled.div`
 
 `;
@@ -15,29 +17,16 @@ export const AbsoluteDeleteWrapper = styled.div`
   height: 300px;
   z-index: 1;
   padding: 20px;
-`;
+  `;
 
 export const DeleteModalHeader = styled.div`
   height: 50px;
   background: rgba(40, 40, 40, 1);
-`
-
-export const DeleteButton = styled.button`
-  margin: 20px 0px;
-  cursor: pointer;
-  font-weight: 500;
-  padding: 13px 100px;
-  border-radius: 5px;
-  border: 1px solid rgba(106, 32, 36, 1);
-  border: none;
-  font-size: 0.8rem;
-  color: rgba(199, 81, 86, 1);
-  background: rgba(41, 19, 21, 1);
-  transition: all 0.25s ease;
-`
+  `
 
 export const ConfirmForm = styled.form`
   padding: 25px 0;
+  font-size: 0.9rem;
 `
 
 export const Input = styled.input`
@@ -83,11 +72,29 @@ export const Input = styled.input`
   }
 `;
 
-export const CloseModalButton = styled.svg`
-  background-image: url('/assets/svg/circle-x-icon.svg');
-  background-repeat: no-repeat;
-  background-size: contain;
+export const DeleteButton = styled.button`
+  margin: 20px 0px;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 13px 100px;
+  border-radius: 5px;
+  border: 1px solid rgba(106, 32, 36, 1);
+  font-size: 0.9rem;
+  color: rgba(199, 81, 86, 1);
+  background: rgba(41, 19, 21, 1);
+  transition: all 0.25s ease;
+  `
+
+export const CloseModalButtonWrapper = styled.div`
   width: 40px;
   height: 40px;
-  color: currentColor;
+  color: white;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+`
+
+export const CloseModalButton = styled(Xcircle)`
+  
 `

@@ -1,4 +1,5 @@
-import { FC, RefObject, SetStateAction, useCallback, useMemo, useState } from "react";
+import type { FC, RefObject, SetStateAction } from "react";
+import { useCallback, useMemo, useState } from 'react';
 import { Overlay } from "../../styled/animation";
 import {
   AbsoluteDeleteWrapper,
@@ -7,7 +8,8 @@ import {
   DeleteModalHeader,
   ConfirmForm,
   Input,
-  CloseModalButton
+  CloseModalButton,
+  CloseModalButtonWrapper
 } from "./DeletePostModal.styled";
 
 type DeletePostModalType = {
@@ -54,22 +56,22 @@ const DeletePostModal: FC<DeletePostModalType> = ({
         ref={overlayRef}
         onClick={handleCloseDelete} />
       <AbsoluteDeleteWrapper ref={absoluteRef}>
-          <CloseModalButton 
-            onClick={handleCloseDelete} />
+          <CloseModalButtonWrapper
+            onClick={handleCloseDelete} >
+            <CloseModalButton color="white"/>
+          </CloseModalButtonWrapper>
           <DeleteModalHeader>
             <h1>Delete Poem</h1>
           </DeleteModalHeader>
         <h2>{ decodedTitle }</h2>
         <ConfirmForm>
           <label htmlFor='confirm'>
-            Type poem name to confirm
+            Type name of poem to confirm
           </label>
           <Input 
             type='text' 
             id='confirm' 
             name='confirm' 
-            // placeholder='Type in name of poem'
-            // value={val} 
             onChange={inputChange}
             />
           <DeleteButton
