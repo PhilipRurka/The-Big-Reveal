@@ -18,6 +18,8 @@ type DeletePostModalType = {
   absoluteRef: RefObject<HTMLDivElement>
   handleCloseDelete: () => void
   handleDeletePost: () => void
+  handleInputChange: () => void
+  handleIsDisabled: () => void
 }
 
 const DeletePostModal: FC<DeletePostModalType> = ({
@@ -25,30 +27,10 @@ const DeletePostModal: FC<DeletePostModalType> = ({
   overlayRef,
   absoluteRef,
   handleDeletePost,
-  handleCloseDelete
+  handleCloseDelete,
+  handleInputChange,
+  handleIsDisabled
 }) => {
-
-  const [val, setVal] = useState('')
-
-  // useCallback won't re-render the value 
-  const inputChange = useCallback((event: { target: { value: SetStateAction<string>; }; }) => {
-    setVal(event.target.value);
-  }, [])
-
-  const isDisabled = useMemo(() => {
-    const titleLowerCase = decodedTitle.toLocaleLowerCase()
-    const valLowerCase = val.toLocaleLowerCase()
-
-    return titleLowerCase === valLowerCase ? false : true;
-
-  }, [val, decodedTitle])
-  
-  const click = (event:any) => {
-    event.preventDefault();
-    console.log(val);
-  }
-
-  console.log(isDisabled);
   
   return (
     <DeletePostModalStyled>
@@ -63,20 +45,22 @@ const DeletePostModal: FC<DeletePostModalType> = ({
           <DeleteModalHeader>
             <h1>Delete Poem</h1>
           </DeleteModalHeader>
-        <h2>{ decodedTitle }</h2>
         <ConfirmForm>
+          <p>This will delete your poem:</p>
+          <h2 className="title">{ decodedTitle }</h2>
           <label htmlFor='confirm'>
-            Type name of poem to confirm
+            <p>Type name of poem to confirm.</p>
           </label>
           <Input 
             type='text' 
             id='confirm' 
             name='confirm' 
-            onChange={inputChange}
+            placeholder="Type in name of poem"
+            onChange={handleInputChange}
             />
           <DeleteButton
-            disabled={isDisabled}
-            onClick={click} >
+            disabled={handleIsDisabled}
+            onClick={handleDeletePost} >
               Delete Poem
           </DeleteButton>
         </ConfirmForm>

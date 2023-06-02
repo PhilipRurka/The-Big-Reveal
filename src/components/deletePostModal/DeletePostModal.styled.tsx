@@ -20,28 +20,31 @@ export const AbsoluteDeleteWrapper = styled.div`
   `;
 
 export const DeleteModalHeader = styled.div`
-  height: 50px;
-  background: rgba(40, 40, 40, 1);
+  padding: 0 0 25px 0;
+  font-size: 1.05rem;
   `
 
 export const ConfirmForm = styled.form`
   padding: 25px 0;
   font-size: 0.9rem;
+
+  > .title {
+    padding: 8px 0 20px 0;
+    font-size: 1rem;
+  }
 `
 
 export const Input = styled.input`
   &[type='text'] {
     font-weight: 500;
-    border-radius: 5px;
     background: rgba(41, 19, 21, 1);
     width: 100%;
-    padding: 13px 20px;
+    padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
     color: rgba(199, 81, 86, 1);
-    border: none;
     border: 1px solid rgba(106, 32, 36, 1);
-    padding: 10px 0;
+    border-radius: 5px;
     -webkit-transition: 0.5s;
     transition: 0.5s;
     outline: none;
@@ -63,23 +66,25 @@ export const Input = styled.input`
   }
   ::placeholder {
     color: rgba(199, 81, 86, 1);
-    opacity: 1;
-    padding: 10px;
+    opacity: 0.5;
+    padding: 10px 0;
+    font-size: 0.8rem;
   }
   &[type='submit']:disabled {
     background: rgba(41, 19, 21, 1);
-      border: none;
+    border: none;
   }
 `;
 
 export const DeleteButton = styled.button`
-  margin: 20px 0px;
+  width: 100%;
   cursor: pointer;
-  font-weight: 500;
-  padding: 13px 100px;
-  border-radius: 5px;
-  border: 1px solid rgba(106, 32, 36, 1);
   font-size: 0.9rem;
+  font-weight: 500;
+  padding: 12px 50px;
+  margin: 25px 0px;
+  border: 1px solid rgba(106, 32, 36, 1);
+  border-radius: 5px;
   color: rgba(199, 81, 86, 1);
   background: rgba(41, 19, 21, 1);
   transition: all 0.25s ease;
@@ -87,12 +92,12 @@ export const DeleteButton = styled.button`
 
 export const CloseModalButtonWrapper = styled.div`
   width: 40px;
+  cursor: pointer;
   height: 40px;
   color: white;
   position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
+  top: -12px;
+  right: -12px;
 `
 
 export const CloseModalButton = styled(Xcircle)`

@@ -1,6 +1,6 @@
-import type { FC, RefObject } from 'react'
+import { FC, RefObject, SetStateAction } from 'react'
 
-import { useCallback, useEffect, useMemo, useRef } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import DeletePostModal from "./DeletePostModal"
 import gsap from 'gsap'
 import { decode } from 'html-entities';
@@ -16,6 +16,7 @@ type DeletePostModule = {
 const DeletePostModalContainer: FC<DeletePostModule> = ({
   handleTriggerDeleteView
 }) => {
+  const [val, setVal] = useState('')
   const overlayRef = useRef<HTMLDivElement>()
   const absoluteRef = useRef<HTMLDivElement>()
   const tlAnimationRef = useRef<gsap.core.Timeline>(gsap.timeline())
@@ -23,6 +24,7 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
     postTitle,
     postId,
   } = useAppSelector(selectPost)
+
 
   const initAnimation = useCallback(() => {
     return gsap.timeline()
@@ -74,13 +76,29 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
     }
   }, [initAnimation])
 
+  
+
+  const handleInputChange = useCallback((event: { target: { value: SetStateAction<string>; }; }) => {
+    setVal(event.target.value);
+  }, [])
+
+  const handleIsDisabled = useMemo(() => {
+    const titleLowerCase = decodedTitle.toLocaleLowerCase()
+    const valLowerCase = val.toLocaleLowerCase()
+
+    return titleLowerCase === valLowerCase ? false : true;
+
+  }, [val, decodedTitle])
+  
   return (
     <DeletePostModal
       decodedTitle={decodedTitle}
       overlayRef={overlayRef as RefObject<HTMLDivElement>}
       absoluteRef={absoluteRef as RefObject<HTMLDivElement>}
       handleCloseDelete={handleCloseDelete}
-      handleDeletePost={handleDeletePost} />
+      handleDeletePost={handleDeletePost} 
+      handleInputChange={handleInputChange} 
+      handleIsDisabled={handleIsDisabled} />
   )
 }
 
