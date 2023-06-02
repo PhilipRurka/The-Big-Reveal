@@ -18,8 +18,8 @@ type DeletePostModalType = {
   absoluteRef: RefObject<HTMLDivElement>
   handleCloseDelete: () => void
   handleDeletePost: () => void
-  handleInputChange: () => void
-  handleIsDisabled: () => void
+  handleInputChange: (event: any) => void
+  handleIsDisabled: boolean
 }
 
 const DeletePostModal: FC<DeletePostModalType> = ({

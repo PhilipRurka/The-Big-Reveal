@@ -88,6 +88,10 @@ export const DeleteButton = styled.button`
   color: rgba(199, 81, 86, 1);
   background: rgba(41, 19, 21, 1);
   transition: all 0.25s ease;
+  
+  &:disabled {
+    cursor: not-allowed;
+  }
   `
 
 export const CloseModalButtonWrapper = styled.div`

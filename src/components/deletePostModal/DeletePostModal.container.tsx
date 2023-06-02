@@ -101,5 +101,5 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
       handleIsDisabled={handleIsDisabled} />
   )
 }
-
+    
 export default DeletePostModalContainer
