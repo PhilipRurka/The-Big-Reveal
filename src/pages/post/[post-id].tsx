@@ -1,9 +1,5 @@
 import type { GetServerSidePropsContext } from "next";
-import type {
-  DescriptionData,
-  PostPageData,
-  ProfileData
-} from "../../components/post/Post.type";
+import type { PostPageData } from "../../components/post/Post.type";
 
 import { authRequired } from "../../../lib/authRequired";
 import PostContainer from "../../components/post/Post.container";
@@ -50,8 +46,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
   }
 
-  const profile = data.profiles as ProfileData
-  const description = data.post_description as DescriptionData
+  const profile = data.profiles[0]
+  const description = data.post_description[0]
 
   return {props: {
     username: profile.username,
