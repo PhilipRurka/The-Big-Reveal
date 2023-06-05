@@ -9,7 +9,14 @@ import {
   ConfirmForm,
   Input,
   CloseModalButton,
-  CloseModalButtonWrapper
+  CloseModalButtonWrapper,
+  AlertModalCircle,
+  AlertModalCircleWrapper,
+  AlertModalTriangle,
+  AlertModalTriangleWrapper,
+  AlertModalWrapper,
+  AlertModalMessage,
+  InputWrapper
 } from "./DeletePostModal.styled";
 
 type DeletePostModalType = {
@@ -43,22 +50,35 @@ const DeletePostModal: FC<DeletePostModalType> = ({
             <CloseModalButton color="white"/>
           </CloseModalButtonWrapper>
           <DeleteModalHeader>
-            <h1>Delete Poem</h1>
+            <h2 className="title">Delete Poem</h2>
           </DeleteModalHeader>
+          <AlertModalWrapper>
+            <AlertModalMessage>
+              <p>You cannot recover this poem once it is deleted!</p>
+            <AlertModalTriangleWrapper>
+              <AlertModalTriangle color='rgba(200, 139, 28, 1)' />
+            </AlertModalTriangleWrapper>
+            </AlertModalMessage>
+          </AlertModalWrapper>
         <ConfirmForm>
           <p>This will delete your poem:</p>
           <h2 className="title">{ decodedTitle }</h2>
           <label htmlFor='confirm'>
             <p>Type name of poem to confirm.</p>
           </label>
-          <Input 
-            type='text' 
-            id='confirm' 
-            name='confirm' 
-            placeholder="Type in name of poem"
-            onChange={handleInputChange}
-            />
-          <DeleteButton
+          <InputWrapper>
+            <Input 
+              type='text' 
+              id='confirm' 
+              name='confirm' 
+              placeholder="Type in name of poem"
+              onChange={handleInputChange}
+              />
+              <AlertModalCircleWrapper>
+                <AlertModalCircle color='rgba(199, 81, 86, 1)'/>
+              </AlertModalCircleWrapper>
+          </InputWrapper>
+          <DeleteButton className='hover'
             disabled={handleIsDisabled}
             onClick={handleDeletePost} >
               Delete Poem
