@@ -1,13 +1,3 @@
-export type ProfileData = {
-  username: string | null
-  path: string | null
-  profile_id: string
-}
-
-export type DescriptionData = {
-  description_content: string
-}
-
 export type Contents = {
   baseContent: string
   descriptionContent: string
