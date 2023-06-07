@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import Xcircle from '../../svgs/X-Circle';
-import AlertCircle from '../../svgs/Alert-circle'
+import AlertCircle from '../../svgs/Alert-Circle'
 import AlertTriangle from '../../svgs/Alert-Triangle';
 
 export const DeletePostModalStyled = styled.div`
