@@ -4,8 +4,6 @@ import type { PostPageData } from "../../components/post/Post.type";
 import { authRequired } from "../../../lib/authRequired";
 import PostContainer from "../../components/post/Post.container";
 
-type Temporary = { description_content: string }
-
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const res = await authRequired(ctx)
   
