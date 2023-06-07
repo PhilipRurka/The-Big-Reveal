@@ -5408,7 +5408,7 @@ styled-reset@4.3.0:
   resolved "https://registry.yarnpkg.com/styled-reset/-/styled-reset-4.3.0.tgz#1093e5eda66bd4d3dce35041fc0a4a8ef2dd3448"
   integrity sha512-/aHorePiu2b+5cWc26hKkpCcInsJVbi88O/a33h17EV21iOCj+B7Pq5g13LvAJ6wz9vcSGw8tk+9FSpn6QbmIg==
 
-supabase@^1.62.3:
+supabase@^1.50.8:
   version "1.64.8"
   resolved "https://registry.yarnpkg.com/supabase/-/supabase-1.64.8.tgz#3ace2d1bff54af155c5a879d5077d138be718f81"
   integrity sha512-HrJe7vJx8he1JdgUn8if+JxZkDugD030xNqy9Jxlbs8X/lNuEnmo7EW0uDJsMVTz6L8hXTuafHlJy4HiULa1Qw==
