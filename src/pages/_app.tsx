@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import { useState } from "react";
 import { Provider } from 'react-redux';
 import Head from "../components/head";
-import Header from "../components/header";
+// import Header from "../components/header";
 import { store } from '../redux/redux_store';
 import { Main } from "../styled";
 import { ResetStyles } from "../styled/base-styled";
@@ -14,6 +14,7 @@ import {
   noto,
   roboto
 } from '../styled/typography-styled'
+import HeaderTemp from '../components/header/Header.temp';
 
 function MyApp({
   Component,
@@ -32,7 +33,7 @@ function MyApp({
           <ResetStyles />
           <InitGetSession />
           <Head />
-          <Header />
+          <HeaderTemp />
           <Main>
             <Toaster />
             <Component {...pageProps} />

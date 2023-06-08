@@ -1,0 +1,1 @@
+export { default } from './LargeQuote.container'

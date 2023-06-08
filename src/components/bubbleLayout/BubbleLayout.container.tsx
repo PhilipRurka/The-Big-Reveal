@@ -1,6 +1,5 @@
-import { FC, useMemo } from "react"
+import { FC } from "react"
 import BubbleLayout from "./BubbleLayout"
-import { getContrast } from "../../utils/colors"
 
 export type BubbleLayoutContainerType = {
   children: JSX.Element | JSX.Element[]

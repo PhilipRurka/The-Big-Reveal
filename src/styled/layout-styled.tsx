@@ -65,5 +65,5 @@ export const Container = (size: keyof typeof BreakObj): string => {
 export const Main = styled.main`
   position: relative;
   min-height: 100vh;
-  padding-top: 72px;
+  /* padding-top: 72px; */
 `;

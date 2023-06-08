@@ -1,13 +1,29 @@
 import type { FC } from "react";
-import type { StaticHookCopyType } from "./Home.container";
 
 import { HomeStyled } from "./Home.styled";
-import PostDisplay from "../postDisplay";
+import PageSection from "../pageSection";
+import CtaHeroContainer from "../ctaHero";
+import OurValuesContainer from "../ourValues";
+import OurGoalsContainer from "../ourGoals";
 
-const Home: FC<StaticHookCopyType> = () => {
+const Home: FC = () => {
   return (
     <HomeStyled>
-      <PostDisplay />
+      <PageSection
+        bgColor='parchment'
+        size='xs' >
+        <CtaHeroContainer />
+      </PageSection>
+      <PageSection
+        bgColor='white'
+        size='xs' >
+        <OurValuesContainer />
+      </PageSection>
+      <PageSection
+        bgColor='parchment'
+        size='xs' >
+        <OurGoalsContainer />
+      </PageSection>
     </HomeStyled>
   )
 }
