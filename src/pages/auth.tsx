@@ -12,6 +12,9 @@ import type {
 } from "../components/auth/Auth.type";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  return {
+    notFound: true
+  }
 
   const supabase = createServerSupabaseClient(ctx)
 
