@@ -1,5 +1,6 @@
-import type { FC, RefObject, SetStateAction } from "react";
-import { useCallback, useMemo, useState } from 'react';
+import type { FC, RefObject } from "react";
+import type { InputOnChange } from "../input/Input.type";
+
 import { Overlay } from "../../styled/animation";
 import {
   AbsoluteDeleteWrapper,
@@ -19,13 +20,14 @@ import {
   InputWrapper
 } from "./DeletePostModal.styled";
 
+
 type DeletePostModalType = {
   decodedTitle: string
   overlayRef: RefObject<HTMLDivElement>
   absoluteRef: RefObject<HTMLDivElement>
   handleCloseDelete: () => void
   handleDeletePost: () => void
-  handleInputChange: (event: any) => void
+  handleInputChange: (event: InputOnChange) => void
   handleIsDisabled: boolean
 }
 
@@ -47,10 +49,15 @@ const DeletePostModal: FC<DeletePostModalType> = ({
       <AbsoluteDeleteWrapper ref={absoluteRef}>
           <CloseModalButtonWrapper
             onClick={handleCloseDelete} >
-            <CloseModalButton color="white"/>
+            <CloseModalButton 
+              color="white"
+            />
           </CloseModalButtonWrapper>
           <DeleteModalHeader>
-            <h2 className="title">Delete Poem</h2>
+            <h2 
+              className="title">
+                Delete Poem
+            </h2>
           </DeleteModalHeader>
           <AlertModalWrapper>
             <AlertModalMessage>
@@ -62,7 +69,7 @@ const DeletePostModal: FC<DeletePostModalType> = ({
           </AlertModalWrapper>
         <ConfirmForm>
           <p>This will delete your poem:</p>
-          <h2 className="title">{ decodedTitle }</h2>
+          <span className="title">{ decodedTitle }</span>
           <label htmlFor='confirm'>
             <p>Type name of poem to confirm.</p>
           </label>
@@ -72,13 +79,14 @@ const DeletePostModal: FC<DeletePostModalType> = ({
               id='confirm' 
               name='confirm' 
               placeholder="Type in name of poem"
+              autoComplete="off"
               onChange={handleInputChange}
               />
               <AlertModalCircleWrapper>
                 <AlertModalCircle color='rgba(199, 81, 86, 1)'/>
               </AlertModalCircleWrapper>
           </InputWrapper>
-          <DeleteButton className='hover'
+          <DeleteButton
             disabled={handleIsDisabled}
             onClick={handleDeletePost} >
               Delete Poem

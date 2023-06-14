@@ -1,9 +1,9 @@
-import { FC, RefObject, SetStateAction } from 'react'
+import type { FC, RefObject } from 'react'
+import type { InputOnChange } from '../input/Input.type';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import DeletePostModal from "./DeletePostModal"
 import gsap from 'gsap'
-import { decode } from 'html-entities';
 import axios from "axios";
 import Router from "next/router";
 import { selectPost } from "../../redux/slices/postSlice";
@@ -76,17 +76,15 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
     }
   }, [initAnimation])
 
-  
-
-  const handleInputChange = useCallback((event: { target: { value: SetStateAction<string>; }; }) => {
-    setVal(event.target.value);
+  const handleInputChange = useCallback ((event: InputOnChange) => {
+    setVal(event.target.value || '');
   }, [])
 
-  const handleIsDisabled = useMemo(() => {
+  const handleIsDisabled: boolean = useMemo(() => {
     const titleLowerCase = decodedTitle.toLocaleLowerCase()
     const valLowerCase = val.toLocaleLowerCase()
 
-    return titleLowerCase === valLowerCase ? false : true;
+    return titleLowerCase !== valLowerCase;
 
   }, [val, decodedTitle])
   
