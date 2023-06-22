@@ -168,8 +168,8 @@ For example, here is the folder structure for the Header.
 scr/components/header
 
   ├── index.ts                    export { default } from './Header.container'
-  ├── Header.component.tsx        Handles all of the logic
-  ├── Header.tsx                  Takes in props and renders the JSX (No logic)
+  ├── Header.container.tsx        Handles all of the business logic
+  ├── Header.tsx                  Takes in props and renders the presentational JSX
   ├── Header.styled.tsx           Where all of the Styled Component are stored and managed
   └── Header.type.ts              Used to store types (Only used if there are many)
   ```
