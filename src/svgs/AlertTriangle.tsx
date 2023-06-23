@@ -10,4 +10,4 @@ const AlertTriangle: FC<AlertTriangleType> = ({color}) => {
   )
 }
 
-export default AlertTriangle;
+export default AlertTriangle; 
