@@ -65,7 +65,7 @@ export const Input = styled.input`
     color: ${Colors.fuzzyWuzzy};
     border: 1px solid ${Colors.crownOfThorns};
     border-radius: 5px;
-    transition: 0.5s;
+    /* transition:  0.5s; */
     outline: none;
   
   }
@@ -89,7 +89,7 @@ export const DeleteButton = styled.button`
   border-radius: 5px;
   color: ${Colors.fuzzyWuzzy};
   background: ${Colors.gondola};
-  transition: all 0.25s ease;
+  transition: background 0.25s ease;
   
   &:disabled {
     cursor: not-allowed;
@@ -124,6 +124,7 @@ export const AlertModalCircleWrapper = styled.div`
   top: 67%;
   right: 10%;
 `;
+
 export const AlertModalCircle = styled(AlertCircle)`
 
 `;
