@@ -46,19 +46,19 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
   }
 
-  const profile = data.profiles[0]
-  const description = data.post_description[0]
+  const profile = data.profiles
+  const description = data.post_description as any
 
   return {props: {
-    username: profile.username,
-    collectionPath: profile.path,
+    username: profile?.username,
+    collectionPath: profile?.path,
     postTitle: data.post_title,
     post: {
       baseContent: data.base_content,
       descriptionContent: description.description_content,
     },
     createdAt: data.created_at,
-    isAuthor: profile.profile_id === session.user.id,
+    isAuthor: profile?.profile_id === session.user.id,
     postId: id
   }}
 }

@@ -8,7 +8,15 @@ export const Colors = {
   jewel:        '#176437',
   eucalyptus:   '#26A65B',
   algae:        '#7AE1A5',
-  limedSpruce:  '#374650'
+  limedSpruce:  '#374650',
+  mineShaft:    '#282828',
+  mineShaftTwo: '#353535',
+  Tundora:      '#454545',
+  gondola:      '#291315',
+  fuzzyWuzzy:   '#C75156',
+  crownOfThorns: '#6a2024',
+  kilamanjaro:  '#201302',
+  deepBronze:   '#573606'
 } as const;
 
 export const StatusMessageColors = {

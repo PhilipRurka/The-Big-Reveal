@@ -1,9 +1,9 @@
 import type { FC, RefObject } from 'react'
+import type { InputOnChange } from '../input/Input.type';
 
-import { useCallback, useEffect, useMemo, useRef } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import DeletePostModal from "./DeletePostModal"
 import gsap from 'gsap'
-import { decode } from 'html-entities';
 import axios from "axios";
 import Router from "next/router";
 import { selectPost } from "../../redux/slices/postSlice";
@@ -16,6 +16,7 @@ type DeletePostModule = {
 const DeletePostModalContainer: FC<DeletePostModule> = ({
   handleTriggerDeleteView
 }) => {
+  const [val, setVal] = useState('')
   const overlayRef = useRef<HTMLDivElement>()
   const absoluteRef = useRef<HTMLDivElement>()
   const tlAnimationRef = useRef<gsap.core.Timeline>(gsap.timeline())
@@ -23,6 +24,7 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
     postTitle,
     postId,
   } = useAppSelector(selectPost)
+
 
   const initAnimation = useCallback(() => {
     return gsap.timeline()
@@ -62,7 +64,9 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
     }, 450)
   }, [handleTriggerDeleteView])
 
-  const decodedTitle = useMemo(() => decode(postTitle), [postTitle])
+  const decodedTitle = useMemo(() => {
+    return postTitle.replaceAll(/&nbsp;/g, ' ')
+  }, [postTitle])
 
   useEffect(() => {
     tlAnimationRef.current = initAnimation()
@@ -72,14 +76,28 @@ const DeletePostModalContainer: FC<DeletePostModule> = ({
     }
   }, [initAnimation])
 
+  const handleInputChange = useCallback ((event: InputOnChange) => {
+    setVal(event.target.value || '');
+  }, [])
+
+  const handleIsDisabled: boolean = useMemo(() => {
+    const titleLowerCase = decodedTitle.toLocaleLowerCase()
+    const valLowerCase = val.toLocaleLowerCase()
+
+    return titleLowerCase !== valLowerCase;
+
+  }, [val, decodedTitle])
+  
   return (
     <DeletePostModal
       decodedTitle={decodedTitle}
       overlayRef={overlayRef as RefObject<HTMLDivElement>}
       absoluteRef={absoluteRef as RefObject<HTMLDivElement>}
       handleCloseDelete={handleCloseDelete}
-      handleDeletePost={handleDeletePost} />
+      handleDeletePost={handleDeletePost} 
+      handleInputChange={handleInputChange} 
+      handleIsDisabled={handleIsDisabled} />
   )
 }
-
+    
 export default DeletePostModalContainer
